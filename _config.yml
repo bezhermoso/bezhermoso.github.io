@@ -1,0 +1,12 @@
+# Site settings
+title: The Hunt for the Missing Semicolon
+email: bezalelhermoso@gmail.com
+description: "Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description."
+baseurl: ""
+url: "http://bezhermoso.github.io"
+twitter_username: BezHermoso
+github_username:  bezhermoso
+
+# Build settings
+markdown: kramdown
+permalink: pretty

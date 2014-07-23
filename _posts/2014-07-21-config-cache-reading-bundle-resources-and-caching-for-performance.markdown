@@ -6,28 +6,35 @@ date: 2014-07-21
 
 __Some back-story:__ In the course of contributing some [Swagger](https://helloreverb.com/developers/swagger)-specific features
 to the awesome [NelmioApiDocBundle](https://github.com/nelmio/NelmioApiDocBundle),
- the `Symfony\Component\Config\ConfigCache` class was brought to my attention. To give you an idea how this fits in, you should know that the bundle generates an HTML page
- documenting your REST API. It gets the needed information from metadata declared as `@ApiDoc` annotations in controllers in the Symfony app. On top of that, the bundle also processes metadata from different libraries:
+ the `Symfony\Component\Config\ConfigCache` class was brought to my attention. To give you an idea how this fits in, you
+ should know that the bundle generates an HTML page
+ documenting your REST API. It gets the needed information from metadata declared as `@ApiDoc` annotations in controllers
+ in the Symfony app. On top of that, the bundle also processes metadata from different libraries:
  integration with [JmsSerializerBundle](https://github.com/schmittjoh/JMSSerializerBundle),
- Symfony's [Validator](http://symfony.com/doc/current/book/validation.html) and [Routing](http://symfony.com/doc/current/book/routing.html) component,
+ Symfony's [Validator](http://symfony.com/doc/current/book/validation.html)
+ and [Routing](http://symfony.com/doc/current/book/routing.html) component,
  [FOSRestBundle](https://github.com/FriendsOfSymfony/FOSRestBundle) is built-in.
 
  All these libraries does a good amount of caching on their end. However, `NelmioApiDocBundle` does not.
- This means, every time the documentation page is being viewed, all documentation metadata is being re-built: annotations read, external metadata processed; every single time
- the page is requested. Although it did not present any significant performance issues in the beginning, it is apparent that things can speed up a bit if we could skip
- all these steps if none of the configuration regarding routes, serialization, or validation hasn't changed at all. I mean, how often do they change in production, anyway?
+ This means, every time the documentation page is being viewed, all documentation metadata is being re-built: annotations
+ read, external metadata processed; every single time
+ the page is requested. Although it did not present any significant performance issues in the beginning, it is apparent
+  that things can speed up a bit if we could skip
+ all these steps if none of the configuration regarding routes, serialization, or validation hasn't changed at all.
+ I mean, how often do they change in production, anyway?
 
-I raised this concern on a PR when the project lead, [Will Durand](http://williamdurand.fr/), broached the subject about using `ConfigCache` to address this. So scurried
-to learn how it works. Sure enough, there I found the [documentation](http://symfony.com/doc/current/components/config/caching.html) for it.
-However, given the _&lt;sarcasm&gt;_ sheer amount of details in the documentation _&lt;/sarcasm&gt;_, it took me pretty much a whole day to
-finally get it to work as intended.
+I raised this concern on a PR when the project lead, [Will Durand](http://williamdurand.fr/), broached the subject about
+using `ConfigCache` to address this. So scurried
+to learn how it works. Sure enough,
+there I found a nice, succinct [documentation](http://symfony.com/doc/current/components/config/caching.html) for it.
 
-I decided to write this article to provide a comprehensive example of how to utilize `ConfigCache`, in case some of you out there still
+I decided to write this article to provide a comprehensive example of how to utilize `ConfigCache`,
+in case some of you out there still
 require a little bit of help after reading the official documentation.
 
 <hr>
 
-In a [previous blog post](http://bezhermoso.github.io/2014/07/17/locating-bundle-resources), I detailed a way to locate resources within all registered bundles prior to or during
+In a [previous blog post]({% post_url 2014-07-17-locating-bundle-resources %}), I detailed a way to locate resources within all registered bundles prior to or during
 the compile stage of the service container. Let us build on top of that in a way that illustrates how to utilize the `ConfigCache` class as well.
 
 I'll illustrate these topics by telling a story of a certain fictional bundle named `Acme/SitemapBundle`, which offers this set of functionality:
@@ -164,7 +171,7 @@ services:
 {% endhighlight %}
 
 Notice that the first constructor argument is an empty array. We have to create the actual values at run-time,
-using the technique describe in this [post](http://bezhermoso.github.io/2014/07/17/locating-bundle-resources):
+using the technique describe in this [post]({% post_url 2014-07-17-locating-bundle-resources %}):
 
 {% highlight php %}
 <?php

@@ -16,10 +16,8 @@ to the awesome [NelmioApiDocBundle](https://github.com/nelmio/NelmioApiDocBundle
  [FOSRestBundle](https://github.com/FriendsOfSymfony/FOSRestBundle) is built-in.
 
  All these libraries does a good amount of caching on their end. However, `NelmioApiDocBundle` does not.
- This means, every time the documentation page is being viewed, all documentation metadata is being re-built: annotations
- read, external metadata processed; every single time
- the page is requested. Although it did not present any significant performance issues in the beginning, it is apparent
-  that things can speed up a bit if we could skip
+ This means, every time the documentation page is being viewed, all documentation metadata is being re-built.
+ Although it did not present any significant performance issues in the beginning, it is apparent that things can speed up a bit if we could skip
  all these steps if none of the configuration regarding routes, serialization, or validation hasn't changed at all.
  I mean, how often do they change in production, anyway?
 
@@ -39,8 +37,8 @@ the compile stage of the service container. Let us build on top of that in a way
 
 I'll illustrate these topics by telling a story of a certain fictional bundle named `TheHunt/SitemapBundle`, which offers this set of functionality:
 
-* Creates a page which lists links in the site
-* Automates the generation of the `sitemap.xml` file
+* Provides the ability to generate a `sitemap.xml` file
+* Creates a page or a template partial that lists links (for footer or sidebar menus, for example.)
 * Requires very minimal to zero configuration
 
 By _"very minimal to zero"_ configuration, I mean it would require very little work to add a link to the list of links, and most importantly does not require changing any of
@@ -63,10 +61,11 @@ Let's define how sitemap metadata can be defined in `sitemap.yml` files:
 registration_page:
     title: Join Us!
     route: fos_security_register
-
+    sections [ sitemap, footer ]
 about_us:
     title: About Us
     route: about_us_page
+    sections [ sitemap, footer ]
 
 # Routes with parameters
 french_site:
@@ -74,11 +73,21 @@ french_site:
     route: home_page
     params:
         _locale: 'fr'
+    sections [ footer ]
+
+hello_world:
+    title: Hello, world!
+     route: articles
+     params:
+        slug: hello-world
+     updated: 2014-07-21 15:00:00
+     sections [ sitemap ]
 
 # External links
 sponsor_1:
     title: Pearson Specter & Litt
     url: "http://pearsonspecterlitt.com?_ref=%affiliate_code"
+    sections [ footer ]
 
 {% endhighlight %}
 
@@ -147,9 +156,16 @@ class LinkCollector
             throw new \DomainException('Not enough information provided to generate a link.');
         }
 
+
+        if (empty($linkDef['sections'])) {
+            throw new \InvalidArgumentException(sprintf('No section specified for %s', $href);
+        }
+
         return array(
             'title' => $linkDef['title'],
-             'href' => $href,
+            'href' => $href,
+            'sections' => $linkDef['sections'],
+            'updated' => !empty($linkDef['updated']) ? $linkDef['updated'] : strtotime('Y-m-d H:i:s'),
         );
 
     }
@@ -204,14 +220,14 @@ class TheHuntSitemapExtension extends Extension
         }
 
         // Let's replace the placeholder blank array with the actual list.
-        $collector = $container->getDefinition('TheHunt_sitemap.link_collector');
+        $collector = $container->getDefinition('thehunt_sitemap.link_collector');
         $collector->replaceArgument(0, $files);
     }
 }
 
 {% endhighlight %}
 
-As far as collecting and generating sitemap links go, we are done. Consumers of the `TheHunt_sitemap.link_collector` will simply have to call its `getLinks` method and do with the results
+As far as collecting and generating sitemap links go, we are done. Consumers of the `thehunt_sitemap.link_collector` will simply have to call its `getLinks` method and do with the results
 however they wish (to generate an XML file, or to use them in a Twig template, etc.)
 
 ###Caching
@@ -272,7 +288,7 @@ class CachingLinkCollector extends LinkCollector
 
 {% endhighlight %}
 
-Now, when `$this->get('TheHunt_sitemap.link_collector')->getLinks()` is run for the first time, a file named `sitemap-links.php.cache` will
+Now, when `$this->get('thehunt_sitemap.link_collector')->getLinks()` is run for the first time, a file named `sitemap-links.php.cache` will
 be created under the cache directory which contains something like:
 
 {% highlight php %}
@@ -282,6 +298,8 @@ return array(
     'registration_page' => array(
         'title' => 'Join Us!',
         'href' => 'http://yoursite.com/user/register',
+        'updated' => '2014-07-21 01:30:00',
+        'sections' => array('sitemap', 'footer'),
     ),
     'french_site' => ...
 );
@@ -354,7 +372,7 @@ class TheHuntSitemapExtension extends Extension
         /** Gather files... **/
 
         // Let's replace the placeholder blank array with the actual list.
-        $collector = $container->getDefinition('TheHunt_sitemap.link_collector');
+        $collector = $container->getDefinition('thehunt_sitemap.link_collector');
         $collector->replaceArgument(0, $files);
 
 

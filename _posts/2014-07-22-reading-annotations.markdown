@@ -156,8 +156,7 @@ class AnnotationLinkCollector
     /**
      * Parses a controller string
      * (i.e. Foo\BarBundle\Controller\IndexController::indexAction, or service.id:indexAction)
-     * and extracts the \ReflectionMethod instance
-     * of the controller method that could contain the Link annotation.
+     * and creates an appropriate \ReflectionMethod instance.
      *
      * @return \ReflectionMethod
      */

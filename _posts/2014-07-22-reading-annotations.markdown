@@ -24,9 +24,9 @@ possible approaches:
 Option 1 shouldn't even be a consideration, and option 2 doesn't feel right, either. If only Swagger-PHP supports configuration via YAML or XML files...
 
 
-My rule of thumb is: annotations are find under application-specific classes (i.e. under `src/<your app specific vendor>`). Anything outside that is off-limits. And if you write
-a library that gathers configuration from annotations, it better support configuration via other resource files as well. In fact, annotations should only be
-thought as complimentary and not the only method of defining domain metadata.
+A rule of thumb that I follow is that I only ever use annotations on application-specific classes (i.e. under `src/<your app specific vendor>`). Anything outside that is off-limits.
+I think a library that wishes to construct class metadata from annotations should also support configuration via other resource files. I think annotations should only be
+thought as a secondary option in defining domain metadata and not the sole option.
 
 This post is a continuation of [this]({% post_url 2014-07-21-config-cache-reading-bundle-resources-and-caching-for-performance %}).
 A quick recap: we wrote an `TheHunt\SitemapBundle` which reads YAML files to generate links for use in a site-map. In this post we will compliment

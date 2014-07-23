@@ -34,10 +34,10 @@ require a little bit of help after reading the official documentation.
 
 <hr>
 
-In a [previous blog post]({% post_url 2014-07-17-locating-bundle-resources %}), I detailed a way to locate resources within all registered bundles prior to or during
+In a [previous blog post]({% post_url 2014-07-15-locating-bundle-resources %}), I detailed a way to locate resources within all registered bundles prior to or during
 the compile stage of the service container. Let us build on top of that in a way that illustrates how to utilize the `ConfigCache` class as well.
 
-I'll illustrate these topics by telling a story of a certain fictional bundle named `Acme/SitemapBundle`, which offers this set of functionality:
+I'll illustrate these topics by telling a story of a certain fictional bundle named `TheHunt/SitemapBundle`, which offers this set of functionality:
 
 * Creates a page which lists links in the site
 * Automates the generation of the `sitemap.xml` file
@@ -83,19 +83,19 @@ sponsor_1:
 {% endhighlight %}
 
 Such files will be locate under the `Resources/config` directory across different bundles in your app.
-(For example, your `Acme\UserBundle\Resources\config\sitemap.yml` would register the user pages to the sitemap,
-while a similar file in `Acme\BlogBundle` would register blog posts, etc.)
+(For example, your `TheHunt\UserBundle\Resources\config\sitemap.yml` would register the user pages to the sitemap,
+while a similar file in `TheHunt\BlogBundle` would register blog posts, etc.)
 
 ###Services
 
 This bundle doesn't do that many things, and all of its responsibilities can be broken down across only a few services. The service of primary interest for us would be this, though:
 
-`Acme\SitemapBundle\Sitemap\LinkCollector` - This class is responsible for collecting links that are defined across different bundles:
+`TheHunt\SitemapBundle\Sitemap\LinkCollector` - This class is responsible for collecting links that are defined across different bundles:
 
 {% highlight php %}
 <?php
 
-namespace Acme\SitemapBundle\Sitemap;
+namespace TheHunt\SitemapBundle\Sitemap;
 
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -159,11 +159,11 @@ class LinkCollector
 And we will register this as a service:
 
 {% highlight yaml %}
-# Acme\SitemapBundle\Resources\config\services.yml
+# TheHunt\SitemapBundle\Resources\config\services.yml
 
 services:
-    acme_sitemap.link_collector:
-        class: Acme\SitemapBundle\Sitemap\LinkCollector
+    thehunt_sitemap.link_collector:
+        class: TheHunt\SitemapBundle\Sitemap\LinkCollector
         arguments:
             - []
             - @router
@@ -171,17 +171,17 @@ services:
 {% endhighlight %}
 
 Notice that the first constructor argument is an empty array. We have to create the actual values at run-time,
-using the technique describe in this [post]({% post_url 2014-07-17-locating-bundle-resources %}):
+using the technique describe in this [post]({% post_url 2014-07-15-locating-bundle-resources %}):
 
 {% highlight php %}
 <?php
 
-namespace Acme\SitemapBundle\DependencyInjection;
+namespace TheHunt\SitemapBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-class AcmeSitemapExtension extends Extension
+class TheHuntSitemapExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -204,14 +204,14 @@ class AcmeSitemapExtension extends Extension
         }
 
         // Let's replace the placeholder blank array with the actual list.
-        $collector = $container->getDefinition('acme_sitemap.link_collector');
+        $collector = $container->getDefinition('TheHunt_sitemap.link_collector');
         $collector->replaceArgument(0, $files);
     }
 }
 
 {% endhighlight %}
 
-As far as collecting and generating sitemap links go, we are done. Consumers of the `acme_sitemap.link_collector` will simply have to call its `getLinks` method and do with the results
+As far as collecting and generating sitemap links go, we are done. Consumers of the `TheHunt_sitemap.link_collector` will simply have to call its `getLinks` method and do with the results
 however they wish (to generate an XML file, or to use them in a Twig template, etc.)
 
 ###Caching
@@ -230,7 +230,7 @@ To make it more interesting, let us exercise some OOP chops: Instead of refactor
 {% highlight php %}
 <?php
 
-namespace Acme\SitemapBundle\Sitemap;
+namespace TheHunt\SitemapBundle\Sitemap;
 
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Config\ConfigCache;
@@ -272,7 +272,7 @@ class CachingLinkCollector extends LinkCollector
 
 {% endhighlight %}
 
-Now, when `$this->get('acme_sitemap.link_collector')->getLinks()` is run for the first time, a file named `sitemap-links.php.cache` will
+Now, when `$this->get('TheHunt_sitemap.link_collector')->getLinks()` is run for the first time, a file named `sitemap-links.php.cache` will
 be created under the cache directory which contains something like:
 
 {% highlight php %}
@@ -304,7 +304,7 @@ This will be the rest of the changes to finally put our caching layer to use:
 {% highlight php %}
 <?php
 
-namespace Acme\SitemapBundle\DependencyInjection;
+namespace TheHunt\SitemapBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -332,7 +332,7 @@ The above changes to our bundle's configuration clas will now expose the ability
 {% highlight yaml %}
 # app/config/config.yml
 
-acme_sitemap:
+thehunt_sitemap:
     cache: true # We can turn the caching layer on/off from here.
 
 {% endhighlight %}
@@ -342,19 +342,19 @@ And finally, the switching between the non-caching and caching `LinkCollector`s 
 {% highlight php %}
 <?php
 
-namespace Acme\SitemapBundle\DependencyInjection;
+namespace TheHunt\SitemapBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-class AcmeSitemapExtension extends Extension
+class TheHuntSitemapExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)
     {
         /** Gather files... **/
 
         // Let's replace the placeholder blank array with the actual list.
-        $collector = $container->getDefinition('acme_sitemap.link_collector');
+        $collector = $container->getDefinition('TheHunt_sitemap.link_collector');
         $collector->replaceArgument(0, $files);
 
 
@@ -362,7 +362,7 @@ class AcmeSitemapExtension extends Extension
         if ($config['cache'] === true) {
 
             // Replace the link collector class to use the one with caching awareness
-            $collector->setClass('Acme\SitemapBundle\Sitemap\CachingLinkCollector');
+            $collector->setClass('TheHunt\SitemapBundle\Sitemap\CachingLinkCollector');
 
             // Add the additional required values needed by the cache-aware counterpart
             $collector->addArgument($container->getParameter('kernel.cache_dir'));

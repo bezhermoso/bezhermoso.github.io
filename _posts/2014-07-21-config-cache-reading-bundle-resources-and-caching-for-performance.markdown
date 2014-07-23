@@ -139,7 +139,7 @@ class LinkCollector
                 $this->generator->generate(
                     $linkDef['route'],
                     !empty($linkDef['params']) ? $linkDef['params'] : array(),
-                    UrlGeneratorInterface::ABSOLUTE_PATH
+                    UrlGeneratorInterface::ABSOLUTE_URL
                 );
         } elseif (!empty($linkDef['url']) {
             $href = $linkDef['url'];

@@ -105,6 +105,7 @@ In order to integrate this to our `TheHunt\SitemapBundle`, we'll create another 
 use TheHunt\SitemapBundle\Sitemap;
 
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\Annotations\AnnotationReader;
 
@@ -143,7 +144,8 @@ class AnnotationLinkCollector
 
                 $this->links[] = array(
                     'title' => $link->getTitle(),
-                    'href' => $this->router->generate($name, $link->getParameters()),
+                    'href' =>
+                        $this->router->generate($name, $link->getParameters(), UrlGeneratorInterface::ABSOLUTE_URL),
                 );
             }
         }

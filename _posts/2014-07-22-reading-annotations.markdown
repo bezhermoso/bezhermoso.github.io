@@ -247,7 +247,7 @@ The `annotation_reader` service in Symfony is actually an instance of `Doctrine\
 as long as the files are not being modified. However, we still have to maintain our own cache of our underlying domain data which is the collection of links.
 
 As it stands, our `AnnotationLinkCollector` doesn't have a caching couterpart like the YAML reading `LinkCollector` does. We could create a
-`CachingAnnotationLinkCollector`, but that would just entail reproducing logic from the other class, thereby violating [DRY](http://c2.com/cgi/wiki?DontRepeatYourself). That
+`CachingAnnotationLinkCollector`, but that would just entail reproducing logic from the other class, thereby violating [DRY](http://en.wikipedia.org/wiki/Don't_repeat_yourself). That
 won't be the right approach. We'll remedy this by some manageable amount of refactoring which I will detail on a future blog post.
 
 ##Annotations on the classes, properties, and within another annotation

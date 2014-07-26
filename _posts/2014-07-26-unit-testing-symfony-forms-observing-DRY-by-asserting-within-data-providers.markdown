@@ -36,7 +36,10 @@ class UserFormTest extends WebTestCase
         $this->formFactory = static::$kernel->getContainer()->get('form.factory');
     }
 
-    public function testForm($data, callable $assertions)
+    /**
+     * @dataProvider dataFormTest
+     */
+    public function testForm(array $data, callable $assertions)
     {
         $user = new User();
         $form = $this->formFactory->create(new UserType(), $user);
@@ -44,6 +47,11 @@ class UserFormTest extends WebTestCase
         $assertions($form, $user, $this);
     }
 
+    /**
+     * This method returns an associative array of
+     * array + callable pairs to satisfy the arguments of
+     * our test-case above.
+     */
     public function dataFormTest()
     {
         return array(

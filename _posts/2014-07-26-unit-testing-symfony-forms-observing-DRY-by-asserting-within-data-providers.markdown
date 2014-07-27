@@ -39,17 +39,17 @@ class UserFormTest extends KernelTestCase
     /**
      * @dataProvider dataFormTest
      */
-    public function testForm(array $data, callable $assertions)
+    public function testForm(array $data, array $options, callable $assertions)
     {
         $user = new User();
-        $form = $this->formFactory->create(new UserType(), $user);
+        $form = $this->formFactory->create(new UserType(), $user, $options);
         $form->submit($data);
         $assertions($form, $user, $this);
     }
 
     /**
      * This method returns an associative array of
-     * array + callable pairs to satisfy the arguments of
+     * data + options + callable sets to satisfy the arguments of
      * our test-case above.
      */
     public function dataFormTest()
@@ -62,6 +62,10 @@ class UserFormTest extends KernelTestCase
                     'title' => 'Mr.',
                     'username' => 'BezHermoso',
                     /* Rest of data */
+                ),
+                array(
+                    'validation_groups' => 'Registration',
+                    'csrf_protection' => false,
                 ),
                 function (Form $form, User $user, KernelTestCase $testCase) {
                     $testCase->assertTrue($form->isValid());
@@ -77,6 +81,10 @@ class UserFormTest extends KernelTestCase
                     'title' => null,
                     'username' => null,
                     /* Rest of data */
+                ),
+                array(
+                    'validation_groups' => 'Registration',
+                    'csrf_protection' => false,
                 ),
                 function (Form $form, User $user, KernelTestCase $testCase) {
                     $testCase->assertFalse($form->isValid());

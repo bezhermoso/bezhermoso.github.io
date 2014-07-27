@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Consolidating alike services via service tags and the Composite design pattern: \"Reading bundle resources...\" part 3"
-date: 2014-07-24
+date: 2014-07-27
 ---
 
 This post dives into the concept of __tagged services__ and how it can be utilized to compose services with pluggable components to

@@ -26,7 +26,7 @@ To solve this problem, I've been writing my tests like this:
 {% highlight php %}
 <?php
 
-class UserFormTest extends WebTestCase
+class UserFormTest extends KernelTestCase
 {
     protected $formFactory;
 
@@ -63,7 +63,7 @@ class UserFormTest extends WebTestCase
                     'username' => 'BezHermoso',
                     /* Rest of data */
                 ),
-                function (Form $form, User $user, WebTestCase $testCase) {
+                function (Form $form, User $user, KernelTestCase $testCase) {
                     $testCase->assertTrue($form->isValid());
                     $testCase->assertEquals('Mr. Bezalel Hermoso', $user->getDisplayName());
                     $testCase->assertEquals('bezhermoso', $user->getUsername());
@@ -78,7 +78,7 @@ class UserFormTest extends WebTestCase
                     'username' => null,
                     /* Rest of data */
                 ),
-                function (Form $form, User $user, WebTestCase $testCase) {
+                function (Form $form, User $user, KernelTestCase $testCase) {
                     $testCase->assertFalse($form->isValid());
                     $errors = $form->getErrors();
                     $testCase->assertCount(1, $errors);

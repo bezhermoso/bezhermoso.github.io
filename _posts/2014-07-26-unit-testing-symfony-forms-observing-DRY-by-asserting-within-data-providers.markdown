@@ -64,7 +64,7 @@ class UserFormTest extends KernelTestCase
                     /* Rest of data */
                 ),
                 array(
-                    'validation_groups' => 'Registration',
+                    'validation_groups' => array('Registration'),
                     'csrf_protection' => false,
                 ),
                 function (Form $form, User $user, KernelTestCase $testCase) {
@@ -83,7 +83,7 @@ class UserFormTest extends KernelTestCase
                     /* Rest of data */
                 ),
                 array(
-                    'validation_groups' => 'Registration',
+                    'validation_groups' => array('Registration'),
                     'csrf_protection' => false,
                 ),
                 function (Form $form, User $user, KernelTestCase $testCase) {

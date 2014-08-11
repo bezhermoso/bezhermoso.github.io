@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Reading Annotations"
+title: "Reading Annotations: \"Reading bundle resources...\" continued"
 date: 2014-07-22
 ---
 
@@ -8,7 +8,7 @@ There seems to be quite a sizable portion of the PHP community that think that P
 However, there is also a sizable portion that think that PHP annotations is not evil, and maybe actually a godsend, if the wide-spread usage is of any indication.
 
 Personally I acknowledge that using them can be pain to deal with in when used in the wrong places, but I also think that it has a place in a limited set of areas.
-It provides a lot of convenience with almost to zero drawbacks if used within the bounds of the domain exclusive to a Symfony app, but it can cause a lot of coupling when used to define metadata on
+It provides a lot of convenience with almost to zero drawbacks if used within the bounds of the domain exclusive to your app, but it can cause a lot of coupling when used to define metadata on
 third-party libraries/bundles that you hope to plug into your app, making it brittle. I think this is rooted in the fact that there is currently no easy way to override configuration specified via annotations,
 or actually to support such mechanism.
 
@@ -19,12 +19,12 @@ horrible idea. I was faced with this problem when trying to document a REST API 
 possible approaches:
 
 1. Add `@Swagger\*` annotations within `FOS\UserBundle\Model\User` itself.
-2. Extend `FOS\UserBundle\Model\User` and re-declare the properties just for the sole purpose of annotating those.
+2. Extend `FOS\UserBundle\Model\User` and re-declare the properties just for the sole purpose of annotating them.
 
 Option 1 shouldn't even be a consideration, and option 2 doesn't feel right, either. If only Swagger-PHP supports configuration via YAML or XML files...
 
 
-A rule of thumb that I follow is that I only ever use annotations on application-specific classes (i.e. under `src/<your app specific vendor>`). Anything outside that is off-limits.
+A rule of thumb that I follow is that I only ever use annotations within the "user-land", or on application-specific classes (i.e. under `src/<your app specific vendor>`). Anything outside that is off-limits.
 I think a library that wishes to construct class metadata from annotations should also support configuration via other resource files. I think annotations should only be
 thought as a secondary option in defining domain metadata and not the sole option.
 
@@ -247,7 +247,7 @@ The `annotation_reader` service in Symfony is actually an instance of `Doctrine\
 as long as the files are not being modified. However, we still have to maintain our own cache of our underlying domain data which is the collection of links.
 
 As it stands, our `AnnotationLinkCollector` doesn't have a caching couterpart like the YAML reading `LinkCollector` does. We could create a
-`CachingAnnotationLinkCollector`, but that would just entail reproducing logic from the other class, thereby violating [DRY](http://c2.com/cgi/wiki?DontRepeatYourself). That
+`CachingAnnotationLinkCollector`, but that would just entail reproducing logic from the other class, thereby violating [DRY](http://en.wikipedia.org/wiki/Don't_repeat_yourself). That
 won't be the right approach. We'll remedy this by some manageable amount of refactoring which I will detail on a future blog post.
 
 ##Annotations on the classes, properties, and within another annotation

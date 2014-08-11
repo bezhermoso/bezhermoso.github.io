@@ -404,3 +404,10 @@ what this class needs to do its job, which makes it easier to understand, manage
 
 Perhaps for the next blog post, lets improve this bundle even more by giving it the ability to read configuration from annotations. That task, too, will really benefit from our
 caching mechanism...
+
+<hr>
+## Resource Loaders
+
+There is actually a more powerful way of reading resource files in Symfony, which is using [__file locators and resource loaders__](http://symfony.com/doc/current/components/config/resources.html). However these
+components are a bit complex for our current discussion. When we start supporting annotations and XML configurations, though, we will
+explore this option.

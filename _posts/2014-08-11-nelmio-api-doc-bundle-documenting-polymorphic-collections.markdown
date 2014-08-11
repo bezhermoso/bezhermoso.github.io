@@ -236,6 +236,7 @@ class AbstractActivityParser implements ParserInterface
     {
         $rootParams = $this->parser->parse($item);
 
+        /* Hard-coded here for illustration purposes. Better if injected as constructor argument. */
         $subTypes = array(
             'AnnouncementActivity',
             'UserActivity',

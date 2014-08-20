@@ -47,7 +47,7 @@ $distParameters = $dist['parameters'];
 
 foreach ($distParameters as $parameterName => $default) {
     if (false !== ($value = getenv('sf2.' . $parameterName))) {
-        $container->setParameter($parameterName, Yaml::parse($value));
+        $container->setParameter($parameterName, is_file($value) ? $value : Yaml::parse($value));
     }
 }
 {% endhighlight %}
@@ -80,3 +80,7 @@ any matching environment variables prefixed with `sf2.*`.
 
 If you don't like mucking around with the `composer.json` file to support Heroku deployment,
 or you just need to specify non-scalar parameters, give this approach a try.
+
+<hr>
+
+__2014-08-20 Update__: `Yaml::parse` have an often-unwanted behavior of parsing file contents if the value passed is a valid file-name. Hence, the addition of the `is_file` check above.

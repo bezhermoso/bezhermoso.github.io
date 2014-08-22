@@ -47,10 +47,12 @@ $distParameters = $dist['parameters'];
 
 foreach ($distParameters as $parameterName => $default) {
     if (false !== ($value = getenv('sf2.' . $parameterName))) {
-        $container->setParameter($parameterName, is_file($value) ? $value : Yaml::parse($value));
+        $container->setParameter($parameterName, Yaml::parse($value));
     }
 }
 {% endhighlight %}
+
+_(`Yaml::parse` has an unfortunate behavior that can pose a problem here. See the updates section at the end of this post.)_
 
 __Update `app/config/config.yml` and add `env_parameters.php` as a resource to import:__
 
@@ -83,4 +85,47 @@ or you just need to specify non-scalar parameters, give this approach a try.
 
 <hr>
 
-__2014-08-20 Update__: `Yaml::parse` have an often-unwanted behavior of parsing file contents if the value passed is a valid file-name. Hence, the addition of the `is_file` check above.
+__2014-08-20 Update__: `Yaml::parse` have an often-unwanted behavior of parsing file contents if the value passed is a valid file-name. A fix is needed in case
+one of your parameters are actual filenames:
+
+{% highlight php %}
+<?php
+
+use Symfony\Component\Yaml\Yaml;
+
+/** @var $container \Symfony\Component\DependencyInjection\ContainerBuilder */
+$container;
+
+$dist = Yaml::parse(file_get_contents(__DIR__ . '/parameters.yml.dist'));
+$distParameters = $dist['parameters'];
+
+foreach ($distParameters as $parameterName => $default) {
+    if (false !== ($value = getenv('sf2.' . $parameterName))) {
+        $container->setParameter($parameterName, is_file($value) ? $value : Yaml::parse($value));
+    }
+}
+{% endhighlight %}
+
+<hr>
+
+__2014-08-21 Update__: A better, cleaner fix for the unfortunate `Yaml::parse` behavior is just instantiating a new `Symfony\Component\Yaml\Parser` object:
+
+{% highlight php %}
+<?php
+
+use Symfony\Component\Yaml\Parser;
+
+/** @var $container \Symfony\Component\DependencyInjection\ContainerBuilder */
+$container;
+
+$parser = new Parser();
+
+$dist = $parser->parse(file_get_contents(__DIR__ . '/parameters.yml.dist'));
+$distParameters = $dist['parameters'];
+
+foreach ($distParameters as $parameterName => $default) {
+    if (false !== ($value = getenv('sf2.' . $parameterName))) {
+        $container->setParameter($parameterName, $parser->parse($value));
+    }
+}
+{% endhighlight %}

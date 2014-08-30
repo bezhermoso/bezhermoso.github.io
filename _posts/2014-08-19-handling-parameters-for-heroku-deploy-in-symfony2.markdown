@@ -52,7 +52,11 @@ foreach ($distParameters as $parameterName => $default) {
 }
 {% endhighlight %}
 
-_(`Yaml::parse` has an unfortunate behavior that can pose a problem here. See the updates section at the end of this post.)_
+<div class="alert-info">
+<strong>2014-08-21 Update:</strong>
+<code>Yaml::parse</code> has an unfortunate behavior that can pose a problem here.
+See <strong><a href="#yaml-amendments">amendments</a></strong>.
+</div>
 
 __Update `app/config/config.yml` and add `env_parameters.php` as a resource to import:__
 
@@ -83,6 +87,11 @@ any matching environment variables prefixed with `sf2.*`.
 If you don't like mucking around with the `composer.json` file to support Heroku deployment,
 or you just need to specify non-scalar parameters, give this approach a try.
 
+<div class="alert-info">
+<strong>Update 2014-08-30</strong>: The Heroku PHP buildpack only exports valid shell identifiers during the build process.
+See an <strong><a href="#alternate-solution">alternate solution</a></strong> if this affects you.
+</div>
+
 <hr>
 
 __2014-08-20 Update__: `Yaml::parse` have an often-unwanted behavior of parsing file contents if the value passed is a valid file-name. A fix is needed in case
@@ -108,7 +117,7 @@ foreach ($distParameters as $parameterName => $default) {
 
 <hr>
 
-__2014-08-21 Update__: A better, cleaner fix for the unfortunate `Yaml::parse` behavior is just instantiating a new `Symfony\Component\Yaml\Parser` object:
+<strong id="yaml-amendments">2014-08-21 Update</strong>: A better, cleaner fix for the unfortunate `Yaml::parse` behavior is just instantiating a new `Symfony\Component\Yaml\Parser` object:
 
 {% highlight php %}
 <?php
@@ -128,4 +137,50 @@ foreach ($distParameters as $parameterName => $default) {
         $container->setParameter($parameterName, $parser->parse($value));
     }
 }
+{% endhighlight %}
+
+<hr>
+
+<strong id="alternate-solution">2014-08-30 Update</strong>: David Zuelke ([__@dzuelke__](https://twitter.com/dzuelke)), the developer of [__`heroku/heroku-buildpack-php`__](https://github.com/heroku/heroku-buildpack-php),
+has pointed out to me that the Heroku PHP buildpack only exports
+valid shell identifiers (`[A-Z_][A-Z0-9_]*`) during the `git push` hook on Heroku. Therefore `sf2.*` config variables wouldn't be accessible
+during Composer's `post-install-cmd` hooks.
+Luckily, this does not affect the project where I am using this solution on, but it might affect yours if you need to
+override parameters that are used during post-install operations that interact with Symfony's kernel.
+
+In which case, you could use this alternate `env_parameters.php` file:
+
+{% highlight php %}
+<?php
+
+use Symfony\Component\Yaml\Parser;
+
+/** @var $container \Symfony\Component\DependencyInjection\ContainerBuilder */
+$container;
+
+$parser = new Parser();
+
+$dist = $parser->parse(file_get_contents(__DIR__ . '/parameters.yml.dist'));
+$distParameters = $dist['parameters'];
+
+foreach ($distParameters as $parameterName => $default) {
+    /* That's two underscores... */
+    $envName = 'SF2_' . strtoupper(str_replace('__', '.', $parameterName));
+    if (false !== ($value = getenv($parameterName))) {
+        $container->setParameter($parameterName, $parser->parse($value));
+    }
+}
+{% endhighlight %}
+
+And your config variables should be named like these:
+
+{% highlight bash %}
+$ heroku config:set SF2_ELASTICSEARCH_HOSTS=[https://....us-east-1.bonsai.io, https://....us-east-1.bonsai.io]
+$ heroku config:set SF2_SOME_CONFIG={foo: true, bar: 3.14}
+{% endhighlight %}
+
+If you need to have parameters with dots in them, like `foo.some_entity.class`, substitute dots with two underscores:
+
+{% highlight bash %}
+$ heroku config:set SF2_FOO__SOME_ENTITY__CLASS=Foo\\SomeBundle\\Entity\\Bar
 {% endhighlight %}

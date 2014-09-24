@@ -4,7 +4,7 @@ title:  "Zend Framework 2 Cookbook - A Review"
 date:   2014-07-17 13:22:58
 ---
 
-[<img src="http://www.packtpub.com/sites/default/files/4841OS_Cov.jpg" />](bit.ly/1a5zoUf)
+[<img src="http://www.packtpub.com/sites/default/files/4841OS_Cov.jpg" />](http://bit.ly/1a5zoUf)
 
 If there is one adjective to describe this book, it would be that it is _very informative_. This is a perfect companion for when you are a ZF2 developer that is starting to develop your first app. I wish this was available to me when I just started on mine. This would save
 you a lot of time trying to figure out how things work and how to implement solutions to common problems (routing, navigation, authentication, etc) and let you focus on
@@ -20,4 +20,4 @@ A little disclaimer that you might wish to consider before purchasing: as the ti
 you how to cook, this book doesn't teach you how to develop with Zend Framework 2. However it provides a good collection of solutions --- "recipes" if you will ---
 which solves a specific problem, from big to small. As such, a modicum amount of knowledge and experience with Zend Framework 2 is assumed from the reader and is required to understand and reap what this book has to offer.
 
-You can purchase this book [here](bit.ly/1a5zoUf).
+You can purchase this book [here](http://bit.ly/1a5zoUf).

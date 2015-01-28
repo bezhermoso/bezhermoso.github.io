@@ -212,7 +212,7 @@ a:visited { color: #205caa; }
   letter-spacing: -1px;
 }
 
-.post-content blockquote {
+.post-content blockquote, .post-content aside {
   border-left: 4px solid #e8e8e8;
   padding-left: 20px;
   font-size: 18px;
@@ -220,6 +220,14 @@ a:visited { color: #205caa; }
   letter-spacing: -1px;
   font-style: italic;
   margin: 30px 0;
+}
+
+.post-content aside {
+  font-style: normal;
+  opacity: .8;
+  /*border-color: #864fde;*/
+  background-color: #f4f4f4;
+  padding: 15px;
 }
 
 .post-content ul,

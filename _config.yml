@@ -9,3 +9,7 @@ github_username:  bezhermoso
 # Build settings
 markdown: kramdown
 permalink: pretty
+
+google_analytics:
+  enabled: true
+  id: UA-22506121-5

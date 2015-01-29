@@ -9,9 +9,9 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}">
 
+    <meta property="og:image" content="http://www.gravatar.com/avatar/7c3c15142fcfe3e25ce2fae6b1912bcc.jpg?s=200" />
     {% if page.id %}
         <meta property="og:title" content="{{ page.title }}" />
-        <meta property="og:image" content="http://www.gravatar.com/avatar/7c3c15142fcfe3e25ce2fae6b1912bcc.jpg" />
         {% if page.og_description %}
         <meta property="og:description" content="{{ page.og_description }}" />
         {% endif %}

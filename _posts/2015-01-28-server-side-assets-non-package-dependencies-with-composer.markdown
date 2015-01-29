@@ -1,6 +1,7 @@
 ---
 title: Download server-side assets and other non-package dependencies with Composer
 layout: post
+og_description: Sometimes your project has some server-side dependencies that aren't PHP libraries but which your PHP application can't run without. Or they could be assets that you don't want in your code repository, like huge database fixtures that you only need during dev and integration testing. Instead of adding them to your Git repository or any VCS of choice, why not use Composer to resolve them?
 ---
 
 Sometimes your project has some server-side dependencies that aren't PHP libraries but which your PHP application can't run without. Or they could be assets that you don't want in your code repository, like huge database fixtures that you only need during dev and integration testing. Instead of adding them to your Git repository or any VCS of choice, why not use Composer to resolve them?

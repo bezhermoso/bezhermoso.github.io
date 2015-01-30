@@ -27,7 +27,7 @@ Not many people are aware that Composer can download stuff from places other tha
         }
     ],
 	"require" : {
-		"activelamp/zipcodes-csv": "dev-master"
+		"bez/xml-specs" : "dev-master"
 	}
 }
 {% endhighlight %}

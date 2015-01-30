@@ -56,7 +56,7 @@ For really huge files, you might want to gzip them. Thankfully, Composer will al
     ],
     "require-dev" : {
         "behat/behat" : "2.4.*@stable",
-        "bez/some-sql-dump": "dev-master"
+        "foobar/some-sql-dump": "dev-master"
     }
 }
 {% endhighlight %}

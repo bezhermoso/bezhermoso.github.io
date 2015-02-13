@@ -1,11 +1,11 @@
 ---
-title: "Ask nicely: showing a little courtesy to your system\'s authorization policy"
+title: "Keep calm and say `pls`"
 layout: post
-og_description: Months ago I found this hilarious and useful bash alias on Twitter which is a real gem.
+og_description: Months ago I found this hilarious and useful bash alias on Twitter which is a real gem. I wrote an expansion and made it a bit more polite.
 ---
 
-Months ago I found this hilarious and useful bash alias on Twitter which is a real gem. It perfectly
-portrays what goes on in my mind when I forget to prefix `sudo` to authorization-sensitive shell commands.
+Months ago I found [this hilarious and useful bash alias on Twitter](https://twitter.com/liamosaur/status/506975850596536320) which is a real gem. Typing the F word when you
+realize I forget to start with `sudo` when I should have is somehow satisfying.
 
 Lately I expanded it a bit more, while also replacing the profanity with a little bit of courtesy. In `.bashrc`:
 {% highlight bash %}

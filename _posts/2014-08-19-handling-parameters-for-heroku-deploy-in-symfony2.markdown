@@ -165,7 +165,7 @@ $distParameters = $dist['parameters'];
 
 foreach ($distParameters as $parameterName => $default) {
     /* That's two underscores... */
-    $envName = 'SF2_' . strtoupper(str_replace('__', '.', $parameterName));
+    $envName = 'SF2_' . strtoupper(str_replace('.', '__', $parameterName));
     if (false !== ($value = getenv($parameterName))) {
         $container->setParameter($parameterName, $parser->parse($value));
     }

@@ -4,7 +4,7 @@ layout: post
 og_description: Months ago I found this hilarious and useful bash alias on Twitter which is a real gem. I wrote an expansion and made it a bit more polite.
 ---
 
-Months ago I found [this hilarious and useful bash alias on Twitter](https://twitter.com/liamosaur/status/506975850596536320) which is a real gem. Typing the F word when you
+Months ago I found [this hilarious and useful bash alias on Twitter](https://twitter.com/liamosaur/status/506975850596536320) which is a real gem. Typing the F word when I
 realize I forget to start with `sudo` when I should have is somehow satisfying.
 
 Lately I expanded it a bit more, while also replacing the profanity with a little bit of courtesy. In `.bashrc`:

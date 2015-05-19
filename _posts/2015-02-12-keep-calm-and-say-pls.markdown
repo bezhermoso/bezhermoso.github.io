@@ -28,7 +28,7 @@ pls() {
 
 The original use-case still works:
 
-{% highlight bash %}
+<pre class="terminal">
 $: service postgresql restart
 bash: service: command not found
 $: pls
@@ -36,15 +36,14 @@ $: pls
 No problem!
 
 [ ok ] Starting PostreSQL 9.1 database server: main.
-{% endhighlight %}
+</pre>
 
 But now you can also do this:
 
-{% highlight bash %}
+<pre class="terminal">
 $: pls service postgresql restart
 
 No problem!
 
 [ ok ] Starting PostreSQL 9.1 database server: main.
-{% endhighlight %}
-
+</pre>

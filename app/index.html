@@ -1,0 +1,37 @@
+---
+layout: home
+---
+<div class="content home">
+    <div class="row">
+        <div class="columns medium-6 left-column">
+            <div class="position-relative">
+                <div class="home-sidebar">
+                    <div class="home-jumbo">
+                      <h1>{{ site.name }}</h1>
+                    </div>
+                    <div class="home-bio">
+                        <p>Hi! My name is Bez Hermoso.</p>
+                        <p>I work as a software/web engineer at ActiveLAMP.</p>
+                        <p>What you stumbled upon is my blog where I write about engineering for the Web.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="columns medium-6">
+            <div class="blog-sidebar">
+                <h2>Blog</h2>
+                <ul class="post-list">
+                    {% for post in site.posts %}
+                    <li>
+                        <span class="post-meta">{{ post.date | date: "%-d %b %Y" }}</span>
+                        <h3>
+                            <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+                        </h3>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>-->

@@ -3,34 +3,31 @@ layout: home
 ---
 <div class="content home">
     <div class="row">
-        <div class="columns medium-6 left-column">
-            <div class="position-relative">
-                <div class="home-sidebar">
-                    <div class="home-jumbo">
-                      <h1>{{ site.name }}</h1>
-                    </div>
-                    <div class="home-bio">
-                        <p>Hi! My name is Bez Hermoso.</p>
-                        <p>I work as a software/web engineer at ActiveLAMP.</p>
-                        <p>What you stumbled upon is my blog where I write about engineering for the Web.</p>
+        <div class="columns medium-12">
+            <section id="hero">
+                <div id="hero-box">
+                    <h1>Bez Hermoso <span>// Software Engineer</h1>
+                    <div class="bio">
+                        I work at <a href="http://activelamp.com" target="_blank">ActiveLAMP</a>. You can find me on <a href="https://twitter.com/BezHermoso" target="_blank">Twitter</a> and <a href="https://github.com/bezhermoso" target="_blank">GitHub</a>.
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
-        <div class="columns medium-6">
-            <div class="blog-sidebar">
-                <h2>Blog</h2>
-                <ul class="post-list">
-                    {% for post in site.posts %}
-                    <li>
-                        <span class="post-meta">{{ post.date | date: "%-d %b %Y" }}</span>
-                        <h3>
-                            <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-                        </h3>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
+    </div>
+    <div class="row">
+        <div class="columns medium-12">
+            <ul id="post-list">
+                {% for post in site.posts %}
+                <li>
+                    <a href="{{ post.url }}">
+                    <h2 class="post-title">{{ post.title }}</h2>
+                    </a>
+                    <div class="excerpt">
+                        {{ post.content }}
+                    </div>
+                </li>
+                {% endfor %} 
+            </ul>
         </div>
     </div>
 </div>

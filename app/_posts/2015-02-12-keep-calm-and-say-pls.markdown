@@ -28,22 +28,28 @@ pls() {
 
 The original use-case still works:
 
-<pre class="terminal">
+<div class="code">
 $: service postgresql restart
+<br>
 bash: service: command not found
+<br>
+<br>
 $: pls
-
+<br>
+<br>
 No problem!
-
+<br>
 [ ok ] Starting PostreSQL 9.1 database server: main.
-</pre>
+</div>
 
 But now you can also do this:
 
-<pre class="terminal">
+<div class="code">
 $: pls service postgresql restart
-
+<br>
+<br>
 No problem!
-
+<br>
+<br>
 [ ok ] Starting PostreSQL 9.1 database server: main.
-</pre>
+</div>

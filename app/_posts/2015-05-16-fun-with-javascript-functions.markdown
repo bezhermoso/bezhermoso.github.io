@@ -190,7 +190,7 @@ substituteFunc: (Function, Object) -> function: (String) -> (String)
 Takes a Function and an Object and returns a <strong>Function</strong> which takes a String and returns a String.
 </div>
 
-<img src="/images/yudodis.jpg" style="margin: 10px auto; display: block;"/>
+<img src="/img/yudodis.jpg" style="margin: 10px auto; display: block;"/>
 
 Remember our function composition examples? We can finally apply the concept of function composition to our substitution functions, as they can now be composed together, thanks to `substituteFunc`.
 

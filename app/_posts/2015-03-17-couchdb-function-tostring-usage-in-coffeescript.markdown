@@ -16,11 +16,7 @@ CouchDB views are simply applications of the [MapReduce](http://en.wikipedia.org
 map functions and/or reduce functions which will be used to narrow down the data-set and/or to reduce
 a data-set into a single aggregate value. Sounds easy. So I went ahead and pecked these on my keyboard:
 {% highlight ruby %}
-###
- cofee/modules/engine/db-init.coffee
 
- Initialize and prepare a CouchDB database like this: `require('./modules/engine/db-init').initialize(couchdb, console.error)`
-###
 exports.initialize = (db, onError) ->
 
     db.create (err) ->

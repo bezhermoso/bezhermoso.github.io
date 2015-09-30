@@ -90,6 +90,7 @@ ul#post-list {
     height: 300px;
     overflow: hidden;
     position: relative;
+    text-align: justify;
 
     &:after {
       content: '';
@@ -106,6 +107,9 @@ ul#post-list {
 
 .blog-post {
   article {
+    p {
+      text-align: justify;
+    }
     h1 {
       text-align: center;
       margin-bottom: 30px;

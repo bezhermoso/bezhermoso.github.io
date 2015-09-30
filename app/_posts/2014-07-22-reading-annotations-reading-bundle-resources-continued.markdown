@@ -18,6 +18,7 @@ horrible idea. I was faced with this problem when trying to document a REST API 
 [FOSUserBundle](https://github.com/FriendsOfSymfony/FOSUserBundle) and extending its `User` class for use in my app, I was faced with two
 possible approaches:
 
+<!--stop-->
 1. Add `@Swagger\*` annotations within `FOS\UserBundle\Model\User` itself.
 2. Extend `FOS\UserBundle\Model\User` and re-declare the properties just for the sole purpose of annotating them.
 

@@ -22,6 +22,7 @@ $location = $this->container->get('kernel')->locateResource('@FooBundle/Resource
 
 However, since I needed to perform this during the early stages of the application life-cycle -- even before the compiler is even compiled -- the `kernel` service isn't available yet.
 
+<!--stop-->
 Reproducing it from within the `DependencyInjecton\*Extension#load` method seems to be the next logical step, but I quickly realized
 that the underlying the logic for locating files relative to other bundles isn't that trivial at all, considering the fact that
 bundles can exist practically anywhere within the application; under `src/` or deep inside `vendor/` -- the only requirement is that the autoloader can autoload it. Tricky!

@@ -21,6 +21,7 @@ to the awesome [NelmioApiDocBundle](https://github.com/nelmio/NelmioApiDocBundle
  all these steps if none of the configuration regarding routes, serialization, or validation hasn't changed at all.
  I mean, how often do they change in production, anyway?
 
+<!--stop-->
 I raised this concern on a PR when the project lead, [Will Durand](http://williamdurand.fr/), broached the subject about
 using `ConfigCache` to address this. So scurried
 to learn how it works. Sure enough,

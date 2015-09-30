@@ -24,6 +24,7 @@ pls() {
 }
 {% endhighlight %}
 
+<!--stop-->
 ### Usage
 
 The original use-case still works:

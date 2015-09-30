@@ -14,7 +14,7 @@ fuzzy full-text searches and geo-spatial queries as well. On another I am workin
 set of searching capability. In other instances, I have to deal with legacy code which requires legacy versions of PHP and the rest of the
 technology stack used.
 
-
+<!--stop-->
 Back when I was confined to just using the LAMP stack, this wouldn't be much of a problem except for maybe conflicting
 PHP versions when working with legacy code. But given these hodge-podge of requirements from different projects that could
 differ and conflict with one another (i.e. conflicts with PHP versions, server configurations, firewall entries, ports, etc),

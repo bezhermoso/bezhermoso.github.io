@@ -21,6 +21,7 @@ parameters:
     elasticsearch_index: main
 {% endhighlight %}
 
+<!--stop-->
 A value for `elasticsearch_hosts` & `elasticssearch_index` will be prompted during `composer install` or `composer update`, and will default to the specified values if none are provided during the prompt. Really handy.
 
 __However, this doesn't work well with [Heroku](https://heroku.com) deploys.__ [Because Heroku runs Composer with `--no-interaction` flag](https://devcenter.heroku.com/articles/php-support#build-behavior),

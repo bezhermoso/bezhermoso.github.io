@@ -16,6 +16,7 @@ but this cookbook gives concrete examples on how they can be used in conjunction
 is its modularity and shows you ways how to wield it.
 
 [<img src="http://www.packtpub.com/sites/default/files/4841OS_Cov.jpg" />](http://bit.ly/1a5zoUf)
+<!--stop-->
 
 A little disclaimer that you might wish to consider before purchasing: as the title suggests, this is a cookbook. Just like how culinary cookbooks doesn't really teach
 you how to cook, this book doesn't teach you how to develop with Zend Framework 2. However it provides a good collection of solutions --- "recipes" if you will ---

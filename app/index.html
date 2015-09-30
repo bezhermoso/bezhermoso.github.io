@@ -14,7 +14,7 @@ layout: home
                         <a href="{{ post.url }}">{{ post.title }}</a>
                     </h2>
                     <div class="excerpt">
-                        {{ post.content }}
+                        {{ post.content | excerpt }}
                     </div>
                 </li>
                 {% endfor %} 

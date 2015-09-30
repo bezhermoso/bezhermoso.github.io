@@ -15,6 +15,7 @@ SQL for SQL-flavored RDBMS, JSON-based query DSLs for MongoDB and other NoSQL st
 CouchDB views are simply applications of the [MapReduce](http://en.wikipedia.org/wiki/MapReduce) paradigm. In a nutshell, you provide
 map functions and/or reduce functions which will be used to narrow down the data-set and/or to reduce
 a data-set into a single aggregate value. Sounds easy. So I went ahead and pecked these on my keyboard:
+<!--stop-->
 {% highlight ruby %}
 
 exports.initialize = (db, onError) ->

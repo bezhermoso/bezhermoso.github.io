@@ -17,6 +17,7 @@ thanks to [NelmioApiDocBundle](https://github.com/nelmio/NelmioApiDocBundle)
 * It helps making changes to the endpoint's interface a lot easier.
 * ...and quite importantly, __it makes the parameter handling and validation testable__.
 
+<!--stop-->
 Writing tests for forms involves repetitive tasks, though: 1. Create the form, 2. submit data, 3. assert validation, 4. assert
 if data is properly populated. Then we do the same steps again but with different data to submit, and most likely a different
 set of assertions to go with it. This leads to ~500 lines of code, but could be more depending on the complexity of the forms.

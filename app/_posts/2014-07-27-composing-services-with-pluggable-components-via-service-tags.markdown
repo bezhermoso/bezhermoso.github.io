@@ -19,6 +19,7 @@ controllers. This is somewhat similar to `thehunt_sitemap.link_collector`, altho
 thin caching layer. However both of them have similarities, which is being able to produce a list of links. Afterall, this is their ultimate responsibility; from
 where they gather links from are just implementation details.
 
+<!--stop-->
 ###Backwards-compatibility challenge
 
 You actually glimpse at the progression of our bundle architecture by looking at the name of our services: the annotation-reading

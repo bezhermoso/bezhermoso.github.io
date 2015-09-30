@@ -15,6 +15,7 @@ To illustrate the use-case:
 
 I have an `/activities/recent.json` endpoint that returns a list of recent activities which could be of different types:
 
+<!--stop-->
 
 {% highlight php %}
 <?php

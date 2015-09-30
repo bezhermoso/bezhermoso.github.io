@@ -4,7 +4,6 @@ layout: post
 ---
 
 [Functional programming](http://en.wikipedia.org/wiki/Functional_programming) has been gaining popularity lately. It's an interesting paradigm for solving problems and departs quite a bit from familiar concepts programmers like me who use object-oriented languages are used to.
-
 Just like object-oriented programming, it has its own sets of design principles and philosophies. I don't pretend to know a lot of them -- in fact I only have barely scratched the surface, but two concepts has stood
 out to me so far -- its the concept of _high-order functions_ and the slew of interesting things you can do with them.
 
@@ -12,6 +11,7 @@ out to me so far -- its the concept of _high-order functions_ and the slew of in
 
 **high-order functions** are simply functions that operate on _other_ functions, by taking them as arguments are having functions as a return value (so meta). This is one of things you find in a languages like Haskell and Erlang (so I've heard) or even Javascript barring some short-comings where functions are first-class citizens, which is a cool way of saying that they can be treated like any other value i.e., you can assign them to a variable, append them to an array, pass them around as function arguments or return them as return values, etc. i.e. In Javascript, `function foo () {}` is equivalent to `var foo = function() {}`.
 
+<!--stop-->
 ## Function Composition
 
 Let's look at the following functions:

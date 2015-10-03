@@ -6,12 +6,11 @@ layout: post
 
 <img src="/img/vim-indicator.png">
 
-I find it hard to remember if I stepped in to the shell from `vim` or not. I find
-myself attempting to open a file only to be told by `vim` that I already have
-a file open – indeed, I already was editing the file. I just forgot that
-I stepped into shell via `:sh` a few minutes before. Worst yet are the times when
-I type exit on my shell thinking that came from within `vim`, only for my
-terminal window to close.
+I find it hard to remember if I stepped in to the shell from `vim` or not.
+I find myself attempting to open a file only to be told by `vim` that I already have
+the file open – indeed, I already was editing the file. I just forgot that I stepped into shell via `:sh` a few minutes before. Worst yet are the times when
+I typed `exit` on my shell thinking that I was coming `vim`, only to find I was
+wrong because terminal window closes.
 
 I can’t be the only one.
 

@@ -100,7 +100,7 @@ Here is what my `~/.config/powerline/colorschemes/default.json` looks like:
 {% endhighlight %}
 
 `vim-power` also comes with `vim_power.segments.prompt_text`, which I use to
-display the λ on my shell’s prompt with the ability to target it with styling
+display the `λ` on my shell’s prompt with the ability to target it with styling
 using the prompt_text highlight group.
 
 See my `powerline-status` config on GitHub if you want to dig around more:

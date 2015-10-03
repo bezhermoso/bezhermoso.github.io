@@ -98,21 +98,25 @@ ul#post-list {
       bottom: 0;
       right: 0;
       left: 0;
-      height: 200px;
+      height: 250px;
       pointer-events: none;
-      @include background-image(linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 20%, rgba(255,255,255, 1) 100%));
+      @include background-image(linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255, 1) 100%));
     }
   }
 }
 
 .blog-post {
   article {
-    p {
-      text-align: justify;
+
+    .post-metadata {
+      text-align: center;
+      font-size: rem-calc(18);
+      color: $aluminum;
     }
-    h1 {
+    h1.post-title {
       text-align: center;
       margin-bottom: 30px;
+      margin-top: 10px;
     }
   }
   h1, h2, h3, h4, h5, h6 {

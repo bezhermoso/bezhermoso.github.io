@@ -3,7 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>{{ page.title }}</title>
+        <title>{% if page.title %}{{ page.title }}{% else %}Bez Hermoso // Software Engineer{% endif %}</title>
+        <meta name="description" content="{{ site.description }}">
         <meta name="viewport" content="width=device-width">
         <link href='http://fonts.googleapis.com/css?family=OpenSans:300,300italic' rel='stylesheet' type='text/css'>
         <!-- build:css({app,.tmp}) /css/main.css -->
@@ -13,6 +14,20 @@
         <link rel="stylesheet" href="/css/base16-eighties.light.css">
         <!-- endbuild -->
 
+        <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
+        {% if page.og_image %}
+        <meta property="og:image" content="{% if site.domain %}http://{{ site.domain }}{% endif %}{{ page.og_image }}" />
+        {% else %}
+        <meta property="og:image" content="http://www.gravatar.com/avatar/7c3c15142fcfe3e25ce2fae6b1912bcc.jpg?s=200" />
+        {% endif %}
+        {% if page.id %}
+        <meta property="og:title" content="{{ page.title | escape }}" />
+            {% if page.og_description %}
+            <meta property="og:description" content="{{ page.og_description }}" />
+            {% else %}
+            <meta property="og:description" content="{{ page.content | excerpt | strip_html | strip_newlines | escape }}" />
+            {% endif %}
+        {% endif %}
     </head>
     <body>
         <section id="content">

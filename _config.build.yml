@@ -3,6 +3,7 @@
 # 2. config.build.yml
 # 3. config.yml
 
+domain: bezhermoso.github.io
 future: false
 show_drafts: false
 ga_profile: UA-22506121-5

@@ -1,6 +1,6 @@
 ---
 title: "Vim indicator in Powerline shell"
-og_image: /img/vim-indicator-og.png
+og_image: /keep/vim-indicator-og.png
 layout: post
 ---
 

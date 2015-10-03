@@ -1,4 +1,6 @@
 
 @import "compass/css3/font-face";
 
-@include font-face("Aleo-Light", font-files("Aleo-Light-webfont.woff","Aleo-Light-webfont.ttf","Aleo-Light-webfont.svg"), "Aleo-Light-webfont.eot", 700, normal);
+@include font-face("Aleo-Light", font-files("Aleo-Light-webfont.woff","Aleo-Light-webfont.ttf","Aleo-Light-webfont.svg"), "Aleo-Light-webfont.eot", 300, normal);
+@include font-face("Aleo-Light", font-files("Aleo-Regular-webfont.woff","Aleo-Regular-webfont.ttf","Aleo-Regular-webfont.svg"), "Aleo-Regular-webfont.eot", 700, bold);
+@include font-face("Aleo-Light", font-files("Aleo-LightItalic-webfont.woff","Aleo-LightItalic-webfont.ttf","Aleo-LightItalic-webfont.svg"), "Aleo-LightItalic-webfont.eot", 300, italic);

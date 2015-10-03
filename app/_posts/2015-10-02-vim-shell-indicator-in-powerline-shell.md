@@ -15,6 +15,8 @@ terminal window to close.
 
 I can’t be the only one.
 
+<!--stop-->
+
 I spent some time tweaking my Powerline config to get what I need: an indicator
 that tells me whether or not I am currently in `vim` shell or not. As you can see
 on the screenshot, this is indicated by a green segment with `:sh` in it.
@@ -31,7 +33,7 @@ Inside your `~/.zshrc` (or `.bashrc`, `.bash_profile` or equivalent):
 
 {% highlight bash %}
 if [[ -n "$VIMRUNTIME" ]]; then
-export POWERLINE_VIM_SHELL_INDICATOR=':sh'
+    export POWERLINE_VIM_SHELL_INDICATOR=':sh'
 fi
 {% endhighlight %}
 
@@ -103,6 +105,6 @@ using the prompt_text highlight group.
 
 See my `powerline-status` config on GitHub if you want to dig around more:
 
-https://github.com/bezhermoso/dotfiles/tree/master/.config/powerline
+[https://github.com/bezhermoso/dotfiles/tree/master/.config/powerline](https://github.com/bezhermoso/dotfiles/tree/master/.config/powerline)
 
 Peace!

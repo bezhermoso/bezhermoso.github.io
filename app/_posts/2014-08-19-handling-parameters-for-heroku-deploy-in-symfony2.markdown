@@ -70,17 +70,17 @@ __Update `app/config/config.yml` and add `env_parameters.php` as a resource to i
 
 With this strategy, you can specify Heroku-specific parameters like so:
 
-<pre class="terminal">
+<div class="code">
 $ heroku config:set sf2.database_host=us-cdbr-iron-east-01.cleardb.net
 $ heroku config:set sf2.database_name=heroku_...
-</pre>
+</div>
 
 This will also allow for non-scalars like arrays and hashes:
 
-<pre class="terminal">
+<div class="code">
 $ heroku config:set sf2.elasticsearch_hosts=[https://....us-east-1.bonsai.io, https://....us-east-1.bonsai.io]
 $ heroku config:set sf2.some_config={foo: true, bar: 3.14}
-</pre>
+</div>
 
 In a nutshell, `env_parameters.php` will look at the required parameters defined in `parameters.yml.dist` file, and look for
 any matching environment variables prefixed with `sf2.*`.
@@ -175,13 +175,13 @@ foreach ($distParameters as $parameterName => $default) {
 
 And your config variables should be named like these:
 
-<pre class="terminal">
+<div class="code">
 $ heroku config:set SF2_ELASTICSEARCH_HOSTS=[https://....us-east-1.bonsai.io, https://....us-east-1.bonsai.io]
 $ heroku config:set SF2_SOME_CONFIG={foo: true, bar: 3.14}
-</pre>
+</div>
 
 If you need to have parameters with dots in them, like `foo.some_entity.class`, substitute dots with two underscores:
 
-<pre class="terminal">
+<div class="code">
 $ heroku config:set SF2_FOO__SOME_ENTITY__CLASS=Foo\\SomeBundle\\Entity\\Bar
-</pre>
+</div>

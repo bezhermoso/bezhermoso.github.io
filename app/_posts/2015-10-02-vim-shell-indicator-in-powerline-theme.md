@@ -1,5 +1,5 @@
 ---
-title: "Vim indicator in Powerline shell"
+title: "Vim indicator in Powerline theme"
 og_image: /keep/vim-indicator-og.png
 layout: post
 ---

@@ -6,9 +6,10 @@ og_description: Sometimes your project has some server-side dependencies that ar
 
 Sometimes your project has some server-side dependencies that aren't PHP libraries but which your PHP application can't run without. Or they could be assets that you don't want in your code repository, like huge database fixtures that you only need during dev and integration testing. Instead of adding them to your Git repository or any VCS of choice, why not use Composer to resolve them?
 
-<aside>If you are not aware what <strong>Composer</strong> is, then I think you are missing out. Essentially it is a dependency manager for PHP. It's kinda like PEAR, but its so much better. It allows you to define your external library dependencies in a `composer.json` file, typically on your project root, and have it resolve and download them for you, including your dependencies' own dependencies. Its an awesome, widely-adopted tool which greatly improves the PHP developers' quality-of-life. I urge you to <a href="https://getcomposer.org/doc/" target="_blank">read the docs</a> and start using it.</aside>
+If you are not aware what <strong>Composer</strong> is, then I think you are missing out. Essentially it is a dependency manager for PHP. It's kinda like PEAR, but its so much better. It allows you to define your external library dependencies in a `composer.json` file, typically on your project root, and have it resolve and download them for you, including your dependencies' own dependencies. Its an awesome, widely-adopted tool which greatly improves the PHP developers' quality-of-life. I urge you to <a href="https://getcomposer.org/doc/" target="_blank">read the docs</a> and start using it.
 
 <!--stop-->
+
 Not many people are aware that Composer can download stuff from places other than Packagist, a Satis server, Github, or any VCS system. You can actually task it to download files that are served over HTTP, too:
 
 {% highlight javascript %}

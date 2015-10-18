@@ -27,5 +27,5 @@ I never had my computer grind to a stop as soon as I close out all `tmux`
 sessions and having to "forcibly" turn it off.
 
 This does not fix `tmux`, but is a simple work-around for a problem that has
-a potential to be costly.
+a potential to incur data loss in the future.
 

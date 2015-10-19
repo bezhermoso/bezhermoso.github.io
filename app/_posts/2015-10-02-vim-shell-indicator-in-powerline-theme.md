@@ -71,7 +71,7 @@ environment and has the added benefit of being customizable via its own highligh
 To get it just do:
 
 {% highlight text %}
-> pip install -U vim-power
+> pip install --user vim-power --pre
 {% endhighlight %}
 
 …and a new segment function `vim_power.segments.in_vim_shell` will be available for you to use.

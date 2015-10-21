@@ -4,6 +4,11 @@ title: Simple solution for tmux causing system freezes on Mac OS X
 layout: post
 ---
 
+> **2015-10-21 Update:** Version 2.1 of `tmux` has just been release a couple
+of days ago and from what I can tell it has addressed this fatal issue! So the
+simpler solution would be doing `brew upgrade tmux` to get the recent release.
+If you are stuck using 2.0 however, I hope this post is helpful.
+
 What fixed it for me was adding a single line to my `~/.zshrc` and a single line to my `~/.tmux.conf` file:
 
 {% highlight bash %}

@@ -18,8 +18,9 @@ dismissal of notifications, and assigning a global hotkey to execute it.
 The solution works well but only when OS X cooperates -- running the
 workflow within _Automator_ cause zero problems, but making it work through
 a keyboard shortcut is hit-and-miss. I found myself mucking around with accessibility settings in _System
-Preferences > Security & Privacy > Privacy_ a lot before getting it to work for
-the first time, until I discovered that they service simply fails with no
+Preferences > Security & Privacy > Privacy_ a lot, adding system applications
+tucked away in `/Library/CoreServices/` to the _Accessibility_ list before getting it to work for
+the first time, until I discovered that the service simply fails with no
 explanation when invoked while I have certain applications in focus.
 
 Eventually I figured out a more reliable way to accomplish this using a third-party application called [__BetterTouchTool__](http://www.boastr.net).
@@ -121,7 +122,7 @@ end run
 > Teaching AppleScript is obviously beyond the scope of this post. If you are
 not familiar with it, there are tons of articles online that can get you started, like [this one](http://computers.tutsplus.com/tutorials/the-ultimate-beginners-guide-to-applescript--mac-3436).
 
-_Important_: Do not save these in iCloud as you will need another non-MAS application to
+__Important__: Do not save these in iCloud as you will need another non-MAS application to
 access them on a later step.
 
 <!--## Step 2: Grant assistive services to the AppleScript applications-->
@@ -148,12 +149,33 @@ My mapping is as follows:
 * `⌥ ⌘ [` - Click top-most notification
 * `⌥ ⌘ '` - Click secondary action on top-most notification
 
-> __BetterTouchTool__ is a really handy application all in all that will allow you to map an unthinkable amount of things to keyboard
-shortcuts, mouse & trackpad gestures, and a bunch of other peripherals.
-It has been a free application for a very long time, but
-it won't be long until the _"pay as much as you want"_ licensing model will take into
-effect. But I highly recommend it.
+<div class="row">
+    <div class="columns large-6">
+        <p>
+            <em>BetterTouchTool</em> is a really handy application all in all that will allow you to map an unthinkable amount of things to keyboard
+            shortcuts, mouse & trackpad gestures, and a bunch of other peripherals.
+            It has been a free application for a very long time, but
+            it won't be long until the <em>"pay as much as you want"</em> licensing model will take into
+            effect. But I highly recommend it.
+        </p>
+        <p>
+            <strong>Important</strong>: If you just installed <em>BetterTouchTool</em>, you will have to grant it access to accessibility services on your system. Go to <em>System Preferences > Security & Privacy > Privacy</em>, and add <em>BetterTouchTool</em> to the list under <em>Accessibility</em>.
+        </p>
+    </div>
+    <div class="columns large-6">
+        <img src="/img/accessibility.png" />
+    </div>
+</div>
+
+
 
 ## Step 3
 
-Try it out! Go ahead and prune thorugh your alert notifications with more effiency. Or, don't be like me and actually learn to turn on _"Do Not Disturb"_ once in a while.
+Try it out! Go ahead and prune thorugh your alert notifications with more effiency. Or, actually learn to turn on _"Do Not Disturb"_ once in a while (no judgement here -- I am also guilty of this.)
+
+> __Extra protip:__ You can quickly toggle _"Do Not Disturb"_ by Option-clicking
+on the _Notification Center_ icon on the menu bar, or you can actually assign
+a global hotkey to toggle it in _System Preferences > Keyboard > Shortcuts
+> Mission Control > Turn Do Not Disturb On/Off_ for extra keyboard-ninja creds.
+(It's so simple I don't even know why I don't bother to do this.)
+

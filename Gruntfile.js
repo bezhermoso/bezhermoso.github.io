@@ -246,10 +246,10 @@ module.exports = function (grunt) {
             'fonts/**/*',
             'keep/**/*',
             // Like Jekyll, exclude files & folders prefixed with an underscore.
-            '!**/_*{,/**}'
+            '!**/_*{,/**}',
             // Explicitly add any files your site needs for distribution here.
             //'_bower_components/jquery/jquery.min.js',
-            //'favicon.ico',
+            'favicon.png',
             //'apple-touch*.png'
           ],
           dest: '<%= yeoman.dist %>'

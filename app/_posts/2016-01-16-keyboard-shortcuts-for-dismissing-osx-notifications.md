@@ -23,82 +23,105 @@ the first time, until I discovered that they service simply fails with no
 explanation when invoked while I have certain applications in focus.
 
 Eventually I figured out a more consistent way to accomplish this using a third-party application called [__BetterTouchTool__](http://www.boastr.net),
-and also show you how to perform other actions like dismissing just the
-top-most alert notification or actually clicking it, all via global hotkeys.
+and also show you how to perform more fine-grained actions like dismissing just the
+top-most alert notification, clicking it, or clicking on the secondary action if available -- all via global hotkeys.
 
-## Step One: Automate with AppleScript
+## Step 1: Create workflows in _Automator_
 
-First thing you need are the following AppleScript files somewhere in your Mac.
+You will need to create a workflow in ___Automator___ for each of the
+AppleScript programs listed below.
 
-#### 1. _AppleScript to dismiss all notifications_
+On each workflow, select ___"Run AppleScript"___ from the _Actions_ menu, put
+in the corresponding AppleScript code in the text box that appears on the right-side, and
+save the workflow somewhere you can find it later on.
 
+<div class="row">
+    <div class="columns large-6">
+        <img src="/img/automator-create-workflow.png" />
+    </div>
+    <div class="columns large-6">
+        <img src="/img/automator-workflow.png" />
+    </div>
+</div>
+
+#### 1.1 Dismiss All Notifications.workflow
+
+_Actions > Run AppleScript..._
 {% highlight applescript %}
-my closeNotifications()
-on closeNotifications()
+on run {input, parameters}
    tell application "System Events" to tell process "Notification Center"
-        set theWindows to every window
-        repeat with i from 1 to number of items in theWindows
-            set this_item to item i of theWindows
+        set notifications to every window
+        repeat with i from 1 to number of items in notifications
+            set notification to item i of notifications
             try
-                click button 1 of this_item
-            on error
-                my closeNotifications()
+                click button 1 of notification
             end try
         end repeat
     end tell
-end closeNotifications
+    return input
+end run
 {% endhighlight %}
+
 > I must give credit to ___markhunte___ from the _Ask Different_ as I more or less lifted this straight out of his post with only some minor modifications.
 
-#### 2. _AppleScript to dismiss only the top-most notification_
+#### 1.2 Dismiss Top-most Notification.workflow
 
+_Actions > Run AppleScript..._
 {% highlight applescript %}
-my closeNotification()
-on closeNotification()
+on run {input, parameters}
     tell application "System Events" to tell process "Notification Center"
         try
             click button 1 of last item of windows
         end try
     end tell
-end closeNotification
+    return input
+end run
 {% endhighlight %}
 
-#### 3. _AppleScript to click on the top-most notification_
+#### 1.3 Click Top-most Notification.workflow
 
+_Actions > Run AppleScript..._
 {% highlight applescript %}
-my clickNotification()
-on clickNotification()
+on run {input, parameters}
     tell application "System Events" to tell process "Notification Center"
         try
             click last item of windows
         end try
     end tell
-end clickNotification
+    return input
+end run
+{% endhighlight %}
+
+#### 1.4 Secondary-click Top-most Notification.workflow
+
+_Actions > Run AppleScript..._
+{% highlight applescript %}
+on run {input, parameters}
+    tell application "System Events" to tell process "Notification Center"
+        try
+            click button 2 of last item of windows
+        end try
+    end tell
+    return input
+end run
 {% endhighlight %}
 
 > Teaching AppleScript is obviously beyond the scope of this post. If you are
 not familiar with it, there are tons of articles online that can get you started, like [this one](http://computers.tutsplus.com/tutorials/the-ultimate-beginners-guide-to-applescript--mac-3436).
 
-Create these files using the _Script Editor_ application which already
-comes with OS X. Make sure that you save the file as an _"Application"_ instead
-of as _"Text"_ which is the default. This
-is an important distinction.
+_Important_: Do not save these in iCloud as you will need another non-MAS application to
+access them on a later step.
 
-<img src="/img/applescript-as-application.png" />
+<!--## Step 2: Grant assistive services to the AppleScript applications-->
 
-It is important that you do not save this in iCloud as you will need another non-MAS application to
-access it on a later step.
+<!--Go to ___System Preferences > Security & Privacy > Privacy___, and add the-->
+<!--applications you just created (_not the AppleScript source files_) to the list.-->
 
-## Step Two: Grant assistive services to the AppleScript applications
+<!--<img src="/img/security-and-privacy.png" />-->
 
-Go to ___System Preferences > Security & Privacy > Privacy___, and add the
-applications you just created (_not the AppleScript source files_) to the list.
+## Step 2: Assign global hotkeys to the Automator workflows
 
-<img src="/img/security-and-privacy.png" />
-
-## Step Three: Assign a global hotkey to run the AppleScript file
-
-There is a number of productivity applications out there that allows you to invoke an AppleScript 
+There is a number of productivity applications out there that allows you to invoke an Automator workflow
 through a global hot-key, like [__Alfred__](https://www.alfredapp.com/) and [__Keyboard Maestro__](https://www.keyboardmaestro.com/main/).
 
 However, I personally use __[BetterTouchTool](http://www.boastr.net/)__ as I already have
@@ -118,6 +141,6 @@ My mapping is as follows:
 > it won't be long until the _"pay as much as you want"_ licensing model will take into
 > effect. But I highly recommend it.
 
-## Step Four
+## Step 3
 
 Now go ahead and dismiss all those notifications with impunity... Or, don't be like me and learn to turn on _"Do Not Disturb"_ once in a while.

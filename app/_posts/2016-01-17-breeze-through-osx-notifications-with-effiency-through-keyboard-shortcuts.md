@@ -62,15 +62,21 @@ save the workflow somewhere you can find it later on.
 
 _Actions > Run AppleScript..._
 {% highlight applescript %}
-on run {input, parameters}
+on dismiss()
    tell application "System Events" to tell process "Notification Center"
         set notifications to every window
         repeat with notification in notifications
             try
                 click button 1 of notification
+            on error
+                my dismiss()
             end try
         end repeat
     end tell
+end dismiss
+
+on run {input, parameters}
+    dismiss()
     return input
 end run
 {% endhighlight %}

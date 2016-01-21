@@ -201,7 +201,7 @@ Because of the portability of URL schemes, I was able to create a very basic _Al
 
 <div class="text-center">
 <p>
-<img src="/img/ramen-timer.gif" style="margin: 0 auto;">
+<blockquote class="imgur-embed-pub" lang="en" data-id="cpZ73Xs"><a href="//imgur.com/cpZ73Xs">View post on imgur.com</a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
 </p>
     <p>
         <em>...and three minutes minutes later...</em>

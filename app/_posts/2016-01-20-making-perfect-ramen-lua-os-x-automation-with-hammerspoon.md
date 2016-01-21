@@ -172,7 +172,7 @@ long as I'm in our ofice network to remind me to put in worklogs.
 
 <h3 id="perfect-ramen">3. Make perfect ramen every time</h3>
 
-A hot, 3-minute ramen is good. Sometimes its better _al-dente_. But warm, soggy, 5-minute ramen? Not cool. 
+A hot, 3-minute ramen is good. Sometimes its better _al-dente_. But warm, soggy, 10-minute ramen? Not cool. 
 
 For better ramen:
 

@@ -1,6 +1,6 @@
 ---
-title: Making the perfect ramen with Lua&colon; OS X automation with Hammerspoon
-#og_image: /keep/vim-indicator-og.png
+title: "Making the perfect ramen with Lua: OS X automation with Hammerspoon"
+og_image: /keep/hammerspoon.png
 layout: post
 ---
 

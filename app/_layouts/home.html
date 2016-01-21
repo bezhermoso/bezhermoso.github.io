@@ -26,7 +26,7 @@
             {% if page.og_description %}
             <meta property="og:description" content="{{ page.og_description }}" />
             {% else %}
-            <meta property="og:description" content="{{ page.content | excerpt | strip_html | strip_newlines | escape }}" />
+            <meta property="og:description" content="{{ page.excerpt | markdownify | excerpt | strip_html | strip_newlines | escape }}" />
             {% endif %}
         {% endif %}
     </head>

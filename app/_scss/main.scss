@@ -19,6 +19,11 @@ code {
   border-radius: 4px;
 } 
 
+a code, code a
+{
+  color: $secondary-color; 
+}
+
 div.code {
   font-family: $font-family-monospace;
   font-size: 0.9em;
@@ -163,3 +168,10 @@ div#home-bar {
   top: 0;
   padding: 20px;
 }
+
+div.caption {
+  font-style: italic;
+  margin-top: rem-calc(10);
+  font-size: rem-calc(14);
+}
+

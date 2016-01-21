@@ -113,8 +113,8 @@ subsequently, across Spaces) with a few key-strokes. Thanks to Lua's concise syn
 I admit I am a forgetful person, especially when it comes to relatively small routine stuff.
 At work we use Zenefits to keep track of our working hours, clocking in and
 clocking out from within their web portal. I don't feel confident that I will
-always remember to clock first thing in the morning, so I naturally start
-looking for applications that I can configure to remind me to do it somehow whenever I connect to our office's network. I initially used [ControlPlane](http://www.controlplaneapp.com/) for this and it worked well. But why not do it in Hammerspoon know that I got my feet wet?
+always remember to clock first thing in the morning, so I naturally started
+looking for applications that I could configure to somehow remind me to clock in whenever I connect to our office's network. I initially used [ControlPlane](http://www.controlplaneapp.com/) for this and it worked well. But why not do it in Hammerspoon now that I got my feet wet?
 
 {% highlight lua %}
 

@@ -10,8 +10,6 @@ it a try, not only did I find that statement to be true, but as someone who has
 __ZERO__ prior practical experience with Lua, I was surprised by how relatively easy it was to
 get on board. Now, I'm hooked.
 
-<!--stop-->
-
 ## __Lua scripting__
 
 <div class="row">

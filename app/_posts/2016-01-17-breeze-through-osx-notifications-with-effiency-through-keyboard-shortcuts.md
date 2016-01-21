@@ -10,8 +10,6 @@ the only way to clear out a backlog is to click on the <em>"Close"</em> button o
 Going through a backlog of alert notifications is a constant dilemma I face on a normal work day,
 and I was suprised when I learned there is no other way of dimissing alert notifications that is more efficient.
 
-<!--stop-->
-
 I actually [found a solution](http://apple.stackexchange.com/a/155736A) by ___markhunte___ from _Ask Different_ which worked
 quite well in the beginning. The solution in a nutshell is creating a custom service using _Automator_
 which executes a workflow that runs an _AppleScript_ snippet that automates the

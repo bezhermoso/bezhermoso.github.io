@@ -39,21 +39,15 @@ _etc._, but Hammerspoon comes with [`hs.fnutils`](http://www.hammerspoon.org/doc
 functional utilities. Its not exhaustive, but its good enough for not-so-complex
 scripting which Hammerspoon falls into.
 
-## __My Hammerspoon automata__
+## Inside my `~/.hammerspoon/init.lua`
 
-OS X already comes with _Automator_, which allows you to do automation on
-Macs. But there are things that you just can't achieve with _Automator_
-alone. 
-
-Here are my first few things I am using _Hammerspoon_ with which I can't
-replicate with _Automator_:
+> OS X already comes with _Automator_, which allows you to do automation on
+Macs. But there are things that you  can't do with _Automator_ alone. 
 
 <a href="#cycle-displays">1. Cycle through displays</a>
 <br>
 <a href="#webpage-on-wifi-connect">2. Open a web-page as soon as I connect to a particular WiFi network</a>
-
-And lastly, what you have been waiting for...
-
+<br>
 <a href="#perfect-ramen">3. Make perfect ramen every time</a>
 
 <h3 id="cycle-displays">1. Cycle through displays</h3>

@@ -39,13 +39,13 @@ _etc._, but Hammerspoon comes with [`hs.fnutils`](http://www.hammerspoon.org/doc
 functional utilities. Its not exhaustive, but its good enough for not-so-complex
 scripting which Hammerspoon falls into.
 
-## __My first Hammerspoon _automata___
+## __My Hammerspoon automata__
 
 OS X already comes with _Automator_, which allows you to do automation on
 Macs. But there are things that you just can't achieve with _Automator_
 alone. 
 
-Here are my first few things I used _Hammerspoon_ with which I can't
+Here are my first few things I am using _Hammerspoon_ with which I can't
 replicate with _Automator_:
 
 <a href="#cycle-displays">1. Cycle through displays</a>

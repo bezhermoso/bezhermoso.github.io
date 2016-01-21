@@ -46,7 +46,7 @@ Macs. But there are things that you just can't achieve with _Automator_
 alone. 
 
 Here are my first few things I used _Hammerspoon_ with which I can't
-replicate with _Automator_ (I probably could, but they won't be as concise as I could hope to make them):
+replicate with _Automator_:
 
 <a href="#cycle-displays">1. Cycle through displays</a>
 <br>

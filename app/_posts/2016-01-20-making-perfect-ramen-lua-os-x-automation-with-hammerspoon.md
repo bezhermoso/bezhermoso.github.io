@@ -218,7 +218,7 @@ Because of the portability of URL schemes, I was able to create a very basic _Al
 Enable <em>Dictation</em> on your Mac, go to <em>System Preferences > Accessibility
 Dictation...</em>, click the <em>Dictation Commands...</em> button, and turn on <em>Enable advanced
 commands</em>.
-From here you can add a new command in the list and configure it to open the
+From here you can add a new voice command in the list and configure it to open the
 time via URL. Have fun!</p>
 </div>
 <div class="columns large-6">

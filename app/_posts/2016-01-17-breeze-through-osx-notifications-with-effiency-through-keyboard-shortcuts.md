@@ -62,26 +62,16 @@ save the workflow somewhere you can find it later on.
 
 _Actions > Run AppleScript..._
 {% highlight applescript %}
-on dismiss()
-   tell application "System Events" to tell process "Notification Center"
-        set notifications to every window
-        repeat with notification in notifications
-            try
-                click button 1 of notification
-            on error
-                my dismiss()
-            end try
-        end repeat
-    end tell
-end dismiss
-
 on run {input, parameters}
-    dismiss()
+    tell application "System Events" to tell process "Notification Center"
+        click button 1 in every window
+    end tell
     return input
 end run
 {% endhighlight %}
 
-> I must give credit to ___markhunte___ from the _Ask Different_ as I more or less lifted this straight out of his post and just cleaned up the code a little bit.
+> I must give credit to ___markhunte___ from the _Ask Different_ as this accomplish almost exactly what his script does, albeit rewritten more
+concisely.
 
 #### 1.2 Dismiss Top-most Notification.workflow
 
@@ -179,9 +169,9 @@ My mapping is as follows:
 
 Try it out! Go ahead and prune thorugh your alert notifications with more effiency. Or, actually learn to turn on _"Do Not Disturb"_ once in a while (no judgement here -- I am also guilty of this.)
 
-> __Extra protip:__ You can quickly toggle _"Do Not Disturb"_ by Option-clicking
+> __Extra keyboard-fu protip:__ You can quickly toggle _"Do Not Disturb"_ by Option-clicking
 on the _Notification Center_ icon on the menu bar, or you can actually assign
 a global hotkey to toggle it in _System Preferences > Keyboard > Shortcuts
-> Mission Control > Turn Do Not Disturb On/Off_ for extra keyboard-ninja creds.
+> Mission Control > Turn Do Not Disturb On/Off_
 (It's so simple I don't even know why I don't bother to do this.)
 

@@ -1,5 +1,5 @@
 ---
-title: "Making the perfect ramen with Lua: OS X automation with Hammerspoon"
+title: "Making perfect ramen with Lua: OS X automation with Hammerspoon"
 og_image: /keep/hammerspoon.png
 layout: post
 ---
@@ -90,6 +90,9 @@ function isInScreen(screen, win)
 end
 
 -- Brings focus to the scren by setting focus on the front-most application in it.
+-- Also move the mouse cursor to the center of the screen. This is because
+-- Mission Control gestures & keyboard shortcuts are anchored, oddly, on where the
+-- mouse is focused.
 function focusScreen(screen)
   --Get windows within screen, ordered from front to back.
   --If no windows exist, bring focus to desktop. Otherwise, set focus on
@@ -99,6 +102,10 @@ function focusScreen(screen)
       hs.fnutils.partial(isInScreen, screen))
   local windowToFocus = #windows > 0 and windows[1] or hs.window.desktop()
   windowToFocus:focus()
+
+  -- Move mouse to center of screen
+  local pt = geometry.rectMidPoint(screen:fullFrame())
+  mouse.setAbsolutePosition(pt)
 end
 
 -- END DISPLAY FOCUS SWITCHING --

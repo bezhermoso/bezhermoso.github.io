@@ -26,4 +26,9 @@ extensions: ['fenced_code_blocks', 'smart']
 
 highlighter: pygments
 
+collections:
+  til:
+    output: true
+    permalink: /til/:path/
+
 #pygments: true

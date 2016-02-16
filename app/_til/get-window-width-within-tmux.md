@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: til
 title: Get width of window from within tmux
 til_category: tmux
 date: 2016-12-02

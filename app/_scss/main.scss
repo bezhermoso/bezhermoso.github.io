@@ -4,8 +4,7 @@
 @import "foundation";
 
 h1, h2, h3, h4, h5, h6 {
-
-  /*text-transform: uppercase;*/
+/*text-transform: uppercase;*/
 }
 
 h2 code {
@@ -180,3 +179,24 @@ div.caption {
   font-size: rem-calc(14);
 }
 
+.til-ticker
+{
+  text-align: center;
+  border-bottom: 1px solid #f5f5f5;
+  padding-bottom: 40px;
+  margin-bottom: 40px;
+}
+
+h1.til-header {
+  font-style: italic;
+  text-align: center;
+  margin-bottom: 30px;
+
+  a {
+    color: $primary-color;
+  }
+}
+
+div.link-to-tils {
+  padding: 10px;
+}

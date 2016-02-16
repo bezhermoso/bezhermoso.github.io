@@ -1,0 +1,28 @@
+---
+layout: home
+permalink: /til/
+---
+<div class="content til`">
+    <div class="row">
+        <h1 class="til-header">Today I Learned...</h1>
+    </div>
+    <div class="row">
+        <div class="columns medium-12">
+            <ul id="post-list">
+                {% for til in site.til %}
+                <li>
+                    <div class="post-metadata">
+                        <span class="post-date">{{ til.date | date: '%d %B %Y' }}</span>
+                    </div>
+                    <h1 class="post-title">
+                        <a href="{{ til.url }}">{{ til.title }}</a>
+                    </h1>
+                    <div>
+                        {{ til.content }}
+                    </div>
+                </li>
+                {% endfor %} 
+            </ul>
+        </div>
+    </div>
+</div>

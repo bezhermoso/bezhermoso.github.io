@@ -1,6 +1,15 @@
 ---
 layout: home
 ---
+<div class="row">
+    <div class="columns medium-12 til-ticker">
+        <h3>
+            <em>Today I learned</em>:
+            {% assign til = site.til[0] %}
+            <a href="{{ til.url }}">{{ til.title }}</a>
+        </h3>
+    </div>
+</div>
 <div class="content home">
     <div class="row">
         <div class="columns medium-12">

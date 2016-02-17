@@ -2,6 +2,9 @@
 layout: home
 permalink: /til/
 ---
+<div id="home-bar">
+    <a href="/">&laquo; Home</a>
+</div>
 <div class="content til`">
     <div class="row">
         <h1 class="til-header">Today I Learned...</h1>
@@ -9,7 +12,8 @@ permalink: /til/
     <div class="row">
         <div class="columns medium-12">
             <ul id="post-list">
-                {% for til in site.til %}
+                {% assign tils = site.til | sort: 'date' | reverse %}
+                {% for til in tils %}
                 <li>
                     <div class="post-metadata">
                         <span class="post-date">{{ til.date | date: '%d %B %Y' }}</span>

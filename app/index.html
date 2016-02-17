@@ -5,7 +5,8 @@ layout: home
     <div class="columns medium-12 til-ticker">
         <h3>
             <em>Today I learned</em>:
-            {% assign til = site.til[0] %}
+            {% assign tils = site.til | sort: 'date' | reverse %}
+            {% assign til = tils[0] %}
             <a href="{{ til.url }}">{{ til.title }}</a>
         </h3>
     </div>

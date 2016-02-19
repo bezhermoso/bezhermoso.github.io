@@ -3,6 +3,7 @@ layout: til
 title: Get window width from within tmux
 til_category: tmux
 date: 2016-02-15
+og_image: /keep/til.png
 ---
 
 In most circumstances, you can get the width of the terminal window using the

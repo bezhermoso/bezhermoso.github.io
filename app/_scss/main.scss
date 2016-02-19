@@ -61,6 +61,7 @@ section#hero {
 ul#post-list {
   list-style: none;
   position: relative;
+  margin-left: 0px;
 
   li {
     padding-bottom: 1px;
@@ -188,11 +189,13 @@ div.caption {
 }
 
 h1.til-header {
-  font-style: italic;
   text-align: center;
   margin-bottom: 30px;
-
+  &.main-header {
+    font-size: rem-calc(40);
+  }
   a {
+    font-style: italic;
     color: $primary-color;
   }
 }

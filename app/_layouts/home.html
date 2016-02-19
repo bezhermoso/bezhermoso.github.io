@@ -3,7 +3,11 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>{% if page.title %}{{ page.title }}{% else %}Bez Hermoso // Software Engineer{% endif %}</title>
+        {% if page.til_category %}
+        <title>{{ page.title }} | Today I Learned</title>
+        {% else %}
+            <title>{% if page.title %}{{ page.title }}{% else %}Bez Hermoso // Software Engineer{% endif %}</title>
+        {% endif %}
         <meta name="description" content="{{ site.description }}">
         <meta name="viewport" content="width=device-width">
         <link href='http://fonts.googleapis.com/css?family=OpenSans:300,300italic' rel='stylesheet' type='text/css'>
@@ -28,6 +32,9 @@
             {% else %}
             <meta property="og:description" content="{{ page.excerpt | markdownify | excerpt | strip_html | strip_newlines | escape }}" />
             {% endif %}
+        {% endif %}
+        {% if page.til_category %}
+        <meta content="Today I learned: {{ page.title | escape }}" property="og:title">
         {% endif %}
     </head>
     <body>

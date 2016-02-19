@@ -1,8 +1,8 @@
 ---
 layout: til
-title: Vim function ranges
+title: Append text to a registerin Vim
 til_category: vim vimscript
-date: 2016-02-16
+date: 2016-02-17
 ---
 
 If you are writing a custom function in Vimscript that operates on a range, 

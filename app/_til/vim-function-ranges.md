@@ -12,6 +12,7 @@ interested in.
 
 To ensure that you are only operating on the *current* visual selection, mark
 your function as a range function by adding `range` after the argument list:
+<!--stop-->
 
 {% highlight vim %}
 {% raw %}
@@ -33,4 +34,4 @@ With the `range` keyword in place, the `a:firstline` and `a:lastline` will be av
 the function and will contain the line numbers of
 the current visual selection's first line and the last line, respectively.
 
-
+> `:help func-range` for more info.

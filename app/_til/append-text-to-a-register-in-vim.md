@@ -1,36 +1,20 @@
 ---
 layout: til
-title: Append text to a registerin Vim
+title: Append text to a register in Vim
 til_category: vim vimscript
 date: 2016-02-17
 ---
 
-If you are writing a custom function in Vimscript that operates on a range, 
-you may not want to rely on the `'<,'>` range to get the visual selection
-because it can also refer the *previous* selection which you are no longer
-interested in.
+Yanking and cutting text overwrites the previous contents of the register by default. But for named
+registers, there is a way to append yanked/cut text to the the clipboard
+instead. The trick is using the upper-case version of the register name:
 
-To ensure that you are only operating on the *current* visual selection, mark
-your function as a range function by adding `range` after the argument list:
+<!--stop-->
 
-{% highlight vim %}
-{% raw %}
-"Convert GitHub-Flavored Markdown syntax-highlighting to Liquid syntax-highlighting.
-function! ConvertToLiquidHighlighting() range
-  silent! execute a:firstline . "," . a:lastline . 's/^```\([a-z]\+\)$/{% highlight \1 %}/g'
-  silent! execute a:firstline . "," . a:lastline . 's/^```$/{% endhighlight %}/g'
-endfunction
-
-"Convert within visual selection
-vnoremap <leader>H :call ConvertToLiquidHighlighting()<cr>
-"Convert entire file
-nnoremap <leader>H  :0,$call ConvertToLiquidHighlighting()<cr>
-{% endraw %}
+{% highlight text %}
+"ayy // Yanks current line to the named register `a`
+"Ayy // Yanks and appends current line to the named register `a`.
+"Ayap // so on and so forth...
 {% endhighlight %}
 
-
-With the `range` keyword in place, the `a:firstline` and `a:lastline` will be available within
-the function and will contain the line numbers of
-the current visual selection's first line and the last line, respectively.
-
-
+> For more info on Vim registers: `:help registers`

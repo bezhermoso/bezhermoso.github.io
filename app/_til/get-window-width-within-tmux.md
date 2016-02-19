@@ -13,6 +13,8 @@ to implement something that auto-hides certain items on my status-line when the
 iTerm2 narrows down to a particular size, but `tput cols`
 _always_ return the value `80`.
 
+<!--stop-->
+
 To properly get the window width, you will need to use the `window_width`
 property that is available in all format strings:
 

@@ -1,6 +1,7 @@
 ---
 layout: til
 title: Integrate bluebird into Angular 1.x
+til_category: angular
 date: 2016-02-22
 ---
 
@@ -9,6 +10,8 @@ Angular out-of-the-box. You'll have to configure `bluebird` to execute resolutio
 digest loop. However I also learned that even if you have that in place,
 [`ui-router`'s Resolve](https://github.com/angular-ui/ui-router/wiki#resolve) functionality still wouldn't work with
 `bluebird` promises. You'll have to do something extra for that, too:
+
+<!--stop-->
 
 If you need `bluebird`'s superior `Promise` objects within Angular and with `ui-router`, you'll have to configure it like this:
 

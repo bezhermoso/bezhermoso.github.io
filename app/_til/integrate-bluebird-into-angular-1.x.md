@@ -3,6 +3,7 @@ layout: til
 title: Integrate bluebird into Angular 1.x
 til_category: angular
 date: 2016-02-22
+og_image: /keep/til.png
 ---
 
 The [`bluebird`](http://bluebirdjs.com/) library doesn't quite work with

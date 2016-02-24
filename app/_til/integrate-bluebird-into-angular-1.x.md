@@ -6,11 +6,7 @@ date: 2016-02-22
 og_image: /keep/til.png
 ---
 
-The [`bluebird`](http://bluebirdjs.com/) library doesn't quite work with
-Angular out-of-the-box. You'll have to configure `bluebird` to execute resolution/rejection functions within Angular's
-digest loop. However I also learned that even if you have that in place,
-[`ui-router`'s Resolve](https://github.com/angular-ui/ui-router/wiki#resolve) functionality still wouldn't work with
-`bluebird` promises. You'll have to do something extra for that, too:
+The [`bluebird`](http://bluebirdjs.com/) library doesn't quite work with Angular out-of-the-box. You'll have to configure `bluebird` to execute resolution/rejection functions within Angular's digest loop. I also learned that even if you have that in place, [`ui-router`'s Resolve](https://github.com/angular-ui/ui-router/wiki#resolve) functionality still wouldn't work with `bluebird` promises. You'll have to do something extra for that, too:
 
 <!--stop-->
 

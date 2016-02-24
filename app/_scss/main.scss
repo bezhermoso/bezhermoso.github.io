@@ -4,7 +4,7 @@
 @import "foundation";
 
 h1, h2, h3, h4, h5, h6 {
-/*text-transform: uppercase;*/
+  /*text-transform: uppercase;*/
 }
 
 h2 code {
@@ -58,6 +58,23 @@ section#hero {
   border-bottom: 1px solid $white-smoke;
 }
 
+.post-list--title {
+  text-align: center;
+  font-weight: normal;
+  text-transform: none;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.post-list--metadata {
+  text-align: center;
+  .post-date {
+    color: $aluminum;
+    font-size: rem-calc(18);
+  }
+  margin-bottom: 10px;
+}
+
 ul#post-list {
   list-style: none;
   position: relative;
@@ -78,20 +95,11 @@ ul#post-list {
   }
 
   .post-title {
-    text-align: center;
-    font-weight: normal;
-    text-transform: none;
-    margin-bottom: 20px;
-    position: relative;
+    @extend .post-list--title;
   }
 
   .post-metadata {
-    text-align: center;
-    .post-date {
-      color: $aluminum;
-      font-size: rem-calc(18);
-    }
-    margin-bottom: 10px;
+    @extend .post-list--metadata;
   }
 
   .excerpt {
@@ -206,4 +214,23 @@ div.link-to-tils {
 
 blockquote {
   border-left: 6px solid #ddd;
+}
+
+#til-list {
+  .til-item {
+
+    .post-title {
+      @extend .post-list--title;
+    }
+    .post-metadata {
+      @extend .post-list--metadata;
+    }
+
+    &.previous {
+      margin-bottom: 40px;
+      .post-title {
+        font-size: rem-calc(25);
+      }
+    }
+  }
 }

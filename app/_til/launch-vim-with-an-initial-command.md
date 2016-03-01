@@ -2,7 +2,7 @@
 layout: til
 title: Launch Vim with an init command
 til_category: vim vimscript
-date: 2016-02-25
+date: 2016-02-26
 og_image: /keep/til.png
 ---
 

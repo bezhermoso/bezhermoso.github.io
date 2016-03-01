@@ -1,7 +1,7 @@
 ---
 layout: til
 title: Coordinate tmux windows with `send-keys`
-til_category: vim vimscript
+til_category: tmux
 date: 2016-02-25
 og_image: /keep/til.png
 ---

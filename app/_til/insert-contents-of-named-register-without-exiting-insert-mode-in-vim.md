@@ -19,7 +19,7 @@ This also works while in _Comand-line mode_, too:
 > Alternately, you can just do `<C-o>p` to paste from within _Insert_ mode. (Hitting `<C-o>` will temporarily bring you to _Normal_ mode for one command and dropping you back into
 > _Insert_ mode right after.)
 >
-> See `:help register` for more information on what the various registers contain.
+> See `:help registers` for more information on what the various registers contain.
 
 
 

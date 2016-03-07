@@ -16,7 +16,7 @@ rsync --recursive --delete --relative \
 
 {% endhighlight %}
 
-The key concept here is the `--rsh` option, which allows you to specify the proper SSH command the the necessary identity file that
+The key concept here is the `--rsh` option, which allows you to specify the proper SSH command using the necessary identity file that
 is conveniently tucked in an environment variable when we do `eval $(docker-machine env default)` to get Docker commands to work against
 the Docker daemon on the `boot2docker` instance.
 

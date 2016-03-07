@@ -12,7 +12,7 @@ og_image: /keep/til.png
 
 rsync --recursive --delete --relative \
     --rsh "ssh -i $DOCKER_CERT_PATH/id_rsa" \
-    code/ docker@$(docker-machine env default)/opt/volumes/my_service/
+    code/ docker@$(docker-machine ip default)/opt/volumes/my_service/
 
 {% endhighlight %}
 

@@ -1,7 +1,7 @@
 ---
 layout: til
 title: Insert the output of command into the file being edited in Vim
-til_category: rsync bash
+til_category: vim
 date: 2016-03-03
 og_image: /keep/til.png
 ---

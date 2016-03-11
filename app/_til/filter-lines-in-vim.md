@@ -20,4 +20,3 @@ The first command will filter the selected lines, keeping the ones that contains
 
 `'<'>` just denotes the range of the visually-selected portion of the document. This can be any valid range, like `%` for the entire document.
 
-> See `:help :read` for more details.

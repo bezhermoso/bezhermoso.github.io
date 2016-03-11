@@ -7,7 +7,7 @@ og_image: /keep/til.png
 published: true
 ---
 
-There is nothing much to say other than that _junegunn_'s `fzf` is an awesome utility. It accepts a list of things and provides an interface to fuzzy-find through them. Its output is simply the string that you have selected. It's a perfect embodiment of the perfect UNIX program -- it does one thing and one thing well.
+There is nothing much to say other than that _junegunn_'s `fzf` is an awesome utility. It accepts a list of things and provides an interface to fuzzy-find through them. Its output is simply the string that you have selected. It's a perfect embodiment of the ideal UNIX program -- it does one thing and one thing well.
 
 Here is a super simple example:
 
@@ -21,7 +21,7 @@ We are piping the output of `ps aux` -- a list of running processes -- into `fzf
 
 Another quick, illustrative example: `vim $(find . | fzf)`: fuzzy-find among the files in the current working directory and edit it in Vim.
 
-> These example are here more for illustrating the nature of `fzf`, and by no means bug-free. See [`fzf`](https://github.com/junegunn/fzf), especially the the [various Examples sections](https://github.com/junegunn/fzf/wiki/Examples), to see
+> These examples are here more for illustrating the nature of `fzf`, and by no means bug-free. See [`fzf`](https://github.com/junegunn/fzf), especially the the [various Examples sections](https://github.com/junegunn/fzf/wiki/Examples), to see
 > full-fledged, battle-hardened implementations of similar functionality.
 >
 > If you are using `ctrlp.vim`, `command-t` or similar Vim plugins, check out [`fzf.vim`](https://github.com/junegunn/fzf.vim).

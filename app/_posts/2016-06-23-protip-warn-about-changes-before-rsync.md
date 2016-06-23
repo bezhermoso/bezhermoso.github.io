@@ -12,7 +12,7 @@ I wrote a shell script that wraps `rsync` with a user prompt in cases where file
 
 args=$@
 
-diffs="$(rsync --dry-run --itemize-changes $args)"
+diffs="$(rsync --dry-run --itemize-changes $args | grep '^[><ch.][dfLDS]')"
 
 if [ -z "$diffs" ]; then
   echo "Nothing to sync."
@@ -25,7 +25,7 @@ echo ""
 read -p "Confirm? (y/N): " choice
 
 case "$choice" in
-  y|Y ) rsync --verbose --progress $args;;
+  y|Y ) rsync $args;;
   * ) echo "Cancelled.";;
 esac
 {% endhighlight %}
@@ -33,12 +33,12 @@ esac
 ### Usage
 
 {% highlight bash %}
-> ./safe-rsync.sh --exclude='.git/' --recursive ubuntu@aws-server102:/var/www/html ./html
+> ./safe-rsync.sh --exclude='node_modules/' --recursive --progress --verbose ubuntu@aws-server102:/var/www/html ./html
 
 {% endhighlight %}
 
 To skip the dry-run and just `rsync` regardless of any diffs:
 
 {% highlight bash %}
-> yes | ./safe-rsync.sh --exclude='.git/' --recursive ubuntu@aws-server102:/var/www/html ./html
+> yes | ./safe-rsync.sh --exclude='node_modules/' --recursive --progress --verbose ubuntu@aws-server102:/var/www/html ./html
 {% endhighlight %}

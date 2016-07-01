@@ -12,14 +12,14 @@ I wrote a shell script that wraps `rsync` with a user prompt in cases where file
 
 args=$@
 
-diffs="$(rsync --dry-run --itemize-changes $args | grep '^[><ch.][dfLDS]')"
+diffs="$(rsync --dry-run --itemize-changes $args | grep '^[><ch.][dfLDS]\|^\*deleting')"
 
 if [ -z "$diffs" ]; then
   echo "Nothing to sync."
   exit 0
 fi
 
-echo "These are the differences detected during dry-run. You might lose work.  Please review before proceeding:"
+echo "These are the differences detected during dry-run. You might lose work. Please review before proceeding:"
 echo "$diffs"
 echo ""
 read -p "Confirm? (y/N): " choice

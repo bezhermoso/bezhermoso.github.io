@@ -22,7 +22,5 @@ If you installed Vagrant from source and you are getting annoyed by this warning
 Just add this to your `.zprofile` (or `.bash_profile`, whichever file applies to your shell):
 
 {% highlight bash %}
-if [[ -n "$(vagrant -v | grep '\.dev$')" ]]; then
-  export VAGRANT_I_KNOW_WHAT_IM_DOING_PLEASE_BE_QUIET=true
-fi
+export VAGRANT_I_KNOW_WHAT_IM_DOING_PLEASE_BE_QUIET=true
 {% endhighlight %}

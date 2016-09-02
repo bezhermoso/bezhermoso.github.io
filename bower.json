@@ -1,0 +1,22 @@
+{
+  "name": "blog-metalsmith",
+  "description": "My blog in Metalsmith",
+  "main": "index.js",
+  "authors": [
+    "Bez Hermoso <bezalelhermoso@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "foundation": "^5.5.3",
+    "prism": "^1.5.1"
+  }
+}

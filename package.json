@@ -1,0 +1,24 @@
+{
+  "name": "blog-metalsmith",
+  "version": "1.0.0",
+  "description": "My blog in Metalsmith",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Bez Hermoso <bezalelhermoso@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-minify": "0.0.14",
+    "gulp-plumber": "^1.1.0",
+    "gulp-sass": "^2.3.2",
+    "gulp-uglify": "^2.0.0",
+    "gulp-watch": "^4.3.9",
+    "gulp-webserver": "^0.9.1",
+    "merge-stream": "^1.0.0",
+    "metalsmith": "^2.2.0",
+    "opn": "^4.0.2"
+  }
+}

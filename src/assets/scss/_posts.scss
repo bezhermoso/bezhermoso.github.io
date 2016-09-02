@@ -5,3 +5,14 @@
     color: $iron;
   }
 }
+
+.blog-post {
+  .blog-body {
+    p {
+      @extend .large-12;
+      @extend .row;
+      @include grid-column($float: false);
+      margin-bottom: 1.25rem;
+    }
+  }
+}

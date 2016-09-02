@@ -15,7 +15,7 @@ const paths = {
   dest: 'dist'
 };
 
-var options = {
+var config = {
   styles: {
     src: path.join(paths.src, 'assets/scss/**/*.scss'),
     dest: path.join(paths.dest, 'css'),
@@ -30,47 +30,52 @@ var options = {
     src: paths.dest,
     host: 'localhost',
     port: '8001'
-  }
+  },
 };
 
 gulp.task('styles', () => {
-  let sassStream = gulp.src(options.styles.src)
+  let sassStream = gulp.src(config.styles.src)
     .pipe(plumber())
     .pipe(sass({
       includePaths: ['bower_components/foundation/scss']
     }));
 
-  let vendorsStream = gulp.src(options.styles.vendors);
+  let vendorsStream = gulp.src(config.styles.vendors);
 
   return merge(sassStream, vendorsStream)
     .pipe(concat('app.css'))
-    .pipe(gulp.dest(options.styles.dest));
+    .pipe(gulp.dest(config.styles.dest));
 });
 
 gulp.task('webserver', () => {
-  gulp.src(options.server.src)
+  gulp.src(config.server.src)
     .pipe(webserver({
-      host: options.server.host,
-      port: options.server.port,
+      host: config.server.host,
+      port: config.server.port,
       livereload: true,
     }));
 });
 
 
-gulp.task('openbrowser', () => {
-  opn( 'http://' + options.server.host + ':' + options.server.port );
-});
+gulp.task('openbrowser', () => opn(`http://${config.server.host}:${config.server.port}`));
 
 gulp.task('watch', () => {
-  gulp.watch(options.styles.src, ['styles']);
+  gulp.watch(config.styles.src, ['styles']);
+  gulp.watch([
+    path.join(paths.src, '**/*.md'),
+    path.join(paths.src, '**/*.html'),
+  ], ['html', 'styles', 'prism']);
 });
 
 /**
  * Metalsmith
  */
 gulp.task('html', () => {
-  let m = metalsmith(paths.src)
-    .
+  return metalsmith(__dirname)
+    .destination('dist')
+    .build((err, files) => {
+      console.log(err);
+    });
 });
 
 gulp.task('prism', () => {
@@ -79,9 +84,9 @@ gulp.task('prism', () => {
   components.unshift('bower_components/prism/prism.js');
   gulp.src(components)
     .pipe(concat('prism.js'))
-    .pipe(gulp.dest(options.scripts.dest));
+    .pipe(gulp.dest(config.scripts.dest));
 });
 
-gulp.task('build', ['styles', 'prism']);
+gulp.task('build', ['html', 'styles', 'prism']);
 gulp.task('default', ['build', 'webserver', 'watch', 'openbrowser']);
 

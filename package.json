@@ -19,6 +19,7 @@
     "gulp-webserver": "^0.9.1",
     "merge-stream": "^1.0.0",
     "metalsmith": "^2.2.0",
+    "metalsmith-layouts": "^1.6.5",
     "opn": "^4.0.2"
   }
 }

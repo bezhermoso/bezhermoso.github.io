@@ -9,6 +9,7 @@ const path = require('path');
 const concat = require('gulp-concat');
 const merge = require('merge-stream');
 const metalsmith = require('metalsmith');
+const layouts = require('metalsmith-layouts');
 
 const paths = {
   src: 'src',
@@ -71,11 +72,13 @@ gulp.task('watch', () => {
  * Metalsmith
  */
 gulp.task('html', () => {
-  return metalsmith(__dirname)
-    .destination('dist')
-    .build((err, files) => {
-      console.log(err);
-    });
+  return metalsmith('src')
+    .destination('../dist')
+    .source('html')
+    .use(layouts({
+      engine: 'handlebars',
+    }))
+    .build(() => {});
 });
 
 gulp.task('prism', () => {

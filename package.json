@@ -17,6 +17,7 @@
     "gulp-uglify": "^2.0.0",
     "gulp-watch": "^4.3.9",
     "gulp-webserver": "^0.9.1",
+    "handlebars": "^4.0.5",
     "merge-stream": "^1.0.0",
     "metalsmith": "^2.2.0",
     "metalsmith-layouts": "^1.6.5",

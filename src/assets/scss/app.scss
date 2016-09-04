@@ -1,7 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Lato:400,700|Fira+Mono:200|Merriweather:200');
 
 @import 'settings';
-@import 'foundation';
+@import 'foundation/components/grid';
+@import 'foundation/components/block-grid';
+@import 'foundation/components/clearing';
+@import 'foundation/components/type';
 
 @import 'header';
 @import 'posts';

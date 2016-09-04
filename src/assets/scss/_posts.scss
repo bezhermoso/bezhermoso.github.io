@@ -8,7 +8,13 @@
 
 .blog-post {
   .blog-body {
-    p {
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
       @extend .large-12;
       @extend .row;
       @include grid-column($float: false);

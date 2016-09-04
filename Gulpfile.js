@@ -12,6 +12,7 @@ const merge = require('merge-stream');
 const metalsmith = require('metalsmith');
 const layouts = require('metalsmith-layouts');
 const childProcess = require('child_process');
+const runSequence = require('run-sequence');
 
 const paths = {
   src: 'src',
@@ -36,7 +37,7 @@ var config = {
   },
 };
 
-gulp.task('styles', ['html'], () => {
+gulp.task('styles', () => {
   let sassStream = gulp.src(config.styles.src)
     .pipe(plumber())
     .pipe(sass({
@@ -88,7 +89,7 @@ gulp.task('html', (cb) => {
     });
 });
 
-gulp.task('prism', ['html'], () => {
+gulp.task('prism', () => {
   let languages = ['javascript', 'ruby', 'yaml', 'php', 'bash'];
   let components = languages.map(lang => `bower_components/prism/components/prism-${lang}.js`);
   components.unshift('bower_components/prism/prism.js');
@@ -97,6 +98,9 @@ gulp.task('prism', ['html'], () => {
     .pipe(gulp.dest(config.scripts.dest));
 });
 
-gulp.task('build', ['styles', 'prism']);
+gulp.task('build', (cb) => {
+  runSequence('html', ['styles', 'prism'], cb);
+});
+
 gulp.task('default', ['build', 'webserver', 'watch', 'openbrowser']);
 

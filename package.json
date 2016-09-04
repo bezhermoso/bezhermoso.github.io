@@ -21,6 +21,7 @@
     "merge-stream": "^1.0.0",
     "metalsmith": "^2.2.0",
     "metalsmith-layouts": "^1.6.5",
-    "opn": "^4.0.2"
+    "opn": "^4.0.2",
+    "run-sequence": "^1.2.2"
   }
 }

@@ -25,7 +25,10 @@ var config = {
     dest: path.join(paths.dest, 'css'),
     vendors: [
       'bower_components/prism/themes/prism.css',
-    ]
+    ],
+    sassConfig: {
+      includePaths: ['bower_components/foundation/scss']
+    }
   },
   scripts: {
     dest: path.join(paths.dest, 'js')
@@ -40,9 +43,7 @@ var config = {
 gulp.task('styles', () => {
   let sassStream = gulp.src(config.styles.src)
     .pipe(plumber())
-    .pipe(sass({
-      includePaths: ['bower_components/foundation/scss']
-    }));
+    .pipe(sass(config.styles.sassConfig));
 
   let vendorsStream = gulp.src(config.styles.vendors);
 
@@ -66,8 +67,7 @@ gulp.task('openbrowser', ['webserver'], () => opn(`http://${config.server.host}:
 gulp.task('watch', ['build'], () => {
   gulp.watch(config.styles.src, ['styles']);
   gulp.watch([
-    path.join(paths.src, '**/*.md'),
-    //path.join(paths.src, '**/*.html'),
+    path.join(paths.src, 'jekyll', '**', '*'),
   ], ['build']);
 });
 
@@ -76,9 +76,7 @@ gulp.task('watch', ['build'], () => {
  */
 gulp.task('html', (cb) => {
   return childProcess.spawn('bundle', [
-    'exec',
-    'jekyll',
-    'build',
+    'exec', 'jekyll', 'build',
     `--config=${paths.src}/jekyll/_config.yml`,
     `--source=${paths.src}/jekyll`,
     `--destination=${paths.dest}`
@@ -90,7 +88,7 @@ gulp.task('html', (cb) => {
 });
 
 gulp.task('prism', () => {
-  let languages = ['javascript', 'ruby', 'yaml', 'php', 'bash'];
+  let languages = ['javascript', 'ruby', 'yaml', 'php', 'bash', 'html', 'lua', 'vim'];
   let components = languages.map(lang => `bower_components/prism/components/prism-${lang}.js`);
   components.unshift('bower_components/prism/prism.js');
   gulp.src(components)

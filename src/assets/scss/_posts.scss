@@ -8,17 +8,12 @@
 
 .blog-post {
   .blog-body {
-    p,
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      @extend .large-12;
-      @extend .row;
+    > * {
+      @include grid-row();
       @include grid-column($float: false);
+      padding: 0;
       margin-bottom: 1.25rem;
+      max-width: $row-width - 2;
     }
   }
 }

@@ -1,7 +1,16 @@
 ---
 title: Deserunt non esse culpa velit
-layout: blog-post
+layout: post
 ---
+
+<ul>
+  {% for post in site.posts %}
+  <li>
+    <a href="{{ post.url }}">{{ post.title }}</a>
+  </li>
+  {% endfor %}
+</ul>
+
 <p>
 Velit velit non non ullamco ut dolor officia incididunt voluptate sit laborum nulla exercitation voluptate. Duis pariatur minim sint irure reprehenderit id duis irure amet. Nostrud pariatur adipisicing aute consequat officia sit proident eiusmod qui occaecat. Aliquip irure eu pariatur do ipsum dolor irure tempor nulla enim. Eu dolore dolor laboris amet ea velit occaecat eiusmod. Occaecat incididunt aliqua ullamco pariatur non proident commodo aliquip duis eu irure id do anim.
 </p>
@@ -29,23 +38,6 @@ const webserver = require('gulp-webserver');
 const opn = require('opn');
 const path = require('path');
 
-const paths = {
-  src: 'src',
-  dest: 'dist'
-};
-
-var options = {
-  styles: {
-    src: path.join(paths.src, 'assets/scss/**/*.scss'),
-    dest: path.join(paths.dest, 'css')
-  },
-  server: {
-    src: paths.dest,
-    host: 'localhost',
-    port: '8001'
-  }
-};
-
 gulp.task('sass', () => {
   gulp.src(options.styles.src)
     .pipe(plumber())
@@ -63,18 +55,6 @@ gulp.task('webserver', () => {
       livereload: true,
     }));
 });
-
-
-gulp.task('openbrowser', () => {
-  opn( 'http://' + options.server.host + ':' + options.server.port );
-});
-
-gulp.task('watch', () => {
-  gulp.watch(options.styles.src, ['sass']);
-});
-
-gulp.task('build', ['sass']);
-gulp.task('default', ['build', 'webserver', 'watch', 'openbrowser']);
       </code></pre>
     </div>
   </div>
@@ -82,14 +62,14 @@ gulp.task('default', ['build', 'webserver', 'watch', 'openbrowser']);
 <p>
 Ea exercitation nisi proident proident aliquip magna. Amet consectetur culpa deserunt ipsum ad eu et elit Lorem ex est voluptate ea. Lorem ad cupidatat labore et veniam anim exercitation nisi commodo. Adipisicing pariatur Lorem consectetur commodo eu mollit id culpa culpa sint duis mollit. Laborum est occaecat non eiusmod.
 </p>
-<div class="row">
-  <div class="terminal">
-    <div class="icons"><span></span></div>
-    <div class="title">~/.config/nvim</div>
-    <pre><code>
+  <div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">~/.config/nvim</div>
+      <pre><code>
 $ docker build -t &lt;image&gt;:latest .
 $ docker push &lt;image&gt;:latest
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
-</div>
 

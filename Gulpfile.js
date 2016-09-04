@@ -1,6 +1,7 @@
 /*eslint-env es6*/
 
 const gulp = require('gulp');
+const gUtil = require('gulp-util');
 const plumber = require('gulp-plumber');
 const sass = require('gulp-sass');
 const webserver = require('gulp-webserver');
@@ -10,6 +11,7 @@ const concat = require('gulp-concat');
 const merge = require('merge-stream');
 const metalsmith = require('metalsmith');
 const layouts = require('metalsmith-layouts');
+const childProcess = require('child_process');
 
 const paths = {
   src: 'src',
@@ -34,7 +36,7 @@ var config = {
   },
 };
 
-gulp.task('styles', () => {
+gulp.task('styles', ['html'], () => {
   let sassStream = gulp.src(config.styles.src)
     .pipe(plumber())
     .pipe(sass({
@@ -48,7 +50,7 @@ gulp.task('styles', () => {
     .pipe(gulp.dest(config.styles.dest));
 });
 
-gulp.task('webserver', () => {
+gulp.task('webserver', ['build'], () => {
   gulp.src(config.server.src)
     .pipe(webserver({
       host: config.server.host,
@@ -58,30 +60,35 @@ gulp.task('webserver', () => {
 });
 
 
-gulp.task('openbrowser', () => opn(`http://${config.server.host}:${config.server.port}`));
+gulp.task('openbrowser', ['webserver'], () => opn(`http://${config.server.host}:${config.server.port}`));
 
-gulp.task('watch', () => {
+gulp.task('watch', ['build'], () => {
   gulp.watch(config.styles.src, ['styles']);
   gulp.watch([
     path.join(paths.src, '**/*.md'),
-    path.join(paths.src, '**/*.html'),
-  ], ['html', 'styles', 'prism']);
+    //path.join(paths.src, '**/*.html'),
+  ], ['build']);
 });
 
 /**
- * Metalsmith
+ * Jekyll
  */
-gulp.task('html', () => {
-  return metalsmith('src')
-    .destination('../dist')
-    .source('html')
-    .use(layouts({
-      engine: 'handlebars',
-    }))
-    .build(() => {});
+gulp.task('html', (cb) => {
+  return childProcess.spawn('bundle', [
+    'exec',
+    'jekyll',
+    'build',
+    `--config=${paths.src}/jekyll/_config.yml`,
+    `--source=${paths.src}/jekyll`,
+    `--destination=${paths.dest}`
+  ], {stdio: 'inherit'})
+    .on('error', e => gUtil.log(gUtil.colors.red(e.message)))
+    .on('close', (code) => {
+      cb(code == 0 ? null : `Jekyll returned an error with code: ${code}`);
+    });
 });
 
-gulp.task('prism', () => {
+gulp.task('prism', ['html'], () => {
   let languages = ['javascript', 'ruby', 'yaml', 'php', 'bash'];
   let components = languages.map(lang => `bower_components/prism/components/prism-${lang}.js`);
   components.unshift('bower_components/prism/prism.js');
@@ -90,6 +97,6 @@ gulp.task('prism', () => {
     .pipe(gulp.dest(config.scripts.dest));
 });
 
-gulp.task('build', ['html', 'styles', 'prism']);
+gulp.task('build', ['styles', 'prism']);
 gulp.task('default', ['build', 'webserver', 'watch', 'openbrowser']);
 

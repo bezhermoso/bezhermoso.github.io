@@ -36,7 +36,9 @@ module Bez
     </div>
   </div>
   <div class="row">
+    <div class="large-12 columns">
       <pre><code class="language-#{@language}">#{content}</code></pre>
+    </div>
   </div>
 </div>
         CODE

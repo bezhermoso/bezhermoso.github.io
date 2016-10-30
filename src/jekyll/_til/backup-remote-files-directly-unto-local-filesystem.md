@@ -3,6 +3,7 @@ layout: til
 title: Backup remote files directly unto local filesystem
 date: 2016-08-19
 og_image: /keep/til.png
+til_category: linux
 ---
 
 The trick is to execute `tar` on the remote server and telling it to output to standard output, and piping the output straight to a file on the local filesystem:

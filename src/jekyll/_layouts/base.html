@@ -11,8 +11,25 @@
     <title>{{ site.title }} - {{ page_title }}</title>
     <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,100,300|Merriweather:300" rel="stylesheet">
     <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen" charset="utf-8">
-    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
     <link rel="stylesheet" href="bower_components/prism/themes/prism-coy.css" type="text/css" media="screen" charset="utf-8">
+    <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
+    {% if page.og_image %}
+    <meta property="og:image" content="{% if site.domain %}http://{{ site.domain }}{% endif %}{{ page.og_image }}" />
+    {% else %}
+    <meta property="og:image" content="http://www.gravatar.com/avatar/7c3c15142fcfe3e25ce2fae6b1912bcc.jpg?s=200" />
+    {% endif %}
+    {% if page.til_category %}
+    <meta content="Today I learned: {{ page.title | escape }}" property="og:title">
+    <meta property="og:description" content="{{ page.content | markdownify | excerpt | strip_html | strip_newlines | escape }}" />
+    {% else %}
+    <meta property="og:title" content="{{ page.title | escape }}" />
+        {% if page.og_description %}
+        <meta property="og:description" content="{{ page.og_description }}" />
+        {% else %}
+        <meta property="og:description" content="{{ page.excerpt | markdownify | excerpt | strip_html | strip_newlines | escape }}" />
+        {% endif %}
+    {% endif %}
   </head>
   <body>
     <header>
@@ -32,6 +49,16 @@
     <footer>
       Bez Hermoso (c) 2016
     </footer>
+    {% if site.ga_profile %}
+    <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', '{{ site.ga_profile }}', 'auto');
+ga('send', 'pageview');
+    </script>
+    {% endif %}
   </body>
   <script src="/js/prism.js"></script>
 </html>

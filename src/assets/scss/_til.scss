@@ -1,0 +1,37 @@
+#til-banner {
+  text-align: center;
+  h4 {
+    font-family: $font-family-serif;
+    color: $oil;
+  }
+  margin-bottom: 3rem;
+}
+
+.til-list {
+  @extend .post-list;
+
+  .til-list--meta {
+    @extend .post-list--meta;
+
+    .til-list--title {
+      @extend .post-list--title;
+    }
+  }
+
+  > li {
+    margin-bottom: 3rem;
+
+    &::after {
+      left: 0%;
+      right: 0%;
+    }
+  }
+
+  > li.previous {
+    &::after {
+      border-bottom: none;
+    }
+  }
+}
+
+

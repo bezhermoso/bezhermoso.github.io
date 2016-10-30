@@ -23,5 +23,8 @@
     "metalsmith-layouts": "^1.6.5",
     "opn": "^4.0.2",
     "run-sequence": "^1.2.2"
+  },
+  "devDependencies": {
+    "gulp-compass": "^2.1.0"
   }
 }

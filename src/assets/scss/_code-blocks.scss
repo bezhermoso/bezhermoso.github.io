@@ -1,126 +1,139 @@
-.blog-post {
-  .blog-body {
-    .code-section {
-      background-color: $smoke;
-      box-shadow: inset 0 11px 8px -10px $gainsboro, inset 0 -11px 8px -10px $gainsboro;
-      margin: 0;
-      margin-bottom: 2rem;
-      max-width: none;
-      padding: 1rem 0;
-      width: 100%;
+//.blog-body .code-section {
+  //margin: 0;
+  //margin-bottom: 2rem;
+  //max-width: none;
+//}
 
-      .filename {
-        background-color: $gainsboro;
-        display: none;
-        line-height: 2rem;
-      }
+.code-section {
+  background-color: $smoke;
+  box-shadow: inset 0 11px 8px -10px $gainsboro, inset 0 -11px 8px -10px $gainsboro;
+  padding: 1rem 0;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+  margin-bottom: 1rem;
 
-      :not(pre) > code[class*="language-"],
-      pre[class*="language-"] {
-        background-color: transparent;
-        margin: 0;
-        padding: 0;
-        overflow: auto;
-        //white-space: pre-wrap;
-        //word-wrap: break-word;
-      }
+  .filename {
+    background-color: $gainsboro;
+    display: none;
+    line-height: 2rem;
+  }
 
-      code {
-        background-color: transparent;
-        border: 0;
-        font-family: $font-family-monospace;
-      }
+  .row {
+    max-width: 62.5rem;
+    margin: 0 auto;
+  }
+
+  :not(pre) > code[class*="language-"],
+  pre[class*="language-"] {
+    background-color: transparent;
+    margin: 1rem 0;
+    padding: 0;
+    overflow: auto;
+
+    code {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+  }
+
+  code {
+    background-color: transparent;
+    border: 0;
+    font-family: $font-family-monospace;
+  }
+}
+
+.terminal {
+
+  background: $silver;
+  border-radius: 10px;
+  display: flex;
+  flex-flow: row wrap;
+  margin-bottom: 30px;
+  position: relative;
+
+  .title {
+    flex: 1;
+    padding: .75em;
+    padding-bottom: 0;
+    text-align: center;
+  }
+
+  .icons {
+    padding: .75em;
+    position: absolute;
+
+    span {
+      @extend %icon;
+      background: $terminal-yellow;
     }
 
-    .terminal {
-
-      background: $silver;
-      border-radius: 10px;
-      display: flex;
-      flex-flow: row wrap;
-      margin-bottom: 30px;
-      position: relative;
-
-      .title {
-        flex: 1;
-        padding: .75em;
-        text-align: center;
-        padding-bottom: 0;
-      }
-
-      .icons {
-        padding: .75em;
-        position: absolute;
-
-        span {
-          @extend %icon;
-          background: $terminal-yellow;
-        }
-
-        &::before {
-          @extend %icon;
-          background: $terminal-red;
-          content: '';
-        }
-
-        &::after {
-          @extend %icon;
-          background: $terminal-green;
-          content: '';
-        }
-      }
-
-      pre {
-        background: $black;
-        border-bottom-left-radius: 10px;
-        border-bottom-right-radius: 10px;
-        color: $white;
-        overflow: auto;
-        width: 100%;
-
-        code, code[class*="languge-"] {
-          font: normal #{1em}/#{1.75} 'Fira Mono', monospace;
-          color: inherit;
-          background: none;
-          text-shadow: none;
-          border: 0;
-        }
-
-
-        &::after {
-          animation: blink .9s infinite;
-          content: '\258b';
-          display: block;
-          font: initial;
-          opacity: 1;
-        }
-      }
+    &::before {
+      @extend %icon;
+      background: $terminal-red;
+      content: '';
     }
 
-    %icon {
-      border-radius: 50%;
-      display: inline-block;
-      float: left;
-      height: 1em;
-      margin-right: .5em;
-      width: 1em;
+    &::after {
+      @extend %icon;
+      background: $terminal-green;
+      content: '';
+    }
+  }
+
+  pre {
+    background: $black;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    color: $white;
+    overflow: auto;
+    padding: 1rem;
+    width: 100%;
+    margin-bottom: 0;
+
+    code, code[class*="languge-"] {
+      padding: 0;
+      font: normal #{1em}/#{1.75} 'Fira Mono', monospace;
+      color: inherit;
+      background: none;
+      text-shadow: none;
+      border: 0;
     }
 
 
-
-    @keyframes blink {
-      0% {
-        opacity: 1;
-      }
-
-      50% {
-        opacity: 0;
-      }
-
-      100% {
-        opacity: 1;
-      }
+    &::after {
+      animation: blink .9s infinite;
+      content: '\258b';
+      display: block;
+      font: initial;
+      opacity: 1;
     }
+  }
+}
+
+%icon {
+  border-radius: 50%;
+  display: inline-block;
+  float: left;
+  height: 1em;
+  margin-right: .5em;
+  width: 1em;
+}
+
+
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
   }
 }
 

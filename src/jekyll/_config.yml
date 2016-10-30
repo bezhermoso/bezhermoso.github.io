@@ -1,4 +1,4 @@
-title: Development Blog
+title: /dev/blog
 email: bezalelhermoso@gmail.com
 description: > # this means to ignore newlines until "baseurl:"
   My development blog
@@ -9,3 +9,8 @@ github_username:  bezhermoso
 
 # Build settings
 markdown: kramdown
+
+collections:
+  til:
+    output: true
+    permalink: /til/:path/

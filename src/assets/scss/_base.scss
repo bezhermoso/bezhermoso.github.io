@@ -1,0 +1,12 @@
+
+body {
+  font-family: $font-family-serif;
+}
+
+a code {
+  text-decoration: underline;
+
+  &:hover {
+    color: $primary-color;
+  }
+}

@@ -1,75 +1,42 @@
 ---
-title: Deserunt non esse culpa velit
-layout: post
+layout: base
 ---
-
-<ul>
-  {% for post in site.posts %}
-  <li>
-    <a href="{{ post.url }}">{{ post.title }}</a>
-  </li>
-  {% endfor %}
-</ul>
-
-<p>
-Velit velit non non ullamco ut dolor officia incididunt voluptate sit laborum nulla exercitation voluptate. Duis pariatur minim sint irure reprehenderit id duis irure amet. Nostrud pariatur adipisicing aute consequat officia sit proident eiusmod qui occaecat. Aliquip irure eu pariatur do ipsum dolor irure tempor nulla enim. Eu dolore dolor laboris amet ea velit occaecat eiusmod. Occaecat incididunt aliqua ullamco pariatur non proident commodo aliquip duis eu irure id do anim.
-</p>
-<h2>Foobar</h2>
-<p>
-Fugiat commodo <code>Deserunt</code> ad et amet est quis dolore officia in deserunt eiusmod. Eiusmod culpa voluptate occaecat irure consequat occaecat. Consequat aliquip eiusmod id culpa tempor irure. Tempor Lorem Lorem elit veniam minim labore laborum cupidatat voluptate. Sunt incididunt veniam aliqua laborum occaecat cupidatat quis. Occaecat reprehenderit tempor cupidatat aliquip consequat excepteur proident qui consequat nulla ut do.
-</p>
-<div class="code-section">
-  <div class="filename">
+<section id="til-banner">
+  <div class="container">
     <div class="row">
-      <div class="large-12 columns">
-        Gulpfile.js
+      <div class="columns medium-12">
+        <h4>
+          Today I learned:
+          {% assign tils = site.til | sort: 'date' | reverse %}
+          {% assign til = tils[0] %}
+          <a href="{{ til.url }}">{{ til.title }}</a>
+        </h4>
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="large-12 columns">
-      <pre><code class="language-javascript">
-/*eslint-env es6*/
-
-const gulp = require('gulp');
-const plumber = require('gulp-plumber');
-const sass = require('gulp-sass');
-const webserver = require('gulp-webserver');
-const opn = require('opn');
-const path = require('path');
-
-gulp.task('sass', () => {
-  gulp.src(options.styles.src)
-    .pipe(plumber())
-    .pipe(sass({
-      includePaths: ['bower_components/foundation/scss']
-    }))
-    .pipe(gulp.dest(options.styles.dest));
-});
-
-gulp.task('webserver', () => {
-  gulp.src(options.server.src)
-    .pipe(webserver({
-      host: options.server.host,
-      port: options.server.port,
-      livereload: true,
-    }));
-});
-      </code></pre>
+</section>
+<section>
+  <div class="container">
+    <div class="row">
+      <ul class="post-list">
+        {% for post in site.posts %}
+        <li class="medium-12">
+          <div class="post-list--meta">
+            <h2 class="post-list--title">
+              <a href="{{ post.url }}">
+                {{ post.title }}
+              </a>
+            </h2>
+            <time>{{ post.date | date: "%d %b %Y" }}</time>
+          </div>
+          <article class="excerpt">
+            {{ post.content | excerpt }}
+          </article>
+        </li>
+        {% endfor %}
+      </ul>
     </div>
   </div>
-</div>
-<p>
-Ea exercitation nisi proident proident aliquip magna. Amet consectetur culpa deserunt ipsum ad eu et elit Lorem ex est voluptate ea. Lorem ad cupidatat labore et veniam anim exercitation nisi commodo. Adipisicing pariatur Lorem consectetur commodo eu mollit id culpa culpa sint duis mollit. Laborum est occaecat non eiusmod.
-</p>
-  <div class="padded">
-    <div class="terminal">
-      <div class="icons"><span></span></div>
-      <div class="title">~/.config/nvim</div>
-      <pre><code>
-$ docker build -t &lt;image&gt;:latest .
-$ docker push &lt;image&gt;:latest
-      </code></pre>
-    </div>
-  </div>
+</section>
+
 

@@ -1,0 +1,35 @@
+---
+layout: base
+permalink: /til/
+---
+<section>
+  <div class="container">
+    <div class="row">
+      <ul class="til-list">
+        {% assign tils = site.til | sort: 'date' | reverse %}
+        {% for post in tils %}
+          {% if forloop.index == 1 %}
+          {% assign cls = 'medium-12' %}
+          {% else %}
+          {% assign cls = 'medium-12 previous' %}
+          {% endif %}
+          <li class="{{ cls }}">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
+                <a href="{{ post.url }}">
+                  {{ post.title }}
+                </a>
+              </h2>
+              <time>{{ post.date | date: "%d %b %Y" }}</time>
+            </div>
+            {% if forloop.index == 1 %}
+              {{ post.content }}
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
+
+

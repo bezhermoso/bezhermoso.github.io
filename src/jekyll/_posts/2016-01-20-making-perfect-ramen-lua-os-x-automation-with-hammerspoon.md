@@ -32,6 +32,7 @@ are written in Lua.
         href="https://learnxinyminutes.com/docs/lua/" target="_blank">Learn Lua in Y Minutes</a></div>
     </div>
 </div>
+<br>
 
 However, unlike Javascript and Ruby, Lua does not have a built-in
 functional library to do things like `map`, `filter`, `reduce`,

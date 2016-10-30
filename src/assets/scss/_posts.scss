@@ -1,5 +1,5 @@
 .post-meta {
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
 
   time {
     color: $iron;
@@ -8,12 +8,108 @@
 
 .blog-post {
   .blog-body {
-    > * {
-      @include grid-row();
-      @include grid-column($float: false);
-      padding: 0;
-      margin-bottom: 1.25rem;
-      max-width: $row-width - 2;
+    //> * {
+      //@include grid-row();
+      //@include grid-column($float: false);
+      //margin-bottom: 1.25rem;
+      //max-width: $row-width - 2;
+      //padding: 0;
+    //}
+    &::after {
+      display: block;
+      content: '- EOF -';
+      font-family: $font-family-monospace;
+      text-align: center;
+      font-size: 1.2rem;
+      color: scale-color($code-red, $lightness: 35%);
+      margin: 2.5rem 0;
     }
   }
+  margin-bottom: 4rem;
+}
+
+.post-navigation {
+  font-style: italic;
+
+  text-align: center;
+  a {
+    font-style: normal;
+    border-bottom: 1px dotted $primary-color;
+  }
+
+  a code {
+    color: $primary-color;
+  }
+}
+
+.post-list {
+  list-style: none;
+
+  .post-list--meta {
+    text-align: center;
+    .post-list--title {
+      a {
+        color: $jet;
+        border-bottom: 2px dotted $jet;
+      }
+    }
+    time {
+      color: $iron;
+    }
+    margin-bottom: 1.5rem;
+  }
+
+  > li {
+    margin-bottom: 6rem;
+    position: relative;
+
+    .excerpt {
+      font-family: $font-family-serif;
+      height: 300px;
+      margin-bottom: 50px;
+      overflow: hidden;
+      position: relative;
+      text-align: justify;
+
+      h1 {
+        font-size: $h1-font-size * 0.8;
+      }
+      h2 {
+        font-size: $h2-font-size * 0.8;
+      }
+      h3 {
+        font-size: $h3-font-size * 0.8;
+      }
+      h4 {
+        font-size: $h4-font-size * 0.8;
+      }
+      h5 {
+        font-size: $h5-font-size * 0.8;
+      }
+      h6 {
+        font-size: $h6-font-size * 0.8;
+      }
+
+      &::after {
+        @include background-image(linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, .5) 50%, rgba(255, 255, 255, 1) 100%));
+        bottom: 0;
+        content: '';
+        height: 250px;
+        left: 0;
+        pointer-events: none;
+        position: absolute;
+        right: 0;
+      }
+    }
+
+    &::after {
+      content: '';
+      border-bottom: 3px solid $smoke;
+      left: 25%;
+      position: absolute;
+      right: 25%;
+      margin-bottom: 50px;
+    }
+  }
+
 }

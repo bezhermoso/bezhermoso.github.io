@@ -32,13 +32,11 @@ module Bez
 <div class="code-section">
   <div class="filename">
     <div class="row">
-      <div class="large-12 columns">#{@filename}</div>
+      #{@filename}
     </div>
   </div>
   <div class="row">
-    <div class="large-12 columns">
       <pre><code class="language-#{@language}">#{content}</code></pre>
-    </div>
   </div>
 </div>
         CODE

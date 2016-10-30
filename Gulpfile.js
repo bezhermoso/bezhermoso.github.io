@@ -4,6 +4,7 @@ const gulp = require('gulp');
 const gUtil = require('gulp-util');
 const plumber = require('gulp-plumber');
 const sass = require('gulp-sass');
+const compass = require('gulp-compass');
 const webserver = require('gulp-webserver');
 const opn = require('opn');
 const path = require('path');
@@ -28,10 +29,25 @@ var config = {
     ],
     sassConfig: {
       includePaths: ['bower_components/foundation/scss']
+    },
+    compassConfig: {
+      bundle_exec: true,
+      css: `${__dirname}/dist/css`,
+      sass: `${__dirname}/src/assets/scss`,
+      import_path: [
+        `${__dirname}/bower_components`,
+        `${__dirname}/bower_components/foundation/scss`
+      ],
+      relative: false,
+      style: 'expanded'
     }
   },
   scripts: {
     dest: path.join(paths.dest, 'js')
+  },
+  images: {
+    src: path.join(paths.src, 'assets/images/**'),
+    dest: path.join(paths.dest, 'img')
   },
   server: {
     src: paths.dest,
@@ -43,13 +59,18 @@ var config = {
 gulp.task('styles', () => {
   let sassStream = gulp.src(config.styles.src)
     .pipe(plumber())
-    .pipe(sass(config.styles.sassConfig));
+    .pipe(compass(config.styles.compassConfig));
 
   let vendorsStream = gulp.src(config.styles.vendors);
 
   return merge(sassStream, vendorsStream)
     .pipe(concat('app.css'))
     .pipe(gulp.dest(config.styles.dest));
+});
+
+gulp.task('images', () => {
+  return gulp.src(config.images.src)
+    .pipe(gulp.dest(config.images.dest));
 });
 
 gulp.task('webserver', ['build'], () => {
@@ -60,7 +81,6 @@ gulp.task('webserver', ['build'], () => {
       livereload: true,
     }));
 });
-
 
 gulp.task('openbrowser', ['webserver'], () => opn(`http://${config.server.host}:${config.server.port}`));
 
@@ -88,7 +108,7 @@ gulp.task('html', (cb) => {
 });
 
 gulp.task('prism', () => {
-  let languages = ['javascript', 'ruby', 'yaml', 'php', 'bash', 'html', 'lua', 'vim'];
+  let languages = ['javascript', 'ruby', 'yaml', 'php', 'bash', 'html', 'lua', 'vim', 'applescript'];
   let components = languages.map(lang => `bower_components/prism/components/prism-${lang}.js`);
   components.unshift('bower_components/prism/prism.js');
   gulp.src(components)
@@ -97,7 +117,7 @@ gulp.task('prism', () => {
 });
 
 gulp.task('build', (cb) => {
-  runSequence('html', ['styles', 'prism'], cb);
+  runSequence('html', ['styles', 'prism', 'images'], cb);
 });
 
 gulp.task('default', ['build', 'webserver', 'watch', 'openbrowser']);

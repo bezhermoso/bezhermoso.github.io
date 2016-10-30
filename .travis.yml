@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+- '6'
+
+before_install:
+  - rvm use 2.2.5 --install --binary
+  - bundle install
+
+script: echo 1
+
+#branches:
+  #only:
+    #- src

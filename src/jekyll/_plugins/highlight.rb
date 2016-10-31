@@ -17,7 +17,11 @@ module Bez
     def render(context)
       content = super.strip
       content = xml_escape(content)
-      if is_terminal?
+      if @language == 'text'
+        <<-HIGHLIGHT
+<pre class="highlight language-#{@language}"><code class="language-#{@language}">#{content}</code></pre>
+        HIGHLIGHT
+      elsif is_terminal?
         <<-TERMINAL
   <div class="padded">
     <div class="terminal">

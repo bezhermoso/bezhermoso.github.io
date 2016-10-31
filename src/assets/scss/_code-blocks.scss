@@ -4,6 +4,10 @@
   //max-width: none;
 //}
 
+pre.highlight {
+  margin-bottom: 1.5rem;
+}
+
 .code-section {
   background-color: $smoke;
   box-shadow: inset 0 11px 8px -10px $gainsboro, inset 0 -11px 8px -10px $gainsboro;
@@ -140,3 +144,4 @@
 .token.operator {
   background-color: transparent;
 }
+

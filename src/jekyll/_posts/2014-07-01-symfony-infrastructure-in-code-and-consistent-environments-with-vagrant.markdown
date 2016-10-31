@@ -21,18 +21,18 @@ differ and conflict with one another (i.e. conflicts with PHP versions, server c
 its a different story. I couldn't begin to imagine how I managed to have a manageable development environment and how I keep
 everything sane without the help of Vagrant, Chef & Puppet.
 
-###Infrastructure as Code
+### Infrastructure as Code
 
 [Chef](http://www.getchef.com/chef/) and [Puppet](http://puppetlabs.com/)
 will take care of preparing a given machine(s) based on your project's server requirements. You can define every aspect of the server provisioning in configuration
 files and in code, which has the added benefit of being versioned along with the project in your VCS of choice (we use [Git](http://git-scm.com)).
 
-###Vagrant
+### Vagrant
 
 [Vagrant](http://vagrantup.com) is a tool that allows you to define what type of machine(s) you need to run a project,
 and it will prepare and boot up a virtual machine of it for you. Configuration is written in a `Vagrantfile`, therefore it can be versioned as well.
 
-###Consistent development environments for your Symfony team
+### Consistent development environments for your Symfony team
 
 I created a simple Vagrant + Infrastructure in Code template for Symfony projects which you can find here: [symfony-vm](https://github.com/bezhermoso/symfony-vm). I hope
 the instructions are easy enough to follow.

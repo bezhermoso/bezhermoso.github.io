@@ -144,7 +144,7 @@ Its important to note that the annotations library require us to actually config
 interfacing with the `Doctrine\Common\Annotations\AnnotationRegistry` class. However if you are using Symfony, this is already taken care of (you can check `app/autoload.php` to see
 how its done.)
 
-##Putting it to use...
+## Putting it to use...
 
 In order to integrate this to our `TheHunt\SitemapBundle`, we'll create another link collector:
 
@@ -242,7 +242,7 @@ services:
 
 Now we have a service that will return sitemap links based on metadata defined by the use of our own `@Link` annotation.
 
-##Caching
+## Caching
 
 The `annotation_reader` service in Symfony is actually an instance of `Doctrine\Common\Annotations\FileCacheReader`, which already caches annotations
 as long as the files are not being modified. However, we still have to maintain our own cache of our underlying domain data which is the collection of links.
@@ -251,7 +251,7 @@ As it stands, our `AnnotationLinkCollector` doesn't have a caching couterpart li
 `CachingAnnotationLinkCollector`, but that would just entail reproducing logic from the other class, thereby violating [DRY](http://en.wikipedia.org/wiki/Don't_repeat_yourself). That
 won't be the right approach. We'll remedy this by some manageable amount of refactoring which I will detail on a future blog post.
 
-##Annotations on the classes, properties, and within another annotation
+## Annotations on the classes, properties, and within another annotation
 
 The `@Link` annotation we created only applies to methods. However, you are probably aware that annotations can be added
 on the class-level or on properties as well. Extracting them is just as easy. You would simply need to extract the

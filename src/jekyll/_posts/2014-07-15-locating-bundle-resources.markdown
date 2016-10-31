@@ -67,7 +67,7 @@ The `kernel.bundles` parameter is already available even at a stage this early. 
 Since the the `kernel.bundles` parameter provides us with the list of bundles and conveniently provides the main bundle class, a class that
 always resides in a given bundle's root directory, we can use `ReflectionClass#getFileName` to locate it and ultimately tell us where the resource files can be located.
 
-###"What do I do with this information?"
+### "What do I do with this information?"
 
 That's entirely up to you!
 

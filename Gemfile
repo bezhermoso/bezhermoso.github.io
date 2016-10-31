@@ -5,6 +5,7 @@ ruby RUBY_VERSION
 # Happy Jekylling!
 gem "jekyll", "3.2.1"
 gem "compass"
+gem "redcarpet"
 
 # If you have any plugins, put them here!
 # group :jekyll_plugins do

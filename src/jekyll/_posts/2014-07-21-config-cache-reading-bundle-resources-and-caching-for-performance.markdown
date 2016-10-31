@@ -51,9 +51,9 @@ the major configuration files within `app/config/*`. In fact, let us define how 
 Both of these styles of defining metadata seems to be the most popular within the Symfony community. For this article, lets focus on defining metadata
 via YAML files within bundles. Lets set aside configuring by annotations for another blog post...
 
-##Building the bundle
+## Building the bundle
 
-###Resources -- sitemap.yml files
+### Resources -- sitemap.yml files
 Let's define how sitemap metadata can be defined in `sitemap.yml` files:
 
 {% highlight yaml %}
@@ -96,7 +96,7 @@ Such files will be locate under the `Resources/config` directory across differen
 (For example, your `TheHunt\UserBundle\Resources\config\sitemap.yml` would register the user pages to the sitemap,
 while a similar file in `TheHunt\BlogBundle` would register blog posts, etc.)
 
-###Services
+### Services
 
 This bundle doesn't do that many things, and all of its responsibilities can be broken down across only a few services. The service of primary interest for us would be this, though:
 
@@ -231,7 +231,7 @@ class TheHuntSitemapExtension extends Extension
 As far as collecting and generating sitemap links go, we are done. Consumers of the `thehunt_sitemap.link_collector` will simply have to call its `getLinks` method and do with the results
 however they wish (to generate an XML file, or to use them in a Twig template, etc.)
 
-###Caching
+### Caching
 
 Everything works they way it should. However, if you study the whole mechanism, we are doing some potentially expensive operations:
 

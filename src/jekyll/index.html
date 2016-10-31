@@ -29,7 +29,7 @@ og_description: My development blog - Bez Hermoso
                 {{ post.title }}
               </a>
             </h2>
-            <time>{{ post.date | date: "%d %b %Y" }}</time>
+            <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d %b %Y" }}</time>
           </div>
           <article class="excerpt">
             {{ post.content | excerpt }}

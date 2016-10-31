@@ -30,28 +30,24 @@ pls() {
 
 The original use-case still works:
 
-<div class="code">
-$: service postgresql restart
-<br>
+{% highlight bash %}
+$ service postgresql restart
 bash: service: command not found
-<br>
-<br>
-$: pls
-<br>
-<br>
+
+$ pls
+
 No problem!
-<br>
+
 [ ok ] Starting PostreSQL 9.1 database server: main.
-</div>
+{% endhighlight %}
 
 But now you can also do this:
 
-<div class="code">
-$: pls service postgresql restart
-<br>
-<br>
+{% highlight bash %}
+$ pls service postgresql restart
+
 No problem!
-<br>
-<br>
+
 [ ok ] Starting PostreSQL 9.1 database server: main.
-</div>
+{% endhighlight %}
+

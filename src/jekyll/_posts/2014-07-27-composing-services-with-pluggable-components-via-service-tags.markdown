@@ -20,7 +20,7 @@ thin caching layer. However both of them have similarities, which is being able 
 where they gather links from are just implementation details.
 
 <!--stop-->
-###Backwards-compatibility challenge
+### Backwards-compatibility challenge
 
 You actually glimpse at the progression of our bundle architecture by looking at the name of our services: the annotation-reading
 service appears to have a very descriptive name, while its YAML-reading counterpart has a very generic one. You could look

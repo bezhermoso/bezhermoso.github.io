@@ -1,9 +1,6 @@
 ---
-layout: til
-title: Copy files and/or directories from a Docker image
-date: 2016-10-16
-til_category: docker
-og_image: /img/til.png
+layout: post
+title: "Protip: copy files and/or directories from a Docker image"
 ---
 
 I found myself needing to copy a bunch of files and directories straight from a Docker image. There is a trivial solution in the form of `docker cp`, but I came up with an alternative using `docker run`:
@@ -14,6 +11,8 @@ $ docker run --rm <IMAGE NAME> \
 {% endhighlight %}
 
 This alternative has a few advantages over `docker cp`:
+
+<!--excerpt-->
 
 * `docker cp` requires absolute paths. This supports paths relative to the image's `WORKDIR`.
 * `docker cp` copies from a container, not an image. This alternative does not require a running container, nor do you need to run `docker create` and having to clean it up later (a container is still being created here, but the `--rm` flag will take care of cleaning it up after use).

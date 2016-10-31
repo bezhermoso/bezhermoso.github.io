@@ -12,6 +12,8 @@ ga_profile: UA-22506121-5
 # Build settings
 markdown: kramdown
 
+permalink: pretty
+
 collections:
   til:
     output: true

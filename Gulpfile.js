@@ -108,7 +108,7 @@ gulp.task('html', (cb) => {
 });
 
 gulp.task('prism', () => {
-  let languages = ['javascript', 'ruby', 'yaml', 'php', 'bash', 'html', 'lua', 'vim', 'applescript'];
+  let languages = ['javascript', 'typescript', 'ruby', 'yaml', 'php', 'bash', 'html', 'lua', 'vim', 'applescript'];
   let components = languages.map(lang => `bower_components/prism/components/prism-${lang}.js`);
   components.unshift('bower_components/prism/prism.js');
   gulp.src(components)

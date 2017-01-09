@@ -10,6 +10,8 @@ $ docker run --rm <IMAGE NAME> \
    tar -cf - <SRC_PATH_1> [<SRC_PATH_2> ...] | tar -xvC - <DEST_PATH>
 {% endhighlight %}
 
+> This obviously relies on the the container having `tar` installed.
+
 This alternative has a few advantages over `docker cp`:
 
 <!--stop-->

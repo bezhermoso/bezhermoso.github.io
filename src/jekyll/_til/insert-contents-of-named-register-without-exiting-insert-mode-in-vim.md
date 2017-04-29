@@ -3,7 +3,7 @@ layout: til
 title: Insert contents of named register without exiting Insert mode in Vim
 til_category: vim vimscript
 date: 2016-02-24
-og_image: /keep/til.png
+og_image: /img/keep/til.png
 ---
 
 If you want to paste the contents of a named register without exiting _Insert_ mode, hit `<C-r>`, and then the register name.

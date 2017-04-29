@@ -3,7 +3,7 @@ layout: til
 title: Supress annoying warning banners when using Vagrant installed from source
 til_category: vagrant
 date: 2016-07-14
-og_image: /keep/til.png
+og_image: /img/keep/til.png
 ---
 
 If you installed Vagrant from source and you are getting annoyed by this warning banner:

@@ -2,7 +2,7 @@
 layout: til
 title: Backup remote files directly unto local filesystem
 date: 2016-08-19
-og_image: /keep/til.png
+og_image: /img/keep/til.png
 til_category: linux
 ---
 

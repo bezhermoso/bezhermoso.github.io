@@ -3,7 +3,7 @@ layout: til
 title: Insert the output of command into the file being edited in Vim
 til_category: vim
 date: 2016-03-03
-og_image: /keep/til.png
+og_image: /img/keep/til.png
 ---
 
 `:r <path/to/file>` when executed will read the contents of a file and insert it to where the cursor is in the file being edited. But just like the `:w` command, you can read the output of a command instead. Just prefix the comamnd with `!`.

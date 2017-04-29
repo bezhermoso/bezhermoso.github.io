@@ -3,7 +3,7 @@ layout: til
 title: Dispatch multiple actions from a single ngrx @Effect stream
 date: 2016-11-29
 til_category: angular2 javascript rxjs
-og_image: /keep/til.png
+og_image: /img/keep/til.png
 ---
 
 If you need a single `@Effect` stream to have multiple side-effects i.e. dispatch more than one action, you can use `Rx.Observable.of` in conjunection with `mergeMap`:

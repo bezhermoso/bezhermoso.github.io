@@ -3,7 +3,7 @@ layout: til
 title: Rsync files to a boot2docker VM
 til_category: rsync bash
 date: 2016-03-02
-og_image: /keep/til.png
+og_image: /img/keep/til.png
 ---
 
 `rsync` is usually a smarter choice for syncing code from the host machine to a directory inside a VM compared to `scp`, and is a lot performant than relying on an NFS share to sync files.

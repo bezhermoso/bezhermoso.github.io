@@ -3,7 +3,7 @@ layout: til
 title: Support both Promises/A+ and Node-like callbacks
 til_category: vim
 date: 2016-03-07
-og_image: /keep/til.png
+og_image: /img/keep/til.png
 ---
 
 If for some reason you wish to support both the use of promises and_ Node-like callbacks (_eww!_), `bluebird`'s `Promise.prototype.asCallback(...)` can come in handy:

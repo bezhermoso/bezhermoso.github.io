@@ -3,7 +3,7 @@ layout: til
 title: Get sunrise and sunset times in PHP
 til_category: php
 date: 2016-02-19
-og_image: /keep/til.png
+og_image: /img/keep/til.png
 ---
 
 If you _ever_ wondered how to retrieve the time of sunrise and sunset 

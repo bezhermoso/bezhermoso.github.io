@@ -3,7 +3,7 @@ layout: til
 title: Stop and remove Docker containers, and/or delete images, in bulk
 til_category: docker
 date: 2016-03-09
-og_image: /keep/til.png
+og_image: /img/keep/til.png
 ---
 
 These commands will come in handy at some point in life:

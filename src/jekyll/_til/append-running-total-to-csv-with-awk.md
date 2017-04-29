@@ -3,7 +3,7 @@ layout: til
 title: "Append running total to CSV file with `awk`"
 til_category: awk
 date: 2017-04-29
-og_image: /keep/til.png
+og_image: /img/keep/til.png
 ---
 
 I had a CSV of bank transactions and I wanted to append a running total on each entry. Here is how I achieved it using only `awk`.

@@ -3,7 +3,7 @@ layout: til
 title: Jump to a line when opening Vim
 til_category: vim
 date: 2016-03-14
-og_image: /keep/til.png
+og_image: /img/keep/til.png
 published: true
 ---
 

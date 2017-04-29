@@ -3,7 +3,7 @@ layout: til
 title: Move a tmux pane from one window to another
 til_category: vim
 date: 2016-03-08
-og_image: /keep/til.png
+og_image: /img/keep/til.png
 ---
 
 As the day gets busier, a `tmux` session could really need some little re-organization. To tidy things a bit, you can move a pane from one crowded window to another using `join-pane`.

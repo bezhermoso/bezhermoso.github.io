@@ -3,7 +3,7 @@ layout: til
 title: Fuzzy-find all the things!
 til_category: fzf bash
 date: 2016-03-10
-og_image: /keep/til.png
+og_image: /img/keep/til.png
 published: true
 ---
 

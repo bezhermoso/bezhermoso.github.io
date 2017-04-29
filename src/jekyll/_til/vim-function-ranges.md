@@ -3,7 +3,7 @@ layout: til
 title: Vim function ranges
 til_category: vim vimscript
 date: 2016-02-16
-og_image: /keep/til.png
+og_image: /img/keep/til.png
 ---
 
 If you are writing a custom function in Vimscript that operates on a range, 

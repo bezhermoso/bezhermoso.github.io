@@ -3,7 +3,7 @@ layout: til
 title: Append text to a register in Vim
 til_category: vim vimscript
 date: 2016-02-17
-og_image: /keep/til.png
+og_image: /img/keep/til.png
 ---
 
 Yanking and cutting text overwrites the previous contents of the register by default. But for named

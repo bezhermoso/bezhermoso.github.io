@@ -3,7 +3,7 @@ layout: til
 title: Create custom Javascript errors
 til_category: javascript
 date: 2016-02-29
-og_image: /keep/til.png
+og_image: /img/keep/til.png
 ---
 
 When building complex Javascript applications for the browser or server, sooner or later you'll find the need to create custom error objects especially when implementing fail-safes, error handling (i.e. catching specific errors in a Promise chain), etc.

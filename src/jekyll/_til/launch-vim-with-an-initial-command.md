@@ -3,7 +3,7 @@ layout: til
 title: Launch Vim with an init command
 til_category: vim vimscript
 date: 2016-02-26
-og_image: /keep/til.png
+og_image: /img/keep/til.png
 ---
 
 To launch Vim and have a command executed as soon as it starts, prefix the command with a `+` and pass it as an argument. For example:

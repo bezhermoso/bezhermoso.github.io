@@ -3,7 +3,7 @@ layout: til
 title: Coordinate tmux windows with `send-keys`
 til_category: tmux
 date: 2016-02-25
-og_image: /keep/til.png
+og_image: /img/keep/til.png
 ---
 
 I use `tmux` throughout the day and booting up Vagrant machines is a constant part of my daily workflow. Oftentimes I want to create two additional splits: one for SSHing into the machine/containers, and the other one to display some real-time logs. I used to wait until the Vagrant machine is all booted up before I can manually create the splits and type in the commands -- until I learned about `send-keys`:

@@ -3,7 +3,7 @@ layout: til
 title: Watch file size change
 date: 2016-08-12
 til_category: unix
-og_image: /keep/til.png
+og_image: /img/keep/til.png
 ---
 
 If you have a file of ever growing size i.e. an in-progress download or compressed `tar` file, use this command:

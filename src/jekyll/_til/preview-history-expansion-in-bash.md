@@ -3,7 +3,7 @@ layout: til
 title: Preview history expansion in Bash
 til_category: angular
 date: 2016-02-23
-og_image: /keep/til.png
+og_image: /img/keep/til.png
 ---
 
 History expansion in the shell can be a huge productivity-booster. In `zsh`, the expansion can be previewed by hitting the _Tab_ key. This isn't true in `bash`.

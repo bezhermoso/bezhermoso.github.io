@@ -3,7 +3,7 @@ layout: til
 title: Filter lines in Vim
 til_category: vim
 date: 2016-03-04
-og_image: /keep/til.png
+og_image: /img/keep/til.png
 ---
 
 In Vi/Vim, `!` is the portal to the underlying UNIX shell, and with it you can do powerful things. One of them is the ability to filter the lines in a range with an external command:

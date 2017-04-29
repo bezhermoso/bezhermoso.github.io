@@ -3,7 +3,7 @@ layout: til
 title: View weather information in the terminal
 til_category: bash
 date: 2016-03-01
-og_image: /keep/til.png
+og_image: /img/keep/til.png
 ---
 
 If you prefer your weather info in text and ASCII-art form, this is the command for you:

@@ -14,11 +14,14 @@ const metalsmith = require('metalsmith');
 const layouts = require('metalsmith-layouts');
 const childProcess = require('child_process');
 const runSequence = require('run-sequence');
+const ARGS = require('minimist')(process.argv);
 
 const paths = {
   src: 'src',
   dest: 'dist'
 };
+
+const DEV = ARGS.dev;
 
 var config = {
   styles: {
@@ -95,12 +98,13 @@ gulp.task('watch', ['build'], () => {
  * Jekyll
  */
 gulp.task('html', (cb) => {
-  return childProcess.spawn('bundle', [
-    'exec', 'jekyll', 'build',
+  let jekyllArgs = [
     `--config=${paths.src}/jekyll/_config.yml`,
     `--source=${paths.src}/jekyll`,
     `--destination=${paths.dest}`
-  ], {stdio: 'inherit'})
+  ].concat(DEV ? ['--drafts'] : []);
+  return childProcess.spawn('bundle', [
+    'exec', 'jekyll', 'build'].concat(jekyllArgs), {stdio: 'inherit'})
     .on('error', e => gUtil.log(gUtil.colors.red(e.message)))
     .on('close', (code) => {
       cb(code == 0 ? null : `Jekyll returned an error with code: ${code}`);
@@ -108,7 +112,7 @@ gulp.task('html', (cb) => {
 });
 
 gulp.task('prism', () => {
-  let languages = ['javascript', 'typescript', 'ruby', 'yaml', 'php', 'bash', 'html', 'lua', 'vim', 'applescript'];
+  let languages = ['javascript', 'ruby', 'yaml', 'php', 'bash', 'html', 'lua', 'vim', 'applescript', 'zsh'];
   let components = languages.map(lang => `bower_components/prism/components/prism-${lang}.js`);
   components.unshift('bower_components/prism/prism.js');
   gulp.src(components)

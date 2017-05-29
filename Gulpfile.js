@@ -81,7 +81,7 @@ gulp.task('webserver', ['build'], () => {
     .pipe(webserver({
       host: config.server.host,
       port: config.server.port,
-      livereload: true,
+      livereload: true
     }));
 });
 

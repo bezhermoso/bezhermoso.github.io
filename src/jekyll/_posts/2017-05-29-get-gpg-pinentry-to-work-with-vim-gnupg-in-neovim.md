@@ -25,7 +25,7 @@ Configure your shell to use the TTY-based pinentry in most circumstances:
 
 GPG_TTY=$(tty)
 # Tell the pinentry program to use the nice, full-screen pinentry program:
-PINENTRY_USER_DATA="USE_CURSES=1"
+export PINENTRY_USER_DATA="USE_CURSES=1"
 {% endhighlight %}
 
 Restart your terminal application (or source your config file), then restart the `gpg-agent`:

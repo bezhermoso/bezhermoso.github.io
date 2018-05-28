@@ -1,23 +1,25 @@
 ---
 layout: post
-title: "tmux: one year later"
+title: "tmux bindings, with some sense"
 ---
 
-If there is one tool I use the most, it has to be `tmux`. It's easy to overlook as I do everything _in_ it -- it's the sort of thing that can be easily taken for granted. it doesn't get in the way and it there when I need it.
+If there is one tool I use the most, it has to be `tmux`. I do almost everything _in_ it.
 
-However, as useful as it is, I feel like its not as easy as it should be out-of-the-box. This post is a collection of things in my `~/.tmux.conf` that makes `tmux` easier to use and to bring its more powerful capabilities within closer reach.
+However, as useful as it is, I feel like its not very user-friendly out-of-the-box. This post is a collection of things in my `~/.tmux.conf` that makes `tmux` easier to use and to bring its more powerful capabilities within closer reach.
 
 <br>
 
-## Better prefix
+## A better prefix
 
 {% highlight bash %}
 set -g prefix C-s
 {% endhighlight %}
 
-The default prefix `C-b` (`Ctrl + b`) is horrible. A better alternative is `C-s`; the keys are close enough together, and it doesn't conflict with any common key-sequences. This is extra awesome if you are one of the people that remapped `Capslock` to `Ctrl`.
+`C-s` requires far less finger-flinging than the default `C-b` -- the keys are close enough together, and it doesn't conflict with any key-sequence I commonly use. This is extra awesome with `Capslock` to `Ctrl`.
 
-Alternatively, here is a more advanced configuration that does the same thing, but does nothing when `tmux` is ran in an SSH connection:
+> `Ctrl + s` is typically bound in terminals to "stop output to screen". I can live without it, as entering  "Visual Mode" in `tmux` is a functional alternative.
+
+Alternatively, here is a more advanced configuration that does the same thing except when you are in an active SSH connection:
 
 {% highlight bash  %}
 if-shell '[ -z "$SSH_TTY" ] && [ -z "$SSH_CLIENT" ] && [ -z "$SSH_CONNECTION" ]' \

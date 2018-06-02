@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "tmux bindings, with some sense"
+title: "Improved tmux experience"
 ---
 
 If there is one tool I use the most, it has to be `tmux`. I do almost everything _in_ it.
@@ -15,18 +15,9 @@ However, as useful as it is, I feel like its not very user-friendly out-of-the-b
 set -g prefix C-s
 {% endhighlight %}
 
-`C-s` requires far less finger-flinging than the default `C-b` -- the keys are close enough together, and it doesn't conflict with any key-sequence I commonly use. This is extra awesome with `Capslock` to `Ctrl`.
+`C-s` requires far less finger-flinging than the default `C-b` -- the keys are close enough together, and it doesn't conflict with any key-sequence I commonly use. This is extra awesome with `Capslock` mapped to `Ctrl`.
 
 > `Ctrl + s` is typically bound in terminals to "stop output to screen". I can live without it, as entering  "Visual Mode" in `tmux` is a functional alternative.
-
-Alternatively, here is a more advanced configuration that does the same thing except when you are in an active SSH connection:
-
-{% highlight bash  %}
-if-shell '[ -z "$SSH_TTY" ] && [ -z "$SSH_CLIENT" ] && [ -z "$SSH_CONNECTION" ]' \
-    'set -g prefix C-s' ''
-{% endhighlight %}
-
-This is particularly handy if you are using the same `tmux` configuration file in remote machines you SSH into. If you running `tmux` on a remote server while `tmux`ing on your local machine, the default prefix `C-b` will allow you to operate on the remote `tmux` session.
 
 <br>
 
@@ -179,6 +170,9 @@ Another neat trick that `tmux` can do is synchronizing key-strokes across all pa
 bind-key & set-window-option synchronize-panes
 {% endhighlight %}
 
+---
+
+For more, you can find my [full `tmux` configuration hosted on Github!](https://github.com/bezhermoso/dotfiles/blob/master/tmux/tmux.conf).
 
 
 

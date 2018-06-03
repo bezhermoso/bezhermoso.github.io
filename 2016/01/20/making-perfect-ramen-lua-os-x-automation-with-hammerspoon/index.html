@@ -1,0 +1,364 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    
+    
+    <title>/dev/blog - Making perfect ramen with Lua: OS X automation with Hammerspoon</title>
+    <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,700i,300,300i|Merriweather:300,300i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <link rel="stylesheet" href="bower_components/prism/themes/prism-coy.css" type="text/css" media="screen" charset="utf-8">
+    <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
+    
+    <meta property="og:image" content="http://bezhermoso.github.io/keep/hammerspoon.png" />
+    
+    
+    <meta property="og:title" content="Making perfect ramen with Lua: OS X automation with Hammerspoon" />
+        
+        <meta property="og:description" content="Yesterday I discovered Hammerspoon, a projectthat touts itself as a “tool for powerful automation of OS X”. After givingit a try, not only did I find that statement to be true, but as someone who has ZERO prior practical experience with Lua, I was surprised by how relatively easy it was toget on board. Now, I’m hooked." />
+        
+        <meta name="description" content="Yesterday I discovered Hammerspoon, a projectthat touts itself as a “tool for powerful automation of OS X”. After givingit a try, not only did I find that statement to be true, but as someone who has ZERO prior practical experience with Lua, I was surprised by how relatively easy it was toget on board. Now, I’m hooked." />
+    
+  </head>
+  <body>
+    <header>
+      <div class="row site-headline">
+        <div class="large-12 columns">
+          <h1>
+            <span class="permissions">rwxr--r--</span>
+            <a href="/">
+              <div>/dev/blog</div>
+            </a>
+          </a></h1>
+          <h2>Bez Hermoso, Software Engineer @ ActiveLAMP</h2>
+        </div>
+      </div>
+    </header>
+    <section class="blog-post">
+  <div class="row">
+    <div class="large-12 columns">
+      <div class="post-meta">
+        <h1>Making perfect ramen with Lua: OS X automation with Hammerspoon</h1>
+        <time datetime="2016-01-20T00:00:00-08:00">20 Jan 2016</time>
+      </div>
+    </div>
+    <div class="blog-body large-12 columns">
+      <p>Yesterday I discovered <strong><a href="http://www.hammerspoon.org">Hammerspoon</a></strong>, a project
+that touts itself as a <em>“tool for powerful automation of OS X”</em>. After giving
+it a try, not only did I find that statement to be true, but as someone who has 
+<strong>ZERO</strong> prior practical experience with Lua, I was surprised by how relatively easy it was to
+get on board. Now, I’m hooked.</p>
+
+<h2 id="lua-scripting"><strong>Lua scripting</strong></h2>
+
+<div class="row">
+    <div class="columns large-6">
+    <p>
+<em>Hammerspoon</em> exposes system level APIs into a Lua environment, and config files
+are written in Lua.
+    </p>
+    <p>
+    Syntactically, Lua reminds me a lot of Javascript and Ruby and, by extension, CoffeeScript. If you write in any of these three languages,
+    you already have a leg up on the rest.
+    </p>
+    <p>
+    I find Lua's simplicity refreshing. I found it easy to pick up the basics of <em>Lua</em> and start writing something in it, and was able to just learn more as I went. Functions are first-class citizens in Lua (can be passed around as arguments or as return values) so familiarity with functional programming paradigms goes a long way.
+    </p>
+    </div>
+    <div class="columns large-6">
+        <img src="/img/lua-preview.png" />
+        <div class="caption">From <a href="https://learnxinyminutes.com/docs/lua/" target="_blank">Learn Lua in Y Minutes</a></div>
+    </div>
+</div>
+<p><br /></p>
+
+<p>However, unlike Javascript and Ruby, Lua does not have a built-in
+functional library to do things like <code class="highlighter-rouge">map</code>, <code class="highlighter-rouge">filter</code>, <code class="highlighter-rouge">reduce</code>,
+<em>etc.</em>, but Hammerspoon comes with <a href="http://www.hammerspoon.org/docs/hs.fnutils.html"><code class="highlighter-rouge">hs.fnutils</code></a> which provides a bunch of
+functional utilities. Its not exhaustive, but its good enough for not-so-complex
+scripting which Hammerspoon falls into.</p>
+
+<h2 id="inside-my-hammerspooninitlua">Inside my <code class="highlighter-rouge">~/.hammerspoon/init.lua</code></h2>
+
+<blockquote>
+  <p>OS X already comes with <em>Automator</em>, which allows you to do automation on
+Macs. But there are things that you  can’t do with <em>Automator</em> alone.</p>
+</blockquote>
+
+<p><a href="#cycle-displays">1. Cycle through displays</a>
+<br />
+<a href="#webpage-on-wifi-connect">2. Open a web-page as soon as I connect to a particular WiFi network</a>
+<br />
+<a href="#perfect-ramen">3. Make perfect ramen every time</a></p>
+
+<h3 id="cycle-displays">1. Cycle through displays</h3>
+
+<p>I wanted to start small, so I picked a little annoyance I find myself battling with daily and aimed to solve it. One such annoyance pertains to switching focus between multiple displays:</p>
+
+<p>I have a dual-display setup at work and I have all my GUI applications running on the
+primary display, with the exception of a couple of full-screen terminal windows running <code class="highlighter-rouge">tmux</code>, <code class="highlighter-rouge">vim</code>, a <code class="highlighter-rouge">zsh</code> shell, monitoring tools, logs, <em>etc.</em> occupying the
+entirety of a secondary screen across multiple Spaces. I also have other full-screen applications
+living in their own Spaces on the primary display. My setup works really well for me most of the time, but
+there are certain combinations of circumstances on how applications are laid out across all
+Spaces and the order in which I have accessed them that results in a state where
+Command (⌘)-Tab or a three-finger swipe doesn’t bring me where I want to go. So my
+first challenge was to make something in Hammerspoon that would allow me to
+cycle through the displays with <strong><em>consistency</em></strong>.</p>
+
+<p>Here is my solution:</p>
+
+<div class="code-section">
+  <div class="filename">
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <pre><code class="language-lua">-- DISPLAY FOCUS SWITCHING --
+
+--One hotkey should just suffice for dual-display setups as it will naturally
+--cycle through both.
+--A second hotkey to reverse the direction of the focus-shift would be handy
+--for setups with 3 or more displays.
+
+--Bring focus to next display/screen
+hs.hotkey.bind({&quot;alt&quot;}, &quot;`&quot;, function ()
+  focusScreen(hs.window.focusedWindow():screen():next())
+end)
+
+--Bring focus to previous display/screen
+hs.hotkey.bind({&quot;alt&quot;, &quot;shift&quot;}, &quot;`&quot;, function() 
+  focusScreen(hs.window.focusedWindow():screen():previous())
+end)
+
+--Predicate that checks if a window belongs to a screen
+function isInScreen(screen, win)
+  return win:screen() == screen
+end
+
+-- Brings focus to the scren by setting focus on the front-most application in it.
+-- Also move the mouse cursor to the center of the screen. This is because
+-- Mission Control gestures &amp; keyboard shortcuts are anchored, oddly, on where the
+-- mouse is focused.
+function focusScreen(screen)
+  --Get windows within screen, ordered from front to back.
+  --If no windows exist, bring focus to desktop. Otherwise, set focus on
+  --front-most application window.
+  local windows = hs.fnutils.filter(
+      hs.window.orderedWindows(),
+      hs.fnutils.partial(isInScreen, screen))
+  local windowToFocus = #windows &gt; 0 and windows[1] or hs.window.desktop()
+  windowToFocus:focus()
+
+  -- Move mouse to center of screen
+  local pt = geometry.rectMidPoint(screen:fullFrame())
+  mouse.setAbsolutePosition(pt)
+end
+
+-- END DISPLAY FOCUS SWITCHING --</code></pre>
+    </div>
+  </div>
+</div>
+
+<p>With this in place, I can now confidently move across applications (and
+subsequently, across Spaces) with a few key-strokes. Thanks to Lua’s concise syntax and <a href="http://www.hammerspoon.org/docs/">Hammerspoon’s well-documented API</a>, this only took a few minutes to write. As you can see, binding hotkeys to custom actions are trivial with Hammerspoon.</p>
+
+<h3 id="webpage-on-wifi-connect">2. Open a web-page as soon as I connect to a particular WiFi network</h3>
+
+<p>I admit I am a forgetful person, especially when it comes to relatively small routine stuff.
+At work we use Zenefits to keep track of our working hours, clocking in and
+clocking out from within their web portal. I don’t feel confident that I will
+always remember to clock first thing in the morning, so I naturally started
+looking for applications that I could configure to somehow remind me to clock in whenever I connect to our office’s network. I initially used <a href="http://www.controlplaneapp.com/">ControlPlane</a> for this and it worked well. But why not do it in Hammerspoon now that I got my feet wet?</p>
+
+<div class="code-section">
+  <div class="filename">
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <pre><code class="language-lua">-- WORK-RELATED AUTOMATION --
+
+-- Open Zenefits Dashboard once connected to WiFi network at work.
+local workWifi = &quot;ActiveLAMP Airport&quot;
+local employeeDashboardUrl = &quot;https://secure.zenefits.com/dashboard/#/&quot;
+local defaultBrowser = &quot;Google Chrome&quot;
+
+hs.wifi.watcher.new(function ()
+  local currentWifi = wifi.currentNetwork()
+  -- short-circuit if disconnecting
+  if not currentWifi then return end
+
+  local note = hs.notify.new({
+    title=&quot;Connected to WiFi&quot;, 
+    informativeText=&quot;Now connected to &quot; .. currentWifi
+  }):send()
+
+  --Dismiss notification in 3 seconds
+  --Notification does not auto-withdraw if Hammerspoon is set to use &quot;Alerts&quot;
+  --in System Preferences &gt; Notifications
+  hs.timer.doAfter(3, function ()
+    note:withdraw()
+    note = nil
+  end)
+
+  if currentWifi == workWifi then
+    -- Allowance for internet connectivity delays.
+    hs.timer.doAfter(3, function ()
+      -- @todo: Explore possibilities of using `hs.webview`
+      hs.execute(&quot;open &quot; .. employeeDashboardUrl)
+
+      --Make notification clickable. Browser window will be focused on click:
+      hs.notify.new(function () 
+        hs.application.launchOrFocus(defaultBrowser)
+      end, {title=&quot;Make sure you clock in!&quot;}):send()
+    end)
+  end
+end):start()
+
+-- END WORK-RELATED AUTOMATION --</code></pre>
+    </div>
+  </div>
+</div>
+
+<p>Next thing to automate is opening <em>Tempo Timesheets</em> in Jira every 2 hours as
+long as I’m in our ofice network to remind me to put in worklogs.</p>
+
+<h3 id="perfect-ramen">3. Make perfect ramen every time</h3>
+
+<p>A hot, 3-minute ramen is good. Sometimes its better <em>al-dente</em>. But warm, soggy, 10-minute ramen? Not cool.</p>
+
+<p>For better ramen:</p>
+
+<div class="code-section">
+  <div class="filename">
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <pre><code class="language-lua">-- RAMEN TIMER --
+
+--Schedule a notification in 3 minutes.
+function startRamenTimer()
+  hs.timer.doAfter(3 * 60, function ()
+    hs.notify.new({
+        title=&quot;Ramen time!&quot;,
+        informativeText=&quot;Your ramen is ready!&quot;
+    }):send()
+  end)
+  hs.alert(&quot; Ramen timer started! &quot;)
+end
+
+--Bind timer to `hammerspoon://ramentime`:
+hs.urlevent.bind(&quot;ramentime&quot;, startRamenTimer)
+
+-- END RAMEN TIMER --</code></pre>
+    </div>
+  </div>
+</div>
+
+<p>Hammerspoon’s <code class="highlighter-rouge">hs.urlevent</code> is a beautiful thing: it allows you to bind some
+action to a URL with a <code class="highlighter-rouge">hammerspoon://</code> scheme. This makes Hammerspoon actions
+almost universally accessible! In this case, opening <code class="highlighter-rouge">hammerspoon://ramentime</code> will start the timer. Now, we can if we want create a bookmarklet on the browser’s
+toolbar pointing to it that when clicked will activate the timer.</p>
+
+<p>Because of the portability of URL schemes, I was able to create a very basic <em>Alfred Workflow</em> that triggers the timer. have to do is type <code class="highlighter-rouge">ramen</code> into <a href="https://www.alfredapp.com/"><strong>Alfred</strong></a> to ensure prime ramen all the time:</p>
+
+<div class="text-center">
+<p>
+<blockquote class="imgur-embed-pub" lang="en" data-id="cpZ73Xs"><a href="//imgur.com/cpZ73Xs">View post on imgur.com</a></blockquote><script async="" src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
+</p>
+    <p>
+        <em>...and three minutes minutes later...</em>
+    </p>
+    <p>
+    <img src="/img/ramen-notification.png" alt="" />
+    </p>
+</div>
+
+<h3 id="hey-jarvis">“Hey, Jarvis…”</h3>
+<div class="row">
+<div class="columns large-6">
+<p>Another nifty thing you can do is create a dictation command to trigger the timer.
+Enable <em>Dictation</em> on your Mac, go to <em>System Preferences &gt; Accessibility
+Dictation...</em>, click the <em>Dictation Commands...</em> button, and turn on <em>Enable advanced
+commands</em>.
+From here you can add a new voice command in the list and configure it to open the
+time via URL. Have fun!</p>
+</div>
+<div class="columns large-6">
+<img src="/img/ramen-dictation.png" />
+</div>
+</div>
+
+<hr />
+
+<p>If you are into automating things on your Mac, give <em>Hammerspoon</em> a spin. You
+might like it, too.</p>
+
+    </div>
+  </div>
+  <section class="post-navigation">
+    <div class="row">
+      <div class="large-4 columns">
+        
+        Previous: <a href="/2016/06/23/protip-warn-about-changes-before-rsync/">Protip: warn about file changes, deletions & additions before rsync</a>
+        
+      </div>
+      <div class="large-4 columns">
+        <a href="/" title="Go back home"><code>$HOME</code></a>
+      </div>
+      <div class="large-4 columns">
+        
+        Next: <a href="/2016/01/17/breeze-through-osx-notifications-with-effiency-through-keyboard-shortcuts/">Breeze through OS X alert notifications with swift efficiency through keyboard shortcuts</a>
+        
+      </div>
+    </div>
+  </section>
+</section>
+<section>
+  <div class="row">
+  <div class="columns medium-12">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'thftmsc'; // required: replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </div>
+</div>
+
+</section>
+
+    <footer>
+      Bez Hermoso (c) 2016
+    </footer>
+    
+    <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-22506121-5', 'auto');
+ga('send', 'pageview');
+    </script>
+    
+  </body>
+  <script src="/js/prism.js"></script>
+</html>

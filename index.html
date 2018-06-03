@@ -1,0 +1,1552 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    
+    
+    <title>/dev/blog - Home</title>
+    <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,700i,300,300i|Merriweather:300,300i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <link rel="stylesheet" href="bower_components/prism/themes/prism-coy.css" type="text/css" media="screen" charset="utf-8">
+    <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
+    
+    <meta property="og:image" content="http://www.gravatar.com/avatar/7c3c15142fcfe3e25ce2fae6b1912bcc.jpg?s=200" />
+    
+    
+    <meta property="og:title" content="Home" />
+        
+        <meta property="og:description" content="/dev/blog: My development blog - Bez Hermoso; Software Engineer @ ActiveLAMP" />
+        
+        <meta name="description" content="/dev/blog: My development blog - Bez Hermoso; Software Engineer @ ActiveLAMP" />
+    
+  </head>
+  <body>
+    <header>
+      <div class="row site-headline">
+        <div class="large-12 columns">
+          <h1>
+            <span class="permissions">rwxr--r--</span>
+            <a href="/">
+              <div>/dev/blog</div>
+            </a>
+          </a></h1>
+          <h2>Bez Hermoso, Software Engineer @ ActiveLAMP</h2>
+        </div>
+      </div>
+    </header>
+    <section id="til-banner">
+  <div class="container">
+    <div class="row">
+      <div class="columns medium-12">
+        <h4>
+          Today I learned:
+          
+          
+          <a href="/til/append-running-total-to-each-line-in-csv-with-awk/">Append running total to each line in CSV file with `awk`</a>
+        </h4>
+      </div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="container">
+    <div class="row">
+      <ul class="post-list">
+        
+        <li class="medium-12">
+          <div class="post-list--meta">
+            <h2 class="post-list--title">
+              <a href="/2018/06/02/improved-tmux-experience/">
+                Improved tmux experience
+              </a>
+            </h2>
+            <time datetime="2018-06-02T00:00:00-07:00">02 Jun 2018</time>
+          </div>
+          <article class="excerpt">
+            <p>If there is one tool I use the most, it has to be <code class="highlighter-rouge">tmux</code>. I do almost everything <em>in</em> it.</p>
+
+<p>However, as useful as it is, I feel like its not very user-friendly out-of-the-box. This post is a collection of things in my <code class="highlighter-rouge">~/.tmux.conf</code> that makes <code class="highlighter-rouge">tmux</code> easier to use and to bring its more powerful capabilities within closer reach.</p>
+
+<p><br /></p>
+
+<h2 id="a-better-prefix">A better prefix</h2>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash">set -g prefix C-s</code></pre>
+    </div>
+  </div>
+
+<p><code class="highlighter-rouge">C-s</code> requires far less finger-flinging than the default <code class="highlighter-rouge">C-b</code> – the keys are close enough together, and it doesn’t conflict with any key-sequence I commonly use. This is extra awesome with <code class="highlighter-rouge">Capslock</code> mapped to <code class="highlighter-rouge">Ctrl</code>.</p>
+
+<blockquote>
+  <p><code class="highlighter-rouge">Ctrl + s</code> is typically bound in terminals to “stop output to screen”. I can live without it, as entering  “Visual Mode” in <code class="highlighter-rouge">tmux</code> is a functional alternative.</p>
+</blockquote>
+
+<p><br /></p>
+
+<h2 id="fix-clipboard-integration-on-macos--vi-style-bindings">Fix clipboard integration on macOS + vi-style bindings</h2>
+
+<p>Support for copying and pasting to the system clipboard doesn’t quite work on macOS. Thankfully, getting it to work takes very little effort.</p>
+
+<p>First you need to install the <code class="highlighter-rouge">reattach-to-user-namespace</code> program. You can grab it straight from Homebrew:</p>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash">$ brew install reattach-to-user-namespace</code></pre>
+    </div>
+  </div>
+
+<p>Add this to <code class="highlighter-rouge">~/.tmux.conf</code> and you are off to the races:</p>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash"># Check whether we are on macOS / OS X
+if-shell 'test &quot;$(uname)&quot; = &quot;Darwin&quot;' \
+  'set-option -g default-command &quot;reattach-to-user-namespace -l zsh&quot;' ''
+
+# vi bindings in copy-mode
+setw -g mode-keys vi
+
+# Bind `v` to enter VISUAL-like selection mode.
+bind-key -t vi-copy v begin-selection
+bind-key -t vi-copy y copy-pipe &quot;reattach-to-user-namespace pbcopy&quot;</code></pre>
+    </div>
+  </div>
+
+<p><br /></p>
+
+<h2 id="intuitive-window-splitting">Intuitive window splitting</h2>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash"># Horizontal split (left &amp; right):
+bind-key \ split-window -h -c '#{pane_current_path}'
+# Verical split (top &amp; bottom):
+bind-key - split-window -v -c '#{pane_current_path}'</code></pre>
+    </div>
+  </div>
+
+<p>Compared to the default <code class="highlighter-rouge">&lt;prefix&gt; %</code> and <code class="highlighter-rouge">&lt;prefix&gt; "</code>, these bindings makes which way splits occur <em>really</em> obvious. The <code class="highlighter-rouge">-c #{pane_current_path}</code> argument passed will start new splits in the same working directory you are on.</p>
+
+<p>As of version 2.3, <code class="highlighter-rouge">split-window</code> now understands the <code class="highlighter-rouge">-f</code> flag, which indicates full-width or full-height splits. These are perfect when you want a “scratch” shell to appear on the bottom or to the right of everything else:</p>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash"># For tmux 2.3 or newer
+# Full-height horizontal split with 33% width:
+bind-key | split-window -fh -c '#{pane_current_path}' -p 33
+# Full-width vertical split with 33% height:
+bind-key _ split-window -fv -c '#{pane_current_path}' -p 33</code></pre>
+    </div>
+  </div>
+
+<p><br /></p>
+
+<h2 id="tiered-navigation-controls">Tiered navigation controls</h2>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash"># Move between windows/tabs with `o` and `p`:
+bind-key -r p next-window
+bind-key -r o previous-window
+
+# Move between splits vi-style:
+bind-key -r h select-pane -L
+bind-key -r j select-pane -D
+bind-key -r k select-pane -U
+bind-key -r l select-pane -R</code></pre>
+    </div>
+  </div>
+
+<p>Although the default <code class="highlighter-rouge">&lt;prefix&gt; n</code> and <code class="highlighter-rouge">&lt;prefix&gt; p</code> are easier to remember (<em>“next”</em> and <em>“previous”</em>), I find moving between windows faster with <code class="highlighter-rouge">&lt;prefix&gt; o</code> and <code class="highlighter-rouge">&lt;prefix&gt; p</code> as they are right next to each other. I happen to like vim-style cursor movements, so binding split navigations to <code class="highlighter-rouge">&lt;prefix&gt; {h,j,k,l}</code> is just logical.</p>
+
+<p>With this configuration,  the navigation controls are tiered:</p>
+
+<ol>
+  <li><strong><em>Pane navigation</em></strong>: I can use home-row keys in vi-like bindings to move between panes in the current window.</li>
+  <li><strong><em>Window navigation</em></strong>: I can find <code class="highlighter-rouge">o</code> and <code class="highlighter-rouge">p</code> right above the home-row keys to move between windows or “tabs” in the current session.</li>
+  <li><strong><em>Session navigation</em></strong>: Above <code class="highlighter-rouge">o</code> and <code class="highlighter-rouge">p</code> I can use the parentheses keys to move between various sessions.</li>
+</ol>
+
+<blockquote>
+  <p>The <code class="highlighter-rouge">-r</code> flag marks the bindings repeatable – this means they will not bring you out of prefix-mode after invocation, allowing you to repeat them or even invoke other bindings right after.</p>
+</blockquote>
+
+<p><br /></p>
+
+<h2 id="moving-panes-to-another-window">Moving panes to another window</h2>
+
+<p>It’s possible to move panes between different windows using <code class="highlighter-rouge">join-pane</code>. However it is slightly cumbersome to use (you have to pass in the window’s index as the <code class="highlighter-rouge">-t</code> argument). However using <code class="highlighter-rouge">choose-window</code> makes it as easy as selecting a window from a list:</p>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash"># Move pane to a different window. You can choose window from a list:
+bind-key m choose-window -F &quot;#{window_index}: #{window_name}&quot; &quot;join-pane -h -t %%&quot;
+bind-key M choose-window -F &quot;#{window_index}: #{window_name}&quot; &quot;join-pane -v -t %%&quot;
+
+# Swap windows. Choose window to swap with from a list:
+bind-key c-w choose-window -F &quot;#{window_index}: #{window_name}&quot; &quot;swap-window -t %1&quot;</code></pre>
+    </div>
+  </div>
+
+<p>You can pick a window from a list and the current pane will be sent there as a horizontal split. <code class="highlighter-rouge">&lt;prefix&gt; M</code> will do the same, but will result in a vertical split.</p>
+
+<p><code class="highlighter-rouge">&lt;prefix&gt; C-w</code> in will bring up a list of all windows. The current window will swap places with the one you select.</p>
+
+<p><br /></p>
+
+<h2 id="resizing-panes">Resizing panes</h2>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash"># Resize panes directionally via vi-style bindings
+bind-key -r C-k resize-pane -u 5
+bind-key -r C-j resize-pane -d 5
+bind-key -r C-h resize-pane -l 5
+bind-key -r C-l resize-pane -r 5</code></pre>
+    </div>
+  </div>
+
+<p>These binds <code class="highlighter-rouge">&lt;prefix&gt; C-{h,j,k,l}</code> to resize the current window by 5 columns or rows, depending on the direction. I find resizing 1 unit at a time takes a bit too long and I rarely need precise control. Resizing by 5 units is just right.</p>
+
+<p><br /></p>
+
+<h2 id="natural-numbering">Natural numbering</h2>
+
+<p>Speaking of window indices, <code class="highlighter-rouge">tmux</code> starts numbering things at 0. Zero-based index is second nature to programmers and all, but the <code class="highlighter-rouge">0</code> key does not appear next to <code class="highlighter-rouge">1</code> on any keyboard. It’s awkward for this purpose.
+I think its more natural to have <code class="highlighter-rouge">tmux</code> starting counting from 1:</p>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash"># Begin numbering at 1:
+set -g base-index 1
+set -g pane-base-index 1
+
+# Maintain ordinality after swapping windows; and also make sure there is no gaps after killing windows:
+set -g renumber-windows on</code></pre>
+    </div>
+  </div>
+
+<h2 id="closing-panes--windows">Closing panes &amp; windows</h2>
+
+<p><code class="highlighter-rouge">&lt;prefix&gt; x</code> to close the pane, <code class="highlighter-rouge">&lt;prefix&gt; X</code> to close the window, and <code class="highlighter-rouge">&lt;prefix&gt; Q</code> to quit the session:</p>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash">bind-key x confirm-before -p &quot;kill-pane #P? (y/n)&quot; kill-pane
+bind-key X confirm-before -p &quot;Kill window #W? (y/n)&quot; kill-window
+bind-key Q confirm-before -p &quot;Kill session #S? (y/n)&quot; kill-session</code></pre>
+    </div>
+  </div>
+
+<p>A prompt will be presented to confirm the action.</p>
+
+<h2 id="synchronize-panes">Synchronize panes</h2>
+
+<p>Another neat trick that <code class="highlighter-rouge">tmux</code> can do is synchronizing key-strokes across all panes in a window. I thought <code class="highlighter-rouge">&lt;prefix&gt; &amp;</code> is an apt binding to toggle the behavior:</p>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash">bind-key &amp; set-window-option synchronize-panes</code></pre>
+    </div>
+  </div>
+
+<hr />
+
+<p>For more, you can find my <a href="https://github.com/bezhermoso/dotfiles/blob/master/tmux/tmux.conf">full <code class="highlighter-rouge">tmux</code> configuration hosted on Github!</a>.</p>
+          </article>
+        </li>
+        
+        <li class="medium-12">
+          <div class="post-list--meta">
+            <h2 class="post-list--title">
+              <a href="/2017/05/29/get-gpg-pinentry-to-work-with-vim-gnupg-in-neovim/">
+                vim-gnupg + Neovim + MacOS and how to get pinentry to work
+              </a>
+            </h2>
+            <time datetime="2017-05-29T00:00:00-07:00">29 May 2017</time>
+          </div>
+          <article class="excerpt">
+            <p><code class="highlighter-rouge">vim-gnupg</code> provides transparent PGP encryption/decryption when editing <code class="highlighter-rouge">*.gpg</code> <em>et al</em> files with <code class="highlighter-rouge">vim</code>. Sadly, if you are using a TTY-based pinentry your GNUPG setup like <code class="highlighter-rouge">pinentry-curses</code>, <a href="https://github.com/jamessan/vim-gnupg/issues/32">it won’t work</a> (with no fault from the plugin author).</p>
+
+<p>The trick to get it to work is to somehow tell the <code class="highlighter-rouge">gpg-agent</code> to use an external pinentry program when triggered by <code class="highlighter-rouge">vim-gnupg</code>. For this, the <code class="highlighter-rouge">pinentry-mac</code> program fits the bill:</p>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash">$ brew install pinentry-mac</code></pre>
+    </div>
+  </div>
+
+<p>Configure <code class="highlighter-rouge">gpg-agent</code> to use it as the pinentry program:</p>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash"># ~/.gnupg/gpg-agent.conf:
+pinentry-program /usr/local/bin/pinentry-mac</code></pre>
+    </div>
+  </div>
+
+<p>Configure your shell to use the TTY-based pinentry in most circumstances:</p>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash"># ~/.bashrc ~/.zshrc, etc. :
+
+GPG_TTY=$(tty)
+# Tell the pinentry program to use the nice, full-screen pinentry program:
+export PINENTRY_USER_DATA=&quot;USE_CURSES=1&quot;</code></pre>
+    </div>
+  </div>
+
+<p>Restart your terminal application (or source your config file), then restart the <code class="highlighter-rouge">gpg-agent</code>:</p>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash">$ gpgconf --kill gpg-agent</code></pre>
+    </div>
+  </div>
+
+<p>Now it’s just a matter of configuring <code class="highlighter-rouge">vim-gnupg</code> to override the <code class="highlighter-rouge">PINENTRY_USER_DATA</code> so that PGP prompts will use the GUI pinentry:</p>
+
+<div class="code-section">
+  <div class="filename">
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <pre><code class="language-vim">let g:GPGExecutable = &quot;PINENTRY_USER_DATA='' gpg --trust-model always&quot;</code></pre>
+    </div>
+  </div>
+</div>
+
+<p>Now, whenever you edit/write PGP encrypted files in Neovim, the GUI pinentry will be used and <code class="highlighter-rouge">vim-gnupg</code> should start working as expected.</p>
+
+<p><img src="/img/pinentry-mac.png" alt="GUI pinentry from pinentry-mac" /></p>
+          </article>
+        </li>
+        
+        <li class="medium-12">
+          <div class="post-list--meta">
+            <h2 class="post-list--title">
+              <a href="/2017/02/28/escaping-backticks-with-zshs-line-editor/">
+                Escaping backticks with the zsh line editor
+              </a>
+            </h2>
+            <time datetime="2017-02-28T00:00:00-08:00">28 Feb 2017</time>
+          </div>
+          <article class="excerpt">
+            <p>I just wrote my very first <code class="highlighter-rouge">zsh</code> plugin this week, and it has proven to be quite useful – I like to wrap identifiers/symbols in commit messages with backticks and often-times neglect to escape them. This would result in the identifier/symbol being evaluated, which is not what I want to happen.</p>
+
+<p>Here is my solution:</p>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash"># Expands `` to \`
+function expand-double-backtick-to-escaped-backtick {
+  if [[ $LBUFFER = *[^\\]\` ]]; then
+    zle backward-delete-char
+    LBUFFER+='\`'
+    # Bind backspace to something that undos the escape.
+    bindkey '^?' undo-escaped-backtick-or-backward-delete-char
+  else
+    LBUFFER+='`'
+  fi
+}
+
+function undo-escaped-backtick-or-backward-delete-char {
+  if [[ $LBUFFER = *\` ]]; then
+    # If chars to the left is an escaped backtick, unescape it.
+    zle backward-delete-char
+    zle backward-delete-char
+    LBUFFER+='`'
+  fi
+  # Rebind backspace to default behavior
+  bindkey '^?' backward-delete-char
+}
+
+zle -N expand-double-backtick-to-escaped-backtick
+zle -N undo-escaped-backtick-or-backward-delete-char
+
+bindkey &quot;\`&quot; expand-double-backtick-to-escaped-backtick</code></pre>
+    </div>
+  </div>
+          </article>
+        </li>
+        
+        <li class="medium-12">
+          <div class="post-list--meta">
+            <h2 class="post-list--title">
+              <a href="/2017/01/08/subreddit-quick-switcher-google-chrome/">
+                Subreddit quick-switcher in Google Chrome -- no extensions required
+              </a>
+            </h2>
+            <time datetime="2017-01-08T00:00:00-08:00">08 Jan 2017</time>
+          </div>
+          <article class="excerpt">
+            <p>Here is a convenient &amp; versatile yet stependously easy trick you can do in Google Chrome, leveraging the built-in custom search engine functionality:</p>
+
+<ul>
+  <li>Go to <strong><em>Chrome Menu » Settings » Manage search engines… (under Search)</em></strong> and scroll all the way down to the <strong><em>Other search engines</em></strong> section.</li>
+  <li>Add a new entry:
+    <ul>
+      <li>Name: Anything you like (i.e. <em>“Subreddit”</em>)</li>
+      <li>Keyword: <strong>r</strong></li>
+      <li>URL: <code class="highlighter-rouge">https://reddit.com/r/%s</code></li>
+    </ul>
+
+    <p><br />
+  <img src="/img/chrome-quick-switch-setup.png" /></p>
+  </li>
+</ul>
+
+<p>Now, Whenever you want to visit a subreddit, simply jump to the <em>Address Bar</em> (<em>Alt + D</em> or <em>F5</em> on Windows/Linux, <em>Command + L</em> on Mac), type in <em>“r”</em>, hit <em>Tab</em>, followed by the subreddit and then hit <em>Enter</em>; and you should be taken there.</p>
+
+<div style="position:relative;padding-bottom:39%"><iframe src="https://gfycat.com/ifr/WeakNauticalAvocet" frameborder="0" scrolling="no" width="100%" height="100%" style="position:absolute;top:0;left:0;" allowfullscreen=""></iframe></div>
+
+<hr />
+
+<h4 id="its-not-for-reddit-only">It’s not for Reddit only</h4>
+
+<p>This is obviously not limited to the use for subreddits; you can create multiple other quick-switching “profiles” triggered by different keywords to bring you to other website URLs you visit/navigate to-and-fro frequently.</p>
+
+<p>For example, if your organization uses Jira, you can set-up the following:</p>
+
+<ul>
+  <li>Name: Jira</li>
+  <li>Keyword: <strong>j</strong></li>
+  <li>URL: <code class="highlighter-rouge">https://&lt;ORG NAME&gt;.atlassian.net/browse/%s</code></li>
+</ul>
+
+<p>This will allow you to quickly navigate to any project or issue via typing <em>“j”</em>, hitting <em>Tab</em>, followed by the project/issue number in the <em>Address Bar</em>.</p>
+
+<p>You are also not limited to create substitutions to the path segment of URLs; you can configure it to fill in any part of URLs; for example, <code class="highlighter-rouge">https://%s.google.com</code> will let you switch to the various Google services, etc.</p>
+          </article>
+        </li>
+        
+        <li class="medium-12">
+          <div class="post-list--meta">
+            <h2 class="post-list--title">
+              <a href="/2016/10/31/protip-copy-files-and-or-directories-from-docker-image/">
+                Protip: copy files and/or directories from a Docker image
+              </a>
+            </h2>
+            <time datetime="2016-10-31T00:00:00-07:00">31 Oct 2016</time>
+          </div>
+          <article class="excerpt">
+            <p>I found myself needing to copy a bunch of files and directories straight from a Docker image. There is a trivial solution in the form of <code class="highlighter-rouge">docker cp</code>, but I came up with an alternative using <code class="highlighter-rouge">docker run</code>:</p>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash">$ docker run --rm &lt;IMAGE NAME&gt; \
+   tar -cf - &lt;SRC_PATH_1&gt; [&lt;SRC_PATH_2&gt; ...] | tar -xvC - &lt;DEST_PATH&gt;</code></pre>
+    </div>
+  </div>
+
+<blockquote>
+  <p>This obviously relies on the the container having <code class="highlighter-rouge">tar</code> installed.</p>
+</blockquote>
+
+<p>This alternative has a few advantages over <code class="highlighter-rouge">docker cp</code>:</p>
+          </article>
+        </li>
+        
+        <li class="medium-12">
+          <div class="post-list--meta">
+            <h2 class="post-list--title">
+              <a href="/2016/06/23/protip-warn-about-changes-before-rsync/">
+                Protip: warn about file changes, deletions & additions before rsync
+              </a>
+            </h2>
+            <time datetime="2016-06-23T00:00:00-07:00">23 Jun 2016</time>
+          </div>
+          <article class="excerpt">
+            <p>I wrote a shell script that wraps <code class="highlighter-rouge">rsync</code> with a user prompt in cases where files are going to be added, deleted, or changed, which is a scenario when some work might get lost:</p>
+
+<p><code class="highlighter-rouge">safe-rsync.sh</code>:</p>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash">#!/usr/bin/env bash
+
+args=$@
+
+diffs=&quot;$(rsync --dry-run --itemize-changes $args | grep '^[&gt;&lt;ch.][dfLDS]\|^\*deleting')&quot;
+
+if [ -z &quot;$diffs&quot; ]; then
+  echo &quot;Nothing to sync.&quot;
+  exit 0
+fi
+
+echo &quot;These are the differences detected during dry-run. You might lose work. Please review before proceeding:&quot;
+echo &quot;$diffs&quot;
+echo &quot;&quot;
+read -p &quot;Confirm? (y/N): &quot; choice
+
+case &quot;$choice&quot; in
+  y|Y ) rsync $args;;
+  * ) echo &quot;Cancelled.&quot;;;
+esac</code></pre>
+    </div>
+  </div>
+
+<h3 id="usage">Usage</h3>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash">&gt; ./safe-rsync.sh --exclude='node_modules/' --recursive --progress --verbose ubuntu@aws-server102:/var/www/html ./html</code></pre>
+    </div>
+  </div>
+
+<p>To skip the dry-run and just <code class="highlighter-rouge">rsync</code> regardless of any diffs:</p>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash">&gt; yes | ./safe-rsync.sh --exclude='node_modules/' --recursive --progress --verbose ubuntu@aws-server102:/var/www/html ./html</code></pre>
+    </div>
+  </div>
+          </article>
+        </li>
+        
+        <li class="medium-12">
+          <div class="post-list--meta">
+            <h2 class="post-list--title">
+              <a href="/2016/01/20/making-perfect-ramen-lua-os-x-automation-with-hammerspoon/">
+                Making perfect ramen with Lua: OS X automation with Hammerspoon
+              </a>
+            </h2>
+            <time datetime="2016-01-20T00:00:00-08:00">20 Jan 2016</time>
+          </div>
+          <article class="excerpt">
+            <p>Yesterday I discovered <strong><a href="http://www.hammerspoon.org">Hammerspoon</a></strong>, a project
+that touts itself as a <em>“tool for powerful automation of OS X”</em>. After giving
+it a try, not only did I find that statement to be true, but as someone who has 
+<strong>ZERO</strong> prior practical experience with Lua, I was surprised by how relatively easy it was to
+get on board. Now, I’m hooked.</p>
+
+<h2 id="lua-scripting"><strong>Lua scripting</strong></h2>
+
+<div class="row">
+    <div class="columns large-6">
+    <p>
+<em>Hammerspoon</em> exposes system level APIs into a Lua environment, and config files
+are written in Lua.
+    </p>
+    <p>
+    Syntactically, Lua reminds me a lot of Javascript and Ruby and, by extension, CoffeeScript. If you write in any of these three languages,
+    you already have a leg up on the rest.
+    </p>
+    <p>
+    I find Lua's simplicity refreshing. I found it easy to pick up the basics of <em>Lua</em> and start writing something in it, and was able to just learn more as I went. Functions are first-class citizens in Lua (can be passed around as arguments or as return values) so familiarity with functional programming paradigms goes a long way.
+    </p>
+    </div>
+    <div class="columns large-6">
+        <img src="/img/lua-preview.png" />
+        <div class="caption">From <a href="https://learnxinyminutes.com/docs/lua/" target="_blank">Learn Lua in Y Minutes</a></div>
+    </div>
+</div>
+<p><br /></p>
+
+<p>However, unlike Javascript and Ruby, Lua does not have a built-in
+functional library to do things like <code class="highlighter-rouge">map</code>, <code class="highlighter-rouge">filter</code>, <code class="highlighter-rouge">reduce</code>,
+<em>etc.</em>, but Hammerspoon comes with <a href="http://www.hammerspoon.org/docs/hs.fnutils.html"><code class="highlighter-rouge">hs.fnutils</code></a> which provides a bunch of
+functional utilities. Its not exhaustive, but its good enough for not-so-complex
+scripting which Hammerspoon falls into.</p>
+
+<h2 id="inside-my-hammerspooninitlua">Inside my <code class="highlighter-rouge">~/.hammerspoon/init.lua</code></h2>
+
+<blockquote>
+  <p>OS X already comes with <em>Automator</em>, which allows you to do automation on
+Macs. But there are things that you  can’t do with <em>Automator</em> alone.</p>
+</blockquote>
+
+<p><a href="#cycle-displays">1. Cycle through displays</a>
+<br />
+<a href="#webpage-on-wifi-connect">2. Open a web-page as soon as I connect to a particular WiFi network</a>
+<br />
+<a href="#perfect-ramen">3. Make perfect ramen every time</a></p>
+
+<h3 id="cycle-displays">1. Cycle through displays</h3>
+
+<p>I wanted to start small, so I picked a little annoyance I find myself battling with daily and aimed to solve it. One such annoyance pertains to switching focus between multiple displays:</p>
+
+<p>I have a dual-display setup at work and I have all my GUI applications running on the
+primary display, with the exception of a couple of full-screen terminal windows running <code class="highlighter-rouge">tmux</code>, <code class="highlighter-rouge">vim</code>, a <code class="highlighter-rouge">zsh</code> shell, monitoring tools, logs, <em>etc.</em> occupying the
+entirety of a secondary screen across multiple Spaces. I also have other full-screen applications
+living in their own Spaces on the primary display. My setup works really well for me most of the time, but
+there are certain combinations of circumstances on how applications are laid out across all
+Spaces and the order in which I have accessed them that results in a state where
+Command (⌘)-Tab or a three-finger swipe doesn’t bring me where I want to go. So my
+first challenge was to make something in Hammerspoon that would allow me to
+cycle through the displays with <strong><em>consistency</em></strong>.</p>
+
+<p>Here is my solution:</p>
+
+<div class="code-section">
+  <div class="filename">
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <pre><code class="language-lua">-- DISPLAY FOCUS SWITCHING --
+
+--One hotkey should just suffice for dual-display setups as it will naturally
+--cycle through both.
+--A second hotkey to reverse the direction of the focus-shift would be handy
+--for setups with 3 or more displays.
+
+--Bring focus to next display/screen
+hs.hotkey.bind({&quot;alt&quot;}, &quot;`&quot;, function ()
+  focusScreen(hs.window.focusedWindow():screen():next())
+end)
+
+--Bring focus to previous display/screen
+hs.hotkey.bind({&quot;alt&quot;, &quot;shift&quot;}, &quot;`&quot;, function() 
+  focusScreen(hs.window.focusedWindow():screen():previous())
+end)
+
+--Predicate that checks if a window belongs to a screen
+function isInScreen(screen, win)
+  return win:screen() == screen
+end
+
+-- Brings focus to the scren by setting focus on the front-most application in it.
+-- Also move the mouse cursor to the center of the screen. This is because
+-- Mission Control gestures &amp; keyboard shortcuts are anchored, oddly, on where the
+-- mouse is focused.
+function focusScreen(screen)
+  --Get windows within screen, ordered from front to back.
+  --If no windows exist, bring focus to desktop. Otherwise, set focus on
+  --front-most application window.
+  local windows = hs.fnutils.filter(
+      hs.window.orderedWindows(),
+      hs.fnutils.partial(isInScreen, screen))
+  local windowToFocus = #windows &gt; 0 and windows[1] or hs.window.desktop()
+  windowToFocus:focus()
+
+  -- Move mouse to center of screen
+  local pt = geometry.rectMidPoint(screen:fullFrame())
+  mouse.setAbsolutePosition(pt)
+end
+
+-- END DISPLAY FOCUS SWITCHING --</code></pre>
+    </div>
+  </div>
+</div>
+
+<p>With this in place, I can now confidently move across applications (and
+subsequently, across Spaces) with a few key-strokes. Thanks to Lua’s concise syntax and <a href="http://www.hammerspoon.org/docs/">Hammerspoon’s well-documented API</a>, this only took a few minutes to write. As you can see, binding hotkeys to custom actions are trivial with Hammerspoon.</p>
+
+<h3 id="webpage-on-wifi-connect">2. Open a web-page as soon as I connect to a particular WiFi network</h3>
+
+<p>I admit I am a forgetful person, especially when it comes to relatively small routine stuff.
+At work we use Zenefits to keep track of our working hours, clocking in and
+clocking out from within their web portal. I don’t feel confident that I will
+always remember to clock first thing in the morning, so I naturally started
+looking for applications that I could configure to somehow remind me to clock in whenever I connect to our office’s network. I initially used <a href="http://www.controlplaneapp.com/">ControlPlane</a> for this and it worked well. But why not do it in Hammerspoon now that I got my feet wet?</p>
+
+<div class="code-section">
+  <div class="filename">
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <pre><code class="language-lua">-- WORK-RELATED AUTOMATION --
+
+-- Open Zenefits Dashboard once connected to WiFi network at work.
+local workWifi = &quot;ActiveLAMP Airport&quot;
+local employeeDashboardUrl = &quot;https://secure.zenefits.com/dashboard/#/&quot;
+local defaultBrowser = &quot;Google Chrome&quot;
+
+hs.wifi.watcher.new(function ()
+  local currentWifi = wifi.currentNetwork()
+  -- short-circuit if disconnecting
+  if not currentWifi then return end
+
+  local note = hs.notify.new({
+    title=&quot;Connected to WiFi&quot;, 
+    informativeText=&quot;Now connected to &quot; .. currentWifi
+  }):send()
+
+  --Dismiss notification in 3 seconds
+  --Notification does not auto-withdraw if Hammerspoon is set to use &quot;Alerts&quot;
+  --in System Preferences &gt; Notifications
+  hs.timer.doAfter(3, function ()
+    note:withdraw()
+    note = nil
+  end)
+
+  if currentWifi == workWifi then
+    -- Allowance for internet connectivity delays.
+    hs.timer.doAfter(3, function ()
+      -- @todo: Explore possibilities of using `hs.webview`
+      hs.execute(&quot;open &quot; .. employeeDashboardUrl)
+
+      --Make notification clickable. Browser window will be focused on click:
+      hs.notify.new(function () 
+        hs.application.launchOrFocus(defaultBrowser)
+      end, {title=&quot;Make sure you clock in!&quot;}):send()
+    end)
+  end
+end):start()
+
+-- END WORK-RELATED AUTOMATION --</code></pre>
+    </div>
+  </div>
+</div>
+
+<p>Next thing to automate is opening <em>Tempo Timesheets</em> in Jira every 2 hours as
+long as I’m in our ofice network to remind me to put in worklogs.</p>
+
+<h3 id="perfect-ramen">3. Make perfect ramen every time</h3>
+
+<p>A hot, 3-minute ramen is good. Sometimes its better <em>al-dente</em>. But warm, soggy, 10-minute ramen? Not cool.</p>
+
+<p>For better ramen:</p>
+
+<div class="code-section">
+  <div class="filename">
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <pre><code class="language-lua">-- RAMEN TIMER --
+
+--Schedule a notification in 3 minutes.
+function startRamenTimer()
+  hs.timer.doAfter(3 * 60, function ()
+    hs.notify.new({
+        title=&quot;Ramen time!&quot;,
+        informativeText=&quot;Your ramen is ready!&quot;
+    }):send()
+  end)
+  hs.alert(&quot; Ramen timer started! &quot;)
+end
+
+--Bind timer to `hammerspoon://ramentime`:
+hs.urlevent.bind(&quot;ramentime&quot;, startRamenTimer)
+
+-- END RAMEN TIMER --</code></pre>
+    </div>
+  </div>
+</div>
+
+<p>Hammerspoon’s <code class="highlighter-rouge">hs.urlevent</code> is a beautiful thing: it allows you to bind some
+action to a URL with a <code class="highlighter-rouge">hammerspoon://</code> scheme. This makes Hammerspoon actions
+almost universally accessible! In this case, opening <code class="highlighter-rouge">hammerspoon://ramentime</code> will start the timer. Now, we can if we want create a bookmarklet on the browser’s
+toolbar pointing to it that when clicked will activate the timer.</p>
+
+<p>Because of the portability of URL schemes, I was able to create a very basic <em>Alfred Workflow</em> that triggers the timer. have to do is type <code class="highlighter-rouge">ramen</code> into <a href="https://www.alfredapp.com/"><strong>Alfred</strong></a> to ensure prime ramen all the time:</p>
+
+<div class="text-center">
+<p>
+<blockquote class="imgur-embed-pub" lang="en" data-id="cpZ73Xs"><a href="//imgur.com/cpZ73Xs">View post on imgur.com</a></blockquote><script async="" src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
+</p>
+    <p>
+        <em>...and three minutes minutes later...</em>
+    </p>
+    <p>
+    <img src="/img/ramen-notification.png" alt="" />
+    </p>
+</div>
+
+<h3 id="hey-jarvis">“Hey, Jarvis…”</h3>
+<div class="row">
+<div class="columns large-6">
+<p>Another nifty thing you can do is create a dictation command to trigger the timer.
+Enable <em>Dictation</em> on your Mac, go to <em>System Preferences &gt; Accessibility
+Dictation...</em>, click the <em>Dictation Commands...</em> button, and turn on <em>Enable advanced
+commands</em>.
+From here you can add a new voice command in the list and configure it to open the
+time via URL. Have fun!</p>
+</div>
+<div class="columns large-6">
+<img src="/img/ramen-dictation.png" />
+</div>
+</div>
+
+<hr />
+
+<p>If you are into automating things on your Mac, give <em>Hammerspoon</em> a spin. You
+might like it, too.</p>
+          </article>
+        </li>
+        
+        <li class="medium-12">
+          <div class="post-list--meta">
+            <h2 class="post-list--title">
+              <a href="/2016/01/17/breeze-through-osx-notifications-with-effiency-through-keyboard-shortcuts/">
+                Breeze through OS X alert notifications with swift efficiency through keyboard shortcuts
+              </a>
+            </h2>
+            <time datetime="2016-01-17T00:00:00-08:00">17 Jan 2016</time>
+          </div>
+          <article class="excerpt">
+            <p>I think one glaring omission from OS X’s huge set of handy keyboard shortcuts for 
+common functionality is the ability to dismiss all alert notifications using a global hotkey. Right now,
+the only way to clear out a backlog is to click on the <em>“Close”</em> button on each and every single notification item.
+Going through a backlog of alert notifications is a constant dilemma I face on a normal work day,
+and I was suprised when I learned there is no other way of dimissing alert notifications that is more efficient.</p>
+
+<p>I actually <a href="http://apple.stackexchange.com/a/155736A">found a solution</a> by <strong><em>markhunte</em></strong> from <em>Ask Different</em> which worked
+quite well in the beginning. The solution in a nutshell is creating a custom service using <em>Automator</em>
+which executes a workflow that runs an <em>AppleScript</em> snippet that automates the
+dismissal of notifications, and assigning a global hotkey to execute it.</p>
+
+<p>The solution works well but only when OS X cooperates – running the
+workflow within <em>Automator</em> cause zero problems, but making it work through
+a keyboard shortcut is hit-and-miss. I found myself mucking around with accessibility settings in <em>System
+Preferences &gt; Security &amp; Privacy &gt; Privacy</em> a lot, adding system applications
+tucked away in <code class="highlighter-rouge">/Library/CoreServices/</code> to the <em>Accessibility</em> list before getting it to work for
+the first time, until I discovered that the service simply fails with no
+explanation when invoked while I have certain applications in focus.</p>
+
+<p>Eventually I figured out a more reliable way to accomplish this using a third-party application called <a href="http://www.boastr.net"><strong>BetterTouchTool</strong></a>.</p>
+
+<div class="row">
+    <div class="columns large-7 text-justify">
+    <p>
+        I'll also share additional workflows I wrote that allows you to perform more fine-grained actions like acting on one
+        notification item at a time, i.e. dismissing it, clicking it, or clicking on
+        the secondary action if available. This is great for those alert notifications
+        that supports quick reply:
+    </p>
+    </div>
+    <div class="columns large-5">
+        <img src="/img/slackbot-quick-reply.png" />
+    </div>
+</div>
+
+<h2 id="step-1-create-workflows-in-automator">Step 1: Create workflows in <em>Automator</em></h2>
+
+<p>You will need to create a workflow in <strong><em>Automator</em></strong> for each of the
+AppleScript programs listed below.</p>
+
+<p>On each workflow, select <strong><em>“Run AppleScript”</em></strong> from the <em>Actions</em> menu, put
+in the corresponding AppleScript code in the text box that appears on the right-side, and
+save the workflow somewhere you can find it later on.</p>
+
+<div class="row">
+    <div class="columns large-6">
+        <img src="/img/automator-create-workflow.png" />
+    </div>
+    <div class="columns large-6">
+        <img src="/img/automator-workflow.png" />
+    </div>
+</div>
+
+<h4 id="dismiss-all-notificationsworkflow">1.1 Dismiss All Notifications.workflow</h4>
+
+<p><em>Actions &gt; Run AppleScript…</em></p>
+<div class="code-section">
+  <div class="filename">
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <pre><code class="language-applescript">on run {input, parameters}
+    tell application &quot;System Events&quot; to tell process &quot;Notification Center&quot;
+        click button 1 in every window
+    end tell
+    return input
+end run</code></pre>
+    </div>
+  </div>
+</div>
+
+<blockquote>
+  <p>I must give credit to <strong><em>markhunte</em></strong> from the <em>Ask Different</em> as this accomplish almost exactly what his script does, albeit rewritten more
+concisely.</p>
+</blockquote>
+
+<h4 id="dismiss-top-most-notificationworkflow">1.2 Dismiss Top-most Notification.workflow</h4>
+
+<p><em>Actions &gt; Run AppleScript…</em></p>
+<div class="code-section">
+  <div class="filename">
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <pre><code class="language-applescript">on run {input, parameters}
+    tell application &quot;System Events&quot; to tell process &quot;Notification Center&quot;
+        try
+            click button 1 of last item of windows
+        end try
+    end tell
+    return input
+end run</code></pre>
+    </div>
+  </div>
+</div>
+
+<h4 id="click-top-most-notificationworkflow">1.3 Click Top-most Notification.workflow</h4>
+
+<p><em>Actions &gt; Run AppleScript…</em></p>
+<div class="code-section">
+  <div class="filename">
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <pre><code class="language-applescript">on run {input, parameters}
+    tell application &quot;System Events&quot; to tell process &quot;Notification Center&quot;
+        try
+            click last item of windows
+        end try
+    end tell
+    return input
+end run</code></pre>
+    </div>
+  </div>
+</div>
+
+<h4 id="click-secondary-action-on-top-most-notificationworkflow">1.4 Click Secondary Action on Top-most Notification.workflow</h4>
+
+<p><em>Actions &gt; Run AppleScript…</em></p>
+<div class="code-section">
+  <div class="filename">
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <pre><code class="language-applescript">on run {input, parameters}
+    tell application &quot;System Events&quot; to tell process &quot;Notification Center&quot;
+        try
+            click button 2 of last item of windows
+        end try
+    end tell
+    return input
+end run</code></pre>
+    </div>
+  </div>
+</div>
+
+<blockquote>
+  <p>Teaching AppleScript is obviously beyond the scope of this post. If you are
+not familiar with it, there are tons of articles online that can get you started, like <a href="http://computers.tutsplus.com/tutorials/the-ultimate-beginners-guide-to-applescript--mac-3436">this one</a>.</p>
+</blockquote>
+
+<p><strong>Important</strong>: Do not save these in iCloud as you will need another non-MAS application to
+access them on a later step.</p>
+
+<!--## Step 2: Grant assistive services to the AppleScript applications-->
+
+<!--Go to ___System Preferences > Security & Privacy > Privacy___, and add the-->
+<!--applications you just created (_not the AppleScript source files_) to the list.-->
+
+<!--<img src="/img/security-and-privacy.png" />-->
+
+<h2 id="step-2-assign-global-hotkeys-to-the-automator-workflows">Step 2: Assign global hotkeys to the Automator workflows</h2>
+
+<p>There is a number of productivity applications out there that allows you to invoke an Automator workflow
+through a global hot-key, like <a href="https://www.alfredapp.com/"><strong>Alfred</strong></a> and <a href="https://www.keyboardmaestro.com/main/"><strong>Keyboard Maestro</strong></a>.</p>
+
+<p>However, I personally use <strong><a href="http://www.boastr.net/">BetterTouchTool</a></strong> as I already have
+it installed to accomplish similar tasks.</p>
+
+<p><img src="/img/bettertouchtool.png" /></p>
+
+<p>My mapping is as follows:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">⇧ ⌥ ⌘ ]</code> - Dismiss all notifications</li>
+  <li><code class="highlighter-rouge">⌥ ⌘ ]</code> - Dismiss top-most notification</li>
+  <li><code class="highlighter-rouge">⌥ ⌘ [</code> - Click top-most notification</li>
+  <li><code class="highlighter-rouge">⌥ ⌘ '</code> - Click secondary action on top-most notification</li>
+</ul>
+
+<div class="row">
+    <div class="columns large-6">
+        <p>
+            <em>BetterTouchTool</em> is a really handy application all in all that will allow you to map an unthinkable amount of things to keyboard
+            shortcuts, mouse &amp; trackpad gestures, and a bunch of other peripherals.
+            It has been a free application for a very long time, but
+            it won't be long until the <em>"pay as much as you want"</em> licensing model will take into
+            effect. But I highly recommend it.
+        </p>
+        <p>
+            <strong>Important</strong>: If you just installed <em>BetterTouchTool</em>, you will have to grant it access to accessibility services on your system. Go to <em>System Preferences &gt; Security &amp; Privacy &gt; Privacy</em>, and add <em>BetterTouchTool</em> to the list under <em>Accessibility</em>.
+        </p>
+    </div>
+    <div class="columns large-6">
+        <img src="/img/accessibility.png" />
+    </div>
+</div>
+
+<h2 id="step-3">Step 3</h2>
+
+<p>Try it out! Go ahead and prune thorugh your alert notifications with more effiency. Or, actually learn to turn on <em>“Do Not Disturb”</em> once in a while (no judgement here – I am also guilty of this.)</p>
+
+<blockquote>
+  <p><strong>Extra keyboard-fu protip:</strong> You can quickly toggle <em>“Do Not Disturb”</em> by Option-clicking
+on the <em>Notification Center</em> icon on the menu bar, or you can actually assign
+a global hotkey to toggle it in <em>System Preferences &gt; Keyboard &gt; Shortcuts
+Mission Control &gt; Turn Do Not Disturb On/Off</em>
+(It’s so simple I don’t even know why I don’t bother to do this.)</p>
+</blockquote>
+          </article>
+        </li>
+        
+        <li class="medium-12">
+          <div class="post-list--meta">
+            <h2 class="post-list--title">
+              <a href="/2015/10/17/simple-solution-for-tmux-causing-system-freezes-on-mac-os-x/">
+                Simple solution for tmux causing system freezes on Mac OS X
+              </a>
+            </h2>
+            <time datetime="2015-10-17T00:00:00-07:00">17 Oct 2015</time>
+          </div>
+          <article class="excerpt">
+            <blockquote>
+  <p><strong>2015-10-21 Update:</strong> Version 2.1 of <code class="highlighter-rouge">tmux</code> has just been release a couple
+of days ago and from what I can tell it has addressed this fatal issue! So the
+simpler solution would be doing <code class="highlighter-rouge">brew upgrade tmux</code> to get the recent release.
+If you are stuck using 2.0 however, I hope this post is helpful.</p>
+</blockquote>
+
+<p>What fixed it for me was adding a single line to my <code class="highlighter-rouge">~/.zshrc</code> and a single line to my <code class="highlighter-rouge">~/.tmux.conf</code> file:</p>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash"># ~/.zshrc
+tmux start-server</code></pre>
+    </div>
+  </div>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash"># ~/.tmux.conf
+new-session</code></pre>
+    </div>
+  </div>
+
+<p>It turns out, after trial and error, that the OS freezes (or in worst cases, kernel panics on older OS X versions) usually happen
+when you close the very last of all <code class="highlighter-rouge">tmux</code> pane of the very last <code class="highlighter-rouge">tmux</code> session.</p>
+
+<p>With these additions to my config files, a <code class="highlighter-rouge">tmux</code> server is started with an empty <code class="highlighter-rouge">tmux</code> session whenever I fire up a terminal
+window for the first time. This means that I always have an empty <code class="highlighter-rouge">tmux</code> session – still active although never used – even after
+I exit out all the sessions I create on a daily basis.</p>
+
+<p>I never had my MacBook Pro grind to a stop as soon as I close out all <code class="highlighter-rouge">tmux</code>
+sessions and having to forcibly turn it off.</p>
+
+<p>This does not fix <code class="highlighter-rouge">tmux</code>, but is a simple work-around for a problem that has
+a potential to incur data loss in the future.</p>
+          </article>
+        </li>
+        
+        <li class="medium-12">
+          <div class="post-list--meta">
+            <h2 class="post-list--title">
+              <a href="/2015/10/16/fix-errors-when-building-php-5.6.14-with-phpbrew-on-mac-os-x/">
+                Fix errors when building PHP 5.6.14 with phpbrew on Mac OS X
+              </a>
+            </h2>
+            <time datetime="2015-10-16T00:00:00-07:00">16 Oct 2015</time>
+          </div>
+          <article class="excerpt">
+            <p>Last night I decided to make the switch from using purely Homebrew to
+manage my local machine’s PHP version to using
+<a href="https://github.com/phpbrew/phpbrew"><strong>phpbrew</strong></a>. However the switch was
+without any issues.</p>
+
+<p>I needed to install PHP version 5.6.14 with <code class="highlighter-rouge">mcrypt</code>:</p>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash">&gt; phpbrew install 5.6.14 +default+mcrypt</code></pre>
+    </div>
+  </div>
+
+<p>However the build process keeps failing. Inspecting the build log gives me the following errors
+at different stages of troubleshooting:</p>
+
+<pre class="highlight language-text"><code class="language-text">configure: error: Cannot find OpenSSL's &lt;evp.h&gt;</code></pre>
+
+<pre class="highlight language-text"><code class="language-text">configure: error: Please reinstall the BZip2 distribution</code></pre>
+
+<pre class="highlight language-text"><code class="language-text">ld: symbol(s) not found for architecture x86_64 clang: error: linker command failed with exit code 1 (use -v to see invocation) make: *** [sapi/cli/php] Error 1</code></pre>
+
+<h2 id="solution">Solution</h2>
+
+<p>What I ended up having to do was re-install XCode Command-Line Tools and install
+a few libraries via Homebrew (because apparently, OS X does not ship them, or
+ship older versions):</p>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash">&gt; xcode-select --install
+&gt; brew install openssl libxml2 mcrypt
+&gt; brew link openssl libxml2 --force</code></pre>
+    </div>
+  </div>
+
+<p>And that’s it! The build completed, and now I have PHP 5.6.14 available
+whenever I want it.</p>
+
+<p>If you are encountering these errors, I hope this helps you. Or if you haven’t attempted it yet but are planning to build PHP with
+<code class="highlighter-rouge">phpbrew</code>, I hope this will save you the trouble.</p>
+
+<p><em>Happy coding!</em></p>
+          </article>
+        </li>
+        
+        <li class="medium-12">
+          <div class="post-list--meta">
+            <h2 class="post-list--title">
+              <a href="/2015/10/02/vim-shell-indicator-in-powerline-theme/">
+                Vim indicator in Powerline theme
+              </a>
+            </h2>
+            <time datetime="2015-10-02T00:00:00-07:00">02 Oct 2015</time>
+          </div>
+          <article class="excerpt">
+            <p><img src="/img/vim-indicator.png" /></p>
+
+<p>I find it hard to remember if I stepped in to the shell from <code class="highlighter-rouge">vim</code> or not. I find myself attempting to open a file only to be told by <code class="highlighter-rouge">vim</code> that I already have the file open – indeed, I already was editing the file. I just forgot that I stepped into shell via <code class="highlighter-rouge">:sh</code> a few minutes before. Worst yet are the times when I typed <code class="highlighter-rouge">exit</code> on my shell thinking that I was coming <code class="highlighter-rouge">vim</code>, only to find I was wrong because terminal window closes.</p>
+
+<p>I can’t be the only one.</p>
+          </article>
+        </li>
+        
+        <li class="medium-12">
+          <div class="post-list--meta">
+            <h2 class="post-list--title">
+              <a href="/2015/05/16/fun-with-javascript-functions/">
+                Fun with functions in Javascript: high-order functions
+              </a>
+            </h2>
+            <time datetime="2015-05-16T00:00:00-07:00">16 May 2015</time>
+          </div>
+          <article class="excerpt">
+            <p><a href="http://en.wikipedia.org/wiki/Functional_programming">Functional programming</a> has been gaining popularity lately. It’s an interesting paradigm for solving problems and departs quite a bit from familiar concepts programmers like me who use object-oriented languages are used to.
+Just like object-oriented programming, it has its own sets of design principles and philosophies. I don’t pretend to know a lot of them – in fact I only have barely scratched the surface, but two concepts has stood
+out to me so far – its the concept of <em>high-order functions</em> and the slew of interesting things you can do with them.</p>
+
+<h2 id="high-order-functions">High-order functions</h2>
+
+<p><strong>high-order functions</strong> are simply functions that operate on <em>other</em> functions, by taking them as arguments are having functions as a return value (so meta). This is one of things you find in a languages like Haskell and Erlang (so I’ve heard) or even Javascript barring some short-comings where functions are first-class citizens, which is a cool way of saying that they can be treated like any other value i.e., you can assign them to a variable, append them to an array, pass them around as function arguments or return them as return values, etc. i.e. In Javascript, <code class="highlighter-rouge">function foo () {}</code> is equivalent to <code class="highlighter-rouge">var foo = function() {}</code>.</p>
+          </article>
+        </li>
+        
+        <li class="medium-12">
+          <div class="post-list--meta">
+            <h2 class="post-list--title">
+              <a href="/2015/03/17/couchdb-function-tostring-usage-in-coffeescript/">
+                A practical usage of JavaScript's Function.toString method: CouchDB maps & reduces
+              </a>
+            </h2>
+            <time datetime="2015-03-17T00:00:00-07:00">17 Mar 2015</time>
+          </div>
+          <article class="excerpt">
+            <p>After reading a brief on <a href="http://couchdb.apache.org/">CouchDB</a>, I decided to use it instead of MongoDB for a pet project and
+began diving right in. <a href="https://github.com/flatiron/cradle">Cradle</a>, a CouchDB client for Node.js, was one <code class="highlighter-rouge">npm install</code> away. Installing CouchDB and creating the database was a breeze. I was able to quickly store data
+and refined the structure when needed. Gotta love NoSQL!</p>
+
+<p>Querying data is where it got a bit more interesting: fetching data requires the creation
+of <em>views</em>. This is unlike other popular data stores that has their own query DSLs (domain-specific language), like
+SQL for SQL-flavored RDBMS, JSON-based query DSLs for MongoDB and other NoSQL stores.</p>
+
+<p>CouchDB views are simply applications of the <a href="http://en.wikipedia.org/wiki/MapReduce">MapReduce</a> paradigm. In a nutshell, you provide
+map functions and/or reduce functions which will be used to narrow down the data-set and/or to reduce
+a data-set into a single aggregate value. Sounds easy. So I went ahead and pecked these on my keyboard:
+          </article>
+        </li>
+        
+        <li class="medium-12">
+          <div class="post-list--meta">
+            <h2 class="post-list--title">
+              <a href="/2015/02/12/keep-calm-and-say-pls/">
+                Keep calm and say `pls`
+              </a>
+            </h2>
+            <time datetime="2015-02-12T00:00:00-08:00">12 Feb 2015</time>
+          </div>
+          <article class="excerpt">
+            <p>Months ago I found <a href="https://twitter.com/liamosaur/status/506975850596536320">this hilarious and useful bash alias on Twitter</a> which is a real gem. Typing the F word when I
+realize I forget to start with <code class="highlighter-rouge">sudo</code> when I should have is somehow satisfying.</p>
+
+<p>Lately I expanded it a bit more, while also replacing the profanity with a little bit of courtesy. In <code class="highlighter-rouge">.bashrc</code>:</p>
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash">pls() {
+
+   echo ''
+   echo 'No problem!'
+   echo ''
+
+   if [ $# -eq 0 ]
+   then
+        sudo $(history -p !!)
+   else
+        sudo $@
+   fi
+}</code></pre>
+    </div>
+  </div>
+          </article>
+        </li>
+        
+        <li class="medium-12">
+          <div class="post-list--meta">
+            <h2 class="post-list--title">
+              <a href="/2015/01/28/server-side-assets-non-package-dependencies-with-composer/">
+                Download server-side assets and other non-package dependencies with Composer
+              </a>
+            </h2>
+            <time datetime="2015-01-28T00:00:00-08:00">28 Jan 2015</time>
+          </div>
+          <article class="excerpt">
+            <p>Sometimes your project has some server-side dependencies that aren’t PHP libraries but which your PHP application can’t run without. Or they could be assets that you don’t want in your code repository, like huge database fixtures that you only need during dev and integration testing. Instead of adding them to your Git repository or any VCS of choice, why not use Composer to resolve them?</p>
+
+<p>If you are not aware what <strong>Composer</strong> is, then I think you are missing out. Essentially it is a dependency manager for PHP. It’s kinda like PEAR, but its so much better. It allows you to define your external library dependencies in a <code class="highlighter-rouge">composer.json</code> file, typically on your project root, and have it resolve and download them for you, including your dependencies’ own dependencies. Its an awesome, widely-adopted tool which greatly improves the PHP developers’ quality-of-life. I urge you to <a href="https://getcomposer.org/doc/" target="_blank">read the docs</a> and start using it.</p>
+          </article>
+        </li>
+        
+        <li class="medium-12">
+          <div class="post-list--meta">
+            <h2 class="post-list--title">
+              <a href="/2014/08/19/handling-parameters-for-heroku-deploy-in-symfony2/">
+                Handling parameters for Heroku deploy in Symfony2
+              </a>
+            </h2>
+            <time datetime="2014-08-19T00:00:00-07:00">19 Aug 2014</time>
+          </div>
+          <article class="excerpt">
+            <p>Configuring environment-specific parameters in Symfony2 has been made easy thanks to <code class="highlighter-rouge">Incenteev\ParameterHandler\ScriptHandler::buildParameters</code>. Attaching itself
+to the Composer workflow, it provides a very intuitive interface for defining required parameters defined in <code class="highlighter-rouge">app/config/parameters.yml.dist</code>.</p>
+
+<p>In case you don’t know, this mechanism also gives you the ability to specify required parameters specific to your app which developers/deployers need to fill out:</p>
+
+<div class="code-section">
+  <div class="filename">
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <pre><code class="language-yaml"># app/config/parameters.yml.dist
+parameters:
+    database_driver:   pdo_mysql
+    database_host:     127.0.0.1
+    ...
+
+    # Project-specific parameters not part of the standard distribution:
+    elasticsearch_hosts: [ http://localhost:9200 ]
+    elasticsearch_index: main</code></pre>
+    </div>
+  </div>
+</div>
+          </article>
+        </li>
+        
+        <li class="medium-12">
+          <div class="post-list--meta">
+            <h2 class="post-list--title">
+              <a href="/2014/08/11/nelmio-api-doc-bundle-documenting-polymorphic-collections/">
+                Documenting polymorphic collections in RESTful API endpoints with NelmioApiDocBundle
+              </a>
+            </h2>
+            <time datetime="2014-08-11T00:00:00-07:00">11 Aug 2014</time>
+          </div>
+          <article class="excerpt">
+            <p>Lately I’ve been using <a href="https://github.com/nelmio/NelmioApiDocBundle">NelmioApiDocBundle</a> to document REST APIs I implement in Symfony. This bundle generates
+a beautiful documentation for your API endpoints, and it base them on the forms you use to gather input and also integrates with <a href="https://github.com/schmittjoh/JmsSerializerBundle">JmsSerializerBundle</a>
+and document the output of the endpoints based on how you configure your entities to be serialized.</p>
+
+<p>Usually <code class="highlighter-rouge">NelmioApiDocBundle</code> would just work out-of-the-box provided you added the right annotations properly on your controllers. However I discovered that documenting
+polymorphic collections is a little tricky and requires some extra work.</p>
+
+<p>To illustrate the use-case:</p>
+
+<p>I have an <code class="highlighter-rouge">/activities/recent.json</code> endpoint that returns a list of recent activities which could be of different types:</p>
+          </article>
+        </li>
+        
+        <li class="medium-12">
+          <div class="post-list--meta">
+            <h2 class="post-list--title">
+              <a href="/2014/07/27/composing-services-with-pluggable-components-via-service-tags/">
+                Consolidating alike services via service tags and the Composite design pattern: "Reading bundle resources..." part 3
+              </a>
+            </h2>
+            <time datetime="2014-07-27T00:00:00-07:00">27 Jul 2014</time>
+          </div>
+          <article class="excerpt">
+            <p>This post dives into the concept of <strong>tagged services</strong> and how it can be utilized to compose services with pluggable components to
+add extra behavior to a service without modifying its underlying code, as stipulated by the <a href="http://en.wikipedia.org/wiki/SOLID_(object-oriented_design)">SOLID</a>
+ principles.</p>
+
+<p>This is a continuation of a series of blog posts
+I wrote about reading resource bundles &amp; caching in the context of a fictional <code class="highlighter-rouge">TheHunt\SitemapBundle</code> bundle.
+Here are <a href="/2014/07/21/config-cache-reading-bundle-resources-and-caching-for-performance/">part 1</a>
+ &amp; <a href="/2014/07/22/reading-annotations-reading-bundle-resources-continued/">part 2</a> if you haven’t read them yet.</p>
+
+<hr />
+
+<p>In the previous post, we added a new service named <code class="highlighter-rouge">thehunt_sitemap.annotation_link_collector</code>, which gathers metadata from annotations on
+controllers. This is somewhat similar to <code class="highlighter-rouge">thehunt_sitemap.link_collector</code>, although this one reads YAML files instead of annotations, and has a
+thin caching layer. However both of them have similarities, which is being able to produce a list of links. Afterall, this is their ultimate responsibility; from
+where they gather links from are just implementation details.</p>
+          </article>
+        </li>
+        
+        <li class="medium-12">
+          <div class="post-list--meta">
+            <h2 class="post-list--title">
+              <a href="/2014/07/26/unit-testing-symfony-forms-observing-DRY-by-asserting-within-data-providers/">
+                Unit-testing Symfony forms: observing DRY by asserting within data providers 
+              </a>
+            </h2>
+            <time datetime="2014-07-26T00:00:00-07:00">26 Jul 2014</time>
+          </div>
+          <article class="excerpt">
+            <p>I’ve been using a lot of the <a href="http://symfony.com/doc/current/book/forms.html">Symfony Form</a> component lately to handle
+input in REST endpoints.
+Instead of handling the parameters myself within controllers, I use forms to do it for me for various reasons:</p>
+
+<ul>
+  <li>It keeps the <a href="http://www.slideshare.net/damiansromek/thin-controllers-fat-models-proper-code-structure-for-mvc">controllers thin</a>.</li>
+  <li>It makes the definition of the parameters explicit. The form itself serves as the documentation of what the REST endpoint will
+accept as valid input.</li>
+  <li>It makes validation a breeze thanks to how the Form component integates with <a href="http://symfony.com/doc/current/book/validation.html">Symfony Validation.</a></li>
+  <li>It makes our Swagger API documentation up-to-date with our code at all times,
+thanks to <a href="https://github.com/nelmio/NelmioApiDocBundle">NelmioApiDocBundle</a></li>
+  <li>It helps making changes to the endpoint’s interface a lot easier.</li>
+  <li>…and quite importantly, <strong>it makes the parameter handling and validation testable</strong>.</li>
+</ul>
+          </article>
+        </li>
+        
+        <li class="medium-12">
+          <div class="post-list--meta">
+            <h2 class="post-list--title">
+              <a href="/2014/07/22/reading-annotations-reading-bundle-resources-continued/">
+                Reading Annotations: "Reading bundle resources..." continued
+              </a>
+            </h2>
+            <time datetime="2014-07-22T00:00:00-07:00">22 Jul 2014</time>
+          </div>
+          <article class="excerpt">
+            <p>There seems to be quite a sizable portion of the PHP community that think that PHP annotations are a <a href="http://www.marclewis.com/2013/10/25/php_annotations_are_a_bad_idea/">bad idea</a>.
+However, there is also a sizable portion that think that PHP annotations is not evil, and maybe actually a godsend, if the wide-spread usage is of any indication.</p>
+
+<p>Personally I acknowledge that using them can be pain to deal with in when used in the wrong places, but I also think that it has a place in a limited set of areas.
+It provides a lot of convenience with almost to zero drawbacks if used within the bounds of the domain exclusive to your app, but it can cause a lot of coupling when used to define metadata on
+third-party libraries/bundles that you hope to plug into your app, making it brittle. I think this is rooted in the fact that there is currently no easy way to override configuration specified via annotations,
+or actually to support such mechanism.</p>
+
+<p>There is also the problem that the configuration will reside where the subjected class is on. This poses a huge problem when you
+try to add configuration on a third-party class. Going in and modifying a class shipped by a third-party library is obviously a very
+horrible idea. I was faced with this problem when trying to document a REST API I was writing using <a href="https://github.com/zircote/swagger-php">Swagger-PHP</a>: since I was using
+<a href="https://github.com/FriendsOfSymfony/FOSUserBundle">FOSUserBundle</a> and extending its <code class="highlighter-rouge">User</code> class for use in my app, I was faced with two
+possible approaches:</p>
+          </article>
+        </li>
+        
+        <li class="medium-12">
+          <div class="post-list--meta">
+            <h2 class="post-list--title">
+              <a href="/2014/07/21/config-cache-reading-bundle-resources-and-caching-for-performance/">
+                ConfigCache: Reading bundle resources and caching for performance
+              </a>
+            </h2>
+            <time datetime="2014-07-21T00:00:00-07:00">21 Jul 2014</time>
+          </div>
+          <article class="excerpt">
+            <p><strong>Some back-story:</strong> In the course of contributing some <a href="https://helloreverb.com/developers/swagger">Swagger</a>-specific features
+to the awesome <a href="https://github.com/nelmio/NelmioApiDocBundle">NelmioApiDocBundle</a>,
+ the <code class="highlighter-rouge">Symfony\Component\Config\ConfigCache</code> class was brought to my attention. To give you an idea how this fits in, you
+ should know that the bundle generates an HTML page
+ documenting your REST API. It gets the needed information from metadata declared as <code class="highlighter-rouge">@ApiDoc</code> annotations in controllers
+ in the Symfony app. On top of that, the bundle also processes metadata from different libraries:
+ integration with <a href="https://github.com/schmittjoh/JMSSerializerBundle">JmsSerializerBundle</a>,
+ Symfony’s <a href="http://symfony.com/doc/current/book/validation.html">Validator</a>
+ and <a href="http://symfony.com/doc/current/book/routing.html">Routing</a> component,
+ <a href="https://github.com/FriendsOfSymfony/FOSRestBundle">FOSRestBundle</a> is built-in.</p>
+
+<p>All these libraries does a good amount of caching on their end. However, <code class="highlighter-rouge">NelmioApiDocBundle</code> does not.
+ This means, every time the documentation page is being viewed, all documentation metadata is being re-built.
+ Although it did not present any significant performance issues in the beginning, it is apparent that things can speed up a bit if we could skip
+ all these steps if none of the configuration regarding routes, serialization, or validation hasn’t changed at all.
+ I mean, how often do they change in production, anyway?</p>
+          </article>
+        </li>
+        
+        <li class="medium-12">
+          <div class="post-list--meta">
+            <h2 class="post-list--title">
+              <a href="/2014/07/17/zend-framework-2-cookbook-review/">
+                Zend Framework 2 Cookbook - A Review
+              </a>
+            </h2>
+            <time datetime="2014-07-17T06:22:58-07:00">17 Jul 2014</time>
+          </div>
+          <article class="excerpt">
+            <p>If there is one adjective to describe this book, it would be that it is <em>very informative</em>. This is a perfect companion for when you are a ZF2 developer that is starting to develop your first app. I wish this was available to me when I just started on mine. This would save
+you a lot of time trying to figure out how things work and how to implement solutions to common problems (routing, navigation, authentication, etc) and let you focus on
+business requirements that are specific to your project.</p>
+
+<p>This book covers a lot of ground, which is what you could hope for from a cookbook. The ZF2 team and contributors has done
+a great job with the official documentation, and this book is a great supplement to it. What makes this a good addition to the official docs
+is the fact that each recipe uses more than one Zend components to build out a solution. The official docs helped me see how each component can be used by themselves,
+but this cookbook gives concrete examples on how they can be used in conjunction with others as a part of a bigger picture. This cookbook reveals one of ZF2’s biggest strength which
+is its modularity and shows you ways how to wield it.</p>
+
+<p><a href="http://bit.ly/1a5zoUf"><img src="http://www.packtpub.com/sites/default/files/4841OS_Cov.jpg" /></a>
+          </article>
+        </li>
+        
+        <li class="medium-12">
+          <div class="post-list--meta">
+            <h2 class="post-list--title">
+              <a href="/2014/07/15/locating-bundle-resources/">
+                Locating bundle resources
+              </a>
+            </h2>
+            <time datetime="2014-07-15T00:00:00-07:00">15 Jul 2014</time>
+          </div>
+          <article class="excerpt">
+            <p>A month ago when I was writing a bundle that I needed for a Symfony project, I was presented with a challenge that I couldn’t quite figure how to solve:
+I needed to locate files from with other bundles’ <code class="highlighter-rouge">Resources/</code> directory during my bundle’s “bootstrap” phase. Basically, I was trying to configure a service
+definition to pass in an array of file paths to YAML files that are scattered across different bundles as an argument.</p>
+
+<p>Normally, you could just do something like this to get the absolute file path to a file from within any bundle:</p>
+
+<div class="code-section">
+  <div class="filename">
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <pre><code class="language-php">&lt;?php
+
+$location = $this-&gt;container-&gt;get('kernel')-&gt;locateResource('@FooBundle/Resources/config/foo_metadata.yml');
+
+/** do stuff **/</code></pre>
+    </div>
+  </div>
+</div>
+
+<p>However, since I needed to perform this during the early stages of the application life-cycle – even before the compiler is even compiled – the <code class="highlighter-rouge">kernel</code> service isn’t available yet.</p>
+          </article>
+        </li>
+        
+        <li class="medium-12">
+          <div class="post-list--meta">
+            <h2 class="post-list--title">
+              <a href="/2014/07/07/symfony-infrastructure-in-code-and-consistent-environments-with-vagrant/">
+                Symfony2 development, Infrastructure as Code, and consistent environments with Vagrant
+              </a>
+            </h2>
+            <time datetime="2014-07-07T00:00:00-07:00">07 Jul 2014</time>
+          </div>
+          <article class="excerpt">
+            <p>My new job at ActiveLAMP has put me in a position where I get to use and learn a wider set of technologies. And its a great
+position to be in. Instead of confining myself with the boundaries of the LAMP stack, now I am working on projects with
+requirements that necessitate the use of other technologies to achieve specific aspects of the product that are particularly
+demanding on their own right that the the unholy quadro that is Linux-Apache2-MySQL-PHP just isn’t sufficient anymore.</p>
+
+<p>For one project I have to learn and work with <a href="http://lucene.apache.org/solr/">Apache Solr</a> to provide performant and speedy search capabilities, which include
+fuzzy full-text searches and geo-spatial queries as well. On another I am working with <a href="http://www.elasticsearch.org/">Elasticsearch</a> to provide the exact same
+set of searching capability. In other instances, I have to deal with legacy code which requires legacy versions of PHP and the rest of the
+technology stack used.</p>
+          </article>
+        </li>
+        
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+
+    <footer>
+      Bez Hermoso (c) 2016
+    </footer>
+    
+    <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-22506121-5', 'auto');
+ga('send', 'pageview');
+    </script>
+    
+  </body>
+  <script src="/js/prism.js"></script>
+</html>

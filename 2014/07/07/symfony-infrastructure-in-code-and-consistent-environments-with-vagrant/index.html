@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    
+    
+    <title>/dev/blog - Symfony2 development, Infrastructure as Code, and consistent environments with Vagrant</title>
+    <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,700i,300,300i|Merriweather:300,300i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <link rel="stylesheet" href="bower_components/prism/themes/prism-coy.css" type="text/css" media="screen" charset="utf-8">
+    <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
+    
+    <meta property="og:image" content="http://www.gravatar.com/avatar/7c3c15142fcfe3e25ce2fae6b1912bcc.jpg?s=200" />
+    
+    
+    <meta property="og:title" content="Symfony2 development, Infrastructure as Code, and consistent environments with Vagrant" />
+        
+        <meta property="og:description" content="My new job at ActiveLAMP has put me in a position where I get to use and learn a wider set of technologies. And its a greatposition to be in. Instead of confining myself with the boundaries of the LAMP stack, now I am working on projects withrequirements that necessitate the use of other technologies to achieve specific aspects of the product that are particularlydemanding on their own right that the the unholy quadro that is Linux-Apache2-MySQL-PHP just isn’t sufficient anymore." />
+        
+        <meta name="description" content="My new job at ActiveLAMP has put me in a position where I get to use and learn a wider set of technologies. And its a greatposition to be in. Instead of confining myself with the boundaries of the LAMP stack, now I am working on projects withrequirements that necessitate the use of other technologies to achieve specific aspects of the product that are particularlydemanding on their own right that the the unholy quadro that is Linux-Apache2-MySQL-PHP just isn’t sufficient anymore." />
+    
+  </head>
+  <body>
+    <header>
+      <div class="row site-headline">
+        <div class="large-12 columns">
+          <h1>
+            <span class="permissions">rwxr--r--</span>
+            <a href="/">
+              <div>/dev/blog</div>
+            </a>
+          </a></h1>
+          <h2>Bez Hermoso, Software Engineer @ ActiveLAMP</h2>
+        </div>
+      </div>
+    </header>
+    <section class="blog-post">
+  <div class="row">
+    <div class="large-12 columns">
+      <div class="post-meta">
+        <h1>Symfony2 development, Infrastructure as Code, and consistent environments with Vagrant</h1>
+        <time datetime="2014-07-07T00:00:00-07:00">07 Jul 2014</time>
+      </div>
+    </div>
+    <div class="blog-body large-12 columns">
+      <p>My new job at ActiveLAMP has put me in a position where I get to use and learn a wider set of technologies. And its a great
+position to be in. Instead of confining myself with the boundaries of the LAMP stack, now I am working on projects with
+requirements that necessitate the use of other technologies to achieve specific aspects of the product that are particularly
+demanding on their own right that the the unholy quadro that is Linux-Apache2-MySQL-PHP just isn’t sufficient anymore.</p>
+
+<p>For one project I have to learn and work with <a href="http://lucene.apache.org/solr/">Apache Solr</a> to provide performant and speedy search capabilities, which include
+fuzzy full-text searches and geo-spatial queries as well. On another I am working with <a href="http://www.elasticsearch.org/">Elasticsearch</a> to provide the exact same
+set of searching capability. In other instances, I have to deal with legacy code which requires legacy versions of PHP and the rest of the
+technology stack used.</p>
+
+<!--stop-->
+<p>Back when I was confined to just using the LAMP stack, this wouldn’t be much of a problem except for maybe conflicting
+PHP versions when working with legacy code. But given these hodge-podge of requirements from different projects that could
+differ and conflict with one another (i.e. conflicts with PHP versions, server configurations, firewall entries, ports, etc),
+its a different story. I couldn’t begin to imagine how I managed to have a manageable development environment and how I keep
+everything sane without the help of Vagrant, Chef &amp; Puppet.</p>
+
+<h3 id="infrastructure-as-code">Infrastructure as Code</h3>
+
+<p><a href="http://www.getchef.com/chef/">Chef</a> and <a href="http://puppetlabs.com/">Puppet</a>
+will take care of preparing a given machine(s) based on your project’s server requirements. You can define every aspect of the server provisioning in configuration
+files and in code, which has the added benefit of being versioned along with the project in your VCS of choice (we use <a href="http://git-scm.com">Git</a>).</p>
+
+<h3 id="vagrant">Vagrant</h3>
+
+<p><a href="http://vagrantup.com">Vagrant</a> is a tool that allows you to define what type of machine(s) you need to run a project,
+and it will prepare and boot up a virtual machine of it for you. Configuration is written in a <code class="highlighter-rouge">Vagrantfile</code>, therefore it can be versioned as well.</p>
+
+<h3 id="consistent-development-environments-for-your-symfony-team">Consistent development environments for your Symfony team</h3>
+
+<p>I created a simple Vagrant + Infrastructure in Code template for Symfony projects which you can find here: <a href="https://github.com/bezhermoso/symfony-vm">symfony-vm</a>. I hope
+the instructions are easy enough to follow.</p>
+
+<p>Using this will add a <code class="highlighter-rouge">vm/</code> directory within your project-root which you should probably version. This means each member
+of your team will have their own environment which is consistent with everyone else. This also guarantees that your testers are testing your
+application under the exact same environment. And provided that you provision your production servers using the exact same manifests, then you
+are shielded against enviromental errors.</p>
+
+<p><em>“But it works on my machine…“</em> is not a valid excuse anymore.</p>
+
+    </div>
+  </div>
+  <section class="post-navigation">
+    <div class="row">
+      <div class="large-4 columns">
+        
+        Previous: <a href="/2014/07/15/locating-bundle-resources/">Locating bundle resources</a>
+        
+      </div>
+      <div class="large-4 columns">
+        <a href="/" title="Go back home"><code>$HOME</code></a>
+      </div>
+      <div class="large-4 columns">
+        
+        &nbsp;
+        
+      </div>
+    </div>
+  </section>
+</section>
+<section>
+  <div class="row">
+  <div class="columns medium-12">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'thftmsc'; // required: replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </div>
+</div>
+
+</section>
+
+    <footer>
+      Bez Hermoso (c) 2016
+    </footer>
+    
+    <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-22506121-5', 'auto');
+ga('send', 'pageview');
+    </script>
+    
+  </body>
+  <script src="/js/prism.js"></script>
+</html>

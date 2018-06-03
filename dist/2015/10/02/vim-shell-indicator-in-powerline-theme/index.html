@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    
+    
+    <title>/dev/blog - Vim indicator in Powerline theme</title>
+    <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,700i,300,300i|Merriweather:300,300i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <link rel="stylesheet" href="bower_components/prism/themes/prism-coy.css" type="text/css" media="screen" charset="utf-8">
+    <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
+    
+    <meta property="og:image" content="http://bezhermoso.github.io/keep/vim-indicator-og.png" />
+    
+    
+    <meta property="og:title" content="Vim indicator in Powerline theme" />
+        
+        <meta property="og:description" content="" />
+        
+        <meta name="description" content="" />
+    
+  </head>
+  <body>
+    <header>
+      <div class="row site-headline">
+        <div class="large-12 columns">
+          <h1>
+            <span class="permissions">rwxr--r--</span>
+            <a href="/">
+              <div>/dev/blog</div>
+            </a>
+          </a></h1>
+          <h2>Bez Hermoso, Software Engineer @ Weebly</h2>
+        </div>
+      </div>
+    </header>
+    <section class="blog-post">
+  <div class="row">
+    <div class="large-12 columns">
+      <div class="post-meta">
+        <h1>Vim indicator in Powerline theme</h1>
+        <time datetime="2015-10-02T00:00:00-07:00">02 Oct 2015</time>
+      </div>
+    </div>
+    <div class="blog-body large-12 columns">
+      <p><img src="/img/vim-indicator.png" /></p>
+
+<p>I find it hard to remember if I stepped in to the shell from <code class="highlighter-rouge">vim</code> or not. I find myself attempting to open a file only to be told by <code class="highlighter-rouge">vim</code> that I already have the file open – indeed, I already was editing the file. I just forgot that I stepped into shell via <code class="highlighter-rouge">:sh</code> a few minutes before. Worst yet are the times when I typed <code class="highlighter-rouge">exit</code> on my shell thinking that I was coming <code class="highlighter-rouge">vim</code>, only to find I was wrong because terminal window closes.</p>
+
+<p>I can’t be the only one.</p>
+
+<!--stop-->
+
+<p>I spent some time tweaking my Powerline config to get what I need: an indicator
+that tells me whether or not I am currently in <code class="highlighter-rouge">vim</code> shell or not. As you can see
+on the screenshot, this is indicated by a green segment with <code class="highlighter-rouge">:sh</code> in it.</p>
+
+<p>I am using <a href="http://powerline.readthedocs.org/en/latest/"> <strong>powerline-status</strong> </a> to add use Powerline glyphs throughout my
+development tools like <code class="highlighter-rouge">zsh</code>, <code class="highlighter-rouge">vim</code>, and <code class="highlighter-rouge">tmux</code>.</p>
+
+<p>Although <code class="highlighter-rouge">powerline-status</code> doesn’t come with a segment that is specifically
+addressed for this, you can repurpose the
+<code class="highlighter-rouge">powerline.segments.common.env.environment</code> segment to show an indicator based on
+whether or not the <code class="highlighter-rouge">VIMRUNTIME</code> environment variable is set.</p>
+
+<p>Inside your <code class="highlighter-rouge">~/.zshrc</code> (or <code class="highlighter-rouge">.bashrc</code>, <code class="highlighter-rouge">.bash_profile</code> or equivalent):</p>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash">if [[ -n &quot;$VIMRUNTIME&quot; ]]; then
+    export POWERLINE_VIM_SHELL_INDICATOR=':sh'
+fi</code></pre>
+    </div>
+  </div>
+
+<p>Then register an <code class="highlighter-rouge">environment</code> segment inside your Powerline theme JSON file
+and tell it to display <code class="highlighter-rouge">$POWERLINE_VIM_SHELL_INDICATOR</code>.</p>
+
+<p>For example, this is what your
+<code class="highlighter-rouge">~/.config/powerline/themes/shell/default.json</code> could look like:</p>
+
+<div class="code-section">
+  <div class="filename">
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <pre><code class="language-javascript">{
+    &quot;segments&quot;: {
+        &quot;left&quot;: [
+            {
+                &quot;function&quot;: &quot;powerline.segments.common.env.environment&quot;,
+                &quot;args&quot;: {
+                    &quot;variable&quot;: &quot;POWERLINE_VIM_SHELL_INDICATOR&quot;
+                },
+                &quot;priority&quot;: 30
+            },
+    ...</code></pre>
+    </div>
+  </div>
+</div>
+
+<p>Restart Powerline with <code class="highlighter-rouge">powerline-daemon -rq</code> to make sure the changes take effect.
+Open a file in <code class="highlighter-rouge">vim</code>, step into the shell via <code class="highlighter-rouge">:sh</code>, and you should see a green
+indicator as the left-most segment on your shell.</p>
+
+<p>The only problem I had with this method though is that there isn’t a way to change
+the colors in with which the new segment is rendered with.  Theoretically you can
+re-define the environment highlight group in your color-schemes JSON file, but
+this isn’t a viable solution if you use the environment segment multiple times and
+you want each of them styled differently.</p>
+
+<h2 id="vim-power">vim-power</h2>
+
+<p>Just for kicks I wrote a tiny Python package which allows for easier configuration of <code class="highlighter-rouge">vim</code>
+shell indicators in Powerline by eliminating the need for adding variables into your
+environment and has the added benefit of being customizable via its own highlight group.</p>
+
+<p>To get it just do:</p>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash">$ pip install --user vim-power --pre</code></pre>
+    </div>
+  </div>
+
+<p>…and a new segment function <code class="highlighter-rouge">vim_power.segments.in_vim_shell</code> will be available for you to use.
+It can take an option argument <code class="highlighter-rouge">text</code> which you can use to override what to show in the
+segment when in <code class="highlighter-rouge">vim</code> shell i.e. <code class="highlighter-rouge">:sh</code>.</p>
+
+<p>Now its just a matter of adding a definition for <code class="highlighter-rouge">in_vim_shell</code> in color scheme JSON file.</p>
+
+<p>Here is what my <code class="highlighter-rouge">~/.config/powerline/colorschemes/default.json</code> looks like:</p>
+
+<div class="code-section">
+  <div class="filename">
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <pre><code class="language-javascript">{
+    &quot;name&quot;: &quot;Default&quot;,
+    &quot;groups&quot;: {
+
+        ...
+
+        &quot;in_vim_shell&quot;: { &quot;fg&quot;: &quot;gray0&quot;, &quot;bg&quot;: &quot;brightgreen&quot;, &quot;attrs&quot;: [&quot;bold&quot;] }
+    }
+}</code></pre>
+    </div>
+  </div>
+</div>
+
+<p><code class="highlighter-rouge">vim-power</code> also comes with <code class="highlighter-rouge">vim_power.segments.prompt_text</code>, which I use to
+display the <code class="highlighter-rouge">λ</code> on my shell’s prompt with the ability to target it with styling
+using the prompt_text highlight group.</p>
+
+<p>See my <code class="highlighter-rouge">powerline-status</code> config on GitHub if you want to dig around more:</p>
+
+<p><a href="https://github.com/bezhermoso/dotfiles/tree/master/.config/powerline">https://github.com/bezhermoso/dotfiles/tree/master/.config/powerline</a></p>
+
+<p>Peace!</p>
+
+    </div>
+  </div>
+  <section class="post-navigation">
+    <div class="row">
+      <div class="large-4 columns">
+        
+        Previous: <a href="/2015/10/16/fix-errors-when-building-php-5.6.14-with-phpbrew-on-mac-os-x/">Fix errors when building PHP 5.6.14 with phpbrew on Mac OS X</a>
+        
+      </div>
+      <div class="large-4 columns">
+        <a href="/" title="Go back home"><code>$HOME</code></a>
+      </div>
+      <div class="large-4 columns">
+        
+        Next: <a href="/2015/05/16/fun-with-javascript-functions/">Fun with functions in Javascript: high-order functions</a>
+        
+      </div>
+    </div>
+  </section>
+</section>
+<section>
+  <div class="row">
+  <div class="columns medium-12">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'thftmsc'; // required: replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </div>
+</div>
+
+</section>
+
+    <footer>
+      Bez Hermoso (c) 2016
+    </footer>
+    
+    <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-22506121-5', 'auto');
+ga('send', 'pageview');
+    </script>
+    
+  </body>
+  <script src="/js/prism.js"></script>
+</html>

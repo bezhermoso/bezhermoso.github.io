@@ -8,15 +8,15 @@
     
     <title>/dev/blog - Backup remote files directly unto local filesystem</title>
     <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,700i,300,300i|Merriweather:300,300i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="/css/prism.css" type="text/css" media="screen" charset="utf-8">
     <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen" charset="utf-8">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
-    <link rel="stylesheet" href="bower_components/prism/themes/prism-coy.css" type="text/css" media="screen" charset="utf-8">
     <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
     
     <meta property="og:image" content="http://bezhermoso.github.io/img/keep/til.png" />
     
     
-    <meta content="Today I learned: Backup remote files directly unto local filesystem" property="og:title">
+    <meta content="Pro-tip: Backup remote files directly unto local filesystem" property="og:title">
     <meta property="og:description" content="The trick is to execute tar on the remote server and telling it to output to standard output, and piping the output straight to a file on the local filesystem:                &amp;nbsp;      $ ssh &amp;lt;USER&amp;gt;@&amp;lt;HOST&amp;gt; tar -czvf /remote/path/to/backup &amp;gt; /path/to/local/backup.tar.gz      This will operate exactly as if the tar ... &amp;gt; ... command was executed within the remote server, except on that the destination file is written directly on your local machine. This is extremely useful when backing up files from the remote server that you’d like to clean up to free up some space later without having to use up additional space which might be limited already.To check the uncompressed size of the tar.gz file in MB without having to extract it into the filesystem:                &amp;nbsp;      $ tar -xzf /path/to/local/backup.tar.gz --to-stdout \   | wc -c \   | (read size; echo &amp;quot;scale=2; $size/1024^3&amp;quot; | bc)        scale=2 tells bc to show up to 2 decimal places. It defaults to floor it to the nearest ones place.You can check the total file size of the remote directory against this to verify you got everything:                &amp;nbsp;      $ ssh &amp;lt;USER&amp;gt;@&amp;lt;HOST&amp;gt; -- du -bs /remote/path/to/backup \   | (read size _; echo &amp;quot;scale=2; $size/1024^3&amp;quot; | bc)        See man ssh, man tar, &amp;amp; man du" />
     <meta name="description" content="The trick is to execute tar on the remote server and telling it to output to standard output, and piping the output straight to a file on the local filesystem:                &amp;nbsp;      $ ssh &amp;lt;USER&amp;gt;@&amp;lt;HOST&amp;gt; tar -czvf /remote/path/to/backup &amp;gt; /path/to/local/backup.tar.gz      This will operate exactly as if the tar ... &amp;gt; ... command was executed within the remote server, except on that the destination file is written directly on your local machine. This is extremely useful when backing up files from the remote server that you’d like to clean up to free up some space later without having to use up additional space which might be limited already.To check the uncompressed size of the tar.gz file in MB without having to extract it into the filesystem:                &amp;nbsp;      $ tar -xzf /path/to/local/backup.tar.gz --to-stdout \   | wc -c \   | (read size; echo &amp;quot;scale=2; $size/1024^3&amp;quot; | bc)        scale=2 tells bc to show up to 2 decimal places. It defaults to floor it to the nearest ones place.You can check the total file size of the remote directory against this to verify you got everything:                &amp;nbsp;      $ ssh &amp;lt;USER&amp;gt;@&amp;lt;HOST&amp;gt; -- du -bs /remote/path/to/backup \   | (read size _; echo &amp;quot;scale=2; $size/1024^3&amp;quot; | bc)        See man ssh, man tar, &amp;amp; man du" />
     
@@ -40,7 +40,7 @@
     <div class="large-12 columns">
       <div class="til-header">
         <h3>
-        <a href="/til/">Today I Learned...</a>
+        <a href="/til/">More Pro-tips...</a>
         </h3>
       </div>
       <div class="post-meta">

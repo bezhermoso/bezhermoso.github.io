@@ -6,8 +6,8 @@
 </description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 03 Jun 2018 09:27:53 -0700</pubDate>
-    <lastBuildDate>Sun, 03 Jun 2018 09:27:53 -0700</lastBuildDate>
+    <pubDate>Sun, 17 Jun 2018 10:03:53 -0700</pubDate>
+    <lastBuildDate>Sun, 17 Jun 2018 10:03:53 -0700</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -481,6 +481,103 @@ tar: Unrecognized archive format&lt;/code&gt;&lt;/pre&gt;
         <pubDate>Mon, 31 Oct 2016 00:00:00 -0700</pubDate>
         <link>/2016/10/31/protip-copy-files-and-or-directories-from-docker-image/</link>
         <guid isPermaLink="true">/2016/10/31/protip-copy-files-and-or-directories-from-docker-image/</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>Writing a lorem ipsum generator for Vim</title>
+        <description>&lt;h1 id=&quot;preface&quot;&gt;Preface&lt;/h1&gt;
+
+&lt;p&gt;It should be said that there are existing – and with high probability much better written - plugins for generating Lorem Ipsum in &lt;code class=&quot;highlighter-rouge&quot;&gt;vim&lt;/code&gt;, namely &lt;a href=&quot;http://www.vim.org/scripts/script.php?script_id=2289&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;loremipsum&lt;/code&gt;&lt;/a&gt; and &lt;a href=&quot;http://vim.sourceforge.net/scripts/script.php?script_id=5322&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;vim-fake&lt;/code&gt;&lt;/a&gt; which you can install to get similar functionality. But where is the fun in that? ;) I found it is so easy to write one. If anything, let this be a demonstration of how easy it is to add functionality to &lt;code class=&quot;highlighter-rouge&quot;&gt;vim&lt;/code&gt; using Vimscript and taking advantage of the underlying UNIX environment.&lt;/p&gt;
+
+&lt;h2 id=&quot;step-1-install-lorem-ipsum&quot;&gt;Step 1: Install &lt;code class=&quot;highlighter-rouge&quot;&gt;lorem-ipsum&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;lorem-ipsum&lt;/code&gt; is an &lt;code class=&quot;highlighter-rouge&quot;&gt;npm&lt;/code&gt; package that provides an executable which we can use to generate the dummy text.&lt;/p&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ npm install lorem-ipsum --global&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;h2 id=&quot;step-2-integrate-into-vim&quot;&gt;Step 2: Integrate into &lt;code class=&quot;highlighter-rouge&quot;&gt;vim&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;Here is one way to integrate the &lt;code class=&quot;highlighter-rouge&quot;&gt;lorem-ipsum&lt;/code&gt; executable into &lt;code class=&quot;highlighter-rouge&quot;&gt;vim&lt;/code&gt; for easy use:&lt;/p&gt;
+
+&lt;div class=&quot;code-section&quot;&gt;
+  &lt;div class=&quot;filename&quot;&gt;
+    &lt;div class=&quot;row&quot;&gt;
+      
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;row&quot;&gt;
+    &lt;div class=&quot;large-12 columns&quot;&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-vim&quot;&gt;&amp;quot; Only register functions &amp;amp; commands if `lorem-ipsum` is installed.
+if executable(&amp;quot;lorem-ipsum&amp;quot;)
+    &amp;quot; Function to interface with the executable.
+    function! LoremIpsum(args)
+      return systemlist(&amp;quot;lorem-ipsum &amp;quot; . a:args)
+    endfunction
+
+    &amp;quot; Insert dummy text starting from current line.
+    function! InsertLoremIpsum(args)
+      let cline = line('.')
+      let ccolumn = col('.')
+      execute append(line('.'), LoremIpsum(a:args))
+      call cursor(cline, ccolumn)
+    endfunction
+
+    &amp;quot; Ex. `:Lorem 10 paragraphs` will insert 10 pargraphs of lorem ipsum
+    command! -nargs=* Lorem call InsertLoremIpsum('&amp;lt;args&amp;gt;')
+endif&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;With these 10-20 lines of Vimscript in place, we can already do numerous things:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Insert 3 paragraphs of &lt;em&gt;“lorem ipsum”&lt;/em&gt;:&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;code-section&quot;&gt;
+  &lt;div class=&quot;filename&quot;&gt;
+    &lt;div class=&quot;row&quot;&gt;
+      
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;row&quot;&gt;
+    &lt;div class=&quot;large-12 columns&quot;&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-vim&quot;&gt;:Lorem 3 paragraphs&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Replace contents of HTML tag with dummy text:&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;code-section&quot;&gt;
+  &lt;div class=&quot;filename&quot;&gt;
+    &lt;div class=&quot;row&quot;&gt;
+      
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;row&quot;&gt;
+    &lt;div class=&quot;large-12 columns&quot;&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-vim&quot;&gt;&amp;quot; In NORMAL mode with the cursor on or inside an HTML tag...
+cit&amp;lt;C-r&amp;gt;=LoremIpsum(&amp;quot;100 words&amp;quot;)&amp;lt;Return&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+</description>
+        <pubDate>Wed, 24 Aug 2016 00:00:00 -0700</pubDate>
+        <link>/2016/08/24/writing-a-lorem-ipsum-generator-for-vim/</link>
+        <guid isPermaLink="true">/2016/08/24/writing-a-lorem-ipsum-generator-for-vim/</guid>
         
         
       </item>
@@ -1081,63 +1178,6 @@ a potential to incur data loss in the future.&lt;/p&gt;
         <pubDate>Sat, 17 Oct 2015 00:00:00 -0700</pubDate>
         <link>/2015/10/17/simple-solution-for-tmux-causing-system-freezes-on-mac-os-x/</link>
         <guid isPermaLink="true">/2015/10/17/simple-solution-for-tmux-causing-system-freezes-on-mac-os-x/</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>Fix errors when building PHP 5.6.14 with phpbrew on Mac OS X</title>
-        <description>&lt;p&gt;Last night I decided to make the switch from using purely Homebrew to
-manage my local machine’s PHP version to using
-&lt;a href=&quot;https://github.com/phpbrew/phpbrew&quot;&gt;&lt;strong&gt;phpbrew&lt;/strong&gt;&lt;/a&gt;. However the switch was
-without any issues.&lt;/p&gt;
-
-&lt;p&gt;I needed to install PHP version 5.6.14 with &lt;code class=&quot;highlighter-rouge&quot;&gt;mcrypt&lt;/code&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;padded&quot;&gt;
-    &lt;div class=&quot;terminal&quot;&gt;
-      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
-      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
-      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&amp;gt; phpbrew install 5.6.14 +default+mcrypt&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-
-&lt;p&gt;However the build process keeps failing. Inspecting the build log gives me the following errors
-at different stages of troubleshooting:&lt;/p&gt;
-
-&lt;pre class=&quot;highlight language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;configure: error: Cannot find OpenSSL's &amp;lt;evp.h&amp;gt;&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre class=&quot;highlight language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;configure: error: Please reinstall the BZip2 distribution&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre class=&quot;highlight language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;ld: symbol(s) not found for architecture x86_64 clang: error: linker command failed with exit code 1 (use -v to see invocation) make: *** [sapi/cli/php] Error 1&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;solution&quot;&gt;Solution&lt;/h2&gt;
-
-&lt;p&gt;What I ended up having to do was re-install XCode Command-Line Tools and install
-a few libraries via Homebrew (because apparently, OS X does not ship them, or
-ship older versions):&lt;/p&gt;
-
-&lt;div class=&quot;padded&quot;&gt;
-    &lt;div class=&quot;terminal&quot;&gt;
-      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
-      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
-      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&amp;gt; xcode-select --install
-&amp;gt; brew install openssl libxml2 mcrypt
-&amp;gt; brew link openssl libxml2 --force&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-
-&lt;p&gt;And that’s it! The build completed, and now I have PHP 5.6.14 available
-whenever I want it.&lt;/p&gt;
-
-&lt;p&gt;If you are encountering these errors, I hope this helps you. Or if you haven’t attempted it yet but are planning to build PHP with
-&lt;code class=&quot;highlighter-rouge&quot;&gt;phpbrew&lt;/code&gt;, I hope this will save you the trouble.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Happy coding!&lt;/em&gt;&lt;/p&gt;
-</description>
-        <pubDate>Fri, 16 Oct 2015 00:00:00 -0700</pubDate>
-        <link>/2015/10/16/fix-errors-when-building-php-5.6.14-with-phpbrew-on-mac-os-x/</link>
-        <guid isPermaLink="true">/2015/10/16/fix-errors-when-building-php-5.6.14-with-phpbrew-on-mac-os-x/</guid>
         
         
       </item>

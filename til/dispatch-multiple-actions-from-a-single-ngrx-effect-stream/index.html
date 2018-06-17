@@ -8,15 +8,15 @@
     
     <title>/dev/blog - Dispatch multiple actions from a single ngrx @Effect stream</title>
     <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,700i,300,300i|Merriweather:300,300i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="/css/prism.css" type="text/css" media="screen" charset="utf-8">
     <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen" charset="utf-8">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
-    <link rel="stylesheet" href="bower_components/prism/themes/prism-coy.css" type="text/css" media="screen" charset="utf-8">
     <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
     
     <meta property="og:image" content="http://bezhermoso.github.io/img/keep/til.png" />
     
     
-    <meta content="Today I learned: Dispatch multiple actions from a single ngrx @Effect stream" property="og:title">
+    <meta content="Pro-tip: Dispatch multiple actions from a single ngrx @Effect stream" property="og:title">
     <meta property="og:description" content="If you need a single @Effect stream to have multiple side-effects i.e. dispatch more than one action, you can use Rx.Observable.of in conjunection with mergeMap:                              import { Oservable } from &#39;rxjs/Observable&#39;;@Injectable()class Effects {   @Effect() loadList$ = this.actions$      .ofType(this.actions.LOAD_LIST)      .map(action =&amp;gt; action.payload)      .switchMap(id =&amp;gt; {          return this.service.list(id)            .map(res =&amp;gt; res.json())            .mergeMap(list =&amp;gt; this.actions.setList(list))            .mergeMap(action =&amp;gt; {               // Here we return an Observable that produces two actions, one after the other:               return Observable.of(action, this.actions.secondAction());            });            .catch(err =&amp;gt; this.errorActions.createWith(err))      })}        Note to self: concat seem to be the more obvious choice, but the concat operator is not available for reasons I don’t know." />
     <meta name="description" content="If you need a single @Effect stream to have multiple side-effects i.e. dispatch more than one action, you can use Rx.Observable.of in conjunection with mergeMap:                              import { Oservable } from &#39;rxjs/Observable&#39;;@Injectable()class Effects {   @Effect() loadList$ = this.actions$      .ofType(this.actions.LOAD_LIST)      .map(action =&amp;gt; action.payload)      .switchMap(id =&amp;gt; {          return this.service.list(id)            .map(res =&amp;gt; res.json())            .mergeMap(list =&amp;gt; this.actions.setList(list))            .mergeMap(action =&amp;gt; {               // Here we return an Observable that produces two actions, one after the other:               return Observable.of(action, this.actions.secondAction());            });            .catch(err =&amp;gt; this.errorActions.createWith(err))      })}        Note to self: concat seem to be the more obvious choice, but the concat operator is not available for reasons I don’t know." />
     
@@ -40,7 +40,7 @@
     <div class="large-12 columns">
       <div class="til-header">
         <h3>
-        <a href="/til/">Today I Learned...</a>
+        <a href="/til/">More Pro-tips...</a>
         </h3>
       </div>
       <div class="post-meta">

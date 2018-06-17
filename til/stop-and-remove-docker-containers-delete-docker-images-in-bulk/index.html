@@ -8,15 +8,15 @@
     
     <title>/dev/blog - Stop and remove Docker containers, and/or delete images, in bulk</title>
     <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,700i,300,300i|Merriweather:300,300i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="/css/prism.css" type="text/css" media="screen" charset="utf-8">
     <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen" charset="utf-8">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
-    <link rel="stylesheet" href="bower_components/prism/themes/prism-coy.css" type="text/css" media="screen" charset="utf-8">
     <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
     
     <meta property="og:image" content="http://bezhermoso.github.io/img/keep/til.png" />
     
     
-    <meta content="Today I learned: Stop and remove Docker containers, and/or delete images, in bulk" property="og:title">
+    <meta content="Pro-tip: Stop and remove Docker containers, and/or delete images, in bulk" property="og:title">
     <meta property="og:description" content="These commands will come in handy at some point in life:                &amp;nbsp;      # Stop running containers, then delete all containers:docker stop $(docker ps -q) &amp;amp;&amp;amp; docker rm $(docekr ps -a -q)# Delete all images:docker rmi --force $(docker images -a -q)        Explanation: The -q|--quiet flag will output just the container IDs or image IDs. -a|--all will list out all containers, running or otherwise, or list out all images including intermediary layers." />
     <meta name="description" content="These commands will come in handy at some point in life:                &amp;nbsp;      # Stop running containers, then delete all containers:docker stop $(docker ps -q) &amp;amp;&amp;amp; docker rm $(docekr ps -a -q)# Delete all images:docker rmi --force $(docker images -a -q)        Explanation: The -q|--quiet flag will output just the container IDs or image IDs. -a|--all will list out all containers, running or otherwise, or list out all images including intermediary layers." />
     
@@ -40,7 +40,7 @@
     <div class="large-12 columns">
       <div class="til-header">
         <h3>
-        <a href="/til/">Today I Learned...</a>
+        <a href="/til/">More Pro-tips...</a>
         </h3>
       </div>
       <div class="post-meta">

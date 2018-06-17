@@ -43,7 +43,7 @@ var config = {
       ],
       relative: false,
       style: 'expanded'
-    }
+    },
   },
   scripts: {
     dest: path.join(paths.dest, 'js')
@@ -56,6 +56,10 @@ var config = {
     src: paths.dest,
     host: 'localhost',
     port: '8001'
+  },
+  prism: {
+    theme: 'dark',
+    languages: ['javascript', 'ruby', 'yaml', 'php', 'bash', 'html', 'lua', 'vim', 'applescript', 'zsh'],
   },
 };
 
@@ -111,13 +115,24 @@ gulp.task('html', (cb) => {
     });
 });
 
-gulp.task('prism', () => {
-  let languages = ['javascript', 'ruby', 'yaml', 'php', 'bash', 'html', 'lua', 'vim', 'applescript', 'zsh'];
-  let components = languages.map(lang => `bower_components/prism/components/prism-${lang}.js`);
+gulp.task('prism', ['prism-theme'], () => {
+  let components = config.prism.languages.map(lang => `bower_components/prism/components/prism-${lang}.js`);
   components.unshift('bower_components/prism/prism.js');
   gulp.src(components)
     .pipe(concat('prism.js'))
     .pipe(gulp.dest(config.scripts.dest));
+});
+
+gulp.task('prism-theme', () => {
+  const files = [
+    'bower_components/prism/themes/prism.css',
+  ];
+  if (config.prism.theme) {
+    files.push(`bower_components/prism/themes/prism-${config.prism.theme}.css`);
+  }
+  gulp.src(files)
+    .pipe(concat('prism.css'))
+    .pipe(gulp.dest(config.styles.dest));
 });
 
 gulp.task('build', (cb) => {

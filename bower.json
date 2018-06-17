@@ -17,6 +17,6 @@
   ],
   "dependencies": {
     "foundation": "^5.5.3",
-    "prism": "^1.5.1"
+    "prism": "1.13.0"
   }
 }

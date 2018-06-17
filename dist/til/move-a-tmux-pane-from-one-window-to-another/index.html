@@ -8,15 +8,15 @@
     
     <title>/dev/blog - Move a tmux pane from one window to another</title>
     <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,700i,300,300i|Merriweather:300,300i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="/css/prism.css" type="text/css" media="screen" charset="utf-8">
     <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen" charset="utf-8">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
-    <link rel="stylesheet" href="bower_components/prism/themes/prism-coy.css" type="text/css" media="screen" charset="utf-8">
     <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
     
     <meta property="og:image" content="http://bezhermoso.github.io/img/keep/til.png" />
     
     
-    <meta content="Today I learned: Move a tmux pane from one window to another" property="og:title">
+    <meta content="Pro-tip: Move a tmux pane from one window to another" property="og:title">
     <meta property="og:description" content="As the day gets busier, a tmux session could really need some little re-organization. To tidy things a bit, you can move a pane from one crowded window to another using join-pane.It requires two steps:  break the pane out via break-pane. This is bound to &amp;lt;prefix&amp;gt; ! by default.  Execute this in the tmux command-line: :join pane -t &amp;lt;int&amp;gt;, where &amp;lt;int&amp;gt; is the index of the window you want to move it into. You can optionally specify -h or -v to explicitly telltmux to attach the current pane as a horizontal-split or a vertical-split on the target window, respectively.  For more info, consult man tmux." />
     <meta name="description" content="As the day gets busier, a tmux session could really need some little re-organization. To tidy things a bit, you can move a pane from one crowded window to another using join-pane.It requires two steps:  break the pane out via break-pane. This is bound to &amp;lt;prefix&amp;gt; ! by default.  Execute this in the tmux command-line: :join pane -t &amp;lt;int&amp;gt;, where &amp;lt;int&amp;gt; is the index of the window you want to move it into. You can optionally specify -h or -v to explicitly telltmux to attach the current pane as a horizontal-split or a vertical-split on the target window, respectively.  For more info, consult man tmux." />
     
@@ -40,7 +40,7 @@
     <div class="large-12 columns">
       <div class="til-header">
         <h3>
-        <a href="/til/">Today I Learned...</a>
+        <a href="/til/">More Pro-tips...</a>
         </h3>
       </div>
       <div class="post-meta">

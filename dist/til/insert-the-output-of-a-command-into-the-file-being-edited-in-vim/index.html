@@ -8,15 +8,15 @@
     
     <title>/dev/blog - Insert the output of command into the file being edited in Vim</title>
     <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,700i,300,300i|Merriweather:300,300i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="/css/prism.css" type="text/css" media="screen" charset="utf-8">
     <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen" charset="utf-8">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
-    <link rel="stylesheet" href="bower_components/prism/themes/prism-coy.css" type="text/css" media="screen" charset="utf-8">
     <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
     
     <meta property="og:image" content="http://bezhermoso.github.io/img/keep/til.png" />
     
     
-    <meta content="Today I learned: Insert the output of command into the file being edited in Vim" property="og:title">
+    <meta content="Pro-tip: Insert the output of command into the file being edited in Vim" property="og:title">
     <meta property="og:description" content=":r &amp;lt;path/to/file&amp;gt; when executed will read the contents of a file and insert it to where the cursor is in the file being edited. But just like the :w command, you can read the output of a command instead. Just prefix the comamnd with !.Here is a quick example:                &amp;nbsp;      :r !echo &#39;SELECT name, email FROM users ORDER BY created_at DESC LIMIT 10;&#39; | mysql -u root -p app_db      This will insert the result of the query into the file.  See :help :read for more details." />
     <meta name="description" content=":r &amp;lt;path/to/file&amp;gt; when executed will read the contents of a file and insert it to where the cursor is in the file being edited. But just like the :w command, you can read the output of a command instead. Just prefix the comamnd with !.Here is a quick example:                &amp;nbsp;      :r !echo &#39;SELECT name, email FROM users ORDER BY created_at DESC LIMIT 10;&#39; | mysql -u root -p app_db      This will insert the result of the query into the file.  See :help :read for more details." />
     
@@ -40,7 +40,7 @@
     <div class="large-12 columns">
       <div class="til-header">
         <h3>
-        <a href="/til/">Today I Learned...</a>
+        <a href="/til/">More Pro-tips...</a>
         </h3>
       </div>
       <div class="post-meta">

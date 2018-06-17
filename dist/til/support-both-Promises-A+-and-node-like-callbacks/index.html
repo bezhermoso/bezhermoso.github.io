@@ -8,15 +8,15 @@
     
     <title>/dev/blog - Support both Promises/A+ and Node-like callbacks</title>
     <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,700i,300,300i|Merriweather:300,300i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="/css/prism.css" type="text/css" media="screen" charset="utf-8">
     <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen" charset="utf-8">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
-    <link rel="stylesheet" href="bower_components/prism/themes/prism-coy.css" type="text/css" media="screen" charset="utf-8">
     <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
     
     <meta property="og:image" content="http://bezhermoso.github.io/img/keep/til.png" />
     
     
-    <meta content="Today I learned: Support both Promises/A+ and Node-like callbacks" property="og:title">
+    <meta content="Pro-tip: Support both Promises/A+ and Node-like callbacks" property="og:title">
     <meta property="og:description" content="If for some reason you wish to support both the use of promises and_ Node-like callbacks (eww!), bluebird’s Promise.prototype.asCallback(...) can come in handy:                              function myAsyncFunc = function (param, callback) {    var p = return new Promise(function (resolve, reject) {        ...    });    return p.asCallback(callback);}// You can do this:myAsyncFunc(&amp;quot;foo&amp;quot;, function (err, result) {    ...});// or you can use it like a promise...myAsyncFunc(&amp;quot;foo&amp;quot;)    .then(function (result) {        ...    }, function (err) {        ...    });      Both will work.  See bluebird’s asCallback(...)" />
     <meta name="description" content="If for some reason you wish to support both the use of promises and_ Node-like callbacks (eww!), bluebird’s Promise.prototype.asCallback(...) can come in handy:                              function myAsyncFunc = function (param, callback) {    var p = return new Promise(function (resolve, reject) {        ...    });    return p.asCallback(callback);}// You can do this:myAsyncFunc(&amp;quot;foo&amp;quot;, function (err, result) {    ...});// or you can use it like a promise...myAsyncFunc(&amp;quot;foo&amp;quot;)    .then(function (result) {        ...    }, function (err) {        ...    });      Both will work.  See bluebird’s asCallback(...)" />
     
@@ -40,7 +40,7 @@
     <div class="large-12 columns">
       <div class="til-header">
         <h3>
-        <a href="/til/">Today I Learned...</a>
+        <a href="/til/">More Pro-tips...</a>
         </h3>
       </div>
       <div class="post-meta">

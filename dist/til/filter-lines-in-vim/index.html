@@ -8,15 +8,15 @@
     
     <title>/dev/blog - Filter lines in Vim</title>
     <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,700i,300,300i|Merriweather:300,300i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="/css/prism.css" type="text/css" media="screen" charset="utf-8">
     <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen" charset="utf-8">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
-    <link rel="stylesheet" href="bower_components/prism/themes/prism-coy.css" type="text/css" media="screen" charset="utf-8">
     <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
     
     <meta property="og:image" content="http://bezhermoso.github.io/img/keep/til.png" />
     
     
-    <meta content="Today I learned: Filter lines in Vim" property="og:title">
+    <meta content="Pro-tip: Filter lines in Vim" property="og:title">
     <meta property="og:description" content="In Vi/Vim, ! is the portal to the underlying UNIX shell, and with it you can do powerful things. One of them is the ability to filter the lines in a range with an external command:                              :&#39;&amp;lt;&#39;&amp;gt;! grep error:&#39;&amp;lt;&#39;&amp;gt;! grep &#39;^[A-Z]&#39;      The first command will filter the selected lines, keeping the ones that contains the text error in them. The second one will only keep lines that begins with an upper-case character, etc.&#39;&amp;lt;&#39;&amp;gt; just denotes the range of the visually-selected portion of the document. This can be any valid range, like % for the entire document." />
     <meta name="description" content="In Vi/Vim, ! is the portal to the underlying UNIX shell, and with it you can do powerful things. One of them is the ability to filter the lines in a range with an external command:                              :&#39;&amp;lt;&#39;&amp;gt;! grep error:&#39;&amp;lt;&#39;&amp;gt;! grep &#39;^[A-Z]&#39;      The first command will filter the selected lines, keeping the ones that contains the text error in them. The second one will only keep lines that begins with an upper-case character, etc.&#39;&amp;lt;&#39;&amp;gt; just denotes the range of the visually-selected portion of the document. This can be any valid range, like % for the entire document." />
     
@@ -40,7 +40,7 @@
     <div class="large-12 columns">
       <div class="til-header">
         <h3>
-        <a href="/til/">Today I Learned...</a>
+        <a href="/til/">More Pro-tips...</a>
         </h3>
       </div>
       <div class="post-meta">

@@ -8,15 +8,15 @@
     
     <title>/dev/blog - Get window width from within tmux</title>
     <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,700i,300,300i|Merriweather:300,300i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="/css/prism.css" type="text/css" media="screen" charset="utf-8">
     <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen" charset="utf-8">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
-    <link rel="stylesheet" href="bower_components/prism/themes/prism-coy.css" type="text/css" media="screen" charset="utf-8">
     <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
     
     <meta property="og:image" content="http://bezhermoso.github.io/img/keep/til.png" />
     
     
-    <meta content="Today I learned: Get window width from within tmux" property="og:title">
+    <meta content="Pro-tip: Get window width from within tmux" property="og:title">
     <meta property="og:description" content="In most circumstances, you can get the width of the terminal window using thecomamnd tput cols. However I discovered that this doesn’t quite work asexpected if you try it as part of your status-right or status-leftconfiguration (and pretty much in any other format strings in tmux.) I triedto implement something that auto-hides certain items on my status-line when theiTerm2 narrows down to a particular size, but tput colsalways return the value 80." />
     <meta name="description" content="In most circumstances, you can get the width of the terminal window using thecomamnd tput cols. However I discovered that this doesn’t quite work asexpected if you try it as part of your status-right or status-leftconfiguration (and pretty much in any other format strings in tmux.) I triedto implement something that auto-hides certain items on my status-line when theiTerm2 narrows down to a particular size, but tput colsalways return the value 80." />
     
@@ -40,7 +40,7 @@
     <div class="large-12 columns">
       <div class="til-header">
         <h3>
-        <a href="/til/">Today I Learned...</a>
+        <a href="/til/">More Pro-tips...</a>
         </h3>
       </div>
       <div class="post-meta">

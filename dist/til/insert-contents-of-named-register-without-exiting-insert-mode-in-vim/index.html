@@ -8,15 +8,15 @@
     
     <title>/dev/blog - Insert contents of named register without exiting Insert mode in Vim</title>
     <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,700i,300,300i|Merriweather:300,300i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="/css/prism.css" type="text/css" media="screen" charset="utf-8">
     <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen" charset="utf-8">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
-    <link rel="stylesheet" href="bower_components/prism/themes/prism-coy.css" type="text/css" media="screen" charset="utf-8">
     <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
     
     <meta property="og:image" content="http://bezhermoso.github.io/img/keep/til.png" />
     
     
-    <meta content="Today I learned: Insert contents of named register without exiting Insert mode in Vim" property="og:title">
+    <meta content="Pro-tip: Insert contents of named register without exiting Insert mode in Vim" property="og:title">
     <meta property="og:description" content="If you want to paste the contents of a named register without exiting Insert mode, hit &amp;lt;C-r&amp;gt;, and then the register name.For example, &amp;lt;C-r&amp;gt;1 will paste the text that was most recently deleted, &amp;lt;C-r&amp;gt;0 will paste the text that was most recently yanked, &amp;lt;C-r&amp;gt;q will paste the contents of the q macro, etc.This also works while in Comand-line mode, too::%s/(... hit &amp;lt;C-r&amp;gt;0 to paste in yanked text to replace ...)/&amp;lt;replacement text&amp;gt;/g  Alternately, you can just do &amp;lt;C-o&amp;gt;p to paste from within Insert mode. (Hitting &amp;lt;C-o&amp;gt; will temporarily bring you to Normal mode for one command and dropping you back intoInsert mode right after.)  See :help registers for more information on what the various registers contain." />
     <meta name="description" content="If you want to paste the contents of a named register without exiting Insert mode, hit &amp;lt;C-r&amp;gt;, and then the register name.For example, &amp;lt;C-r&amp;gt;1 will paste the text that was most recently deleted, &amp;lt;C-r&amp;gt;0 will paste the text that was most recently yanked, &amp;lt;C-r&amp;gt;q will paste the contents of the q macro, etc.This also works while in Comand-line mode, too::%s/(... hit &amp;lt;C-r&amp;gt;0 to paste in yanked text to replace ...)/&amp;lt;replacement text&amp;gt;/g  Alternately, you can just do &amp;lt;C-o&amp;gt;p to paste from within Insert mode. (Hitting &amp;lt;C-o&amp;gt; will temporarily bring you to Normal mode for one command and dropping you back intoInsert mode right after.)  See :help registers for more information on what the various registers contain." />
     
@@ -40,7 +40,7 @@
     <div class="large-12 columns">
       <div class="til-header">
         <h3>
-        <a href="/til/">Today I Learned...</a>
+        <a href="/til/">More Pro-tips...</a>
         </h3>
       </div>
       <div class="post-meta">

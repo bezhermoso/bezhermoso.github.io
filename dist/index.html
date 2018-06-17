@@ -8,9 +8,9 @@
     
     <title>/dev/blog - Home</title>
     <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,700i,300,300i|Merriweather:300,300i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="/css/prism.css" type="text/css" media="screen" charset="utf-8">
     <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen" charset="utf-8">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
-    <link rel="stylesheet" href="bower_components/prism/themes/prism-coy.css" type="text/css" media="screen" charset="utf-8">
     <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
     
     <meta property="og:image" content="http://www.gravatar.com/avatar/7c3c15142fcfe3e25ce2fae6b1912bcc.jpg?s=200" />
@@ -42,7 +42,7 @@
     <div class="row">
       <div class="columns medium-12">
         <h4>
-          Today I learned:
+          Recent pro-tip:
           
           
           <a href="/til/append-running-total-to-each-line-in-csv-with-awk/">Append running total to each line in CSV file with `awk`</a>
@@ -487,6 +487,105 @@ bindkey &quot;\`&quot; expand-double-backtick-to-escaped-backtick</code></pre>
 </blockquote>
 
 <p>This alternative has a few advantages over <code class="highlighter-rouge">docker cp</code>:</p>
+          </article>
+        </li>
+        
+        <li class="medium-12">
+          <div class="post-list--meta">
+            <h2 class="post-list--title">
+              <a href="/2016/08/24/writing-a-lorem-ipsum-generator-for-vim/">
+                Writing a lorem ipsum generator for Vim
+              </a>
+            </h2>
+            <time datetime="2016-08-24T00:00:00-07:00">24 Aug 2016</time>
+          </div>
+          <article class="excerpt">
+            <h1 id="preface">Preface</h1>
+
+<p>It should be said that there are existing – and with high probability much better written - plugins for generating Lorem Ipsum in <code class="highlighter-rouge">vim</code>, namely <a href="http://www.vim.org/scripts/script.php?script_id=2289"><code class="highlighter-rouge">loremipsum</code></a> and <a href="http://vim.sourceforge.net/scripts/script.php?script_id=5322"><code class="highlighter-rouge">vim-fake</code></a> which you can install to get similar functionality. But where is the fun in that? ;) I found it is so easy to write one. If anything, let this be a demonstration of how easy it is to add functionality to <code class="highlighter-rouge">vim</code> using Vimscript and taking advantage of the underlying UNIX environment.</p>
+
+<h2 id="step-1-install-lorem-ipsum">Step 1: Install <code class="highlighter-rouge">lorem-ipsum</code></h2>
+
+<p><code class="highlighter-rouge">lorem-ipsum</code> is an <code class="highlighter-rouge">npm</code> package that provides an executable which we can use to generate the dummy text.</p>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash">$ npm install lorem-ipsum --global</code></pre>
+    </div>
+  </div>
+
+<h2 id="step-2-integrate-into-vim">Step 2: Integrate into <code class="highlighter-rouge">vim</code></h2>
+
+<p>Here is one way to integrate the <code class="highlighter-rouge">lorem-ipsum</code> executable into <code class="highlighter-rouge">vim</code> for easy use:</p>
+
+<div class="code-section">
+  <div class="filename">
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <pre><code class="language-vim">&quot; Only register functions &amp; commands if `lorem-ipsum` is installed.
+if executable(&quot;lorem-ipsum&quot;)
+    &quot; Function to interface with the executable.
+    function! LoremIpsum(args)
+      return systemlist(&quot;lorem-ipsum &quot; . a:args)
+    endfunction
+
+    &quot; Insert dummy text starting from current line.
+    function! InsertLoremIpsum(args)
+      let cline = line('.')
+      let ccolumn = col('.')
+      execute append(line('.'), LoremIpsum(a:args))
+      call cursor(cline, ccolumn)
+    endfunction
+
+    &quot; Ex. `:Lorem 10 paragraphs` will insert 10 pargraphs of lorem ipsum
+    command! -nargs=* Lorem call InsertLoremIpsum('&lt;args&gt;')
+endif</code></pre>
+    </div>
+  </div>
+</div>
+
+<p>With these 10-20 lines of Vimscript in place, we can already do numerous things:</p>
+
+<ol>
+  <li>Insert 3 paragraphs of <em>“lorem ipsum”</em>:</li>
+</ol>
+
+<div class="code-section">
+  <div class="filename">
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <pre><code class="language-vim">:Lorem 3 paragraphs</code></pre>
+    </div>
+  </div>
+</div>
+
+<ol>
+  <li>Replace contents of HTML tag with dummy text:</li>
+</ol>
+
+<div class="code-section">
+  <div class="filename">
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <pre><code class="language-vim">&quot; In NORMAL mode with the cursor on or inside an HTML tag...
+cit&lt;C-r&gt;=LoremIpsum(&quot;100 words&quot;)&lt;Return&gt;</code></pre>
+    </div>
+  </div>
+</div>
           </article>
         </li>
         

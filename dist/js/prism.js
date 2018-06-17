@@ -20,7 +20,7 @@ var _self = (typeof window !== 'undefined')
 var Prism = (function(){
 
 // Private helper vars
-var lang = /\blang(?:uage)?-([\w-]+)\b/i;
+var lang = /\blang(?:uage)?-(\w+)\b/i;
 var uniqueId = 0;
 
 var _ = _self.Prism = {
@@ -278,14 +278,13 @@ var _ = _self.Prism = {
 
 	highlight: function (text, grammar, language) {
 		var env = {
-			code: text,
+			text: text,
 			grammar: grammar,
 			language: language
 		};
-		_.hooks.run('before-tokenize', env);
-		env.tokens = _.tokenize(env.code, env.grammar);
+		env.tokens = _.tokenize(text, grammar);
 		_.hooks.run('after-tokenize', env);
-		return Token.stringify(_.util.encode(env.tokens), env.language);
+		return Token.stringify(_.util.encode(env.tokens), language);
 	},
 
 	matchGrammar: function (text, strarr, grammar, index, startPos, oneshot, target) {
@@ -333,9 +332,15 @@ var _ = _self.Prism = {
 						continue;
 					}
 
-					if (greedy && i != strarr.length - 1) {
+					pattern.lastIndex = 0;
+
+					var match = pattern.exec(str),
+					    delNum = 1;
+
+					// Greedy patterns can override/remove up to two previously matched tokens
+					if (!match && greedy && i != strarr.length - 1) {
 						pattern.lastIndex = pos;
-						var match = pattern.exec(text);
+						match = pattern.exec(text);
 						if (!match) {
 							break;
 						}
@@ -354,8 +359,11 @@ var _ = _self.Prism = {
 							}
 						}
 
-						// If strarr[i] is a Token, then the match starts inside another Token, which is invalid
-						if (strarr[i] instanceof Token) {
+						/*
+						 * If strarr[i] is a Token, then the match starts inside another Token, which is invalid
+						 * If strarr[k - 1] is greedy we are in conflict with another greedy pattern
+						 */
+						if (strarr[i] instanceof Token || strarr[k - 1].greedy) {
 							continue;
 						}
 
@@ -363,11 +371,6 @@ var _ = _self.Prism = {
 						delNum = k - i;
 						str = text.slice(pos, p);
 						match.index -= pos;
-					} else {
-						pattern.lastIndex = 0;
-
-						var match = pattern.exec(str),
-							delNum = 1;
 					}
 
 					if (!match) {
@@ -693,8 +696,7 @@ Prism.languages.clike = {
 		},
 		{
 			pattern: /(^|[^\\:])\/\/.*/,
-			lookbehind: true,
-			greedy: true
+			lookbehind: true
 		}
 	],
 	'string': {
@@ -731,7 +733,7 @@ Prism.languages.javascript = Prism.languages.extend('clike', {
 
 Prism.languages.insertBefore('javascript', 'keyword', {
 	'regex': {
-		pattern: /((?:^|[^$\w\xA0-\uFFFF."'\])\s])\s*)\/(\[[^\]\r\n]+]|\\.|[^/\\\[\r\n])+\/[gimyu]{0,5}(?=\s*($|[\r\n,.;})]))/,
+		pattern: /(^|[^/])\/(?!\/)(\[[^\]\r\n]+]|\\.|[^/\\\[\r\n])+\/[gimyu]{0,5}(?=\s*($|[\r\n,.;})]))/,
 		lookbehind: true,
 		greedy: true
 	},
@@ -739,8 +741,7 @@ Prism.languages.insertBefore('javascript', 'keyword', {
 	'function-variable': {
 		pattern: /[_$a-z\xA0-\uFFFF][$\w\xA0-\uFFFF]*(?=\s*=\s*(?:function\b|(?:\([^()]*\)|[_$a-z\xA0-\uFFFF][$\w\xA0-\uFFFF]*)\s*=>))/i,
 		alias: 'function'
-	},
-	'constant': /\b[A-Z][A-Z\d_]*\b/
+	}
 });
 
 Prism.languages.insertBefore('javascript', 'string', {
@@ -805,7 +806,7 @@ Prism.languages.js = Prism.languages.javascript;
 			var src = pre.getAttribute('data-src');
 
 			var language, parent = pre;
-			var lang = /\blang(?:uage)?-(?!\*)([\w-]+)\b/i;
+			var lang = /\blang(?:uage)?-(?!\*)(\w+)\b/i;
 			while (parent && !lang.test(parent.className)) {
 				parent = parent.parentNode;
 			}
@@ -849,16 +850,6 @@ Prism.languages.js = Prism.languages.javascript;
 				}
 			};
 
-			if (pre.hasAttribute('data-download-link') && Prism.plugins.toolbar) {
-				Prism.plugins.toolbar.registerButton('download-file', function () {
-					var a = document.createElement('a');
-					a.textContent = pre.getAttribute('data-download-link-label') || 'Download';
-					a.setAttribute('download', '');
-					a.href = src;
-					return a;
-				});
-			}
-
 			xhr.send(null);
 		});
 
@@ -878,7 +869,7 @@ Prism.languages.javascript = Prism.languages.extend('clike', {
 
 Prism.languages.insertBefore('javascript', 'keyword', {
 	'regex': {
-		pattern: /((?:^|[^$\w\xA0-\uFFFF."'\])\s])\s*)\/(\[[^\]\r\n]+]|\\.|[^/\\\[\r\n])+\/[gimyu]{0,5}(?=\s*($|[\r\n,.;})]))/,
+		pattern: /(^|[^/])\/(?!\/)(\[[^\]\r\n]+]|\\.|[^/\\\[\r\n])+\/[gimyu]{0,5}(?=\s*($|[\r\n,.;})]))/,
 		lookbehind: true,
 		greedy: true
 	},
@@ -886,8 +877,7 @@ Prism.languages.insertBefore('javascript', 'keyword', {
 	'function-variable': {
 		pattern: /[_$a-z\xA0-\uFFFF][$\w\xA0-\uFFFF]*(?=\s*=\s*(?:function\b|(?:\([^()]*\)|[_$a-z\xA0-\uFFFF][$\w\xA0-\uFFFF]*)\s*=>))/i,
 		alias: 'function'
-	},
-	'constant': /\b[A-Z][A-Z\d_]*\b/
+	}
 });
 
 Prism.languages.insertBefore('javascript', 'string', {
@@ -933,11 +923,8 @@ Prism.languages.js = Prism.languages.javascript;
 (function(Prism) {
 	Prism.languages.ruby = Prism.languages.extend('clike', {
 		'comment': [
-			/#.*/,
-			{
-				pattern: /^=begin(?:\r?\n|\r)(?:.*(?:\r?\n|\r))*?=end/m,
-				greedy: true
-			}
+			/#(?!\{[^\r\n]*?\}).*/,
+			/^=begin(?:\r?\n|\r)(?:.*(?:\r?\n|\r))*?=end/m
 		],
 		'keyword': /\b(?:alias|and|BEGIN|begin|break|case|class|def|define_method|defined|do|each|else|elsif|END|end|ensure|false|for|if|in|module|new|next|nil|not|or|protected|private|public|raise|redo|require|rescue|retry|return|self|super|then|throw|true|undef|unless|until|when|while|yield)\b/
 	});
@@ -1211,19 +1198,66 @@ Prism.languages.yaml = {
 	Prism.languages.php['heredoc-string'].inside['interpolation'] = string_interpolation;
 	Prism.languages.php['double-quoted-string'].inside['interpolation'] = string_interpolation;
 
-	Prism.hooks.add('before-tokenize', function(env) {
-		if (!/(?:<\?php|<\?)/ig.test(env.code)) {
-			return;
-		}
+	// Add HTML support if the markup language exists
+	if (Prism.languages.markup) {
 
-		var phpPattern = /(?:<\?php|<\?)[\s\S]*?(?:\?>|$)/ig;
-		Prism.languages['markup-templating'].buildPlaceholders(env, 'php', phpPattern);
-	});
+		// Tokenize all inline PHP blocks that are wrapped in <?php ?>
+		// This allows for easy PHP + markup highlighting
+		Prism.hooks.add('before-highlight', function (env) {
+			if (env.language !== 'php' || !/(?:<\?php|<\?)/ig.test(env.code)) {
+				return;
+			}
 
-	Prism.hooks.add('after-tokenize', function(env) {
-		Prism.languages['markup-templating'].tokenizePlaceholders(env, 'php');
-	});
+			env.tokenStack = [];
 
+			env.backupCode = env.code;
+			env.code = env.code.replace(/(?:<\?php|<\?)[\s\S]*?(?:\?>|$)/ig, function (match) {
+				var i = env.tokenStack.length;
+				// Check for existing strings
+				while (env.backupCode.indexOf('___PHP' + i + '___') !== -1)
+					++i;
+
+				// Create a sparse array
+				env.tokenStack[i] = match;
+
+				return '___PHP' + i + '___';
+			});
+
+			// Switch the grammar to markup
+			env.grammar = Prism.languages.markup;
+		});
+
+		// Restore env.code for other plugins (e.g. line-numbers)
+		Prism.hooks.add('before-insert', function (env) {
+			if (env.language === 'php' && env.backupCode) {
+				env.code = env.backupCode;
+				delete env.backupCode;
+			}
+		});
+
+		// Re-insert the tokens after highlighting
+		Prism.hooks.add('after-highlight', function (env) {
+			if (env.language !== 'php' || !env.tokenStack) {
+				return;
+			}
+
+			// Switch the grammar back
+			env.grammar = Prism.languages.php;
+
+			for (var i = 0, keys = Object.keys(env.tokenStack); i < keys.length; ++i) {
+				var k = keys[i];
+				var t = env.tokenStack[k];
+
+				// The replace prevents $$, $&, $`, $', $n, $nn from being interpreted as special patterns
+				env.highlightedCode = env.highlightedCode.replace('___PHP' + k + '___',
+					"<span class=\"token php language-php\">" +
+					Prism.highlight(t, env.grammar, 'php').replace(/\$/g, '$$$$') +
+					"</span>");
+			}
+
+			env.element.innerHTML = env.highlightedCode;
+		});
+	}
 }(Prism));
 (function(Prism) {
 	var insideString = {
@@ -1284,7 +1318,7 @@ Prism.languages.yaml = {
 		'variable': insideString.variable,
 		// Originally based on http://ss64.com/bash/
 		'function': {
-			pattern: /(^|[\s;|&])(?:alias|apropos|apt-get|aptitude|aspell|awk|basename|bash|bc|bg|builtin|bzip2|cal|cat|cd|cfdisk|chgrp|chmod|chown|chroot|chkconfig|cksum|clear|cmp|comm|command|cp|cron|crontab|csplit|curl|cut|date|dc|dd|ddrescue|df|diff|diff3|dig|dir|dircolors|dirname|dirs|dmesg|du|egrep|eject|enable|env|ethtool|eval|exec|expand|expect|export|expr|fdformat|fdisk|fg|fgrep|file|find|fmt|fold|format|free|fsck|ftp|fuser|gawk|getopts|git|grep|groupadd|groupdel|groupmod|groups|gzip|hash|head|help|hg|history|hostname|htop|iconv|id|ifconfig|ifdown|ifup|import|install|jobs|join|kill|killall|less|link|ln|locate|logname|logout|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsof|make|man|mkdir|mkfifo|mkisofs|mknod|more|most|mount|mtools|mtr|mv|mmv|nano|netstat|nice|nl|nohup|notify-send|npm|nslookup|open|op|passwd|paste|pathchk|ping|pkill|popd|pr|printcap|printenv|printf|ps|pushd|pv|pwd|quota|quotacheck|quotactl|ram|rar|rcp|read|readarray|readonly|reboot|rename|renice|remsync|rev|rm|rmdir|rsync|screen|scp|sdiff|sed|seq|service|sftp|shift|shopt|shutdown|sleep|slocate|sort|source|split|ssh|stat|strace|su|sudo|sum|suspend|sync|tail|tar|tee|test|time|timeout|times|touch|top|traceroute|trap|tr|tsort|tty|type|ulimit|umask|umount|unalias|uname|unexpand|uniq|units|unrar|unshar|uptime|useradd|userdel|usermod|users|uuencode|uudecode|v|vdir|vi|vmstat|wait|watch|wc|wget|whereis|which|who|whoami|write|xargs|xdg-open|yes|zip)(?=$|[\s;|&])/,
+			pattern: /(^|[\s;|&])(?:alias|apropos|apt-get|aptitude|aspell|awk|basename|bash|bc|bg|builtin|bzip2|cal|cat|cd|cfdisk|chgrp|chmod|chown|chroot|chkconfig|cksum|clear|cmp|comm|command|cp|cron|crontab|csplit|cut|date|dc|dd|ddrescue|df|diff|diff3|dig|dir|dircolors|dirname|dirs|dmesg|du|egrep|eject|enable|env|ethtool|eval|exec|expand|expect|export|expr|fdformat|fdisk|fg|fgrep|file|find|fmt|fold|format|free|fsck|ftp|fuser|gawk|getopts|git|grep|groupadd|groupdel|groupmod|groups|gzip|hash|head|help|hg|history|hostname|htop|iconv|id|ifconfig|ifdown|ifup|import|install|jobs|join|kill|killall|less|link|ln|locate|logname|logout|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsof|make|man|mkdir|mkfifo|mkisofs|mknod|more|most|mount|mtools|mtr|mv|mmv|nano|netstat|nice|nl|nohup|notify-send|npm|nslookup|open|op|passwd|paste|pathchk|ping|pkill|popd|pr|printcap|printenv|printf|ps|pushd|pv|pwd|quota|quotacheck|quotactl|ram|rar|rcp|read|readarray|readonly|reboot|rename|renice|remsync|rev|rm|rmdir|rsync|screen|scp|sdiff|sed|seq|service|sftp|shift|shopt|shutdown|sleep|slocate|sort|source|split|ssh|stat|strace|su|sudo|sum|suspend|sync|tail|tar|tee|test|time|timeout|times|touch|top|traceroute|trap|tr|tsort|tty|type|ulimit|umask|umount|unalias|uname|unexpand|uniq|units|unrar|unshar|uptime|useradd|userdel|usermod|users|uuencode|uudecode|v|vdir|vi|vmstat|wait|watch|wc|wget|whereis|which|who|whoami|write|xargs|xdg-open|yes|zip)(?=$|[\s;|&])/,
 			lookbehind: true
 		},
 		'keyword': {

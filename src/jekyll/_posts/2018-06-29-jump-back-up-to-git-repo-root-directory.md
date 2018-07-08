@@ -1,18 +1,11 @@
 ---
-layout: til
+layout: post
 title: "Jump back up to your Git repo's root directory"
-til_category: git bash scripting
-date: 2018-06-23
-og_image: /img/keep/til.png
 ---
 
-When you are deep down your project's directory structure and you want to jump all the way back up to the project's root, what would you do?
+You want to jump back up to your project's root directory from who knows many levels down. What would you do? Figure out the right amount of levels to `cd ../../..` up? Run `cd ..` repeatedly until you get there? or run `cd` to an absolute path directly?
 
-  1. Figure out the right amount of levels to `cd ../../..` up?
-  1. Repeatedly run `cd ..` until you are at the root?
-  3. Run `cd ~/to/project/path` directly?
-
-I'm sure any of the above works fine, despite certain annoyances. If your project is managed with Git however, here is a smarter way:
+If your project is managed with Git, here is a smarter way:
 
 {% highlight bash %}
 $ cd $(git rev-parse --show-toplevel)
@@ -39,7 +32,7 @@ What used to be this `gr` alias on my rc file evolved into a full-on shell funct
   * Do nothing when I'm not in the project root instead of spitting an error and jumping to `/`
   * Be smart with Git submodules: if already in a repo's root, jump up to the nearest parent repo in the tree, if any.
 
-Here it is in it's current form in my rc file:
+Here it is in it's current form in my rc file ([I hosted this on Github](https://github.com/bezhermoso/jump-to-git-root) if you'd like to clone it instead):
 
 {% highlight bash %}
 
@@ -69,7 +62,4 @@ function jump-to-git-root {
 # Make short alias
 alias gr=jump-to-git-root
 {% endhighlight %}
-
-
-
 

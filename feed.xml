@@ -6,9 +6,92 @@
 </description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 17 Jun 2018 10:03:53 -0700</pubDate>
-    <lastBuildDate>Sun, 17 Jun 2018 10:03:53 -0700</lastBuildDate>
+    <pubDate>Sat, 28 Jul 2018 08:30:21 -0700</pubDate>
+    <lastBuildDate>Sat, 28 Jul 2018 08:30:21 -0700</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
+    
+      <item>
+        <title>Jump back up to your Git repo's root directory</title>
+        <description>&lt;p&gt;You want to jump back up to your project’s root directory from who knows many levels down. What would you do? Figure out the right amount of levels to &lt;code class=&quot;highlighter-rouge&quot;&gt;cd ../../..&lt;/code&gt; up? Run &lt;code class=&quot;highlighter-rouge&quot;&gt;cd ..&lt;/code&gt; repeatedly until you get there? or run &lt;code class=&quot;highlighter-rouge&quot;&gt;cd&lt;/code&gt; to an absolute path directly?&lt;/p&gt;
+
+&lt;p&gt;If your project is managed with Git, here is a smarter way:&lt;/p&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ cd $(git rev-parse --show-toplevel)&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;p&gt;The command &lt;code class=&quot;highlighter-rouge&quot;&gt;git rev-parse --show-toplevel&lt;/code&gt; is a Git plumbing command that outputs the absolute path of the Git repository root of the project you are in. Therefore the most straight-forward form is to use its result as the argument for &lt;code class=&quot;highlighter-rouge&quot;&gt;cd&lt;/code&gt;. &lt;strong&gt;No more repeating commands, figuring out exactly how far up the root is, or having to type out paths!&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The next obvious step is to make an alias of that command in your &lt;code class=&quot;highlighter-rouge&quot;&gt;.bashrc&lt;/code&gt; or equivalent file:&lt;/p&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# Mnemonic: `gr` == `git root`
+# Also note the single-quotes; you don't want the sub-command to run on alias definition!
+alias gr='cd $(git rev-parse --show-toplevel)'&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;p&gt;From here on out, just run &lt;code class=&quot;highlighter-rouge&quot;&gt;gr&lt;/code&gt; anytime you need to jump all the way up to your project root.&lt;/p&gt;
+
+&lt;p&gt;We can take it a little further…&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;What used to be this &lt;code class=&quot;highlighter-rouge&quot;&gt;gr&lt;/code&gt; alias on my rc file evolved into a full-on shell function that handles some edge-cases:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Do nothing when I’m not in the project root instead of spitting an error and jumping to &lt;code class=&quot;highlighter-rouge&quot;&gt;/&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Be smart with Git submodules: if already in a repo’s root, jump up to the nearest parent repo in the tree, if any.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Here it is in it’s current form in my rc file (&lt;a href=&quot;https://github.com/bezhermoso/jump-to-git-root&quot;&gt;I hosted this on Github&lt;/a&gt; if you’d like to clone it instead):&lt;/p&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;function jump-to-git-root {
+  local _root_dir=&amp;quot;$(git rev-parse --show-toplevel 2&amp;gt;/dev/null)&amp;quot;
+  if [[ $? -gt 0 ]]; then
+    &amp;gt;&amp;amp;2 echo 'Not a Git repo!'
+    exit 1
+  fi
+  local _pwd=$(pwd)
+  if [[ $_pwd = $_root_dir ]]; then
+    # Handle submodules:
+    # If parent dir is also managed under Git then we are in a submodule.
+    # If so, cd to nearest Git parent project.
+    _root_dir=&amp;quot;$(git -C $(dirname $_pwd) rev-parse --show-toplevel 2&amp;gt;/dev/null)&amp;quot;
+    if [[ $? -gt 0 ]]; then
+      echo &amp;quot;Already at Git repo root.&amp;quot;
+      return 0
+    fi
+  fi
+  # Make `cd -` work.
+  OLDPWD=$_pwd
+  echo &amp;quot;Git repo root: $_root_dir&amp;quot;
+  cd $_root_dir
+}
+
+# Make short alias
+alias gr=jump-to-git-root&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+</description>
+        <pubDate>Sat, 28 Jul 2018 00:00:00 -0700</pubDate>
+        <link>/2018/07/28/jump-back-up-to-git-repo-root-directory/</link>
+        <guid isPermaLink="true">/2018/07/28/jump-back-up-to-git-repo-root-directory/</guid>
+        
+        
+      </item>
     
       <item>
         <title>Improved tmux experience</title>
@@ -1128,56 +1211,6 @@ Mission Control &amp;gt; Turn Do Not Disturb On/Off&lt;/em&gt;
         <pubDate>Sun, 17 Jan 2016 00:00:00 -0800</pubDate>
         <link>/2016/01/17/breeze-through-osx-notifications-with-effiency-through-keyboard-shortcuts/</link>
         <guid isPermaLink="true">/2016/01/17/breeze-through-osx-notifications-with-effiency-through-keyboard-shortcuts/</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>Simple solution for tmux causing system freezes on Mac OS X</title>
-        <description>&lt;blockquote&gt;
-  &lt;p&gt;&lt;strong&gt;2015-10-21 Update:&lt;/strong&gt; Version 2.1 of &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; has just been release a couple
-of days ago and from what I can tell it has addressed this fatal issue! So the
-simpler solution would be doing &lt;code class=&quot;highlighter-rouge&quot;&gt;brew upgrade tmux&lt;/code&gt; to get the recent release.
-If you are stuck using 2.0 however, I hope this post is helpful.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;What fixed it for me was adding a single line to my &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.zshrc&lt;/code&gt; and a single line to my &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.tmux.conf&lt;/code&gt; file:&lt;/p&gt;
-
-&lt;div class=&quot;padded&quot;&gt;
-    &lt;div class=&quot;terminal&quot;&gt;
-      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
-      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
-      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# ~/.zshrc
-tmux start-server&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-
-&lt;div class=&quot;padded&quot;&gt;
-    &lt;div class=&quot;terminal&quot;&gt;
-      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
-      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
-      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# ~/.tmux.conf
-new-session&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-
-&lt;p&gt;It turns out, after trial and error, that the OS freezes (or in worst cases, kernel panics on older OS X versions) usually happen
-when you close the very last of all &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; pane of the very last &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; session.&lt;/p&gt;
-
-&lt;p&gt;With these additions to my config files, a &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; server is started with an empty &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; session whenever I fire up a terminal
-window for the first time. This means that I always have an empty &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; session – still active although never used – even after
-I exit out all the sessions I create on a daily basis.&lt;/p&gt;
-
-&lt;p&gt;I never had my MacBook Pro grind to a stop as soon as I close out all &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt;
-sessions and having to forcibly turn it off.&lt;/p&gt;
-
-&lt;p&gt;This does not fix &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt;, but is a simple work-around for a problem that has
-a potential to incur data loss in the future.&lt;/p&gt;
-
-</description>
-        <pubDate>Sat, 17 Oct 2015 00:00:00 -0700</pubDate>
-        <link>/2015/10/17/simple-solution-for-tmux-causing-system-freezes-on-mac-os-x/</link>
-        <guid isPermaLink="true">/2015/10/17/simple-solution-for-tmux-causing-system-freezes-on-mac-os-x/</guid>
         
         
       </item>

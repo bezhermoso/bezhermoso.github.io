@@ -6,8 +6,8 @@
 </description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 28 Jul 2018 08:30:21 -0700</pubDate>
-    <lastBuildDate>Sat, 28 Jul 2018 08:30:21 -0700</lastBuildDate>
+    <pubDate>Sat, 28 Jul 2018 08:33:02 -0700</pubDate>
+    <lastBuildDate>Sat, 28 Jul 2018 08:33:02 -0700</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -569,103 +569,6 @@ tar: Unrecognized archive format&lt;/code&gt;&lt;/pre&gt;
       </item>
     
       <item>
-        <title>Writing a lorem ipsum generator for Vim</title>
-        <description>&lt;h1 id=&quot;preface&quot;&gt;Preface&lt;/h1&gt;
-
-&lt;p&gt;It should be said that there are existing – and with high probability much better written - plugins for generating Lorem Ipsum in &lt;code class=&quot;highlighter-rouge&quot;&gt;vim&lt;/code&gt;, namely &lt;a href=&quot;http://www.vim.org/scripts/script.php?script_id=2289&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;loremipsum&lt;/code&gt;&lt;/a&gt; and &lt;a href=&quot;http://vim.sourceforge.net/scripts/script.php?script_id=5322&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;vim-fake&lt;/code&gt;&lt;/a&gt; which you can install to get similar functionality. But where is the fun in that? ;) I found it is so easy to write one. If anything, let this be a demonstration of how easy it is to add functionality to &lt;code class=&quot;highlighter-rouge&quot;&gt;vim&lt;/code&gt; using Vimscript and taking advantage of the underlying UNIX environment.&lt;/p&gt;
-
-&lt;h2 id=&quot;step-1-install-lorem-ipsum&quot;&gt;Step 1: Install &lt;code class=&quot;highlighter-rouge&quot;&gt;lorem-ipsum&lt;/code&gt;&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;lorem-ipsum&lt;/code&gt; is an &lt;code class=&quot;highlighter-rouge&quot;&gt;npm&lt;/code&gt; package that provides an executable which we can use to generate the dummy text.&lt;/p&gt;
-
-&lt;div class=&quot;padded&quot;&gt;
-    &lt;div class=&quot;terminal&quot;&gt;
-      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
-      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
-      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ npm install lorem-ipsum --global&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-
-&lt;h2 id=&quot;step-2-integrate-into-vim&quot;&gt;Step 2: Integrate into &lt;code class=&quot;highlighter-rouge&quot;&gt;vim&lt;/code&gt;&lt;/h2&gt;
-
-&lt;p&gt;Here is one way to integrate the &lt;code class=&quot;highlighter-rouge&quot;&gt;lorem-ipsum&lt;/code&gt; executable into &lt;code class=&quot;highlighter-rouge&quot;&gt;vim&lt;/code&gt; for easy use:&lt;/p&gt;
-
-&lt;div class=&quot;code-section&quot;&gt;
-  &lt;div class=&quot;filename&quot;&gt;
-    &lt;div class=&quot;row&quot;&gt;
-      
-    &lt;/div&gt;
-  &lt;/div&gt;
-  &lt;div class=&quot;row&quot;&gt;
-    &lt;div class=&quot;large-12 columns&quot;&gt;
-      &lt;pre&gt;&lt;code class=&quot;language-vim&quot;&gt;&amp;quot; Only register functions &amp;amp; commands if `lorem-ipsum` is installed.
-if executable(&amp;quot;lorem-ipsum&amp;quot;)
-    &amp;quot; Function to interface with the executable.
-    function! LoremIpsum(args)
-      return systemlist(&amp;quot;lorem-ipsum &amp;quot; . a:args)
-    endfunction
-
-    &amp;quot; Insert dummy text starting from current line.
-    function! InsertLoremIpsum(args)
-      let cline = line('.')
-      let ccolumn = col('.')
-      execute append(line('.'), LoremIpsum(a:args))
-      call cursor(cline, ccolumn)
-    endfunction
-
-    &amp;quot; Ex. `:Lorem 10 paragraphs` will insert 10 pargraphs of lorem ipsum
-    command! -nargs=* Lorem call InsertLoremIpsum('&amp;lt;args&amp;gt;')
-endif&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-
-&lt;p&gt;With these 10-20 lines of Vimscript in place, we can already do numerous things:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Insert 3 paragraphs of &lt;em&gt;“lorem ipsum”&lt;/em&gt;:&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class=&quot;code-section&quot;&gt;
-  &lt;div class=&quot;filename&quot;&gt;
-    &lt;div class=&quot;row&quot;&gt;
-      
-    &lt;/div&gt;
-  &lt;/div&gt;
-  &lt;div class=&quot;row&quot;&gt;
-    &lt;div class=&quot;large-12 columns&quot;&gt;
-      &lt;pre&gt;&lt;code class=&quot;language-vim&quot;&gt;:Lorem 3 paragraphs&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Replace contents of HTML tag with dummy text:&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class=&quot;code-section&quot;&gt;
-  &lt;div class=&quot;filename&quot;&gt;
-    &lt;div class=&quot;row&quot;&gt;
-      
-    &lt;/div&gt;
-  &lt;/div&gt;
-  &lt;div class=&quot;row&quot;&gt;
-    &lt;div class=&quot;large-12 columns&quot;&gt;
-      &lt;pre&gt;&lt;code class=&quot;language-vim&quot;&gt;&amp;quot; In NORMAL mode with the cursor on or inside an HTML tag...
-cit&amp;lt;C-r&amp;gt;=LoremIpsum(&amp;quot;100 words&amp;quot;)&amp;lt;Return&amp;gt;&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-
-</description>
-        <pubDate>Wed, 24 Aug 2016 00:00:00 -0700</pubDate>
-        <link>/2016/08/24/writing-a-lorem-ipsum-generator-for-vim/</link>
-        <guid isPermaLink="true">/2016/08/24/writing-a-lorem-ipsum-generator-for-vim/</guid>
-        
-        
-      </item>
-    
-      <item>
         <title>Protip: warn about file changes, deletions &amp; additions before rsync</title>
         <description>&lt;p&gt;I wrote a shell script that wraps &lt;code class=&quot;highlighter-rouge&quot;&gt;rsync&lt;/code&gt; with a user prompt in cases where files are going to be added, deleted, or changed, which is a scenario when some work might get lost:&lt;/p&gt;
 
@@ -1211,6 +1114,56 @@ Mission Control &amp;gt; Turn Do Not Disturb On/Off&lt;/em&gt;
         <pubDate>Sun, 17 Jan 2016 00:00:00 -0800</pubDate>
         <link>/2016/01/17/breeze-through-osx-notifications-with-effiency-through-keyboard-shortcuts/</link>
         <guid isPermaLink="true">/2016/01/17/breeze-through-osx-notifications-with-effiency-through-keyboard-shortcuts/</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>Simple solution for tmux causing system freezes on Mac OS X</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;2015-10-21 Update:&lt;/strong&gt; Version 2.1 of &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; has just been release a couple
+of days ago and from what I can tell it has addressed this fatal issue! So the
+simpler solution would be doing &lt;code class=&quot;highlighter-rouge&quot;&gt;brew upgrade tmux&lt;/code&gt; to get the recent release.
+If you are stuck using 2.0 however, I hope this post is helpful.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;What fixed it for me was adding a single line to my &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.zshrc&lt;/code&gt; and a single line to my &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.tmux.conf&lt;/code&gt; file:&lt;/p&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# ~/.zshrc
+tmux start-server&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# ~/.tmux.conf
+new-session&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;p&gt;It turns out, after trial and error, that the OS freezes (or in worst cases, kernel panics on older OS X versions) usually happen
+when you close the very last of all &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; pane of the very last &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; session.&lt;/p&gt;
+
+&lt;p&gt;With these additions to my config files, a &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; server is started with an empty &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; session whenever I fire up a terminal
+window for the first time. This means that I always have an empty &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; session – still active although never used – even after
+I exit out all the sessions I create on a daily basis.&lt;/p&gt;
+
+&lt;p&gt;I never had my MacBook Pro grind to a stop as soon as I close out all &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt;
+sessions and having to forcibly turn it off.&lt;/p&gt;
+
+&lt;p&gt;This does not fix &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt;, but is a simple work-around for a problem that has
+a potential to incur data loss in the future.&lt;/p&gt;
+
+</description>
+        <pubDate>Sat, 17 Oct 2015 00:00:00 -0700</pubDate>
+        <link>/2015/10/17/simple-solution-for-tmux-causing-system-freezes-on-mac-os-x/</link>
+        <guid isPermaLink="true">/2015/10/17/simple-solution-for-tmux-causing-system-freezes-on-mac-os-x/</guid>
         
         
       </item>

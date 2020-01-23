@@ -47,57 +47,83 @@
           <li class="medium-12">
             <div class="til-list--meta">
               <h2 class="til-list--title">
+                <a href="/til/concise-value-reuse-php-7-null-coalescing/">
+                  Concise value re-use pattern using PHP 7.x's null coalescing operator
+                </a>
+              </h2>
+              <time datetime="2020-01-22T00:00:00-08:00">22 Jan 2020</time>
+            </div>
+            
+              <p>Since PHP 7.0, the addition of the null coalescing operator <code class="highlighter-rouge">??</code> has made writing certain boilerplate patterns obsolete, like the common pattern of using <code class="highlighter-rouge">isset(...)</code> to avoid a myriad of errors when addressing deeply-nested array elements that don’t exist.</p>
+
+<p>Another pattern that is ripe for replacement is for value re-use, like those usually found in singletons, in-memory caches, memoizations:</p>
+
+<div class="code-section">
+  <div class="filename">
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <pre><code class="language-php">&lt;?php
+
+class Singleton
+{
+		private static $instance;
+
+		private function __construct() { ... };
+
+		public static function getInstance(): Singleton
+		{
+				return self::$instance = self::$instance ?? new static();
+		}
+}</code></pre>
+    </div>
+  </div>
+</div>
+
+<div class="code-section">
+  <div class="filename">
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <pre><code class="language-php">&lt;?php
+
+class Fibonacci
+{
+		private $cache = [];
+
+		public function find($n): int
+		{
+				return $this-&gt;cache[$n] =
+					$this-&gt;cache[$n] ?? self::find($n) + self::find($n - 2);
+		}
+}</code></pre>
+    </div>
+  </div>
+</div>
+
+<blockquote>
+  <p>See <a href="https://www.php.net/manual/en/migration70.new-features.php#migration70.new-features.null-coalesce-op">PHP 7.0 - New Features: null coalescing operator</a></p>
+</blockquote>
+
+            
+          </li>
+        
+          
+          <li class="medium-12 previous">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
                 <a href="/til/append-running-total-to-csv-with-awk/">
                   Append running total to each line in CSV file with `awk`
                 </a>
               </h2>
               <time datetime="2017-04-29T00:00:00-07:00">29 Apr 2017</time>
             </div>
-            
-              <p>I had a CSV of bank transactions and I wanted to append a running total on each entry. Here is how I achieved it using only <code class="highlighter-rouge">awk</code>.</p>
-
-<p>This is what the CSV file looks like:</p>
-
-<pre class="highlight language-text"><code class="language-text">Posted Date,Reference Number,Payee,Address,Amount
-04/25/2017,&lt;TRANSACTION ID&gt;,&quot;SEAFOOD CITY SUPERM SOUTH SAN FRACA&quot;,&quot;SOUTH SAN FRA CA &quot;,-1.77
-04/25/2017,&lt;TRANSACTION ID&gt;,&quot;SAFEWAY STORE 00028787 MILBRAE CA&quot;,&quot;MILBRAE       CA &quot;,-5.67
-04/24/2017,&lt;TRANSACTION ID&gt;,&quot;SQ *EGGETTES-MILLBRAE Millbrae CA&quot;,&quot;Millbrae      CA &quot;,-23.00
-04/24/2017,&lt;TRANSACTION ID&gt;,&quot;SEAFOOD CITY SUPERM SOUTH SAN FRACA&quot;,&quot;SOUTH SAN FRA CA &quot;,-23.13
-04/24/2017,&lt;TRANSACTION ID&gt;,&quot;WALGREENS #2939 SAN BRUNO CA&quot;,&quot;SAN BRUNO     CA &quot;,-2.04
-04/24/2017,&lt;TRANSACTION ID&gt;,&quot;REDBOX *DVD RENTAL 866-733-2693 IL&quot;,&quot;866-733-2693  IL &quot;,-5.44
-
-...</code></pre>
-
-<p>Here is the command:</p>
-
-<div class="padded">
-    <div class="terminal">
-      <div class="icons"><span></span></div>
-      <div class="title">&nbsp;</div>
-      <pre><code class="language-bash">$ awk -F, 'BEGIN { sum=0 } NR&gt;1 { sum+=$5; print $0 &quot;,&quot; sum }' transactions.csv \
-  | tee transactions-with-running-sum.csv \
-  | column -s'&quot;,&quot;' -t</code></pre>
-    </div>
-  </div>
-
-<p>We pass <code class="highlighter-rouge">awk</code>’s output to <code class="highlighter-rouge">tee</code> so that we can stream the output to both a file and standard output. Here, the altered CSV data is saved as <code class="highlighter-rouge">transactions-with-running-sum.csv</code>, while we display a better-looking version to our terminal:</p>
-
-<div class="padded">
-    <div class="terminal">
-      <div class="icons"><span></span></div>
-      <div class="title">&nbsp;</div>
-      <pre><code class="language-bash">04/25/2017  &lt;TRANSACTION_ID&gt;  SEAFOOD CITY SUPERM SOUTH SAN FRACA       SOUTH SAN FRA CA   -1.77    -1.77
-04/25/2017  &lt;TRANSACTION_ID&gt;  SAFEWAY STORE 00028787 MILBRAE CA         MILBRAE       CA   -5.67    -7.44
-04/24/2017  &lt;TRANSACTION_ID&gt;  SQ *EGGETTES-MILLBRAE Millbrae CA         Millbrae      CA   -23.00   -30.44
-04/24/2017  &lt;TRANSACTION_ID&gt;  SEAFOOD CITY SUPERM SOUTH SAN FRACA       SOUTH SAN FRA CA   -23.13   -53.57
-...</code></pre>
-    </div>
-  </div>
-
-<blockquote>
-  <p>See <code class="highlighter-rouge">man awk</code>, <code class="highlighter-rouge">man tee</code>, and <code class="highlighter-rouge">man column</code></p>
-</blockquote>
-
             
           </li>
         

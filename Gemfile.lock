@@ -15,7 +15,7 @@ GEM
       sass (>= 3.3.0, < 3.5)
     compass-import-once (1.0.5)
       sass (>= 3.2, < 3.5)
-    ffi (1.9.14)
+    ffi (1.15.4)
     forwardable-extended (2.6.0)
     jekyll (3.2.1)
       colorator (~> 1.0)
@@ -57,7 +57,7 @@ DEPENDENCIES
   redcarpet
 
 RUBY VERSION
-   ruby 2.4.2p198
+   ruby 2.6.8p205
 
 BUNDLED WITH
-   1.16.2
+   1.17.2

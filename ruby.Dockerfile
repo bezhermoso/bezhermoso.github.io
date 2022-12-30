@@ -4,6 +4,6 @@ RUN mkdir /src
 
 WORKDIR /src
 
-ADD Gemfile.lock /src
+ADD Gemfile /src
 
 RUN bundle install

@@ -1,5 +1,7 @@
 FROM node:10.14.0
 
+RUN apt-get update && apt-get install docker -y
+
 RUN npm install -g bower
 
 RUN mkdir /src

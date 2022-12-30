@@ -4,22 +4,25 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    
-    
+
+
     <title>/dev/blog - Append running total to each line in CSV file with `awk`</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,700i,300,300i|Merriweather:300,300i,700,700i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/prism.css" type="text/css" media="screen" charset="utf-8">
     <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen" charset="utf-8">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
     <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
-    
+
     <meta property="og:image" content="http://bezhermoso.github.io/img/keep/til.png" />
-    
-    
+
+
     <meta content="Pro-tip: Append running total to each line in CSV file with `awk`" property="og:title">
     <meta property="og:description" content="I had a CSV of bank transactions and I wanted to append a running total on each entry. Here is how I achieved it using only awk.This is what the CSV file looks like:Posted Date,Reference Number,Payee,Address,Amount04/25/2017,&amp;lt;TRANSACTION ID&amp;gt;,&amp;quot;SEAFOOD CITY SUPERM SOUTH SAN FRACA&amp;quot;,&amp;quot;SOUTH SAN FRA CA &amp;quot;,-1.7704/25/2017,&amp;lt;TRANSACTION ID&amp;gt;,&amp;quot;SAFEWAY STORE 00028787 MILBRAE CA&amp;quot;,&amp;quot;MILBRAE       CA &amp;quot;,-5.6704/24/2017,&amp;lt;TRANSACTION ID&amp;gt;,&amp;quot;SQ *EGGETTES-MILLBRAE Millbrae CA&amp;quot;,&amp;quot;Millbrae      CA &amp;quot;,-23.0004/24/2017,&amp;lt;TRANSACTION ID&amp;gt;,&amp;quot;SEAFOOD CITY SUPERM SOUTH SAN FRACA&amp;quot;,&amp;quot;SOUTH SAN FRA CA &amp;quot;,-23.1304/24/2017,&amp;lt;TRANSACTION ID&amp;gt;,&amp;quot;WALGREENS #2939 SAN BRUNO CA&amp;quot;,&amp;quot;SAN BRUNO     CA &amp;quot;,-2.0404/24/2017,&amp;lt;TRANSACTION ID&amp;gt;,&amp;quot;REDBOX *DVD RENTAL 866-733-2693 IL&amp;quot;,&amp;quot;866-733-2693  IL &amp;quot;,-5.44...Here is the command:                &amp;nbsp;      $ awk -F, &#39;BEGIN { sum=0 } NR&amp;gt;1 { sum+=$5; print $0 &amp;quot;,&amp;quot; sum }&#39; transactions.csv \  | tee transactions-with-running-sum.csv \  | column -s&#39;&amp;quot;,&amp;quot;&#39; -t      We pass awk’s output to tee so that we can stream the output to both a file and standard output. Here, the altered CSV data is saved as transactions-with-running-sum.csv, while we display a better-looking version to our terminal:                &amp;nbsp;      04/25/2017  &amp;lt;TRANSACTION_ID&amp;gt;  SEAFOOD CITY SUPERM SOUTH SAN FRACA       SOUTH SAN FRA CA   -1.77    -1.7704/25/2017  &amp;lt;TRANSACTION_ID&amp;gt;  SAFEWAY STORE 00028787 MILBRAE CA         MILBRAE       CA   -5.67    -7.4404/24/2017  &amp;lt;TRANSACTION_ID&amp;gt;  SQ *EGGETTES-MILLBRAE Millbrae CA         Millbrae      CA   -23.00   -30.4404/24/2017  &amp;lt;TRANSACTION_ID&amp;gt;  SEAFOOD CITY SUPERM SOUTH SAN FRACA       SOUTH SAN FRA CA   -23.13   -53.57...        See man awk, man tee, and man column" />
     <meta name="description" content="I had a CSV of bank transactions and I wanted to append a running total on each entry. Here is how I achieved it using only awk.This is what the CSV file looks like:Posted Date,Reference Number,Payee,Address,Amount04/25/2017,&amp;lt;TRANSACTION ID&amp;gt;,&amp;quot;SEAFOOD CITY SUPERM SOUTH SAN FRACA&amp;quot;,&amp;quot;SOUTH SAN FRA CA &amp;quot;,-1.7704/25/2017,&amp;lt;TRANSACTION ID&amp;gt;,&amp;quot;SAFEWAY STORE 00028787 MILBRAE CA&amp;quot;,&amp;quot;MILBRAE       CA &amp;quot;,-5.6704/24/2017,&amp;lt;TRANSACTION ID&amp;gt;,&amp;quot;SQ *EGGETTES-MILLBRAE Millbrae CA&amp;quot;,&amp;quot;Millbrae      CA &amp;quot;,-23.0004/24/2017,&amp;lt;TRANSACTION ID&amp;gt;,&amp;quot;SEAFOOD CITY SUPERM SOUTH SAN FRACA&amp;quot;,&amp;quot;SOUTH SAN FRA CA &amp;quot;,-23.1304/24/2017,&amp;lt;TRANSACTION ID&amp;gt;,&amp;quot;WALGREENS #2939 SAN BRUNO CA&amp;quot;,&amp;quot;SAN BRUNO     CA &amp;quot;,-2.0404/24/2017,&amp;lt;TRANSACTION ID&amp;gt;,&amp;quot;REDBOX *DVD RENTAL 866-733-2693 IL&amp;quot;,&amp;quot;866-733-2693  IL &amp;quot;,-5.44...Here is the command:                &amp;nbsp;      $ awk -F, &#39;BEGIN { sum=0 } NR&amp;gt;1 { sum+=$5; print $0 &amp;quot;,&amp;quot; sum }&#39; transactions.csv \  | tee transactions-with-running-sum.csv \  | column -s&#39;&amp;quot;,&amp;quot;&#39; -t      We pass awk’s output to tee so that we can stream the output to both a file and standard output. Here, the altered CSV data is saved as transactions-with-running-sum.csv, while we display a better-looking version to our terminal:                &amp;nbsp;      04/25/2017  &amp;lt;TRANSACTION_ID&amp;gt;  SEAFOOD CITY SUPERM SOUTH SAN FRACA       SOUTH SAN FRA CA   -1.77    -1.7704/25/2017  &amp;lt;TRANSACTION_ID&amp;gt;  SAFEWAY STORE 00028787 MILBRAE CA         MILBRAE       CA   -5.67    -7.4404/24/2017  &amp;lt;TRANSACTION_ID&amp;gt;  SQ *EGGETTES-MILLBRAE Millbrae CA         Millbrae      CA   -23.00   -30.4404/24/2017  &amp;lt;TRANSACTION_ID&amp;gt;  SEAFOOD CITY SUPERM SOUTH SAN FRACA       SOUTH SAN FRA CA   -23.13   -53.57...        See man awk, man tee, and man column" />
-    
+
   </head>
   <body>
     <header>
@@ -126,7 +129,7 @@ var disqus_shortname = 'thftmsc'; // required: replace example with your forum s
     <footer>
       Bez Hermoso (c) 2016
     </footer>
-    
+
     <script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -135,7 +138,7 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 ga('create', 'UA-22506121-5', 'auto');
 ga('send', 'pageview');
     </script>
-    
+
   </body>
   <script src="/js/prism.js"></script>
 </html>

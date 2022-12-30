@@ -1,0 +1,20 @@
+version: '3'
+services:
+  node:
+    container_name: node
+    image: bezhermoso/blog-node
+    build:
+      context: .
+      dockerfile: gulp.Dockerfile
+    volumes:
+      - .:/src
+      - /var/run/docker.sock:/var/run/docker.sock
+  jekyll:
+    container_name: jekyll
+    image: bezhermoso/blog-jekyll
+    build:
+      context: .
+      dockerfile: ruby.Dockerfile
+    volumes:
+      - .:/src
+

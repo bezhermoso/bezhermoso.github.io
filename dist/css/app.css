@@ -147,43 +147,43 @@ meta.foundation-mq-small {
 }
 
 meta.foundation-mq-small-only {
-  font-family: "/only screen and (max-width: 40em)/";
+  font-family: "/only screen and (max-width: 32em)/";
   width: 0;
 }
 
 meta.foundation-mq-medium {
-  font-family: "/only screen and (min-width:40.0625em)/";
-  width: 40.0625em;
+  font-family: "/only screen and (min-width:32.05em)/";
+  width: 32.05em;
 }
 
 meta.foundation-mq-medium-only {
-  font-family: "/only screen and (min-width:40.0625em) and (max-width:64em)/";
-  width: 40.0625em;
+  font-family: "/only screen and (min-width:32.05em) and (max-width:51.2em)/";
+  width: 32.05em;
 }
 
 meta.foundation-mq-large {
-  font-family: "/only screen and (min-width:64.0625em)/";
-  width: 64.0625em;
+  font-family: "/only screen and (min-width:51.25em)/";
+  width: 51.25em;
 }
 
 meta.foundation-mq-large-only {
-  font-family: "/only screen and (min-width:64.0625em) and (max-width:90em)/";
-  width: 64.0625em;
+  font-family: "/only screen and (min-width:51.25em) and (max-width:72em)/";
+  width: 51.25em;
 }
 
 meta.foundation-mq-xlarge {
-  font-family: "/only screen and (min-width:90.0625em)/";
-  width: 90.0625em;
+  font-family: "/only screen and (min-width:72.05em)/";
+  width: 72.05em;
 }
 
 meta.foundation-mq-xlarge-only {
-  font-family: "/only screen and (min-width:90.0625em) and (max-width:120em)/";
-  width: 90.0625em;
+  font-family: "/only screen and (min-width:72.05em) and (max-width:96em)/";
+  width: 72.05em;
 }
 
 meta.foundation-mq-xxlarge {
-  font-family: "/only screen and (min-width:120.0625em)/";
-  width: 120.0625em;
+  font-family: "/only screen and (min-width:96.05em)/";
+  width: 96.05em;
 }
 
 meta.foundation-data-attribute-namespace {
@@ -211,9 +211,9 @@ body {
   background: #fff;
   color: #222;
   cursor: auto;
-  font-family: "Lato", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+  font-family: "Inter", "Lato", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 400;
   line-height: 150%;
   margin: 0;
   padding: 0;
@@ -290,7 +290,7 @@ select {
 
 .row {
   margin: 0 auto;
-  max-width: 62.5rem;
+  max-width: 50rem;
   width: 100%;
 }
 .row:before, .row:after {
@@ -310,7 +310,7 @@ select {
   margin-right: 0;
 }
 .row .row {
-  margin: 0 -0.9375rem;
+  margin: 0 -0.75rem;
   max-width: none;
   width: auto;
 }
@@ -336,8 +336,8 @@ select {
 
 .column,
 .columns {
-  padding-left: 0.9375rem;
-  padding-right: 0.9375rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
   width: 100%;
   float: left;
 }
@@ -505,8 +505,8 @@ select {
   .column,
   .columns {
     position: relative;
-    padding-left: 0.9375rem;
-    padding-right: 0.9375rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
     float: left;
   }
 
@@ -654,12 +654,12 @@ select {
   }
   .row.small-uncollapse > .column,
   .row.small-uncollapse > .columns {
-    padding-left: 0.9375rem;
-    padding-right: 0.9375rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
     float: left;
   }
 }
-@media only screen and (min-width: 40.0625em) {
+@media only screen and (min-width: 32.05em) {
   .medium-push-0 {
     position: relative;
     left: 0;
@@ -807,8 +807,8 @@ select {
   .column,
   .columns {
     position: relative;
-    padding-left: 0.9375rem;
-    padding-right: 0.9375rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
     float: left;
   }
 
@@ -956,8 +956,8 @@ select {
   }
   .row.medium-uncollapse > .column,
   .row.medium-uncollapse > .columns {
-    padding-left: 0.9375rem;
-    padding-right: 0.9375rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
     float: left;
   }
 
@@ -1105,7 +1105,7 @@ select {
     left: auto;
   }
 }
-@media only screen and (min-width: 64.0625em) {
+@media only screen and (min-width: 51.25em) {
   .large-push-0 {
     position: relative;
     left: 0;
@@ -1253,8 +1253,8 @@ select {
   .column,
   .columns {
     position: relative;
-    padding-left: 0.9375rem;
-    padding-right: 0.9375rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
     float: left;
   }
 
@@ -1402,8 +1402,8 @@ select {
   }
   .row.large-uncollapse > .column,
   .row.large-uncollapse > .columns {
-    padding-left: 0.9375rem;
-    padding-right: 0.9375rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
     float: left;
   }
 
@@ -1554,7 +1554,7 @@ select {
 [class*="block-grid-"] {
   display: block;
   padding: 0;
-  margin: 0 -0.625rem;
+  margin: 0 -0.5rem;
 }
 [class*="block-grid-"]:before, [class*="block-grid-"]:after {
   content: " ";
@@ -1567,7 +1567,7 @@ select {
   display: block;
   float: left;
   height: auto;
-  padding: 0 0.625rem 1.25rem;
+  padding: 0 0.5rem 1rem;
 }
 
 @media only screen {
@@ -1703,7 +1703,7 @@ select {
     clear: both;
   }
 }
-@media only screen and (min-width: 40.0625em) {
+@media only screen and (min-width: 32.05em) {
   .medium-block-grid-1 > li {
     list-style: none;
     width: 100%;
@@ -1836,7 +1836,7 @@ select {
     clear: both;
   }
 }
-@media only screen and (min-width: 64.0625em) {
+@media only screen and (min-width: 51.25em) {
   .large-block-grid-1 > li {
     list-style: none;
     width: 100%;
@@ -2077,7 +2077,7 @@ select {
   display: block;
 }
 
-@media only screen and (min-width: 40.0625em) {
+@media only screen and (min-width: 32.05em) {
   .clearing-main-prev,
   .clearing-main-next {
     height: 100%;
@@ -2196,7 +2196,7 @@ select {
   text-align: justify !important;
 }
 
-@media only screen and (max-width: 40em) {
+@media only screen and (max-width: 32em) {
   .small-only-text-left {
     text-align: left !important;
   }
@@ -2230,7 +2230,7 @@ select {
     text-align: justify !important;
   }
 }
-@media only screen and (min-width: 40.0625em) and (max-width: 64em) {
+@media only screen and (min-width: 32.05em) and (max-width: 51.2em) {
   .medium-only-text-left {
     text-align: left !important;
   }
@@ -2247,7 +2247,7 @@ select {
     text-align: justify !important;
   }
 }
-@media only screen and (min-width: 40.0625em) {
+@media only screen and (min-width: 32.05em) {
   .medium-text-left {
     text-align: left !important;
   }
@@ -2264,7 +2264,7 @@ select {
     text-align: justify !important;
   }
 }
-@media only screen and (min-width: 64.0625em) and (max-width: 90em) {
+@media only screen and (min-width: 51.25em) and (max-width: 72em) {
   .large-only-text-left {
     text-align: left !important;
   }
@@ -2281,7 +2281,7 @@ select {
     text-align: justify !important;
   }
 }
-@media only screen and (min-width: 64.0625em) {
+@media only screen and (min-width: 51.25em) {
   .large-text-left {
     text-align: left !important;
   }
@@ -2298,7 +2298,7 @@ select {
     text-align: justify !important;
   }
 }
-@media only screen and (min-width: 90.0625em) and (max-width: 120em) {
+@media only screen and (min-width: 72.05em) and (max-width: 96em) {
   .xlarge-only-text-left {
     text-align: left !important;
   }
@@ -2315,7 +2315,7 @@ select {
     text-align: justify !important;
   }
 }
-@media only screen and (min-width: 90.0625em) {
+@media only screen and (min-width: 72.05em) {
   .xlarge-text-left {
     text-align: left !important;
   }
@@ -2332,7 +2332,7 @@ select {
     text-align: justify !important;
   }
 }
-@media only screen and (min-width: 120.0625em) and (max-width: 6249999.9375em) {
+@media only screen and (min-width: 96.05em) and (max-width: 4999999.95em) {
   .xxlarge-only-text-left {
     text-align: left !important;
   }
@@ -2349,7 +2349,7 @@ select {
     text-align: justify !important;
   }
 }
-@media only screen and (min-width: 120.0625em) {
+@media only screen and (min-width: 96.05em) {
   .xxlarge-text-left {
     text-align: left !important;
   }
@@ -2407,17 +2407,17 @@ a img {
 p {
   font-family: inherit;
   font-size: 1rem;
-  font-weight: normal;
+  font-weight: 400;
   line-height: 1.6;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
   text-rendering: optimizeLegibility;
 }
 p.lead {
-  font-size: 1.21875rem;
+  font-size: 1.175rem;
   line-height: 1.6;
 }
 p aside {
-  font-size: 0.875rem;
+  font-size: 0.7rem;
   font-style: italic;
   line-height: 1.35;
 }
@@ -2425,7 +2425,7 @@ p aside {
 /* Default header styles */
 h1, h2, h3, h4, h5, h6 {
   color: #222;
-  font-family: "Lato", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+  font-family: "Inter", "Lato", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
   font-style: normal;
   font-weight: bold;
   line-height: 1.4;
@@ -2440,23 +2440,23 @@ h1 small, h2 small, h3 small, h4 small, h5 small, h6 small {
 }
 
 h1 {
-  font-size: 2.125rem;
+  font-size: 1.7rem;
 }
 
 h2 {
-  font-size: 1.6875rem;
+  font-size: 1.35rem;
 }
 
 h3 {
-  font-size: 1.375rem;
+  font-size: 1.1rem;
 }
 
 h4 {
-  font-size: 1.125rem;
+  font-size: 0.9rem;
 }
 
 h5 {
-  font-size: 1.125rem;
+  font-size: 0.9rem;
 }
 
 h6 {
@@ -2466,7 +2466,7 @@ h6 {
 .subheader {
   line-height: 1.4;
   color: #6f6f6f;
-  font-weight: normal;
+  font-weight: 400;
   margin-top: 0.2rem;
   margin-bottom: 0.5rem;
 }
@@ -2476,7 +2476,7 @@ hr {
   border-width: 1px 0 0;
   clear: both;
   height: 0;
-  margin: 1.25rem 0 1.1875rem;
+  margin: 1rem 0 0.95rem;
 }
 
 /* Helpful Typography Defaults */
@@ -2504,8 +2504,8 @@ code {
   border-width: 1px;
   color: #DD4A68;
   font-family: "Fira Mono", Consolas, "Liberation Mono", Courier, monospace;
-  font-weight: normal;
-  padding: 0.125rem 0.3125rem 0.0625rem;
+  font-weight: 400;
+  padding: 0.1rem 0.25rem 0.05rem;
 }
 
 /* Lists */
@@ -2516,7 +2516,7 @@ dl {
   font-size: 1rem;
   line-height: 1.6;
   list-style-position: outside;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
 }
 
 ul {
@@ -2526,7 +2526,7 @@ ul {
 /* Unordered Lists */
 ul li ul,
 ul li ol {
-  margin-left: 1.25rem;
+  margin-left: 1rem;
   margin-bottom: 0;
 }
 ul.square li ul, ul.circle li ul, ul.disc li ul {
@@ -2551,7 +2551,7 @@ ol {
 }
 ol li ul,
 ol li ol {
-  margin-left: 1.25rem;
+  margin-left: 1rem;
   margin-bottom: 0;
 }
 
@@ -2561,7 +2561,7 @@ ol li ol {
 }
 .no-bullet li ul,
 .no-bullet li ol {
-  margin-left: 1.25rem;
+  margin-left: 1rem;
   margin-bottom: 0;
   list-style: none;
 }
@@ -2572,7 +2572,7 @@ dl dt {
   font-weight: bold;
 }
 dl dd {
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.6rem;
 }
 
 /* Abbreviations */
@@ -2593,13 +2593,13 @@ abbr[title] {
 
 /* Blockquotes */
 blockquote {
-  margin: 0 0 1.25rem;
-  padding: 0.5625rem 1.25rem 0 1.1875rem;
+  margin: 0 0 1rem;
+  padding: 0.45rem 1rem 0 0.95rem;
   border-left: 5px solid #ddd;
 }
 blockquote cite {
   display: block;
-  font-size: 0.8125rem;
+  font-size: 0.65rem;
   color: #555555;
 }
 blockquote cite:before {
@@ -2619,9 +2619,9 @@ blockquote p {
 /* Microformats */
 .vcard {
   display: inline-block;
-  margin: 0 0 1.25rem 0;
+  margin: 0 0 1rem 0;
   border: 1px solid #ddd;
-  padding: 0.625rem 0.75rem;
+  padding: 0.5rem 0.6rem;
 }
 .vcard li {
   margin: 0;
@@ -2629,7 +2629,7 @@ blockquote p {
 }
 .vcard .fn {
   font-weight: bold;
-  font-size: 0.9375rem;
+  font-size: 0.75rem;
 }
 
 .vevent .summary {
@@ -2640,32 +2640,32 @@ blockquote p {
   text-decoration: none;
   font-weight: bold;
   border: none;
-  padding: 0 0.0625rem;
+  padding: 0 0.05rem;
 }
 
-@media only screen and (min-width: 40.0625em) {
+@media only screen and (min-width: 32.05em) {
   h1, h2, h3, h4, h5, h6 {
     line-height: 1.4;
   }
 
   h1 {
-    font-size: 2.75rem;
+    font-size: 2.2rem;
   }
 
   h2 {
-    font-size: 2.3125rem;
+    font-size: 1.85rem;
   }
 
   h3 {
-    font-size: 1.6875rem;
+    font-size: 1.35rem;
   }
 
   h4 {
-    font-size: 1.4375rem;
+    font-size: 1.15rem;
   }
 
   h5 {
-    font-size: 1.125rem;
+    font-size: 0.9rem;
   }
 
   h6 {
@@ -2742,7 +2742,7 @@ blockquote p {
   }
 }
 body {
-  font-family: "Merriweather", Georgia, Cambria, "Times New Roman", Times, serif;
+  font-family: "Inter", "Lato", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
 }
 
 a code {
@@ -2768,13 +2768,13 @@ header h1 {
   justify-content: flex-end;
 }
 header h1 .permissions {
-  font-size: 1.6875rem;
+  font-size: 1.35rem;
   color: #555;
   margin-right: 1rem;
 }
 header h2 {
   color: #555;
-  font-size: 1.4375rem;
+  font-size: 1.15rem;
   font-weight: 300;
   text-align: right;
 }
@@ -2839,7 +2839,7 @@ header .site-headline h1 {
   position: relative;
 }
 .post-list > li .excerpt, .til-list > li .excerpt {
-  font-family: "Merriweather", Georgia, Cambria, "Times New Roman", Times, serif;
+  font-family: "Inter", "Lato", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
   height: 300px;
   margin-bottom: 50px;
   overflow: hidden;
@@ -2847,19 +2847,19 @@ header .site-headline h1 {
   text-align: justify;
 }
 .post-list > li .excerpt h1, .til-list > li .excerpt h1 {
-  font-size: 2.2rem;
+  font-size: 1.76rem;
 }
 .post-list > li .excerpt h2, .til-list > li .excerpt h2 {
-  font-size: 1.85rem;
+  font-size: 1.48rem;
 }
 .post-list > li .excerpt h3, .til-list > li .excerpt h3 {
-  font-size: 1.35rem;
+  font-size: 1.08rem;
 }
 .post-list > li .excerpt h4, .til-list > li .excerpt h4 {
-  font-size: 1.15rem;
+  font-size: 0.92rem;
 }
 .post-list > li .excerpt h5, .til-list > li .excerpt h5 {
-  font-size: 0.9rem;
+  font-size: 0.72rem;
 }
 .post-list > li .excerpt h6, .til-list > li .excerpt h6 {
   font-size: 0.8rem;
@@ -2896,9 +2896,9 @@ header .site-headline h1 {
   margin-bottom: 3rem;
 }
 #til-banner h4 {
-  font-family: "Merriweather", Georgia, Cambria, "Times New Roman", Times, serif;
+  font-family: "Inter", "Lato", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
   color: #333;
-  font-size: 1.125rem;
+  font-size: 0.9rem;
 }
 
 .til-list > li {

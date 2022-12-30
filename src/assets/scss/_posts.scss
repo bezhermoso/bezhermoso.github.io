@@ -60,13 +60,13 @@
   }
 
   > li {
-    margin-bottom: 6rem;
+    margin-bottom: 3rem;
     position: relative;
 
     .excerpt {
       font-family: $font-family-sans-serif;
-      height: 300px;
-      margin-bottom: 50px;
+      height: 20rem;
+      margin-bottom: 3rem;
       overflow: hidden;
       position: relative;
       text-align: justify;
@@ -112,7 +112,29 @@
       left: 25%;
       position: absolute;
       right: 25%;
-      margin-bottom: 50px;
+    }
+
+    .read-more-block {
+      text-align: center;
+      padding-bottom: 2rem;
+
+      a {
+        background-color: $primary-color;
+        padding: 0.5rem 1rem;
+        border-radius: 2rem;
+        color: $white;
+        text-transform: uppercase;
+        box-shadow: $primary-color 0px 2px 15px;
+        font-size: 0.8rem;
+        transition: font-size 0.5s ease-in 100ms, box-shadow 0.5s ease-in 50ms, padding 1s ease-in 100ms, border-radius 1s ease-in 100ms;
+
+        &:hover {
+          font-size: 0.9rem;
+          box-shadow: $primary-color 0px 5px 30px;
+          padding: 0.5625rem 1.125rem;
+          border-radius: 2.25rem;
+        }
+      }
     }
   }
 

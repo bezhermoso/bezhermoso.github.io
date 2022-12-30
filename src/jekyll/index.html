@@ -35,6 +35,9 @@ excerpt: '/dev/blog: My development blog - Bez Hermoso; Software Engineer @ Squa
           <article class="excerpt">
             {{ post.content | excerpt }}
           </article>
+          <div class="read-more-block">
+            <a href="{{ post.url }}">Read more...</a>
+          </div>
         </li>
         {% endfor %}
       </ul>

@@ -37,6 +37,9 @@ module.exports = {
         port: 8001,
         devMiddleware: {
             writeToDisk: true,
-        }
+        },
+        client: {
+            overlay: false,
+        },
     }
 };

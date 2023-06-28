@@ -5,9 +5,9 @@ og_description: '/dev/blog: My development blog - Bez Hermoso; Software Engineer
 excerpt: '/dev/blog: My development blog - Bez Hermoso; Software Engineer @ Square'
 ---
 <section id="til-banner">
-  <div class="container">
-    <div class="row">
-      <div class="columns medium-12">
+  <div class="grid-container">
+    <div class="grid-x">
+      <div class="cell medium-12">
         <h4>
           Recent pro-tip:
           {% assign tils = site.til | sort: 'date' | reverse %}
@@ -19,9 +19,9 @@ excerpt: '/dev/blog: My development blog - Bez Hermoso; Software Engineer @ Squa
   </div>
 </section>
 <section>
-  <div class="container">
-    <div class="row">
-      <ul class="post-list">
+  <div class="grid-container">
+    <div class="grid-x">
+      <ul class="post-list cell">
         {% for post in site.posts %}
         <li class="medium-12">
           <div class="post-list--meta">

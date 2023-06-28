@@ -8,8 +8,6 @@
     
     <title>/dev/blog - Specify additional `ag` options in fzf.vim plugin</title>
     <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,700i,300,300i|Merriweather:300,300i,700,700i" rel="stylesheet">
-    <link rel="stylesheet" href="/css/prism.css" type="text/css" media="screen" charset="utf-8">
-    <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen" charset="utf-8">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
     <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
     
@@ -22,9 +20,9 @@
     
   </head>
   <body>
-    <header>
-      <div class="row site-headline">
-        <div class="large-12 columns">
+    <header class="grid-container">
+      <div class="grid-x site-headline">
+        <div class="large-12 cell">
           <h1>
             <span class="permissions">rwxr--r--</span>
             <a href="/">
@@ -35,9 +33,9 @@
         </div>
       </div>
     </header>
-    <section class="blog-post">
-  <div class="row">
-    <div class="large-12 columns">
+    <section class="grid-container blog-post">
+  <div class="grid-x">
+    <div class="large-12 cell">
       <div class="til-header">
         <h3>
         <a href="/til/">More Pro-tips...</a>
@@ -48,7 +46,7 @@
         <time datetime="2016-03-11T00:00:00-08:00">11 Mar 2016</time>
       </div>
     </div>
-    <div class="blog-body large-12 columns">
+    <div class="blog-body large-12 cell">
       <p>Unlike in <code class="highlighter-rouge">Ag.vim</code>, <code class="highlighter-rouge">fzf.vim</code>’s <code class="highlighter-rouge">:Ag</code> command does not provide the ability to specify additional options to use with <em>The Silver Searcher</em> a.k.a. <code class="highlighter-rouge">ag</code>. Unfortunately, <code class="highlighter-rouge">fzf</code> does not use <code class="highlighter-rouge">--exclude-vcs-ignores</code> by default despite it being useful for programmers i.e. search file contents under a vendor directory or a mount, for example.</p>
 
 <p>The way to do it in <code class="highlighter-rouge">fzf.vim</code> is to create a custom command that will pass the <code class="highlighter-rouge">-U|--exclude-vcs-ingores</code> to the underlying <code class="highlighter-rouge">ag</code> call:</p>
@@ -75,7 +73,7 @@
     </div>
   </div>
   <section class="post-navigation">
-    <div class="large-12 columns">
+    <div class="large-12 cell">
       <a href="/til/">Click here for more pro-tips</a>
     </div>
   </section>
@@ -116,5 +114,5 @@ ga('send', 'pageview');
     </script>
     
   </body>
-  <script src="/js/prism.js"></script>
+  <script src="/bundle.js"></script>
 </html>

@@ -8,8 +8,6 @@
     
     <title>/dev/blog - Backup remote files directly unto local filesystem</title>
     <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,700i,300,300i|Merriweather:300,300i,700,700i" rel="stylesheet">
-    <link rel="stylesheet" href="/css/prism.css" type="text/css" media="screen" charset="utf-8">
-    <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen" charset="utf-8">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
     <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
     
@@ -22,9 +20,9 @@
     
   </head>
   <body>
-    <header>
-      <div class="row site-headline">
-        <div class="large-12 columns">
+    <header class="grid-container">
+      <div class="grid-x site-headline">
+        <div class="large-12 cell">
           <h1>
             <span class="permissions">rwxr--r--</span>
             <a href="/">
@@ -35,9 +33,9 @@
         </div>
       </div>
     </header>
-    <section class="blog-post">
-  <div class="row">
-    <div class="large-12 columns">
+    <section class="grid-container blog-post">
+  <div class="grid-x">
+    <div class="large-12 cell">
       <div class="til-header">
         <h3>
         <a href="/til/">More Pro-tips...</a>
@@ -48,7 +46,7 @@
         <time datetime="2016-08-19T00:00:00-07:00">19 Aug 2016</time>
       </div>
     </div>
-    <div class="blog-body large-12 columns">
+    <div class="blog-body large-12 cell">
       <p>The trick is to execute <code class="highlighter-rouge">tar</code> on the remote server and telling it to output to standard output, and piping the output straight to a file on the local filesystem:</p>
 
 <div class="padded">
@@ -95,7 +93,7 @@
     </div>
   </div>
   <section class="post-navigation">
-    <div class="large-12 columns">
+    <div class="large-12 cell">
       <a href="/til/">Click here for more pro-tips</a>
     </div>
   </section>
@@ -136,5 +134,5 @@ ga('send', 'pageview');
     </script>
     
   </body>
-  <script src="/js/prism.js"></script>
+  <script src="/bundle.js"></script>
 </html>

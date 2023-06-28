@@ -1,9 +1,9 @@
 ---
 layout: base
 ---
-<section class="blog-post">
-  <div class="row">
-    <div class="large-12 columns">
+<section class="grid-container blog-post">
+  <div class="grid-x">
+    <div class="large-12 cell">
       <div class="post-meta">
         <h1>{{ page.title }}</h1>
         <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%d %b %Y' }}</time>
@@ -14,18 +14,18 @@ layout: base
     </div>
   </div>
   <section class="post-navigation">
-    <div class="row">
-      <div class="large-4 columns">
+    <div class="grid-x">
+      <div class="large-4 cell">
         {% if page.next %}
         Previous: <a href="{{ page.next.url }}">{{ page.next.title }}</a>
         {% else %}
         &nbsp;
         {% endif %}
       </div>
-      <div class="large-4 columns">
+      <div class="large-4 cell">
         <a href="/" title="Go back home"><code>$HOME</code></a>
       </div>
-      <div class="large-4 columns">
+      <div class="large-4 cell">
         {% if page.previous %}
         Next: <a href="{{ page.previous.url }}">{{ page.previous.title }}</a>
         {% else %}

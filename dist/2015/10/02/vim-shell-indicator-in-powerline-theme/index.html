@@ -8,8 +8,6 @@
     
     <title>/dev/blog - Vim indicator in Powerline theme</title>
     <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,700i,300,300i|Merriweather:300,300i,700,700i" rel="stylesheet">
-    <link rel="stylesheet" href="/css/prism.css" type="text/css" media="screen" charset="utf-8">
-    <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen" charset="utf-8">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
     <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
     
@@ -24,9 +22,9 @@
     
   </head>
   <body>
-    <header>
-      <div class="row site-headline">
-        <div class="large-12 columns">
+    <header class="grid-container">
+      <div class="grid-x site-headline">
+        <div class="large-12 cell">
           <h1>
             <span class="permissions">rwxr--r--</span>
             <a href="/">
@@ -37,9 +35,9 @@
         </div>
       </div>
     </header>
-    <section class="blog-post">
-  <div class="row">
-    <div class="large-12 columns">
+    <section class="grid-container blog-post">
+  <div class="grid-x">
+    <div class="large-12 cell">
       <div class="post-meta">
         <h1>Vim indicator in Powerline theme</h1>
         <time datetime="2015-10-02T00:00:00-07:00">02 Oct 2015</time>
@@ -175,16 +173,16 @@ using the prompt_text highlight group.</p>
     </div>
   </div>
   <section class="post-navigation">
-    <div class="row">
-      <div class="large-4 columns">
+    <div class="grid-x">
+      <div class="large-4 cell">
         
         Previous: <a href="/2015/10/16/fix-errors-when-building-php-5.6.14-with-phpbrew-on-mac-os-x/">Fix errors when building PHP 5.6.14 with phpbrew on Mac OS X</a>
         
       </div>
-      <div class="large-4 columns">
+      <div class="large-4 cell">
         <a href="/" title="Go back home"><code>$HOME</code></a>
       </div>
-      <div class="large-4 columns">
+      <div class="large-4 cell">
         
         Next: <a href="/2015/05/16/fun-with-javascript-functions/">Fun with functions in Javascript: high-order functions</a>
         
@@ -228,5 +226,5 @@ ga('send', 'pageview');
     </script>
     
   </body>
-  <script src="/js/prism.js"></script>
+  <script src="/bundle.js"></script>
 </html>

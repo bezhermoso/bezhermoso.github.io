@@ -6,8 +6,8 @@
 </description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 22 Jan 2020 21:14:09 -0800</pubDate>
-    <lastBuildDate>Wed, 22 Jan 2020 21:14:09 -0800</lastBuildDate>
+    <pubDate>Wed, 28 Jun 2023 11:25:33 -0700</pubDate>
+    <lastBuildDate>Wed, 28 Jun 2023 11:25:33 -0700</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -951,7 +951,7 @@ save the workflow somewhere you can find it later on.&lt;/p&gt;
     &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;h4 id=&quot;dismiss-all-notificationsworkflow&quot;&gt;1.1 Dismiss All Notifications.workflow&lt;/h4&gt;
+&lt;h4 id=&quot;11-dismiss-all-notificationsworkflow&quot;&gt;1.1 Dismiss All Notifications.workflow&lt;/h4&gt;
 
 &lt;p&gt;&lt;em&gt;Actions &amp;gt; Run AppleScript…&lt;/em&gt;&lt;/p&gt;
 &lt;div class=&quot;code-section&quot;&gt;
@@ -977,7 +977,7 @@ end run&lt;/code&gt;&lt;/pre&gt;
 concisely.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;h4 id=&quot;dismiss-top-most-notificationworkflow&quot;&gt;1.2 Dismiss Top-most Notification.workflow&lt;/h4&gt;
+&lt;h4 id=&quot;12-dismiss-top-most-notificationworkflow&quot;&gt;1.2 Dismiss Top-most Notification.workflow&lt;/h4&gt;
 
 &lt;p&gt;&lt;em&gt;Actions &amp;gt; Run AppleScript…&lt;/em&gt;&lt;/p&gt;
 &lt;div class=&quot;code-section&quot;&gt;
@@ -1000,7 +1000,7 @@ end run&lt;/code&gt;&lt;/pre&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;h4 id=&quot;click-top-most-notificationworkflow&quot;&gt;1.3 Click Top-most Notification.workflow&lt;/h4&gt;
+&lt;h4 id=&quot;13-click-top-most-notificationworkflow&quot;&gt;1.3 Click Top-most Notification.workflow&lt;/h4&gt;
 
 &lt;p&gt;&lt;em&gt;Actions &amp;gt; Run AppleScript…&lt;/em&gt;&lt;/p&gt;
 &lt;div class=&quot;code-section&quot;&gt;
@@ -1023,7 +1023,7 @@ end run&lt;/code&gt;&lt;/pre&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;h4 id=&quot;click-secondary-action-on-top-most-notificationworkflow&quot;&gt;1.4 Click Secondary Action on Top-most Notification.workflow&lt;/h4&gt;
+&lt;h4 id=&quot;14-click-secondary-action-on-top-most-notificationworkflow&quot;&gt;1.4 Click Secondary Action on Top-most Notification.workflow&lt;/h4&gt;
 
 &lt;p&gt;&lt;em&gt;Actions &amp;gt; Run AppleScript…&lt;/em&gt;&lt;/p&gt;
 &lt;div class=&quot;code-section&quot;&gt;

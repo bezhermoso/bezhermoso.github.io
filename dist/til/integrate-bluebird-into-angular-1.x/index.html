@@ -8,8 +8,6 @@
     
     <title>/dev/blog - Integrate bluebird into Angular 1.x</title>
     <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,700i,300,300i|Merriweather:300,300i,700,700i" rel="stylesheet">
-    <link rel="stylesheet" href="/css/prism.css" type="text/css" media="screen" charset="utf-8">
-    <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen" charset="utf-8">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
     <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
     
@@ -22,9 +20,9 @@
     
   </head>
   <body>
-    <header>
-      <div class="row site-headline">
-        <div class="large-12 columns">
+    <header class="grid-container">
+      <div class="grid-x site-headline">
+        <div class="large-12 cell">
           <h1>
             <span class="permissions">rwxr--r--</span>
             <a href="/">
@@ -35,9 +33,9 @@
         </div>
       </div>
     </header>
-    <section class="blog-post">
-  <div class="row">
-    <div class="large-12 columns">
+    <section class="grid-container blog-post">
+  <div class="grid-x">
+    <div class="large-12 cell">
       <div class="til-header">
         <h3>
         <a href="/til/">More Pro-tips...</a>
@@ -48,7 +46,7 @@
         <time datetime="2016-02-22T00:00:00-08:00">22 Feb 2016</time>
       </div>
     </div>
-    <div class="blog-body large-12 columns">
+    <div class="blog-body large-12 cell">
       <p>The <a href="http://bluebirdjs.com/"><code class="highlighter-rouge">bluebird</code></a> library doesn’t quite work with Angular out-of-the-box. You’ll have to configure <code class="highlighter-rouge">bluebird</code> to execute resolution/rejection functions within Angular’s digest loop. I also learned that even if you have that in place, <a href="https://github.com/angular-ui/ui-router/wiki#resolve"><code class="highlighter-rouge">ui-router</code>’s Resolve</a> functionality still wouldn’t work with <code class="highlighter-rouge">bluebird</code> promises. You’ll have to do something extra for that, too:</p>
 
 <!--stop-->
@@ -117,7 +115,7 @@ Promise.map(urls, function (url) {
     </div>
   </div>
   <section class="post-navigation">
-    <div class="large-12 columns">
+    <div class="large-12 cell">
       <a href="/til/">Click here for more pro-tips</a>
     </div>
   </section>
@@ -158,5 +156,5 @@ ga('send', 'pageview');
     </script>
     
   </body>
-  <script src="/js/prism.js"></script>
+  <script src="/bundle.js"></script>
 </html>

@@ -10,8 +10,6 @@
     {% endif %}
     <title>{{ site.title }} - {{ page_title }}</title>
     <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,700i,300,300i|Merriweather:300,300i,700,700i" rel="stylesheet">
-    <link rel="stylesheet" href="/css/prism.css" type="text/css" media="screen" charset="utf-8">
-    <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen" charset="utf-8">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
     <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
     {% if page.og_image %}
@@ -34,9 +32,9 @@
     {% endif %}
   </head>
   <body>
-    <header>
-      <div class="row site-headline">
-        <div class="large-12 columns">
+    <header class="grid-container">
+      <div class="grid-x site-headline">
+        <div class="large-12 cell">
           <h1>
             <span class="permissions">rwxr--r--</span>
             <a href="/">
@@ -62,5 +60,5 @@ ga('send', 'pageview');
     </script>
     {% endif %}
   </body>
-  <script src="/js/prism.js"></script>
+  <script src="/bundle.js"></script>
 </html>

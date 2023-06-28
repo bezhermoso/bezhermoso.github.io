@@ -1,0 +1,23 @@
+{
+  "plugins": [
+    [
+      "prismjs",
+      {
+        "languages": [
+          "javascript",
+          "ruby",
+          "yaml",
+          "php",
+          "bash",
+          "html",
+          "lua",
+          "vim",
+          "applescript",
+          "zsh"
+        ],
+        "theme": "dark",
+        "css": true
+      }
+    ]
+  ]
+}

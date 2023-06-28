@@ -72,22 +72,22 @@
       text-align: justify;
 
       h1 {
-        font-size: $h1-font-size * 0.8;
+        // font-size: $h1-font-size * 0.8;
       }
       h2 {
-        font-size: $h2-font-size * 0.8;
+        //font-size: $h2-font-size * 0.8;
       }
       h3 {
-        font-size: $h3-font-size * 0.8;
+        // font-size: $h3-font-size * 0.8;
       }
       h4 {
-        font-size: $h4-font-size * 0.8;
+        // font-size: $h4-font-size * 0.8;
       }
       h5 {
-        font-size: $h5-font-size * 0.8;
+        //font-size: $h5-font-size * 0.8;
       }
       h6 {
-        font-size: $h6-font-size * 0.8;
+        //font-size: $h6-font-size * 0.8;
       }
 
       ul, ol {
@@ -95,7 +95,7 @@
       }
 
       &::after {
-        @include background-image(linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, .5) 50%, rgba(255, 255, 255, 1) 100%));
+        //@include background-image(linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, .5) 50%, rgba(255, 255, 255, 1) 100%));
         bottom: 0;
         content: '';
         height: 250px;

@@ -8,8 +8,6 @@
     
     <title>/dev/blog - Insert the output of command into the file being edited in Vim</title>
     <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,700i,300,300i|Merriweather:300,300i,700,700i" rel="stylesheet">
-    <link rel="stylesheet" href="/css/prism.css" type="text/css" media="screen" charset="utf-8">
-    <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen" charset="utf-8">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
     <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
     
@@ -22,9 +20,9 @@
     
   </head>
   <body>
-    <header>
-      <div class="row site-headline">
-        <div class="large-12 columns">
+    <header class="grid-container">
+      <div class="grid-x site-headline">
+        <div class="large-12 cell">
           <h1>
             <span class="permissions">rwxr--r--</span>
             <a href="/">
@@ -35,9 +33,9 @@
         </div>
       </div>
     </header>
-    <section class="blog-post">
-  <div class="row">
-    <div class="large-12 columns">
+    <section class="grid-container blog-post">
+  <div class="grid-x">
+    <div class="large-12 cell">
       <div class="til-header">
         <h3>
         <a href="/til/">More Pro-tips...</a>
@@ -48,7 +46,7 @@
         <time datetime="2016-03-03T00:00:00-08:00">03 Mar 2016</time>
       </div>
     </div>
-    <div class="blog-body large-12 columns">
+    <div class="blog-body large-12 cell">
       <p><code class="highlighter-rouge">:r &lt;path/to/file&gt;</code> when executed will read the contents of a file and insert it to where the cursor is in the file being edited. But just like the <code class="highlighter-rouge">:w</code> command, you can read the output of a command instead. Just prefix the comamnd with <code class="highlighter-rouge">!</code>.</p>
 
 <p>Here is a quick example:</p>
@@ -70,7 +68,7 @@
     </div>
   </div>
   <section class="post-navigation">
-    <div class="large-12 columns">
+    <div class="large-12 cell">
       <a href="/til/">Click here for more pro-tips</a>
     </div>
   </section>
@@ -111,5 +109,5 @@ ga('send', 'pageview');
     </script>
     
   </body>
-  <script src="/js/prism.js"></script>
+  <script src="/bundle.js"></script>
 </html>

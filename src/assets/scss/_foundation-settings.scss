@@ -140,9 +140,10 @@ $block-grid-max: 8;
 // ------------------
 
 $header-font-family: $body-font-family;
-$header-font-weight: $global-weight-bold;
+$header-font-weight: 800;
 $header-font-style: normal;
-$font-family-monospace: "Fira Mono", Consolas, 'Liberation Mono', Courier, monospace;
+//$font-family-monospace: "Fira Mono", Consolas, 'Liberation Mono', Courier, monospace;
+$font-family-monospace: Courier, monospace;
 $header-color: inherit;
 $header-lineheight: 1.4;
 $header-margin-bottom: 0.5rem;
@@ -164,16 +165,16 @@ $header-styles: (
         //        'h6': ('font-size': 16),
         //),
         small: (
-                'h1': ('font-size': 44),
-                'h2': ('font-size': 37),
+                'h1': ('font-size': 35),
+                'h2': ('font-size': 30),
                 'h3': ('font-size': 27),
                 'h4': ('font-size': 23),
                 'h5': ('font-size': 18),
                 'h6': ('font-size': 16),
         ),
         medium: (
-                'h1': ('font-size': 44),
-                'h2': ('font-size': 37),
+                'h1': ('font-size': 35),
+                'h2': ('font-size': 30),
                 'h3': ('font-size': 27),
                 'h4': ('font-size': 23),
                 'h5': ('font-size': 18),

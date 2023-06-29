@@ -33,6 +33,7 @@
         {% endif %}
         <meta name="description" content="{{ page.excerpt | markdownify | excerpt | strip_html | strip_newlines | escape }}" />
     {% endif %}
+    <script src="/bundle.js"></script>
   </head>
   <body>
     <header class="grid-container">
@@ -63,5 +64,4 @@ ga('send', 'pageview');
     </script>
     {% endif %}
   </body>
-  <script src="/bundle.js"></script>
 </html>

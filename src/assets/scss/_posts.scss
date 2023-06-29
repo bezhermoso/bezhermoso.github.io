@@ -64,7 +64,7 @@
     position: relative;
 
     .excerpt {
-      font-family: $font-family-serif;
+      font-family: $body-font-family;
       height: 300px;
       margin-bottom: 50px;
       overflow: hidden;
@@ -116,13 +116,13 @@
         border-radius: 2rem;
         color: $white;
         text-transform: uppercase;
-        box-shadow: $primary-color 0 2px 15px;
+        box-shadow: scale-color($primary-color, $lightness: 50%) 0 2px 15px;
         font-size: 0.8rem;
         transition: font-size 0.5s ease-in 100ms, box-shadow 0.5s ease-in 50ms, padding 1s ease-in 100ms, border-radius 1s ease-in 100ms;
 
         &:hover {
           font-size: 0.9rem;
-          box-shadow: $primary-color 0 5px 30px;
+          box-shadow: scale-color($primary-color, $lightness: 50%) 0 5px 30px;
           padding: 0.5625rem 1.125rem;
           border-radius: 2.25rem;
         }

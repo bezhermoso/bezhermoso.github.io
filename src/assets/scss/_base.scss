@@ -16,3 +16,9 @@ footer {
   padding: 1rem 0;
   color: $base;
 }
+
+h1, h2, h3, h4, h5, h6 {
+  a {
+    border-bottom: 1px dotted $primary-color;
+  }
+}

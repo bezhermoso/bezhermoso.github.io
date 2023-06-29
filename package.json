@@ -6,16 +6,23 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "webpack",
     "html": "bundle exec jekyll build --config src/jekyll/_config.yml --source src/jekyll --destination dist",
-    "serve": "npm run html && npm run compile && npx webpack serve"
+    "serve": "npx webpack serve",
+    "build": "npm run html && npm run compile",
+    "watch": "watchexec -w src 'npm run html && npm run compile'"
   },
   "private": true,
   "author": "Bez Hermoso <bezalelhermoso@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "foundation-sites": "^6.7.5",
+    "prism-themes": "^1.9.0",
     "prismjs": "^1.29.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.22.5",
+    "@babel/core": "^7.22.5",
+    "@babel/preset-env": "^7.22.5",
+    "babel-loader": "^9.1.2",
     "babel-plugin-prismjs": "^2.1.0",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.8.1",
@@ -24,6 +31,7 @@
     "sass-loader": "^13.3.2",
     "style-loader": "^3.3.3",
     "webpack": "^5.88.0",
+    "webpack-bundle-analyzer": "^4.9.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1"
   },
@@ -35,5 +43,8 @@
   "bugs": {
     "url": "https://github.com/bezhermoso/bezhermoso.github.io/issues"
   },
-  "homepage": "https://github.com/bezhermoso/bezhermoso.github.io#readme"
+  "homepage": "https://github.com/bezhermoso/bezhermoso.github.io#readme",
+  "browserslist": [
+    ">0.25%"
+  ]
 }

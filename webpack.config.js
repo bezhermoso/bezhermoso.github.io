@@ -3,12 +3,51 @@ const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
     entry: './src/bundle.js',
+    mode: 'development',
+    devtool: 'source-map',
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, "dist")
     },
     module: {
         rules: [
+            {
+                test: /\.css$/i,
+                include: /node_modules/,
+                use: [
+                    'style-loader',
+                    'css-loader',
+                ],
+            },
+            {
+                test: /\.js$/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                         presets: ["@babel/preset-env"],
+                         targets: [">0.25%"],
+                         plugins: [
+                            [
+                                "prismjs",
+                                {
+                                    languages: [
+                                    "applescript",
+                                    "bash",
+                                    "javascript",
+                                    "lua",
+                                    "markup",
+                                    "php",
+                                    "ruby",
+                                    "vim",
+                                    "yaml"
+                                ],
+                                plugins: [],
+                                css: true,
+                            }],
+                        ],
+                    },
+                },
+            },
             {
                 test: /\.s[ac]ss$/,
                 use: [

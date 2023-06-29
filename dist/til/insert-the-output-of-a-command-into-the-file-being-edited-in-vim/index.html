@@ -7,7 +7,10 @@
     
     
     <title>/dev/blog - Insert the output of command into the file being edited in Vim</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,700i,300,300i|Merriweather:300,300i,700,700i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
     <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
     
@@ -18,6 +21,7 @@
     <meta property="og:description" content=":r &amp;lt;path/to/file&amp;gt; when executed will read the contents of a file and insert it to where the cursor is in the file being edited. But just like the :w command, you can read the output of a command instead. Just prefix the comamnd with !.Here is a quick example:                &amp;nbsp;      :r !echo &#39;SELECT name, email FROM users ORDER BY created_at DESC LIMIT 10;&#39; | mysql -u root -p app_db      This will insert the result of the query into the file.  See :help :read for more details." />
     <meta name="description" content=":r &amp;lt;path/to/file&amp;gt; when executed will read the contents of a file and insert it to where the cursor is in the file being edited. But just like the :w command, you can read the output of a command instead. Just prefix the comamnd with !.Here is a quick example:                &amp;nbsp;      :r !echo &#39;SELECT name, email FROM users ORDER BY created_at DESC LIMIT 10;&#39; | mysql -u root -p app_db      This will insert the result of the query into the file.  See :help :read for more details." />
     
+    <script src="/bundle.js"></script>
   </head>
   <body>
     <header class="grid-container">
@@ -109,5 +113,4 @@ ga('send', 'pageview');
     </script>
     
   </body>
-  <script src="/bundle.js"></script>
 </html>

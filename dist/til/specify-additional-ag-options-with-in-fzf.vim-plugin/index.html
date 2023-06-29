@@ -7,7 +7,10 @@
     
     
     <title>/dev/blog - Specify additional `ag` options in fzf.vim plugin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,700i,300,300i|Merriweather:300,300i,700,700i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
     <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
     
@@ -18,6 +21,7 @@
     <meta property="og:description" content="Unlike in Ag.vim, fzf.vim’s :Ag command does not provide the ability to specify additional options to use with The Silver Searcher a.k.a. ag. Unfortunately, fzf does not use --exclude-vcs-ignores by default despite it being useful for programmers i.e. search file contents under a vendor directory or a mount, for example.The way to do it in fzf.vim is to create a custom command that will pass the -U|--exclude-vcs-ingores to the underlying ag call:                              command! -bang -nargs=* Agu call fzf#vim#ag(&amp;lt;q-args&amp;gt;, &#39;--skip-vcs-ignores&#39;, {&#39;down&#39;: &#39;~40%&#39;})      With this in ~/.vimrc, it is now possible to search the contents of a project by using :Agu instead of :Ag. The search will no longer ignore files that are  in .gitignore or any other VCS ignore lists.  See The Silver Searcher and fzf.vim." />
     <meta name="description" content="Unlike in Ag.vim, fzf.vim’s :Ag command does not provide the ability to specify additional options to use with The Silver Searcher a.k.a. ag. Unfortunately, fzf does not use --exclude-vcs-ignores by default despite it being useful for programmers i.e. search file contents under a vendor directory or a mount, for example.The way to do it in fzf.vim is to create a custom command that will pass the -U|--exclude-vcs-ingores to the underlying ag call:                              command! -bang -nargs=* Agu call fzf#vim#ag(&amp;lt;q-args&amp;gt;, &#39;--skip-vcs-ignores&#39;, {&#39;down&#39;: &#39;~40%&#39;})      With this in ~/.vimrc, it is now possible to search the contents of a project by using :Agu instead of :Ag. The search will no longer ignore files that are  in .gitignore or any other VCS ignore lists.  See The Silver Searcher and fzf.vim." />
     
+    <script src="/bundle.js"></script>
   </head>
   <body>
     <header class="grid-container">
@@ -114,5 +118,4 @@ ga('send', 'pageview');
     </script>
     
   </body>
-  <script src="/bundle.js"></script>
 </html>

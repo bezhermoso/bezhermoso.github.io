@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width" />
     
     
-    <title>/dev/blog - Get sunrise and sunset times in PHP</title>
+    <title>/dev/blog - Insert literal characters in Vim</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,700i,300,300i|Merriweather:300,300i,700,700i" rel="stylesheet">
@@ -17,9 +17,9 @@
     <meta property="og:image" content="http://bezhermoso.github.io/img/keep/til.png" />
     
     
-    <meta content="Pro-tip: Get sunrise and sunset times in PHP" property="og:title">
-    <meta property="og:description" content="If you ever wondered how to retrieve the time of sunrise and sunset on a given date in PHP, date_sun_info got you covered:" />
-    <meta name="description" content="If you ever wondered how to retrieve the time of sunrise and sunset on a given date in PHP, date_sun_info got you covered:" />
+    <meta content="Pro-tip: Insert literal characters in Vim" property="og:title">
+    <meta property="og:description" content="In the rare occasion that I need to insert a tab character while having expandtab on, the C-v command in Normal mode comes in handy:# While in Normal mode, &amp;lt;C-v&amp;gt; signals vim that the next key-press is to be inserted literally:&amp;lt;C-v&amp;gt;&amp;lt;TAB&amp;gt;" />
+    <meta name="description" content="In the rare occasion that I need to insert a tab character while having expandtab on, the C-v command in Normal mode comes in handy:# While in Normal mode, &amp;lt;C-v&amp;gt; signals vim that the next key-press is to be inserted literally:&amp;lt;C-v&amp;gt;&amp;lt;TAB&amp;gt;" />
     
     <script src="/bundle.js"></script>
   </head>
@@ -46,48 +46,17 @@
         </h3>
       </div>
       <div class="post-meta">
-        <h1>Get sunrise and sunset times in PHP</h1>
-        <time datetime="2016-02-19T00:00:00-08:00">19 Feb 2016</time>
+        <h1>Insert literal characters in Vim</h1>
+        <time datetime="2022-12-29T00:00:00-08:00">29 Dec 2022</time>
       </div>
     </div>
     <div class="blog-body large-12 cell">
-      <p>If you <em>ever</em> wondered how to retrieve the time of sunrise and sunset 
-on a given date in PHP, <code class="highlighter-rouge">date_sun_info</code> got you covered:</p>
+      <p>In the rare occasion that I need to insert a tab character while having <code class="highlighter-rouge">expandtab</code> on, the <code class="highlighter-rouge">C-v</code> command in Normal mode comes in handy:</p>
 
-<!--stop-->
-
-<div class="code-section">
-  <div class="filename">
-    <div class="row">
-      
-    </div>
-  </div>
-  <div class="row">
-    <div class="large-12 columns">
-      <pre><code class="language-php">&lt;?php
-
-date_sun_info($timestamp = strtotime('2016-04-10'), $lat = 10.3079, $lng = 124.0195);
-
-// =&gt; [
-//      &quot;sunrise&quot; =&gt; 1460237721,
-//      &quot;sunset&quot; =&gt; 1460282077,
-//      &quot;transit&quot; =&gt; 1460259899,
-//      &quot;civil_twilight_begin&quot; =&gt; 1460236449,
-//      &quot;civil_twilight_end&quot; =&gt; 1460283350,
-//      &quot;nautical_twilight_begin&quot; =&gt; 1460234961,
-//      &quot;nautical_twilight_end&quot; =&gt; 1460284838,
-//      &quot;astronomical_twilight_begin&quot; =&gt; 1460233466,
-//      &quot;astronomical_twilight_end&quot; =&gt; 1460286332,
-//    ]</code></pre>
-    </div>
-  </div>
+<div class="language-vim highlighter-rouge"><pre class="highlight"><code># While <span class="k">in</span> Normal <span class="k">mode</span><span class="p">,</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">v</span><span class="p">&gt;</span> signals <span class="k">vim</span> that the next key<span class="p">-</span>press <span class="k">is</span> <span class="k">to</span> be inserted literally<span class="p">:</span>
+<span class="p">&lt;</span>C<span class="p">-</span><span class="k">v</span><span class="p">&gt;&lt;</span>TAB<span class="p">&gt;</span>
+</code></pre>
 </div>
-
-<blockquote>
-  <p>Available since PHP 5.1.2. See full documentation:
-<a href="http://php.net/manual/en/function.date-sun-info.php">function.date-sun-info.php</a></p>
-</blockquote>
-
 
     </div>
   </div>

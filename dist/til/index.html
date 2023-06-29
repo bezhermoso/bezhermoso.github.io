@@ -7,7 +7,10 @@
     
     
     <title>/dev/blog - Pro-tips</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,700i,300,300i|Merriweather:300,300i,700,700i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
     <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
     
@@ -20,6 +23,7 @@
         
         <meta name="description" content="" />
     
+    <script src="/bundle.js"></script>
   </head>
   <body>
     <header class="grid-container">
@@ -45,70 +49,33 @@
           <li class="medium-12">
             <div class="til-list--meta">
               <h2 class="til-list--title">
+                <a href="/til/insert-literal-characters-in-vim/">
+                  Insert literal characters in Vim
+                </a>
+              </h2>
+              <time datetime="2022-12-29T00:00:00-08:00">29 Dec 2022</time>
+            </div>
+            
+              <p>In the rare occasion that I need to insert a tab character while having <code class="highlighter-rouge">expandtab</code> on, the <code class="highlighter-rouge">C-v</code> command in Normal mode comes in handy:</p>
+
+<div class="language-vim highlighter-rouge"><pre class="highlight"><code># While <span class="k">in</span> Normal <span class="k">mode</span><span class="p">,</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">v</span><span class="p">&gt;</span> signals <span class="k">vim</span> that the next key<span class="p">-</span>press <span class="k">is</span> <span class="k">to</span> be inserted literally<span class="p">:</span>
+<span class="p">&lt;</span>C<span class="p">-</span><span class="k">v</span><span class="p">&gt;&lt;</span>TAB<span class="p">&gt;</span>
+</code></pre>
+</div>
+
+            
+          </li>
+        
+          
+          <li class="medium-12 previous">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
                 <a href="/til/concise-value-reuse-php-7-null-coalescing/">
                   Concise value re-use pattern using PHP 7.x's null coalescing operator
                 </a>
               </h2>
               <time datetime="2020-01-22T00:00:00-08:00">22 Jan 2020</time>
             </div>
-            
-              <p>Since PHP 7.0, the addition of the null coalescing operator <code class="highlighter-rouge">??</code> has made writing certain boilerplate patterns obsolete, like the common pattern of using <code class="highlighter-rouge">isset(...)</code> to avoid a myriad of errors when addressing deeply-nested array elements that don’t exist.</p>
-
-<p>Another pattern that is ripe for replacement is for value re-use, like those usually found in singletons, in-memory caches, memoizations:</p>
-
-<div class="code-section">
-  <div class="filename">
-    <div class="row">
-      
-    </div>
-  </div>
-  <div class="row">
-    <div class="large-12 columns">
-      <pre><code class="language-php">&lt;?php
-
-class Singleton
-{
-		private static $instance;
-
-		private function __construct() { ... };
-
-		public static function getInstance(): Singleton
-		{
-				return self::$instance = self::$instance ?? new static();
-		}
-}</code></pre>
-    </div>
-  </div>
-</div>
-
-<div class="code-section">
-  <div class="filename">
-    <div class="row">
-      
-    </div>
-  </div>
-  <div class="row">
-    <div class="large-12 columns">
-      <pre><code class="language-php">&lt;?php
-
-class Fibonacci
-{
-		private $cache = [];
-
-		public function find($n): int
-		{
-				return $this-&gt;cache[$n] =
-					$this-&gt;cache[$n] ?? self::find($n) + self::find($n - 2);
-		}
-}</code></pre>
-    </div>
-  </div>
-</div>
-
-<blockquote>
-  <p>See <a href="https://www.php.net/manual/en/migration70.new-features.php#migration70.new-features.null-coalesce-op">PHP 7.0 - New Features: null coalescing operator</a></p>
-</blockquote>
-
             
           </li>
         
@@ -471,5 +438,4 @@ ga('send', 'pageview');
     </script>
     
   </body>
-  <script src="/bundle.js"></script>
 </html>

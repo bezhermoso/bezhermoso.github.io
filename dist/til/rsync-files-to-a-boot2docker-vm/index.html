@@ -7,7 +7,10 @@
     
     
     <title>/dev/blog - Rsync files to a boot2docker VM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,700i,300,300i|Merriweather:300,300i,700,700i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
     <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
     
@@ -18,6 +21,7 @@
     <meta property="og:description" content="rsync is usually a smarter choice for syncing code from the host machine to a directory inside a VM compared to scp, and is a lot performant than relying on an NFS share to sync files.                &amp;nbsp;      rsync --recursive --delete --relative \    --rsh &amp;quot;ssh -i $DOCKER_CERT_PATH/id_rsa&amp;quot; \    code/ docker@$(docker-machine ip default)/opt/volumes/my_service/      The key concept here is the use of the --rsh option, which allows you to specify the proper SSH command using the necessary identity file. DOCKER_CERT_PATH is an environment variable that gets set when we do eval $(docker-machine env default) to get Docker commands to work against the Docker daemon on the boot2docker instance.  See man rsync and Docker Machine" />
     <meta name="description" content="rsync is usually a smarter choice for syncing code from the host machine to a directory inside a VM compared to scp, and is a lot performant than relying on an NFS share to sync files.                &amp;nbsp;      rsync --recursive --delete --relative \    --rsh &amp;quot;ssh -i $DOCKER_CERT_PATH/id_rsa&amp;quot; \    code/ docker@$(docker-machine ip default)/opt/volumes/my_service/      The key concept here is the use of the --rsh option, which allows you to specify the proper SSH command using the necessary identity file. DOCKER_CERT_PATH is an environment variable that gets set when we do eval $(docker-machine env default) to get Docker commands to work against the Docker daemon on the boot2docker instance.  See man rsync and Docker Machine" />
     
+    <script src="/bundle.js"></script>
   </head>
   <body>
     <header class="grid-container">
@@ -110,5 +114,4 @@ ga('send', 'pageview');
     </script>
     
   </body>
-  <script src="/bundle.js"></script>
 </html>

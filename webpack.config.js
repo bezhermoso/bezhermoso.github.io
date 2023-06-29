@@ -3,7 +3,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
     entry: './src/bundle.js',
-    mode: 'development',
+    mode: process.env.WEBPACK_MODE === 'production' ? 'production' : 'development',
     devtool: 'source-map',
     output: {
         filename: 'bundle.js',

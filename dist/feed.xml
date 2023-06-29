@@ -6,10 +6,10 @@
 </description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 29 Dec 2022 20:21:46 -0800</pubDate>
-    <lastBuildDate>Thu, 29 Dec 2022 20:21:46 -0800</lastBuildDate>
+    <pubDate>Wed, 28 Jun 2023 23:21:58 -0700</pubDate>
+    <lastBuildDate>Wed, 28 Jun 2023 23:21:58 -0700</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
-
+    
       <item>
         <title>Jump back up to your Git repo's root directory</title>
         <description>&lt;p&gt;You want to jump back up to your project’s root directory from who knows many levels down. What would you do? Figure out the right amount of levels to &lt;code class=&quot;highlighter-rouge&quot;&gt;cd ../../..&lt;/code&gt; up? Run &lt;code class=&quot;highlighter-rouge&quot;&gt;cd ..&lt;/code&gt; repeatedly until you get there? or run &lt;code class=&quot;highlighter-rouge&quot;&gt;cd&lt;/code&gt; to an absolute path directly?&lt;/p&gt;
@@ -89,10 +89,10 @@ alias gr=jump-to-git-root&lt;/code&gt;&lt;/pre&gt;
         <pubDate>Sat, 28 Jul 2018 00:00:00 -0700</pubDate>
         <link>/2018/07/28/jump-back-up-to-git-repo-root-directory/</link>
         <guid isPermaLink="true">/2018/07/28/jump-back-up-to-git-repo-root-directory/</guid>
-
-
+        
+        
       </item>
-
+    
       <item>
         <title>Improved tmux experience</title>
         <description>&lt;p&gt;If there is one tool I use the most, it has to be &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt;. I do almost everything &lt;em&gt;in&lt;/em&gt; it.&lt;/p&gt;
@@ -314,10 +314,10 @@ bind-key Q confirm-before -p &amp;quot;Kill session #S? (y/n)&amp;quot; kill-ses
         <pubDate>Sat, 02 Jun 2018 00:00:00 -0700</pubDate>
         <link>/2018/06/02/improved-tmux-experience/</link>
         <guid isPermaLink="true">/2018/06/02/improved-tmux-experience/</guid>
-
-
+        
+        
       </item>
-
+    
       <item>
         <title>vim-gnupg + Neovim + MacOS and how to get pinentry to work</title>
         <description>&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;vim-gnupg&lt;/code&gt; provides transparent PGP encryption/decryption when editing &lt;code class=&quot;highlighter-rouge&quot;&gt;*.gpg&lt;/code&gt; &lt;em&gt;et al&lt;/em&gt; files with &lt;code class=&quot;highlighter-rouge&quot;&gt;vim&lt;/code&gt;. Sadly, if you are using a TTY-based pinentry your GNUPG setup like &lt;code class=&quot;highlighter-rouge&quot;&gt;pinentry-curses&lt;/code&gt;, &lt;a href=&quot;https://github.com/jamessan/vim-gnupg/issues/32&quot;&gt;it won’t work&lt;/a&gt; (with no fault from the plugin author).&lt;/p&gt;
@@ -372,7 +372,7 @@ export PINENTRY_USER_DATA=&amp;quot;USE_CURSES=1&amp;quot;&lt;/code&gt;&lt;/pre&
 &lt;div class=&quot;code-section&quot;&gt;
   &lt;div class=&quot;filename&quot;&gt;
     &lt;div class=&quot;row&quot;&gt;
-
+      
     &lt;/div&gt;
   &lt;/div&gt;
   &lt;div class=&quot;row&quot;&gt;
@@ -389,10 +389,10 @@ export PINENTRY_USER_DATA=&amp;quot;USE_CURSES=1&amp;quot;&lt;/code&gt;&lt;/pre&
         <pubDate>Mon, 29 May 2017 00:00:00 -0700</pubDate>
         <link>/2017/05/29/get-gpg-pinentry-to-work-with-vim-gnupg-in-neovim/</link>
         <guid isPermaLink="true">/2017/05/29/get-gpg-pinentry-to-work-with-vim-gnupg-in-neovim/</guid>
-
-
+        
+        
       </item>
-
+    
       <item>
         <title>Escaping backticks with the zsh line editor</title>
         <description>&lt;p&gt;I just wrote my very first &lt;code class=&quot;highlighter-rouge&quot;&gt;zsh&lt;/code&gt; plugin this week, and it has proven to be quite useful – I like to wrap identifiers/symbols in commit messages with backticks and often-times neglect to escape them. This would result in the identifier/symbol being evaluated, which is not what I want to happen.&lt;/p&gt;
@@ -445,10 +445,10 @@ bindkey &amp;quot;\`&amp;quot; expand-double-backtick-to-escaped-backtick&lt;/co
         <pubDate>Tue, 28 Feb 2017 00:00:00 -0800</pubDate>
         <link>/2017/02/28/escaping-backticks-with-zshs-line-editor/</link>
         <guid isPermaLink="true">/2017/02/28/escaping-backticks-with-zshs-line-editor/</guid>
-
-
+        
+        
       </item>
-
+    
       <item>
         <title>Subreddit quick-switcher in Google Chrome -- no extensions required</title>
         <description>&lt;p&gt;Here is a convenient &amp;amp; versatile yet stependously easy trick you can do in Google Chrome, leveraging the built-in custom search engine functionality:&lt;/p&gt;
@@ -493,10 +493,10 @@ bindkey &amp;quot;\`&amp;quot; expand-double-backtick-to-escaped-backtick&lt;/co
         <pubDate>Sun, 08 Jan 2017 00:00:00 -0800</pubDate>
         <link>/2017/01/08/subreddit-quick-switcher-google-chrome/</link>
         <guid isPermaLink="true">/2017/01/08/subreddit-quick-switcher-google-chrome/</guid>
-
-
+        
+        
       </item>
-
+    
       <item>
         <title>Protip: copy files and/or directories from a Docker image</title>
         <description>&lt;p&gt;I found myself needing to copy a bunch of files and directories straight from a Docker image. There is a trivial solution in the form of &lt;code class=&quot;highlighter-rouge&quot;&gt;docker cp&lt;/code&gt;, but I came up with an alternative using &lt;code class=&quot;highlighter-rouge&quot;&gt;docker run&lt;/code&gt;:&lt;/p&gt;
@@ -564,10 +564,10 @@ tar: Unrecognized archive format&lt;/code&gt;&lt;/pre&gt;
         <pubDate>Mon, 31 Oct 2016 00:00:00 -0700</pubDate>
         <link>/2016/10/31/protip-copy-files-and-or-directories-from-docker-image/</link>
         <guid isPermaLink="true">/2016/10/31/protip-copy-files-and-or-directories-from-docker-image/</guid>
-
-
+        
+        
       </item>
-
+    
       <item>
         <title>Protip: warn about file changes, deletions &amp; additions before rsync</title>
         <description>&lt;p&gt;I wrote a shell script that wraps &lt;code class=&quot;highlighter-rouge&quot;&gt;rsync&lt;/code&gt; with a user prompt in cases where files are going to be added, deleted, or changed, which is a scenario when some work might get lost:&lt;/p&gt;
@@ -625,15 +625,15 @@ esac&lt;/code&gt;&lt;/pre&gt;
         <pubDate>Thu, 23 Jun 2016 00:00:00 -0700</pubDate>
         <link>/2016/06/23/protip-warn-about-changes-before-rsync/</link>
         <guid isPermaLink="true">/2016/06/23/protip-warn-about-changes-before-rsync/</guid>
-
-
+        
+        
       </item>
-
+    
       <item>
         <title>Making perfect ramen with Lua: OS X automation with Hammerspoon</title>
         <description>&lt;p&gt;Yesterday I discovered &lt;strong&gt;&lt;a href=&quot;http://www.hammerspoon.org&quot;&gt;Hammerspoon&lt;/a&gt;&lt;/strong&gt;, a project
 that touts itself as a &lt;em&gt;“tool for powerful automation of OS X”&lt;/em&gt;. After giving
-it a try, not only did I find that statement to be true, but as someone who has
+it a try, not only did I find that statement to be true, but as someone who has 
 &lt;strong&gt;ZERO&lt;/strong&gt; prior practical experience with Lua, I was surprised by how relatively easy it was to
 get on board. Now, I’m hooked.&lt;/p&gt;
 
@@ -698,7 +698,7 @@ cycle through the displays with &lt;strong&gt;&lt;em&gt;consistency&lt;/em&gt;&l
 &lt;div class=&quot;code-section&quot;&gt;
   &lt;div class=&quot;filename&quot;&gt;
     &lt;div class=&quot;row&quot;&gt;
-
+      
     &lt;/div&gt;
   &lt;/div&gt;
   &lt;div class=&quot;row&quot;&gt;
@@ -716,7 +716,7 @@ hs.hotkey.bind({&amp;quot;alt&amp;quot;}, &amp;quot;`&amp;quot;, function ()
 end)
 
 --Bring focus to previous display/screen
-hs.hotkey.bind({&amp;quot;alt&amp;quot;, &amp;quot;shift&amp;quot;}, &amp;quot;`&amp;quot;, function()
+hs.hotkey.bind({&amp;quot;alt&amp;quot;, &amp;quot;shift&amp;quot;}, &amp;quot;`&amp;quot;, function() 
   focusScreen(hs.window.focusedWindow():screen():previous())
 end)
 
@@ -763,7 +763,7 @@ looking for applications that I could configure to somehow remind me to clock in
 &lt;div class=&quot;code-section&quot;&gt;
   &lt;div class=&quot;filename&quot;&gt;
     &lt;div class=&quot;row&quot;&gt;
-
+      
     &lt;/div&gt;
   &lt;/div&gt;
   &lt;div class=&quot;row&quot;&gt;
@@ -781,7 +781,7 @@ hs.wifi.watcher.new(function ()
   if not currentWifi then return end
 
   local note = hs.notify.new({
-    title=&amp;quot;Connected to WiFi&amp;quot;,
+    title=&amp;quot;Connected to WiFi&amp;quot;, 
     informativeText=&amp;quot;Now connected to &amp;quot; .. currentWifi
   }):send()
 
@@ -800,7 +800,7 @@ hs.wifi.watcher.new(function ()
       hs.execute(&amp;quot;open &amp;quot; .. employeeDashboardUrl)
 
       --Make notification clickable. Browser window will be focused on click:
-      hs.notify.new(function ()
+      hs.notify.new(function () 
         hs.application.launchOrFocus(defaultBrowser)
       end, {title=&amp;quot;Make sure you clock in!&amp;quot;}):send()
     end)
@@ -824,7 +824,7 @@ long as I’m in our ofice network to remind me to put in worklogs.&lt;/p&gt;
 &lt;div class=&quot;code-section&quot;&gt;
   &lt;div class=&quot;filename&quot;&gt;
     &lt;div class=&quot;row&quot;&gt;
-
+      
     &lt;/div&gt;
   &lt;/div&gt;
   &lt;div class=&quot;row&quot;&gt;
@@ -892,13 +892,13 @@ might like it, too.&lt;/p&gt;
         <pubDate>Wed, 20 Jan 2016 00:00:00 -0800</pubDate>
         <link>/2016/01/20/making-perfect-ramen-lua-os-x-automation-with-hammerspoon/</link>
         <guid isPermaLink="true">/2016/01/20/making-perfect-ramen-lua-os-x-automation-with-hammerspoon/</guid>
-
-
+        
+        
       </item>
-
+    
       <item>
         <title>Breeze through OS X alert notifications with swift efficiency through keyboard shortcuts</title>
-        <description>&lt;p&gt;I think one glaring omission from OS X’s huge set of handy keyboard shortcuts for
+        <description>&lt;p&gt;I think one glaring omission from OS X’s huge set of handy keyboard shortcuts for 
 common functionality is the ability to dismiss all alert notifications using a global hotkey. Right now,
 the only way to clear out a backlog is to click on the &lt;em&gt;“Close”&lt;/em&gt; button on each and every single notification item.
 Going through a backlog of alert notifications is a constant dilemma I face on a normal work day,
@@ -957,7 +957,7 @@ save the workflow somewhere you can find it later on.&lt;/p&gt;
 &lt;div class=&quot;code-section&quot;&gt;
   &lt;div class=&quot;filename&quot;&gt;
     &lt;div class=&quot;row&quot;&gt;
-
+      
     &lt;/div&gt;
   &lt;/div&gt;
   &lt;div class=&quot;row&quot;&gt;
@@ -983,7 +983,7 @@ concisely.&lt;/p&gt;
 &lt;div class=&quot;code-section&quot;&gt;
   &lt;div class=&quot;filename&quot;&gt;
     &lt;div class=&quot;row&quot;&gt;
-
+      
     &lt;/div&gt;
   &lt;/div&gt;
   &lt;div class=&quot;row&quot;&gt;
@@ -1006,7 +1006,7 @@ end run&lt;/code&gt;&lt;/pre&gt;
 &lt;div class=&quot;code-section&quot;&gt;
   &lt;div class=&quot;filename&quot;&gt;
     &lt;div class=&quot;row&quot;&gt;
-
+      
     &lt;/div&gt;
   &lt;/div&gt;
   &lt;div class=&quot;row&quot;&gt;
@@ -1029,7 +1029,7 @@ end run&lt;/code&gt;&lt;/pre&gt;
 &lt;div class=&quot;code-section&quot;&gt;
   &lt;div class=&quot;filename&quot;&gt;
     &lt;div class=&quot;row&quot;&gt;
-
+      
     &lt;/div&gt;
   &lt;/div&gt;
   &lt;div class=&quot;row&quot;&gt;
@@ -1114,10 +1114,10 @@ Mission Control &amp;gt; Turn Do Not Disturb On/Off&lt;/em&gt;
         <pubDate>Sun, 17 Jan 2016 00:00:00 -0800</pubDate>
         <link>/2016/01/17/breeze-through-osx-notifications-with-effiency-through-keyboard-shortcuts/</link>
         <guid isPermaLink="true">/2016/01/17/breeze-through-osx-notifications-with-effiency-through-keyboard-shortcuts/</guid>
-
-
+        
+        
       </item>
-
+    
       <item>
         <title>Simple solution for tmux causing system freezes on Mac OS X</title>
         <description>&lt;blockquote&gt;
@@ -1164,9 +1164,9 @@ a potential to incur data loss in the future.&lt;/p&gt;
         <pubDate>Sat, 17 Oct 2015 00:00:00 -0700</pubDate>
         <link>/2015/10/17/simple-solution-for-tmux-causing-system-freezes-on-mac-os-x/</link>
         <guid isPermaLink="true">/2015/10/17/simple-solution-for-tmux-causing-system-freezes-on-mac-os-x/</guid>
-
-
+        
+        
       </item>
-
+    
   </channel>
 </rss>

@@ -4,44 +4,44 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-
-
+    
+    
     <title>/dev/blog - Making perfect ramen with Lua: OS X automation with Hammerspoon</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@400;500;700&family=Merriweather:ital,wght@0,300;0,700;1,300;1,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/prism.css" type="text/css" media="screen" charset="utf-8">
-    <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen" charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,700i,300,300i|Merriweather:300,300i,700,700i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
     <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
-
+    
     <meta property="og:image" content="http://bezhermoso.github.io/keep/hammerspoon.png" />
-
-
+    
+    
     <meta property="og:title" content="Making perfect ramen with Lua: OS X automation with Hammerspoon" />
-
+        
         <meta property="og:description" content="Yesterday I discovered Hammerspoon, a projectthat touts itself as a “tool for powerful automation of OS X”. After givingit a try, not only did I find that statement to be true, but as someone who has ZERO prior practical experience with Lua, I was surprised by how relatively easy it was toget on board. Now, I’m hooked." />
-
+        
         <meta name="description" content="Yesterday I discovered Hammerspoon, a projectthat touts itself as a “tool for powerful automation of OS X”. After givingit a try, not only did I find that statement to be true, but as someone who has ZERO prior practical experience with Lua, I was surprised by how relatively easy it was toget on board. Now, I’m hooked." />
-
+    
+    <script src="/bundle.js"></script>
   </head>
   <body>
-    <header>
-      <div class="row site-headline">
-        <div class="large-12 columns">
+    <header class="grid-container">
+      <div class="grid-x site-headline">
+        <div class="large-12 cell">
           <h1>
             <span class="permissions">rwxr--r--</span>
             <a href="/">
               <div>/dev/blog</div>
             </a>
           </a></h1>
-          <h2>Bez Hermoso · Software Engineer @ Square</h2>
+          <h2>Bez Hermoso, Software Engineer @ Square</h2>
         </div>
       </div>
     </header>
-    <section class="blog-post">
-  <div class="row">
-    <div class="large-12 columns">
+    <section class="grid-container blog-post">
+  <div class="grid-x">
+    <div class="large-12 cell">
       <div class="post-meta">
         <h1>Making perfect ramen with Lua: OS X automation with Hammerspoon</h1>
         <time datetime="2016-01-20T00:00:00-08:00">20 Jan 2016</time>
@@ -50,7 +50,7 @@
     <div class="blog-body large-12 columns">
       <p>Yesterday I discovered <strong><a href="http://www.hammerspoon.org">Hammerspoon</a></strong>, a project
 that touts itself as a <em>“tool for powerful automation of OS X”</em>. After giving
-it a try, not only did I find that statement to be true, but as someone who has
+it a try, not only did I find that statement to be true, but as someone who has 
 <strong>ZERO</strong> prior practical experience with Lua, I was surprised by how relatively easy it was to
 get on board. Now, I’m hooked.</p>
 
@@ -115,7 +115,7 @@ cycle through the displays with <strong><em>consistency</em></strong>.</p>
 <div class="code-section">
   <div class="filename">
     <div class="row">
-
+      
     </div>
   </div>
   <div class="row">
@@ -133,7 +133,7 @@ hs.hotkey.bind({&quot;alt&quot;}, &quot;`&quot;, function ()
 end)
 
 --Bring focus to previous display/screen
-hs.hotkey.bind({&quot;alt&quot;, &quot;shift&quot;}, &quot;`&quot;, function()
+hs.hotkey.bind({&quot;alt&quot;, &quot;shift&quot;}, &quot;`&quot;, function() 
   focusScreen(hs.window.focusedWindow():screen():previous())
 end)
 
@@ -180,7 +180,7 @@ looking for applications that I could configure to somehow remind me to clock in
 <div class="code-section">
   <div class="filename">
     <div class="row">
-
+      
     </div>
   </div>
   <div class="row">
@@ -198,7 +198,7 @@ hs.wifi.watcher.new(function ()
   if not currentWifi then return end
 
   local note = hs.notify.new({
-    title=&quot;Connected to WiFi&quot;,
+    title=&quot;Connected to WiFi&quot;, 
     informativeText=&quot;Now connected to &quot; .. currentWifi
   }):send()
 
@@ -217,7 +217,7 @@ hs.wifi.watcher.new(function ()
       hs.execute(&quot;open &quot; .. employeeDashboardUrl)
 
       --Make notification clickable. Browser window will be focused on click:
-      hs.notify.new(function ()
+      hs.notify.new(function () 
         hs.application.launchOrFocus(defaultBrowser)
       end, {title=&quot;Make sure you clock in!&quot;}):send()
     end)
@@ -241,7 +241,7 @@ long as I’m in our ofice network to remind me to put in worklogs.</p>
 <div class="code-section">
   <div class="filename">
     <div class="row">
-
+      
     </div>
   </div>
   <div class="row">
@@ -309,19 +309,19 @@ might like it, too.</p>
     </div>
   </div>
   <section class="post-navigation">
-    <div class="row">
-      <div class="large-4 columns">
-
+    <div class="grid-x">
+      <div class="large-4 cell">
+        
         Previous: <a href="/2016/06/23/protip-warn-about-changes-before-rsync/">Protip: warn about file changes, deletions & additions before rsync</a>
-
+        
       </div>
-      <div class="large-4 columns">
+      <div class="large-4 cell">
         <a href="/" title="Go back home"><code>$HOME</code></a>
       </div>
-      <div class="large-4 columns">
-
+      <div class="large-4 cell">
+        
         Next: <a href="/2016/01/17/breeze-through-osx-notifications-with-effiency-through-keyboard-shortcuts/">Breeze through OS X alert notifications with swift efficiency through keyboard shortcuts</a>
-
+        
       </div>
     </div>
   </section>
@@ -351,7 +351,7 @@ var disqus_shortname = 'thftmsc'; // required: replace example with your forum s
     <footer>
       Bez Hermoso (c) 2016
     </footer>
-
+    
     <script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -360,7 +360,6 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 ga('create', 'UA-22506121-5', 'auto');
 ga('send', 'pageview');
     </script>
-
+    
   </body>
-  <script src="/js/prism.js"></script>
 </html>

@@ -1,7 +1,9 @@
 #!/bin/bash
 
-BUILD_CMD=${BUILD_CMD:-yarn run gulp build}
-$BUILD_CMD \
+export WEBPACK_MODE=production
+
+npm run html \
+  && npm run build \
   && git add -A dist \
-  && fortune -s | git commit -S -m - \
+  && fortune -s | git commit -S -F - \
   && git subtree push --prefix=dist origin master

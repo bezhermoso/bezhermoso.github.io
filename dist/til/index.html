@@ -1,0 +1,442 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+
+
+    <title>/dev/blog - Pro-tips</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@400;500;700&family=Merriweather:ital,wght@0,300;0,700;1,300;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/prism.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
+
+    <meta property="og:image" content="http://www.gravatar.com/avatar/7c3c15142fcfe3e25ce2fae6b1912bcc.jpg?s=200" />
+
+
+    <meta property="og:title" content="Pro-tips" />
+
+        <meta property="og:description" content="" />
+
+        <meta name="description" content="" />
+
+  </head>
+  <body>
+    <header>
+      <div class="row site-headline">
+        <div class="large-12 columns">
+          <h1>
+            <span class="permissions">rwxr--r--</span>
+            <a href="/">
+              <div>/dev/blog</div>
+            </a>
+          </a></h1>
+          <h2>Bez Hermoso · Software Engineer @ Square</h2>
+        </div>
+      </div>
+    </header>
+    <section>
+  <div class="container">
+    <div class="row">
+      <ul class="til-list">
+
+
+
+          <li class="medium-12">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
+                <a href="/til/insert-literal-characters-in-vim/">
+                  Insert literal characters in Vim
+                </a>
+              </h2>
+              <time datetime="2022-12-29T00:00:00-08:00">29 Dec 2022</time>
+            </div>
+
+              <p>In the rare occasion that I need to insert a tab character while having <code class="highlighter-rouge">expandtab</code> on, the <code class="highlighter-rouge">C-v</code> command in Normal mode comes in handy:</p>
+
+<div class="language-vim highlighter-rouge"><pre class="highlight"><code># While <span class="k">in</span> Normal <span class="k">mode</span><span class="p">,</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">v</span><span class="p">&gt;</span> signals <span class="k">vim</span> that the next key<span class="p">-</span>press <span class="k">is</span> <span class="k">to</span> be inserted literally<span class="p">:</span>
+<span class="p">&lt;</span>C<span class="p">-</span><span class="k">v</span><span class="p">&gt;&lt;</span>TAB<span class="p">&gt;</span>
+</code></pre>
+</div>
+
+
+          </li>
+
+
+          <li class="medium-12 previous">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
+                <a href="/til/concise-value-reuse-php-7-null-coalescing/">
+                  Concise value re-use pattern using PHP 7.x's null coalescing operator
+                </a>
+              </h2>
+              <time datetime="2020-01-22T00:00:00-08:00">22 Jan 2020</time>
+            </div>
+
+          </li>
+
+
+          <li class="medium-12 previous">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
+                <a href="/til/append-running-total-to-csv-with-awk/">
+                  Append running total to each line in CSV file with `awk`
+                </a>
+              </h2>
+              <time datetime="2017-04-29T00:00:00-07:00">29 Apr 2017</time>
+            </div>
+
+          </li>
+
+
+          <li class="medium-12 previous">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
+                <a href="/til/dispatch-multiple-actions-from-a-single-ngrx-effect-stream/">
+                  Dispatch multiple actions from a single ngrx @Effect stream
+                </a>
+              </h2>
+              <time datetime="2016-11-29T00:00:00-08:00">29 Nov 2016</time>
+            </div>
+
+          </li>
+
+
+          <li class="medium-12 previous">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
+                <a href="/til/backup-remote-files-directly-unto-local-filesystem/">
+                  Backup remote files directly unto local filesystem
+                </a>
+              </h2>
+              <time datetime="2016-08-19T00:00:00-07:00">19 Aug 2016</time>
+            </div>
+
+          </li>
+
+
+          <li class="medium-12 previous">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
+                <a href="/til/watch-file-size-change/">
+                  Watch file size change
+                </a>
+              </h2>
+              <time datetime="2016-08-12T00:00:00-07:00">12 Aug 2016</time>
+            </div>
+
+          </li>
+
+
+          <li class="medium-12 previous">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
+                <a href="/til/supress-annoying-warning-banners-when-using-vagrant-installed-from-source/">
+                  Supress annoying warning banners when using Vagrant installed from source
+                </a>
+              </h2>
+              <time datetime="2016-07-14T00:00:00-07:00">14 Jul 2016</time>
+            </div>
+
+          </li>
+
+
+          <li class="medium-12 previous">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
+                <a href="/til/jump-to-line-when-opening-vim/">
+                  Jump to a line when opening Vim
+                </a>
+              </h2>
+              <time datetime="2016-03-14T00:00:00-07:00">14 Mar 2016</time>
+            </div>
+
+          </li>
+
+
+          <li class="medium-12 previous">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
+                <a href="/til/specify-additional-ag-options-with-in-fzf.vim-plugin/">
+                  Specify additional `ag` options in fzf.vim plugin
+                </a>
+              </h2>
+              <time datetime="2016-03-11T00:00:00-08:00">11 Mar 2016</time>
+            </div>
+
+          </li>
+
+
+          <li class="medium-12 previous">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
+                <a href="/til/fuzzy-find-all-the-things/">
+                  Fuzzy-find all the things!
+                </a>
+              </h2>
+              <time datetime="2016-03-10T00:00:00-08:00">10 Mar 2016</time>
+            </div>
+
+          </li>
+
+
+          <li class="medium-12 previous">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
+                <a href="/til/stop-and-remove-docker-containers-delete-docker-images-in-bulk/">
+                  Stop and remove Docker containers, and/or delete images, in bulk
+                </a>
+              </h2>
+              <time datetime="2016-03-09T00:00:00-08:00">09 Mar 2016</time>
+            </div>
+
+          </li>
+
+
+          <li class="medium-12 previous">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
+                <a href="/til/move-a-tmux-pane-from-one-window-to-another/">
+                  Move a tmux pane from one window to another
+                </a>
+              </h2>
+              <time datetime="2016-03-08T00:00:00-08:00">08 Mar 2016</time>
+            </div>
+
+          </li>
+
+
+          <li class="medium-12 previous">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
+                <a href="/til/support-both-Promises-A+-and-node-like-callbacks/">
+                  Support both Promises/A+ and Node-like callbacks
+                </a>
+              </h2>
+              <time datetime="2016-03-07T00:00:00-08:00">07 Mar 2016</time>
+            </div>
+
+          </li>
+
+
+          <li class="medium-12 previous">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
+                <a href="/til/filter-lines-in-vim/">
+                  Filter lines in Vim
+                </a>
+              </h2>
+              <time datetime="2016-03-04T00:00:00-08:00">04 Mar 2016</time>
+            </div>
+
+          </li>
+
+
+          <li class="medium-12 previous">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
+                <a href="/til/insert-the-output-of-a-command-into-the-file-being-edited-in-vim/">
+                  Insert the output of command into the file being edited in Vim
+                </a>
+              </h2>
+              <time datetime="2016-03-03T00:00:00-08:00">03 Mar 2016</time>
+            </div>
+
+          </li>
+
+
+          <li class="medium-12 previous">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
+                <a href="/til/rsync-files-to-a-boot2docker-vm/">
+                  Rsync files to a boot2docker VM
+                </a>
+              </h2>
+              <time datetime="2016-03-02T00:00:00-08:00">02 Mar 2016</time>
+            </div>
+
+          </li>
+
+
+          <li class="medium-12 previous">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
+                <a href="/til/view-weather-information-in-the-terminal/">
+                  View weather information in the terminal
+                </a>
+              </h2>
+              <time datetime="2016-03-01T00:00:00-08:00">01 Mar 2016</time>
+            </div>
+
+          </li>
+
+
+          <li class="medium-12 previous">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
+                <a href="/til/create-custom-javascript-errors/">
+                  Create custom Javascript errors
+                </a>
+              </h2>
+              <time datetime="2016-02-29T00:00:00-08:00">29 Feb 2016</time>
+            </div>
+
+          </li>
+
+
+          <li class="medium-12 previous">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
+                <a href="/til/launch-vim-with-an-initial-command/">
+                  Launch Vim with an init command
+                </a>
+              </h2>
+              <time datetime="2016-02-26T00:00:00-08:00">26 Feb 2016</time>
+            </div>
+
+          </li>
+
+
+          <li class="medium-12 previous">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
+                <a href="/til/coordinate-tmux-windows-with-send-keys/">
+                  Coordinate tmux windows with `send-keys`
+                </a>
+              </h2>
+              <time datetime="2016-02-25T00:00:00-08:00">25 Feb 2016</time>
+            </div>
+
+          </li>
+
+
+          <li class="medium-12 previous">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
+                <a href="/til/insert-contents-of-named-register-without-exiting-insert-mode-in-vim/">
+                  Insert contents of named register without exiting Insert mode in Vim
+                </a>
+              </h2>
+              <time datetime="2016-02-24T00:00:00-08:00">24 Feb 2016</time>
+            </div>
+
+          </li>
+
+
+          <li class="medium-12 previous">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
+                <a href="/til/preview-history-expansion-in-bash/">
+                  Preview history expansion in Bash
+                </a>
+              </h2>
+              <time datetime="2016-02-23T00:00:00-08:00">23 Feb 2016</time>
+            </div>
+
+          </li>
+
+
+          <li class="medium-12 previous">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
+                <a href="/til/integrate-bluebird-into-angular-1.x/">
+                  Integrate bluebird into Angular 1.x
+                </a>
+              </h2>
+              <time datetime="2016-02-22T00:00:00-08:00">22 Feb 2016</time>
+            </div>
+
+          </li>
+
+
+          <li class="medium-12 previous">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
+                <a href="/til/get-sunrise-and-sunset-times-in-php/">
+                  Get sunrise and sunset times in PHP
+                </a>
+              </h2>
+              <time datetime="2016-02-19T00:00:00-08:00">19 Feb 2016</time>
+            </div>
+
+          </li>
+
+
+          <li class="medium-12 previous">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
+                <a href="/til/view-csv-files-in-the-command-line-the-right-way/">
+                  View CSV files in the command-line the right way
+                </a>
+              </h2>
+              <time datetime="2016-02-18T00:00:00-08:00">18 Feb 2016</time>
+            </div>
+
+          </li>
+
+
+          <li class="medium-12 previous">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
+                <a href="/til/append-text-to-a-register-in-vim/">
+                  Append text to a register in Vim
+                </a>
+              </h2>
+              <time datetime="2016-02-17T00:00:00-08:00">17 Feb 2016</time>
+            </div>
+
+          </li>
+
+
+          <li class="medium-12 previous">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
+                <a href="/til/vim-function-ranges/">
+                  Vim function ranges
+                </a>
+              </h2>
+              <time datetime="2016-02-16T00:00:00-08:00">16 Feb 2016</time>
+            </div>
+
+          </li>
+
+
+          <li class="medium-12 previous">
+            <div class="til-list--meta">
+              <h2 class="til-list--title">
+                <a href="/til/get-window-width-within-tmux/">
+                  Get window width from within tmux
+                </a>
+              </h2>
+              <time datetime="2016-02-15T00:00:00-08:00">15 Feb 2016</time>
+            </div>
+
+          </li>
+
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+
+    <footer>
+      Bez Hermoso (c) 2016
+    </footer>
+
+    <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-22506121-5', 'auto');
+ga('send', 'pageview');
+    </script>
+
+  </body>
+  <script src="/js/prism.js"></script>
+</html>

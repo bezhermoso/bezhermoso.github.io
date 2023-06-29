@@ -1,0 +1,321 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+
+
+    <title>/dev/blog - Breeze through OS X alert notifications with swift efficiency through keyboard shortcuts</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@400;500;700&family=Merriweather:ital,wght@0,300;0,700;1,300;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/prism.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
+
+    <meta property="og:image" content="http://www.gravatar.com/avatar/7c3c15142fcfe3e25ce2fae6b1912bcc.jpg?s=200" />
+
+
+    <meta property="og:title" content="Breeze through OS X alert notifications with swift efficiency through keyboard shortcuts" />
+
+        <meta property="og:description" content="I think one glaring omission from OS X’s huge set of handy keyboard shortcuts for common functionality is the ability to dismiss all alert notifications using a global hotkey. Right now,the only way to clear out a backlog is to click on the “Close” button on each and every single notification item.Going through a backlog of alert notifications is a constant dilemma I face on a normal work day,and I was suprised when I learned there is no other way of dimissing alert notifications that is more efficient." />
+
+        <meta name="description" content="I think one glaring omission from OS X’s huge set of handy keyboard shortcuts for common functionality is the ability to dismiss all alert notifications using a global hotkey. Right now,the only way to clear out a backlog is to click on the “Close” button on each and every single notification item.Going through a backlog of alert notifications is a constant dilemma I face on a normal work day,and I was suprised when I learned there is no other way of dimissing alert notifications that is more efficient." />
+
+  </head>
+  <body>
+    <header>
+      <div class="row site-headline">
+        <div class="large-12 columns">
+          <h1>
+            <span class="permissions">rwxr--r--</span>
+            <a href="/">
+              <div>/dev/blog</div>
+            </a>
+          </a></h1>
+          <h2>Bez Hermoso · Software Engineer @ Square</h2>
+        </div>
+      </div>
+    </header>
+    <section class="blog-post">
+  <div class="row">
+    <div class="large-12 columns">
+      <div class="post-meta">
+        <h1>Breeze through OS X alert notifications with swift efficiency through keyboard shortcuts</h1>
+        <time datetime="2016-01-17T00:00:00-08:00">17 Jan 2016</time>
+      </div>
+    </div>
+    <div class="blog-body large-12 columns">
+      <p>I think one glaring omission from OS X’s huge set of handy keyboard shortcuts for
+common functionality is the ability to dismiss all alert notifications using a global hotkey. Right now,
+the only way to clear out a backlog is to click on the <em>“Close”</em> button on each and every single notification item.
+Going through a backlog of alert notifications is a constant dilemma I face on a normal work day,
+and I was suprised when I learned there is no other way of dimissing alert notifications that is more efficient.</p>
+
+<p>I actually <a href="http://apple.stackexchange.com/a/155736A">found a solution</a> by <strong><em>markhunte</em></strong> from <em>Ask Different</em> which worked
+quite well in the beginning. The solution in a nutshell is creating a custom service using <em>Automator</em>
+which executes a workflow that runs an <em>AppleScript</em> snippet that automates the
+dismissal of notifications, and assigning a global hotkey to execute it.</p>
+
+<p>The solution works well but only when OS X cooperates – running the
+workflow within <em>Automator</em> cause zero problems, but making it work through
+a keyboard shortcut is hit-and-miss. I found myself mucking around with accessibility settings in <em>System
+Preferences &gt; Security &amp; Privacy &gt; Privacy</em> a lot, adding system applications
+tucked away in <code class="highlighter-rouge">/Library/CoreServices/</code> to the <em>Accessibility</em> list before getting it to work for
+the first time, until I discovered that the service simply fails with no
+explanation when invoked while I have certain applications in focus.</p>
+
+<p>Eventually I figured out a more reliable way to accomplish this using a third-party application called <a href="http://www.boastr.net"><strong>BetterTouchTool</strong></a>.</p>
+
+<div class="row">
+    <div class="columns large-7 text-justify">
+    <p>
+        I'll also share additional workflows I wrote that allows you to perform more fine-grained actions like acting on one
+        notification item at a time, i.e. dismissing it, clicking it, or clicking on
+        the secondary action if available. This is great for those alert notifications
+        that supports quick reply:
+    </p>
+    </div>
+    <div class="columns large-5">
+        <img src="/img/slackbot-quick-reply.png" />
+    </div>
+</div>
+
+<h2 id="step-1-create-workflows-in-automator">Step 1: Create workflows in <em>Automator</em></h2>
+
+<p>You will need to create a workflow in <strong><em>Automator</em></strong> for each of the
+AppleScript programs listed below.</p>
+
+<p>On each workflow, select <strong><em>“Run AppleScript”</em></strong> from the <em>Actions</em> menu, put
+in the corresponding AppleScript code in the text box that appears on the right-side, and
+save the workflow somewhere you can find it later on.</p>
+
+<div class="row">
+    <div class="columns large-6">
+        <img src="/img/automator-create-workflow.png" />
+    </div>
+    <div class="columns large-6">
+        <img src="/img/automator-workflow.png" />
+    </div>
+</div>
+
+<h4 id="11-dismiss-all-notificationsworkflow">1.1 Dismiss All Notifications.workflow</h4>
+
+<p><em>Actions &gt; Run AppleScript…</em></p>
+<div class="code-section">
+  <div class="filename">
+    <div class="row">
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <pre><code class="language-applescript">on run {input, parameters}
+    tell application &quot;System Events&quot; to tell process &quot;Notification Center&quot;
+        click button 1 in every window
+    end tell
+    return input
+end run</code></pre>
+    </div>
+  </div>
+</div>
+
+<blockquote>
+  <p>I must give credit to <strong><em>markhunte</em></strong> from the <em>Ask Different</em> as this accomplish almost exactly what his script does, albeit rewritten more
+concisely.</p>
+</blockquote>
+
+<h4 id="12-dismiss-top-most-notificationworkflow">1.2 Dismiss Top-most Notification.workflow</h4>
+
+<p><em>Actions &gt; Run AppleScript…</em></p>
+<div class="code-section">
+  <div class="filename">
+    <div class="row">
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <pre><code class="language-applescript">on run {input, parameters}
+    tell application &quot;System Events&quot; to tell process &quot;Notification Center&quot;
+        try
+            click button 1 of last item of windows
+        end try
+    end tell
+    return input
+end run</code></pre>
+    </div>
+  </div>
+</div>
+
+<h4 id="13-click-top-most-notificationworkflow">1.3 Click Top-most Notification.workflow</h4>
+
+<p><em>Actions &gt; Run AppleScript…</em></p>
+<div class="code-section">
+  <div class="filename">
+    <div class="row">
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <pre><code class="language-applescript">on run {input, parameters}
+    tell application &quot;System Events&quot; to tell process &quot;Notification Center&quot;
+        try
+            click last item of windows
+        end try
+    end tell
+    return input
+end run</code></pre>
+    </div>
+  </div>
+</div>
+
+<h4 id="14-click-secondary-action-on-top-most-notificationworkflow">1.4 Click Secondary Action on Top-most Notification.workflow</h4>
+
+<p><em>Actions &gt; Run AppleScript…</em></p>
+<div class="code-section">
+  <div class="filename">
+    <div class="row">
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <pre><code class="language-applescript">on run {input, parameters}
+    tell application &quot;System Events&quot; to tell process &quot;Notification Center&quot;
+        try
+            click button 2 of last item of windows
+        end try
+    end tell
+    return input
+end run</code></pre>
+    </div>
+  </div>
+</div>
+
+<blockquote>
+  <p>Teaching AppleScript is obviously beyond the scope of this post. If you are
+not familiar with it, there are tons of articles online that can get you started, like <a href="http://computers.tutsplus.com/tutorials/the-ultimate-beginners-guide-to-applescript--mac-3436">this one</a>.</p>
+</blockquote>
+
+<p><strong>Important</strong>: Do not save these in iCloud as you will need another non-MAS application to
+access them on a later step.</p>
+
+<!--## Step 2: Grant assistive services to the AppleScript applications-->
+
+<!--Go to ___System Preferences > Security & Privacy > Privacy___, and add the-->
+<!--applications you just created (_not the AppleScript source files_) to the list.-->
+
+<!--<img src="/img/security-and-privacy.png" />-->
+
+<h2 id="step-2-assign-global-hotkeys-to-the-automator-workflows">Step 2: Assign global hotkeys to the Automator workflows</h2>
+
+<p>There is a number of productivity applications out there that allows you to invoke an Automator workflow
+through a global hot-key, like <a href="https://www.alfredapp.com/"><strong>Alfred</strong></a> and <a href="https://www.keyboardmaestro.com/main/"><strong>Keyboard Maestro</strong></a>.</p>
+
+<p>However, I personally use <strong><a href="http://www.boastr.net/">BetterTouchTool</a></strong> as I already have
+it installed to accomplish similar tasks.</p>
+
+<p><img src="/img/bettertouchtool.png" /></p>
+
+<p>My mapping is as follows:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">⇧ ⌥ ⌘ ]</code> - Dismiss all notifications</li>
+  <li><code class="highlighter-rouge">⌥ ⌘ ]</code> - Dismiss top-most notification</li>
+  <li><code class="highlighter-rouge">⌥ ⌘ [</code> - Click top-most notification</li>
+  <li><code class="highlighter-rouge">⌥ ⌘ '</code> - Click secondary action on top-most notification</li>
+</ul>
+
+<div class="row">
+    <div class="columns large-6">
+        <p>
+            <em>BetterTouchTool</em> is a really handy application all in all that will allow you to map an unthinkable amount of things to keyboard
+            shortcuts, mouse &amp; trackpad gestures, and a bunch of other peripherals.
+            It has been a free application for a very long time, but
+            it won't be long until the <em>"pay as much as you want"</em> licensing model will take into
+            effect. But I highly recommend it.
+        </p>
+        <p>
+            <strong>Important</strong>: If you just installed <em>BetterTouchTool</em>, you will have to grant it access to accessibility services on your system. Go to <em>System Preferences &gt; Security &amp; Privacy &gt; Privacy</em>, and add <em>BetterTouchTool</em> to the list under <em>Accessibility</em>.
+        </p>
+    </div>
+    <div class="columns large-6">
+        <img src="/img/accessibility.png" />
+    </div>
+</div>
+
+<h2 id="step-3">Step 3</h2>
+
+<p>Try it out! Go ahead and prune thorugh your alert notifications with more effiency. Or, actually learn to turn on <em>“Do Not Disturb”</em> once in a while (no judgement here – I am also guilty of this.)</p>
+
+<blockquote>
+  <p><strong>Extra keyboard-fu protip:</strong> You can quickly toggle <em>“Do Not Disturb”</em> by Option-clicking
+on the <em>Notification Center</em> icon on the menu bar, or you can actually assign
+a global hotkey to toggle it in <em>System Preferences &gt; Keyboard &gt; Shortcuts
+Mission Control &gt; Turn Do Not Disturb On/Off</em>
+(It’s so simple I don’t even know why I don’t bother to do this.)</p>
+</blockquote>
+
+
+    </div>
+  </div>
+  <section class="post-navigation">
+    <div class="row">
+      <div class="large-4 columns">
+
+        Previous: <a href="/2016/01/20/making-perfect-ramen-lua-os-x-automation-with-hammerspoon/">Making perfect ramen with Lua: OS X automation with Hammerspoon</a>
+
+      </div>
+      <div class="large-4 columns">
+        <a href="/" title="Go back home"><code>$HOME</code></a>
+      </div>
+      <div class="large-4 columns">
+
+        Next: <a href="/2015/10/17/simple-solution-for-tmux-causing-system-freezes-on-mac-os-x/">Simple solution for tmux causing system freezes on Mac OS X</a>
+
+      </div>
+    </div>
+  </section>
+</section>
+<section>
+  <div class="row">
+  <div class="columns medium-12">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'thftmsc'; // required: replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </div>
+</div>
+
+</section>
+
+    <footer>
+      Bez Hermoso (c) 2016
+    </footer>
+
+    <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-22506121-5', 'auto');
+ga('send', 'pageview');
+    </script>
+
+  </body>
+  <script src="/js/prism.js"></script>
+</html>

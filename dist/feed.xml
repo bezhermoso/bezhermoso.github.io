@@ -1,0 +1,1172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>/dev/blog</title>
+    <description>My development blog
+</description>
+    <link>/</link>
+    <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Thu, 29 Dec 2022 20:21:46 -0800</pubDate>
+    <lastBuildDate>Thu, 29 Dec 2022 20:21:46 -0800</lastBuildDate>
+    <generator>Jekyll v3.2.1</generator>
+
+      <item>
+        <title>Jump back up to your Git repo's root directory</title>
+        <description>&lt;p&gt;You want to jump back up to your project’s root directory from who knows many levels down. What would you do? Figure out the right amount of levels to &lt;code class=&quot;highlighter-rouge&quot;&gt;cd ../../..&lt;/code&gt; up? Run &lt;code class=&quot;highlighter-rouge&quot;&gt;cd ..&lt;/code&gt; repeatedly until you get there? or run &lt;code class=&quot;highlighter-rouge&quot;&gt;cd&lt;/code&gt; to an absolute path directly?&lt;/p&gt;
+
+&lt;p&gt;If your project is managed with Git, here is a smarter way:&lt;/p&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ cd $(git rev-parse --show-toplevel)&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;p&gt;The command &lt;code class=&quot;highlighter-rouge&quot;&gt;git rev-parse --show-toplevel&lt;/code&gt; is a Git plumbing command that outputs the absolute path of the Git repository root of the project you are in. Therefore the most straight-forward form is to use its result as the argument for &lt;code class=&quot;highlighter-rouge&quot;&gt;cd&lt;/code&gt;. &lt;strong&gt;No more repeating commands, figuring out exactly how far up the root is, or having to type out paths!&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The next obvious step is to make an alias of that command in your &lt;code class=&quot;highlighter-rouge&quot;&gt;.bashrc&lt;/code&gt; or equivalent file:&lt;/p&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# Mnemonic: `gr` == `git root`
+# Also note the single-quotes; you don't want the sub-command to run on alias definition!
+alias gr='cd $(git rev-parse --show-toplevel)'&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;p&gt;From here on out, just run &lt;code class=&quot;highlighter-rouge&quot;&gt;gr&lt;/code&gt; anytime you need to jump all the way up to your project root.&lt;/p&gt;
+
+&lt;p&gt;We can take it a little further…&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;What used to be this &lt;code class=&quot;highlighter-rouge&quot;&gt;gr&lt;/code&gt; alias on my rc file evolved into a full-on shell function that handles some edge-cases:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Do nothing when I’m not in the project root instead of spitting an error and jumping to &lt;code class=&quot;highlighter-rouge&quot;&gt;/&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Be smart with Git submodules: if already in a repo’s root, jump up to the nearest parent repo in the tree, if any.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Here it is in it’s current form in my rc file (&lt;a href=&quot;https://github.com/bezhermoso/jump-to-git-root&quot;&gt;I hosted this on Github&lt;/a&gt; if you’d like to clone it instead):&lt;/p&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;function jump-to-git-root {
+  local _root_dir=&amp;quot;$(git rev-parse --show-toplevel 2&amp;gt;/dev/null)&amp;quot;
+  if [[ $? -gt 0 ]]; then
+    &amp;gt;&amp;amp;2 echo 'Not a Git repo!'
+    exit 1
+  fi
+  local _pwd=$(pwd)
+  if [[ $_pwd = $_root_dir ]]; then
+    # Handle submodules:
+    # If parent dir is also managed under Git then we are in a submodule.
+    # If so, cd to nearest Git parent project.
+    _root_dir=&amp;quot;$(git -C $(dirname $_pwd) rev-parse --show-toplevel 2&amp;gt;/dev/null)&amp;quot;
+    if [[ $? -gt 0 ]]; then
+      echo &amp;quot;Already at Git repo root.&amp;quot;
+      return 0
+    fi
+  fi
+  # Make `cd -` work.
+  OLDPWD=$_pwd
+  echo &amp;quot;Git repo root: $_root_dir&amp;quot;
+  cd $_root_dir
+}
+
+# Make short alias
+alias gr=jump-to-git-root&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+</description>
+        <pubDate>Sat, 28 Jul 2018 00:00:00 -0700</pubDate>
+        <link>/2018/07/28/jump-back-up-to-git-repo-root-directory/</link>
+        <guid isPermaLink="true">/2018/07/28/jump-back-up-to-git-repo-root-directory/</guid>
+
+
+      </item>
+
+      <item>
+        <title>Improved tmux experience</title>
+        <description>&lt;p&gt;If there is one tool I use the most, it has to be &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt;. I do almost everything &lt;em&gt;in&lt;/em&gt; it.&lt;/p&gt;
+
+&lt;p&gt;However, as useful as it is, I feel like its not very user-friendly out-of-the-box. This post is a collection of things in my &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.tmux.conf&lt;/code&gt; that makes &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; easier to use and to bring its more powerful capabilities within closer reach.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;a-better-prefix&quot;&gt;A better prefix&lt;/h2&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;set -g prefix C-s&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;C-s&lt;/code&gt; requires far less finger-flinging than the default &lt;code class=&quot;highlighter-rouge&quot;&gt;C-b&lt;/code&gt; – the keys are close enough together, and it doesn’t conflict with any key-sequence I commonly use. This is extra awesome with &lt;code class=&quot;highlighter-rouge&quot;&gt;Capslock&lt;/code&gt; mapped to &lt;code class=&quot;highlighter-rouge&quot;&gt;Ctrl&lt;/code&gt;.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Ctrl + s&lt;/code&gt; is typically bound in terminals to “stop output to screen”. I can live without it, as entering  “Visual Mode” in &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; is a functional alternative.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;fix-clipboard-integration-on-macos--vi-style-bindings&quot;&gt;Fix clipboard integration on macOS + vi-style bindings&lt;/h2&gt;
+
+&lt;p&gt;Support for copying and pasting to the system clipboard doesn’t quite work on macOS. Thankfully, getting it to work takes very little effort.&lt;/p&gt;
+
+&lt;p&gt;First you need to install the &lt;code class=&quot;highlighter-rouge&quot;&gt;reattach-to-user-namespace&lt;/code&gt; program. You can grab it straight from Homebrew:&lt;/p&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ brew install reattach-to-user-namespace&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;p&gt;Add this to &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.tmux.conf&lt;/code&gt; and you are off to the races:&lt;/p&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# Check whether we are on macOS / OS X
+if-shell 'test &amp;quot;$(uname)&amp;quot; = &amp;quot;Darwin&amp;quot;' \
+  'set-option -g default-command &amp;quot;reattach-to-user-namespace -l zsh&amp;quot;' ''
+
+# vi bindings in copy-mode
+setw -g mode-keys vi
+
+# Bind `v` to enter VISUAL-like selection mode.
+bind-key -t vi-copy v begin-selection
+bind-key -t vi-copy y copy-pipe &amp;quot;reattach-to-user-namespace pbcopy&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;intuitive-window-splitting&quot;&gt;Intuitive window splitting&lt;/h2&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# Horizontal split (left &amp;amp; right):
+bind-key \ split-window -h -c '#{pane_current_path}'
+# Verical split (top &amp;amp; bottom):
+bind-key - split-window -v -c '#{pane_current_path}'&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;p&gt;Compared to the default &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;prefix&amp;gt; %&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;prefix&amp;gt; &quot;&lt;/code&gt;, these bindings makes which way splits occur &lt;em&gt;really&lt;/em&gt; obvious. The &lt;code class=&quot;highlighter-rouge&quot;&gt;-c #{pane_current_path}&lt;/code&gt; argument passed will start new splits in the same working directory you are on.&lt;/p&gt;
+
+&lt;p&gt;As of version 2.3, &lt;code class=&quot;highlighter-rouge&quot;&gt;split-window&lt;/code&gt; now understands the &lt;code class=&quot;highlighter-rouge&quot;&gt;-f&lt;/code&gt; flag, which indicates full-width or full-height splits. These are perfect when you want a “scratch” shell to appear on the bottom or to the right of everything else:&lt;/p&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# For tmux 2.3 or newer
+# Full-height horizontal split with 33% width:
+bind-key | split-window -fh -c '#{pane_current_path}' -p 33
+# Full-width vertical split with 33% height:
+bind-key _ split-window -fv -c '#{pane_current_path}' -p 33&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;tiered-navigation-controls&quot;&gt;Tiered navigation controls&lt;/h2&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# Move between windows/tabs with `o` and `p`:
+bind-key -r p next-window
+bind-key -r o previous-window
+
+# Move between splits vi-style:
+bind-key -r h select-pane -L
+bind-key -r j select-pane -D
+bind-key -r k select-pane -U
+bind-key -r l select-pane -R&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;p&gt;Although the default &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;prefix&amp;gt; n&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;prefix&amp;gt; p&lt;/code&gt; are easier to remember (&lt;em&gt;“next”&lt;/em&gt; and &lt;em&gt;“previous”&lt;/em&gt;), I find moving between windows faster with &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;prefix&amp;gt; o&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;prefix&amp;gt; p&lt;/code&gt; as they are right next to each other. I happen to like vim-style cursor movements, so binding split navigations to &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;prefix&amp;gt; {h,j,k,l}&lt;/code&gt; is just logical.&lt;/p&gt;
+
+&lt;p&gt;With this configuration,  the navigation controls are tiered:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;em&gt;Pane navigation&lt;/em&gt;&lt;/strong&gt;: I can use home-row keys in vi-like bindings to move between panes in the current window.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;em&gt;Window navigation&lt;/em&gt;&lt;/strong&gt;: I can find &lt;code class=&quot;highlighter-rouge&quot;&gt;o&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;p&lt;/code&gt; right above the home-row keys to move between windows or “tabs” in the current session.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;em&gt;Session navigation&lt;/em&gt;&lt;/strong&gt;: Above &lt;code class=&quot;highlighter-rouge&quot;&gt;o&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;p&lt;/code&gt; I can use the parentheses keys to move between various sessions.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;-r&lt;/code&gt; flag marks the bindings repeatable – this means they will not bring you out of prefix-mode after invocation, allowing you to repeat them or even invoke other bindings right after.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;moving-panes-to-another-window&quot;&gt;Moving panes to another window&lt;/h2&gt;
+
+&lt;p&gt;It’s possible to move panes between different windows using &lt;code class=&quot;highlighter-rouge&quot;&gt;join-pane&lt;/code&gt;. However it is slightly cumbersome to use (you have to pass in the window’s index as the &lt;code class=&quot;highlighter-rouge&quot;&gt;-t&lt;/code&gt; argument). However using &lt;code class=&quot;highlighter-rouge&quot;&gt;choose-window&lt;/code&gt; makes it as easy as selecting a window from a list:&lt;/p&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# Move pane to a different window. You can choose window from a list:
+bind-key m choose-window -F &amp;quot;#{window_index}: #{window_name}&amp;quot; &amp;quot;join-pane -h -t %%&amp;quot;
+bind-key M choose-window -F &amp;quot;#{window_index}: #{window_name}&amp;quot; &amp;quot;join-pane -v -t %%&amp;quot;
+
+# Swap windows. Choose window to swap with from a list:
+bind-key c-w choose-window -F &amp;quot;#{window_index}: #{window_name}&amp;quot; &amp;quot;swap-window -t %1&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;p&gt;You can pick a window from a list and the current pane will be sent there as a horizontal split. &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;prefix&amp;gt; M&lt;/code&gt; will do the same, but will result in a vertical split.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;prefix&amp;gt; C-w&lt;/code&gt; in will bring up a list of all windows. The current window will swap places with the one you select.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;resizing-panes&quot;&gt;Resizing panes&lt;/h2&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# Resize panes directionally via vi-style bindings
+bind-key -r C-k resize-pane -u 5
+bind-key -r C-j resize-pane -d 5
+bind-key -r C-h resize-pane -l 5
+bind-key -r C-l resize-pane -r 5&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;p&gt;These binds &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;prefix&amp;gt; C-{h,j,k,l}&lt;/code&gt; to resize the current window by 5 columns or rows, depending on the direction. I find resizing 1 unit at a time takes a bit too long and I rarely need precise control. Resizing by 5 units is just right.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;natural-numbering&quot;&gt;Natural numbering&lt;/h2&gt;
+
+&lt;p&gt;Speaking of window indices, &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; starts numbering things at 0. Zero-based index is second nature to programmers and all, but the &lt;code class=&quot;highlighter-rouge&quot;&gt;0&lt;/code&gt; key does not appear next to &lt;code class=&quot;highlighter-rouge&quot;&gt;1&lt;/code&gt; on any keyboard. It’s awkward for this purpose.
+I think its more natural to have &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; starting counting from 1:&lt;/p&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# Begin numbering at 1:
+set -g base-index 1
+set -g pane-base-index 1
+
+# Maintain ordinality after swapping windows; and also make sure there is no gaps after killing windows:
+set -g renumber-windows on&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;h2 id=&quot;closing-panes--windows&quot;&gt;Closing panes &amp;amp; windows&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;prefix&amp;gt; x&lt;/code&gt; to close the pane, &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;prefix&amp;gt; X&lt;/code&gt; to close the window, and &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;prefix&amp;gt; Q&lt;/code&gt; to quit the session:&lt;/p&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;bind-key x confirm-before -p &amp;quot;kill-pane #P? (y/n)&amp;quot; kill-pane
+bind-key X confirm-before -p &amp;quot;Kill window #W? (y/n)&amp;quot; kill-window
+bind-key Q confirm-before -p &amp;quot;Kill session #S? (y/n)&amp;quot; kill-session&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;p&gt;A prompt will be presented to confirm the action.&lt;/p&gt;
+
+&lt;h2 id=&quot;synchronize-panes&quot;&gt;Synchronize panes&lt;/h2&gt;
+
+&lt;p&gt;Another neat trick that &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; can do is synchronizing key-strokes across all panes in a window. I thought &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;prefix&amp;gt; &amp;amp;&lt;/code&gt; is an apt binding to toggle the behavior:&lt;/p&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;bind-key &amp;amp; set-window-option synchronize-panes&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;For more, you can find my &lt;a href=&quot;https://github.com/bezhermoso/dotfiles/blob/master/tmux/tmux.conf&quot;&gt;full &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; configuration hosted on Github!&lt;/a&gt;.&lt;/p&gt;
+
+</description>
+        <pubDate>Sat, 02 Jun 2018 00:00:00 -0700</pubDate>
+        <link>/2018/06/02/improved-tmux-experience/</link>
+        <guid isPermaLink="true">/2018/06/02/improved-tmux-experience/</guid>
+
+
+      </item>
+
+      <item>
+        <title>vim-gnupg + Neovim + MacOS and how to get pinentry to work</title>
+        <description>&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;vim-gnupg&lt;/code&gt; provides transparent PGP encryption/decryption when editing &lt;code class=&quot;highlighter-rouge&quot;&gt;*.gpg&lt;/code&gt; &lt;em&gt;et al&lt;/em&gt; files with &lt;code class=&quot;highlighter-rouge&quot;&gt;vim&lt;/code&gt;. Sadly, if you are using a TTY-based pinentry your GNUPG setup like &lt;code class=&quot;highlighter-rouge&quot;&gt;pinentry-curses&lt;/code&gt;, &lt;a href=&quot;https://github.com/jamessan/vim-gnupg/issues/32&quot;&gt;it won’t work&lt;/a&gt; (with no fault from the plugin author).&lt;/p&gt;
+
+&lt;p&gt;The trick to get it to work is to somehow tell the &lt;code class=&quot;highlighter-rouge&quot;&gt;gpg-agent&lt;/code&gt; to use an external pinentry program when triggered by &lt;code class=&quot;highlighter-rouge&quot;&gt;vim-gnupg&lt;/code&gt;. For this, the &lt;code class=&quot;highlighter-rouge&quot;&gt;pinentry-mac&lt;/code&gt; program fits the bill:&lt;/p&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ brew install pinentry-mac&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;p&gt;Configure &lt;code class=&quot;highlighter-rouge&quot;&gt;gpg-agent&lt;/code&gt; to use it as the pinentry program:&lt;/p&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# ~/.gnupg/gpg-agent.conf:
+pinentry-program /usr/local/bin/pinentry-mac&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;p&gt;Configure your shell to use the TTY-based pinentry in most circumstances:&lt;/p&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# ~/.bashrc ~/.zshrc, etc. :
+
+GPG_TTY=$(tty)
+# Tell the pinentry program to use the nice, full-screen pinentry program:
+export PINENTRY_USER_DATA=&amp;quot;USE_CURSES=1&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;p&gt;Restart your terminal application (or source your config file), then restart the &lt;code class=&quot;highlighter-rouge&quot;&gt;gpg-agent&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ gpgconf --kill gpg-agent&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;p&gt;Now it’s just a matter of configuring &lt;code class=&quot;highlighter-rouge&quot;&gt;vim-gnupg&lt;/code&gt; to override the &lt;code class=&quot;highlighter-rouge&quot;&gt;PINENTRY_USER_DATA&lt;/code&gt; so that PGP prompts will use the GUI pinentry:&lt;/p&gt;
+
+&lt;div class=&quot;code-section&quot;&gt;
+  &lt;div class=&quot;filename&quot;&gt;
+    &lt;div class=&quot;row&quot;&gt;
+
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;row&quot;&gt;
+    &lt;div class=&quot;large-12 columns&quot;&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-vim&quot;&gt;let g:GPGExecutable = &amp;quot;PINENTRY_USER_DATA='' gpg --trust-model always&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Now, whenever you edit/write PGP encrypted files in Neovim, the GUI pinentry will be used and &lt;code class=&quot;highlighter-rouge&quot;&gt;vim-gnupg&lt;/code&gt; should start working as expected.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/pinentry-mac.png&quot; alt=&quot;GUI pinentry from pinentry-mac&quot; /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Mon, 29 May 2017 00:00:00 -0700</pubDate>
+        <link>/2017/05/29/get-gpg-pinentry-to-work-with-vim-gnupg-in-neovim/</link>
+        <guid isPermaLink="true">/2017/05/29/get-gpg-pinentry-to-work-with-vim-gnupg-in-neovim/</guid>
+
+
+      </item>
+
+      <item>
+        <title>Escaping backticks with the zsh line editor</title>
+        <description>&lt;p&gt;I just wrote my very first &lt;code class=&quot;highlighter-rouge&quot;&gt;zsh&lt;/code&gt; plugin this week, and it has proven to be quite useful – I like to wrap identifiers/symbols in commit messages with backticks and often-times neglect to escape them. This would result in the identifier/symbol being evaluated, which is not what I want to happen.&lt;/p&gt;
+
+&lt;p&gt;Here is my solution:&lt;/p&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# Expands `` to \`
+function expand-double-backtick-to-escaped-backtick {
+  if [[ $LBUFFER = *[^\\]\` ]]; then
+    zle backward-delete-char
+    LBUFFER+='\`'
+    # Bind backspace to something that undos the escape.
+    bindkey '^?' undo-escaped-backtick-or-backward-delete-char
+  else
+    LBUFFER+='`'
+  fi
+}
+
+function undo-escaped-backtick-or-backward-delete-char {
+  if [[ $LBUFFER = *\` ]]; then
+    # If chars to the left is an escaped backtick, unescape it.
+    zle backward-delete-char
+    zle backward-delete-char
+    LBUFFER+='`'
+  fi
+  # Rebind backspace to default behavior
+  bindkey '^?' backward-delete-char
+}
+
+zle -N expand-double-backtick-to-escaped-backtick
+zle -N undo-escaped-backtick-or-backward-delete-char
+
+bindkey &amp;quot;\`&amp;quot; expand-double-backtick-to-escaped-backtick&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;!--stop--&gt;
+
+&lt;p&gt;Now when I need an escaped backtick, I only have to type the backtick character twice. Also, hitting &lt;code class=&quot;highlighter-rouge&quot;&gt;Backspace&lt;/code&gt; will undo the escaping instead of leaving me with just a backslash.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;I have put this script in a Git repo which you can find here: &lt;a href=&quot;https://github.com/bezhermoso/zsh-escape-backtick&quot;&gt;https://github.com/bezhermoso/zsh-escape-backtick&lt;/a&gt;. If you want to try it, just clone it and source &lt;code class=&quot;highlighter-rouge&quot;&gt;escape-backtick.zsh&lt;/code&gt; and you should be good to go.&lt;/p&gt;
+
+</description>
+        <pubDate>Tue, 28 Feb 2017 00:00:00 -0800</pubDate>
+        <link>/2017/02/28/escaping-backticks-with-zshs-line-editor/</link>
+        <guid isPermaLink="true">/2017/02/28/escaping-backticks-with-zshs-line-editor/</guid>
+
+
+      </item>
+
+      <item>
+        <title>Subreddit quick-switcher in Google Chrome -- no extensions required</title>
+        <description>&lt;p&gt;Here is a convenient &amp;amp; versatile yet stependously easy trick you can do in Google Chrome, leveraging the built-in custom search engine functionality:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Go to &lt;strong&gt;&lt;em&gt;Chrome Menu » Settings » Manage search engines… (under Search)&lt;/em&gt;&lt;/strong&gt; and scroll all the way down to the &lt;strong&gt;&lt;em&gt;Other search engines&lt;/em&gt;&lt;/strong&gt; section.&lt;/li&gt;
+  &lt;li&gt;Add a new entry:
+    &lt;ul&gt;
+      &lt;li&gt;Name: Anything you like (i.e. &lt;em&gt;“Subreddit”&lt;/em&gt;)&lt;/li&gt;
+      &lt;li&gt;Keyword: &lt;strong&gt;r&lt;/strong&gt;&lt;/li&gt;
+      &lt;li&gt;URL: &lt;code class=&quot;highlighter-rouge&quot;&gt;https://reddit.com/r/%s&lt;/code&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;p&gt;&lt;br /&gt;
+  &lt;img src=&quot;/img/chrome-quick-switch-setup.png&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Now, Whenever you want to visit a subreddit, simply jump to the &lt;em&gt;Address Bar&lt;/em&gt; (&lt;em&gt;Alt + D&lt;/em&gt; or &lt;em&gt;F5&lt;/em&gt; on Windows/Linux, &lt;em&gt;Command + L&lt;/em&gt; on Mac), type in &lt;em&gt;“r”&lt;/em&gt;, hit &lt;em&gt;Tab&lt;/em&gt;, followed by the subreddit and then hit &lt;em&gt;Enter&lt;/em&gt;; and you should be taken there.&lt;/p&gt;
+
+&lt;div style=&quot;position:relative;padding-bottom:39%&quot;&gt;&lt;iframe src=&quot;https://gfycat.com/ifr/WeakNauticalAvocet&quot; frameborder=&quot;0&quot; scrolling=&quot;no&quot; width=&quot;100%&quot; height=&quot;100%&quot; style=&quot;position:absolute;top:0;left:0;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;h4 id=&quot;its-not-for-reddit-only&quot;&gt;It’s not for Reddit only&lt;/h4&gt;
+
+&lt;p&gt;This is obviously not limited to the use for subreddits; you can create multiple other quick-switching “profiles” triggered by different keywords to bring you to other website URLs you visit/navigate to-and-fro frequently.&lt;/p&gt;
+
+&lt;p&gt;For example, if your organization uses Jira, you can set-up the following:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Name: Jira&lt;/li&gt;
+  &lt;li&gt;Keyword: &lt;strong&gt;j&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;URL: &lt;code class=&quot;highlighter-rouge&quot;&gt;https://&amp;lt;ORG NAME&amp;gt;.atlassian.net/browse/%s&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This will allow you to quickly navigate to any project or issue via typing &lt;em&gt;“j”&lt;/em&gt;, hitting &lt;em&gt;Tab&lt;/em&gt;, followed by the project/issue number in the &lt;em&gt;Address Bar&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;You are also not limited to create substitutions to the path segment of URLs; you can configure it to fill in any part of URLs; for example, &lt;code class=&quot;highlighter-rouge&quot;&gt;https://%s.google.com&lt;/code&gt; will let you switch to the various Google services, etc.&lt;/p&gt;
+
+</description>
+        <pubDate>Sun, 08 Jan 2017 00:00:00 -0800</pubDate>
+        <link>/2017/01/08/subreddit-quick-switcher-google-chrome/</link>
+        <guid isPermaLink="true">/2017/01/08/subreddit-quick-switcher-google-chrome/</guid>
+
+
+      </item>
+
+      <item>
+        <title>Protip: copy files and/or directories from a Docker image</title>
+        <description>&lt;p&gt;I found myself needing to copy a bunch of files and directories straight from a Docker image. There is a trivial solution in the form of &lt;code class=&quot;highlighter-rouge&quot;&gt;docker cp&lt;/code&gt;, but I came up with an alternative using &lt;code class=&quot;highlighter-rouge&quot;&gt;docker run&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ docker run --rm &amp;lt;IMAGE NAME&amp;gt; \
+   tar -cf - &amp;lt;SRC_PATH_1&amp;gt; [&amp;lt;SRC_PATH_2&amp;gt; ...] | tar -xvC - &amp;lt;DEST_PATH&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;This obviously relies on the the container having &lt;code class=&quot;highlighter-rouge&quot;&gt;tar&lt;/code&gt; installed.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;This alternative has a few advantages over &lt;code class=&quot;highlighter-rouge&quot;&gt;docker cp&lt;/code&gt;:&lt;/p&gt;
+
+&lt;!--stop--&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;docker cp&lt;/code&gt; requires absolute paths. This supports paths relative to the image’s &lt;code class=&quot;highlighter-rouge&quot;&gt;WORKDIR&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;docker cp&lt;/code&gt; copies from a container, not an image. This alternative does not require a running container, nor do you need to run &lt;code class=&quot;highlighter-rouge&quot;&gt;docker create&lt;/code&gt; and having to clean it up later (a container is still being created here, but the &lt;code class=&quot;highlighter-rouge&quot;&gt;--rm&lt;/code&gt; flag will take care of cleaning it up after use).&lt;/li&gt;
+  &lt;li&gt;You can copy multiple paths in one go.&lt;/li&gt;
+  &lt;li&gt;You get an progress/activity indicator for free, thanks to the &lt;code class=&quot;highlighter-rouge&quot;&gt;-v&lt;/code&gt; flag in the &lt;code class=&quot;highlighter-rouge&quot;&gt;tar&lt;/code&gt; command.  A list of filenames as they are being extracted to the destination folder.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;There is one &lt;em&gt;caveat&lt;/em&gt;, however: depending on your image’s configuration, you might encounter this error:&lt;/p&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ docker run --rm ...
+tar: Unrecognized archive format&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;p&gt;This happens if you have an &lt;code class=&quot;highlighter-rouge&quot;&gt;ENTRYPOINT&lt;/code&gt; that is polluting the &lt;code class=&quot;highlighter-rouge&quot;&gt;tar&lt;/code&gt; output stream. If you can’t configure your &lt;code class=&quot;highlighter-rouge&quot;&gt;ENTRYPOINT&lt;/code&gt; to be completely silent when acting in “&lt;code class=&quot;highlighter-rouge&quot;&gt;bash&lt;/code&gt; pass-through mode”, you can chose to just bypass it during &lt;code class=&quot;highlighter-rouge&quot;&gt;docker run&lt;/code&gt; execution:&lt;/p&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ docker run --rm --entrypoint= &amp;lt;IMAGE NAME&amp;gt; tar -cf ...&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;h4 id=&quot;bonus&quot;&gt;Bonus&lt;/h4&gt;
+
+&lt;p&gt;This command can potentially produce a ton of output if you are copying a massive amount of files. You can, of course, omit the &lt;code class=&quot;highlighter-rouge&quot;&gt;-v&lt;/code&gt; flag from the &lt;code class=&quot;highlighter-rouge&quot;&gt;tar&lt;/code&gt; command. However, you can keep the &lt;code class=&quot;highlighter-rouge&quot;&gt;-v&lt;/code&gt; flag on but tack this to the end of the command:&lt;/p&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;2&amp;gt;&amp;amp;1 | while read l; do echo -ne &amp;quot;\033[2K\r$l&amp;quot;; done; echo '...done!'&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;p&gt;This reduces the output into a single-line: a “ticker” that displays the filenames as they are being extracted. This way, you don’t lose the perk of having an activity indicator.&lt;/p&gt;
+
+</description>
+        <pubDate>Mon, 31 Oct 2016 00:00:00 -0700</pubDate>
+        <link>/2016/10/31/protip-copy-files-and-or-directories-from-docker-image/</link>
+        <guid isPermaLink="true">/2016/10/31/protip-copy-files-and-or-directories-from-docker-image/</guid>
+
+
+      </item>
+
+      <item>
+        <title>Protip: warn about file changes, deletions &amp; additions before rsync</title>
+        <description>&lt;p&gt;I wrote a shell script that wraps &lt;code class=&quot;highlighter-rouge&quot;&gt;rsync&lt;/code&gt; with a user prompt in cases where files are going to be added, deleted, or changed, which is a scenario when some work might get lost:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;safe-rsync.sh&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;#!/usr/bin/env bash
+
+args=$@
+
+diffs=&amp;quot;$(rsync --dry-run --itemize-changes $args | grep '^[&amp;gt;&amp;lt;ch.][dfLDS]\|^\*deleting')&amp;quot;
+
+if [ -z &amp;quot;$diffs&amp;quot; ]; then
+  echo &amp;quot;Nothing to sync.&amp;quot;
+  exit 0
+fi
+
+echo &amp;quot;These are the differences detected during dry-run. You might lose work. Please review before proceeding:&amp;quot;
+echo &amp;quot;$diffs&amp;quot;
+echo &amp;quot;&amp;quot;
+read -p &amp;quot;Confirm? (y/N): &amp;quot; choice
+
+case &amp;quot;$choice&amp;quot; in
+  y|Y ) rsync $args;;
+  * ) echo &amp;quot;Cancelled.&amp;quot;;;
+esac&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;h3 id=&quot;usage&quot;&gt;Usage&lt;/h3&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&amp;gt; ./safe-rsync.sh --exclude='node_modules/' --recursive --progress --verbose ubuntu@aws-server102:/var/www/html ./html&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;p&gt;To skip the dry-run and just &lt;code class=&quot;highlighter-rouge&quot;&gt;rsync&lt;/code&gt; regardless of any diffs:&lt;/p&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&amp;gt; yes | ./safe-rsync.sh --exclude='node_modules/' --recursive --progress --verbose ubuntu@aws-server102:/var/www/html ./html&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+</description>
+        <pubDate>Thu, 23 Jun 2016 00:00:00 -0700</pubDate>
+        <link>/2016/06/23/protip-warn-about-changes-before-rsync/</link>
+        <guid isPermaLink="true">/2016/06/23/protip-warn-about-changes-before-rsync/</guid>
+
+
+      </item>
+
+      <item>
+        <title>Making perfect ramen with Lua: OS X automation with Hammerspoon</title>
+        <description>&lt;p&gt;Yesterday I discovered &lt;strong&gt;&lt;a href=&quot;http://www.hammerspoon.org&quot;&gt;Hammerspoon&lt;/a&gt;&lt;/strong&gt;, a project
+that touts itself as a &lt;em&gt;“tool for powerful automation of OS X”&lt;/em&gt;. After giving
+it a try, not only did I find that statement to be true, but as someone who has
+&lt;strong&gt;ZERO&lt;/strong&gt; prior practical experience with Lua, I was surprised by how relatively easy it was to
+get on board. Now, I’m hooked.&lt;/p&gt;
+
+&lt;h2 id=&quot;lua-scripting&quot;&gt;&lt;strong&gt;Lua scripting&lt;/strong&gt;&lt;/h2&gt;
+
+&lt;div class=&quot;row&quot;&gt;
+    &lt;div class=&quot;columns large-6&quot;&gt;
+    &lt;p&gt;
+&lt;em&gt;Hammerspoon&lt;/em&gt; exposes system level APIs into a Lua environment, and config files
+are written in Lua.
+    &lt;/p&gt;
+    &lt;p&gt;
+    Syntactically, Lua reminds me a lot of Javascript and Ruby and, by extension, CoffeeScript. If you write in any of these three languages,
+    you already have a leg up on the rest.
+    &lt;/p&gt;
+    &lt;p&gt;
+    I find Lua's simplicity refreshing. I found it easy to pick up the basics of &lt;em&gt;Lua&lt;/em&gt; and start writing something in it, and was able to just learn more as I went. Functions are first-class citizens in Lua (can be passed around as arguments or as return values) so familiarity with functional programming paradigms goes a long way.
+    &lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;columns large-6&quot;&gt;
+        &lt;img src=&quot;/img/lua-preview.png&quot; /&gt;
+        &lt;div class=&quot;caption&quot;&gt;From &lt;a href=&quot;https://learnxinyminutes.com/docs/lua/&quot; target=&quot;_blank&quot;&gt;Learn Lua in Y Minutes&lt;/a&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;However, unlike Javascript and Ruby, Lua does not have a built-in
+functional library to do things like &lt;code class=&quot;highlighter-rouge&quot;&gt;map&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;filter&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;reduce&lt;/code&gt;,
+&lt;em&gt;etc.&lt;/em&gt;, but Hammerspoon comes with &lt;a href=&quot;http://www.hammerspoon.org/docs/hs.fnutils.html&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;hs.fnutils&lt;/code&gt;&lt;/a&gt; which provides a bunch of
+functional utilities. Its not exhaustive, but its good enough for not-so-complex
+scripting which Hammerspoon falls into.&lt;/p&gt;
+
+&lt;h2 id=&quot;inside-my-hammerspooninitlua&quot;&gt;Inside my &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.hammerspoon/init.lua&lt;/code&gt;&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;OS X already comes with &lt;em&gt;Automator&lt;/em&gt;, which allows you to do automation on
+Macs. But there are things that you  can’t do with &lt;em&gt;Automator&lt;/em&gt; alone.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a href=&quot;#cycle-displays&quot;&gt;1. Cycle through displays&lt;/a&gt;
+&lt;br /&gt;
+&lt;a href=&quot;#webpage-on-wifi-connect&quot;&gt;2. Open a web-page as soon as I connect to a particular WiFi network&lt;/a&gt;
+&lt;br /&gt;
+&lt;a href=&quot;#perfect-ramen&quot;&gt;3. Make perfect ramen every time&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;cycle-displays&quot;&gt;1. Cycle through displays&lt;/h3&gt;
+
+&lt;p&gt;I wanted to start small, so I picked a little annoyance I find myself battling with daily and aimed to solve it. One such annoyance pertains to switching focus between multiple displays:&lt;/p&gt;
+
+&lt;p&gt;I have a dual-display setup at work and I have all my GUI applications running on the
+primary display, with the exception of a couple of full-screen terminal windows running &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;vim&lt;/code&gt;, a &lt;code class=&quot;highlighter-rouge&quot;&gt;zsh&lt;/code&gt; shell, monitoring tools, logs, &lt;em&gt;etc.&lt;/em&gt; occupying the
+entirety of a secondary screen across multiple Spaces. I also have other full-screen applications
+living in their own Spaces on the primary display. My setup works really well for me most of the time, but
+there are certain combinations of circumstances on how applications are laid out across all
+Spaces and the order in which I have accessed them that results in a state where
+Command (⌘)-Tab or a three-finger swipe doesn’t bring me where I want to go. So my
+first challenge was to make something in Hammerspoon that would allow me to
+cycle through the displays with &lt;strong&gt;&lt;em&gt;consistency&lt;/em&gt;&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Here is my solution:&lt;/p&gt;
+
+&lt;div class=&quot;code-section&quot;&gt;
+  &lt;div class=&quot;filename&quot;&gt;
+    &lt;div class=&quot;row&quot;&gt;
+
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;row&quot;&gt;
+    &lt;div class=&quot;large-12 columns&quot;&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-lua&quot;&gt;-- DISPLAY FOCUS SWITCHING --
+
+--One hotkey should just suffice for dual-display setups as it will naturally
+--cycle through both.
+--A second hotkey to reverse the direction of the focus-shift would be handy
+--for setups with 3 or more displays.
+
+--Bring focus to next display/screen
+hs.hotkey.bind({&amp;quot;alt&amp;quot;}, &amp;quot;`&amp;quot;, function ()
+  focusScreen(hs.window.focusedWindow():screen():next())
+end)
+
+--Bring focus to previous display/screen
+hs.hotkey.bind({&amp;quot;alt&amp;quot;, &amp;quot;shift&amp;quot;}, &amp;quot;`&amp;quot;, function()
+  focusScreen(hs.window.focusedWindow():screen():previous())
+end)
+
+--Predicate that checks if a window belongs to a screen
+function isInScreen(screen, win)
+  return win:screen() == screen
+end
+
+-- Brings focus to the scren by setting focus on the front-most application in it.
+-- Also move the mouse cursor to the center of the screen. This is because
+-- Mission Control gestures &amp;amp; keyboard shortcuts are anchored, oddly, on where the
+-- mouse is focused.
+function focusScreen(screen)
+  --Get windows within screen, ordered from front to back.
+  --If no windows exist, bring focus to desktop. Otherwise, set focus on
+  --front-most application window.
+  local windows = hs.fnutils.filter(
+      hs.window.orderedWindows(),
+      hs.fnutils.partial(isInScreen, screen))
+  local windowToFocus = #windows &amp;gt; 0 and windows[1] or hs.window.desktop()
+  windowToFocus:focus()
+
+  -- Move mouse to center of screen
+  local pt = geometry.rectMidPoint(screen:fullFrame())
+  mouse.setAbsolutePosition(pt)
+end
+
+-- END DISPLAY FOCUS SWITCHING --&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;With this in place, I can now confidently move across applications (and
+subsequently, across Spaces) with a few key-strokes. Thanks to Lua’s concise syntax and &lt;a href=&quot;http://www.hammerspoon.org/docs/&quot;&gt;Hammerspoon’s well-documented API&lt;/a&gt;, this only took a few minutes to write. As you can see, binding hotkeys to custom actions are trivial with Hammerspoon.&lt;/p&gt;
+
+&lt;h3 id=&quot;webpage-on-wifi-connect&quot;&gt;2. Open a web-page as soon as I connect to a particular WiFi network&lt;/h3&gt;
+
+&lt;p&gt;I admit I am a forgetful person, especially when it comes to relatively small routine stuff.
+At work we use Zenefits to keep track of our working hours, clocking in and
+clocking out from within their web portal. I don’t feel confident that I will
+always remember to clock first thing in the morning, so I naturally started
+looking for applications that I could configure to somehow remind me to clock in whenever I connect to our office’s network. I initially used &lt;a href=&quot;http://www.controlplaneapp.com/&quot;&gt;ControlPlane&lt;/a&gt; for this and it worked well. But why not do it in Hammerspoon now that I got my feet wet?&lt;/p&gt;
+
+&lt;div class=&quot;code-section&quot;&gt;
+  &lt;div class=&quot;filename&quot;&gt;
+    &lt;div class=&quot;row&quot;&gt;
+
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;row&quot;&gt;
+    &lt;div class=&quot;large-12 columns&quot;&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-lua&quot;&gt;-- WORK-RELATED AUTOMATION --
+
+-- Open Zenefits Dashboard once connected to WiFi network at work.
+local workWifi = &amp;quot;ActiveLAMP Airport&amp;quot;
+local employeeDashboardUrl = &amp;quot;https://secure.zenefits.com/dashboard/#/&amp;quot;
+local defaultBrowser = &amp;quot;Google Chrome&amp;quot;
+
+hs.wifi.watcher.new(function ()
+  local currentWifi = wifi.currentNetwork()
+  -- short-circuit if disconnecting
+  if not currentWifi then return end
+
+  local note = hs.notify.new({
+    title=&amp;quot;Connected to WiFi&amp;quot;,
+    informativeText=&amp;quot;Now connected to &amp;quot; .. currentWifi
+  }):send()
+
+  --Dismiss notification in 3 seconds
+  --Notification does not auto-withdraw if Hammerspoon is set to use &amp;quot;Alerts&amp;quot;
+  --in System Preferences &amp;gt; Notifications
+  hs.timer.doAfter(3, function ()
+    note:withdraw()
+    note = nil
+  end)
+
+  if currentWifi == workWifi then
+    -- Allowance for internet connectivity delays.
+    hs.timer.doAfter(3, function ()
+      -- @todo: Explore possibilities of using `hs.webview`
+      hs.execute(&amp;quot;open &amp;quot; .. employeeDashboardUrl)
+
+      --Make notification clickable. Browser window will be focused on click:
+      hs.notify.new(function ()
+        hs.application.launchOrFocus(defaultBrowser)
+      end, {title=&amp;quot;Make sure you clock in!&amp;quot;}):send()
+    end)
+  end
+end):start()
+
+-- END WORK-RELATED AUTOMATION --&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Next thing to automate is opening &lt;em&gt;Tempo Timesheets&lt;/em&gt; in Jira every 2 hours as
+long as I’m in our ofice network to remind me to put in worklogs.&lt;/p&gt;
+
+&lt;h3 id=&quot;perfect-ramen&quot;&gt;3. Make perfect ramen every time&lt;/h3&gt;
+
+&lt;p&gt;A hot, 3-minute ramen is good. Sometimes its better &lt;em&gt;al-dente&lt;/em&gt;. But warm, soggy, 10-minute ramen? Not cool.&lt;/p&gt;
+
+&lt;p&gt;For better ramen:&lt;/p&gt;
+
+&lt;div class=&quot;code-section&quot;&gt;
+  &lt;div class=&quot;filename&quot;&gt;
+    &lt;div class=&quot;row&quot;&gt;
+
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;row&quot;&gt;
+    &lt;div class=&quot;large-12 columns&quot;&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-lua&quot;&gt;-- RAMEN TIMER --
+
+--Schedule a notification in 3 minutes.
+function startRamenTimer()
+  hs.timer.doAfter(3 * 60, function ()
+    hs.notify.new({
+        title=&amp;quot;Ramen time!&amp;quot;,
+        informativeText=&amp;quot;Your ramen is ready!&amp;quot;
+    }):send()
+  end)
+  hs.alert(&amp;quot; Ramen timer started! &amp;quot;)
+end
+
+--Bind timer to `hammerspoon://ramentime`:
+hs.urlevent.bind(&amp;quot;ramentime&amp;quot;, startRamenTimer)
+
+-- END RAMEN TIMER --&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Hammerspoon’s &lt;code class=&quot;highlighter-rouge&quot;&gt;hs.urlevent&lt;/code&gt; is a beautiful thing: it allows you to bind some
+action to a URL with a &lt;code class=&quot;highlighter-rouge&quot;&gt;hammerspoon://&lt;/code&gt; scheme. This makes Hammerspoon actions
+almost universally accessible! In this case, opening &lt;code class=&quot;highlighter-rouge&quot;&gt;hammerspoon://ramentime&lt;/code&gt; will start the timer. Now, we can if we want create a bookmarklet on the browser’s
+toolbar pointing to it that when clicked will activate the timer.&lt;/p&gt;
+
+&lt;p&gt;Because of the portability of URL schemes, I was able to create a very basic &lt;em&gt;Alfred Workflow&lt;/em&gt; that triggers the timer. have to do is type &lt;code class=&quot;highlighter-rouge&quot;&gt;ramen&lt;/code&gt; into &lt;a href=&quot;https://www.alfredapp.com/&quot;&gt;&lt;strong&gt;Alfred&lt;/strong&gt;&lt;/a&gt; to ensure prime ramen all the time:&lt;/p&gt;
+
+&lt;div class=&quot;text-center&quot;&gt;
+&lt;p&gt;
+&lt;blockquote class=&quot;imgur-embed-pub&quot; lang=&quot;en&quot; data-id=&quot;cpZ73Xs&quot;&gt;&lt;a href=&quot;//imgur.com/cpZ73Xs&quot;&gt;View post on imgur.com&lt;/a&gt;&lt;/blockquote&gt;&lt;script async=&quot;&quot; src=&quot;//s.imgur.com/min/embed.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
+&lt;/p&gt;
+    &lt;p&gt;
+        &lt;em&gt;...and three minutes minutes later...&lt;/em&gt;
+    &lt;/p&gt;
+    &lt;p&gt;
+    &lt;img src=&quot;/img/ramen-notification.png&quot; alt=&quot;&quot; /&gt;
+    &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;hey-jarvis&quot;&gt;“Hey, Jarvis…”&lt;/h3&gt;
+&lt;div class=&quot;row&quot;&gt;
+&lt;div class=&quot;columns large-6&quot;&gt;
+&lt;p&gt;Another nifty thing you can do is create a dictation command to trigger the timer.
+Enable &lt;em&gt;Dictation&lt;/em&gt; on your Mac, go to &lt;em&gt;System Preferences &amp;gt; Accessibility
+Dictation...&lt;/em&gt;, click the &lt;em&gt;Dictation Commands...&lt;/em&gt; button, and turn on &lt;em&gt;Enable advanced
+commands&lt;/em&gt;.
+From here you can add a new voice command in the list and configure it to open the
+time via URL. Have fun!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;columns large-6&quot;&gt;
+&lt;img src=&quot;/img/ramen-dictation.png&quot; /&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;If you are into automating things on your Mac, give &lt;em&gt;Hammerspoon&lt;/em&gt; a spin. You
+might like it, too.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 20 Jan 2016 00:00:00 -0800</pubDate>
+        <link>/2016/01/20/making-perfect-ramen-lua-os-x-automation-with-hammerspoon/</link>
+        <guid isPermaLink="true">/2016/01/20/making-perfect-ramen-lua-os-x-automation-with-hammerspoon/</guid>
+
+
+      </item>
+
+      <item>
+        <title>Breeze through OS X alert notifications with swift efficiency through keyboard shortcuts</title>
+        <description>&lt;p&gt;I think one glaring omission from OS X’s huge set of handy keyboard shortcuts for
+common functionality is the ability to dismiss all alert notifications using a global hotkey. Right now,
+the only way to clear out a backlog is to click on the &lt;em&gt;“Close”&lt;/em&gt; button on each and every single notification item.
+Going through a backlog of alert notifications is a constant dilemma I face on a normal work day,
+and I was suprised when I learned there is no other way of dimissing alert notifications that is more efficient.&lt;/p&gt;
+
+&lt;p&gt;I actually &lt;a href=&quot;http://apple.stackexchange.com/a/155736A&quot;&gt;found a solution&lt;/a&gt; by &lt;strong&gt;&lt;em&gt;markhunte&lt;/em&gt;&lt;/strong&gt; from &lt;em&gt;Ask Different&lt;/em&gt; which worked
+quite well in the beginning. The solution in a nutshell is creating a custom service using &lt;em&gt;Automator&lt;/em&gt;
+which executes a workflow that runs an &lt;em&gt;AppleScript&lt;/em&gt; snippet that automates the
+dismissal of notifications, and assigning a global hotkey to execute it.&lt;/p&gt;
+
+&lt;p&gt;The solution works well but only when OS X cooperates – running the
+workflow within &lt;em&gt;Automator&lt;/em&gt; cause zero problems, but making it work through
+a keyboard shortcut is hit-and-miss. I found myself mucking around with accessibility settings in &lt;em&gt;System
+Preferences &amp;gt; Security &amp;amp; Privacy &amp;gt; Privacy&lt;/em&gt; a lot, adding system applications
+tucked away in &lt;code class=&quot;highlighter-rouge&quot;&gt;/Library/CoreServices/&lt;/code&gt; to the &lt;em&gt;Accessibility&lt;/em&gt; list before getting it to work for
+the first time, until I discovered that the service simply fails with no
+explanation when invoked while I have certain applications in focus.&lt;/p&gt;
+
+&lt;p&gt;Eventually I figured out a more reliable way to accomplish this using a third-party application called &lt;a href=&quot;http://www.boastr.net&quot;&gt;&lt;strong&gt;BetterTouchTool&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;row&quot;&gt;
+    &lt;div class=&quot;columns large-7 text-justify&quot;&gt;
+    &lt;p&gt;
+        I'll also share additional workflows I wrote that allows you to perform more fine-grained actions like acting on one
+        notification item at a time, i.e. dismissing it, clicking it, or clicking on
+        the secondary action if available. This is great for those alert notifications
+        that supports quick reply:
+    &lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;columns large-5&quot;&gt;
+        &lt;img src=&quot;/img/slackbot-quick-reply.png&quot; /&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;step-1-create-workflows-in-automator&quot;&gt;Step 1: Create workflows in &lt;em&gt;Automator&lt;/em&gt;&lt;/h2&gt;
+
+&lt;p&gt;You will need to create a workflow in &lt;strong&gt;&lt;em&gt;Automator&lt;/em&gt;&lt;/strong&gt; for each of the
+AppleScript programs listed below.&lt;/p&gt;
+
+&lt;p&gt;On each workflow, select &lt;strong&gt;&lt;em&gt;“Run AppleScript”&lt;/em&gt;&lt;/strong&gt; from the &lt;em&gt;Actions&lt;/em&gt; menu, put
+in the corresponding AppleScript code in the text box that appears on the right-side, and
+save the workflow somewhere you can find it later on.&lt;/p&gt;
+
+&lt;div class=&quot;row&quot;&gt;
+    &lt;div class=&quot;columns large-6&quot;&gt;
+        &lt;img src=&quot;/img/automator-create-workflow.png&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;columns large-6&quot;&gt;
+        &lt;img src=&quot;/img/automator-workflow.png&quot; /&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;11-dismiss-all-notificationsworkflow&quot;&gt;1.1 Dismiss All Notifications.workflow&lt;/h4&gt;
+
+&lt;p&gt;&lt;em&gt;Actions &amp;gt; Run AppleScript…&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&quot;code-section&quot;&gt;
+  &lt;div class=&quot;filename&quot;&gt;
+    &lt;div class=&quot;row&quot;&gt;
+
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;row&quot;&gt;
+    &lt;div class=&quot;large-12 columns&quot;&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-applescript&quot;&gt;on run {input, parameters}
+    tell application &amp;quot;System Events&amp;quot; to tell process &amp;quot;Notification Center&amp;quot;
+        click button 1 in every window
+    end tell
+    return input
+end run&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;I must give credit to &lt;strong&gt;&lt;em&gt;markhunte&lt;/em&gt;&lt;/strong&gt; from the &lt;em&gt;Ask Different&lt;/em&gt; as this accomplish almost exactly what his script does, albeit rewritten more
+concisely.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;12-dismiss-top-most-notificationworkflow&quot;&gt;1.2 Dismiss Top-most Notification.workflow&lt;/h4&gt;
+
+&lt;p&gt;&lt;em&gt;Actions &amp;gt; Run AppleScript…&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&quot;code-section&quot;&gt;
+  &lt;div class=&quot;filename&quot;&gt;
+    &lt;div class=&quot;row&quot;&gt;
+
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;row&quot;&gt;
+    &lt;div class=&quot;large-12 columns&quot;&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-applescript&quot;&gt;on run {input, parameters}
+    tell application &amp;quot;System Events&amp;quot; to tell process &amp;quot;Notification Center&amp;quot;
+        try
+            click button 1 of last item of windows
+        end try
+    end tell
+    return input
+end run&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;13-click-top-most-notificationworkflow&quot;&gt;1.3 Click Top-most Notification.workflow&lt;/h4&gt;
+
+&lt;p&gt;&lt;em&gt;Actions &amp;gt; Run AppleScript…&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&quot;code-section&quot;&gt;
+  &lt;div class=&quot;filename&quot;&gt;
+    &lt;div class=&quot;row&quot;&gt;
+
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;row&quot;&gt;
+    &lt;div class=&quot;large-12 columns&quot;&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-applescript&quot;&gt;on run {input, parameters}
+    tell application &amp;quot;System Events&amp;quot; to tell process &amp;quot;Notification Center&amp;quot;
+        try
+            click last item of windows
+        end try
+    end tell
+    return input
+end run&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;14-click-secondary-action-on-top-most-notificationworkflow&quot;&gt;1.4 Click Secondary Action on Top-most Notification.workflow&lt;/h4&gt;
+
+&lt;p&gt;&lt;em&gt;Actions &amp;gt; Run AppleScript…&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&quot;code-section&quot;&gt;
+  &lt;div class=&quot;filename&quot;&gt;
+    &lt;div class=&quot;row&quot;&gt;
+
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;row&quot;&gt;
+    &lt;div class=&quot;large-12 columns&quot;&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-applescript&quot;&gt;on run {input, parameters}
+    tell application &amp;quot;System Events&amp;quot; to tell process &amp;quot;Notification Center&amp;quot;
+        try
+            click button 2 of last item of windows
+        end try
+    end tell
+    return input
+end run&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Teaching AppleScript is obviously beyond the scope of this post. If you are
+not familiar with it, there are tons of articles online that can get you started, like &lt;a href=&quot;http://computers.tutsplus.com/tutorials/the-ultimate-beginners-guide-to-applescript--mac-3436&quot;&gt;this one&lt;/a&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;Important&lt;/strong&gt;: Do not save these in iCloud as you will need another non-MAS application to
+access them on a later step.&lt;/p&gt;
+
+&lt;!--## Step 2: Grant assistive services to the AppleScript applications--&gt;
+
+&lt;!--Go to ___System Preferences &gt; Security &amp; Privacy &gt; Privacy___, and add the--&gt;
+&lt;!--applications you just created (_not the AppleScript source files_) to the list.--&gt;
+
+&lt;!--&lt;img src=&quot;/img/security-and-privacy.png&quot; /&gt;--&gt;
+
+&lt;h2 id=&quot;step-2-assign-global-hotkeys-to-the-automator-workflows&quot;&gt;Step 2: Assign global hotkeys to the Automator workflows&lt;/h2&gt;
+
+&lt;p&gt;There is a number of productivity applications out there that allows you to invoke an Automator workflow
+through a global hot-key, like &lt;a href=&quot;https://www.alfredapp.com/&quot;&gt;&lt;strong&gt;Alfred&lt;/strong&gt;&lt;/a&gt; and &lt;a href=&quot;https://www.keyboardmaestro.com/main/&quot;&gt;&lt;strong&gt;Keyboard Maestro&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;However, I personally use &lt;strong&gt;&lt;a href=&quot;http://www.boastr.net/&quot;&gt;BetterTouchTool&lt;/a&gt;&lt;/strong&gt; as I already have
+it installed to accomplish similar tasks.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/bettertouchtool.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;My mapping is as follows:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;⇧ ⌥ ⌘ ]&lt;/code&gt; - Dismiss all notifications&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;⌥ ⌘ ]&lt;/code&gt; - Dismiss top-most notification&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;⌥ ⌘ [&lt;/code&gt; - Click top-most notification&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;⌥ ⌘ '&lt;/code&gt; - Click secondary action on top-most notification&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;row&quot;&gt;
+    &lt;div class=&quot;columns large-6&quot;&gt;
+        &lt;p&gt;
+            &lt;em&gt;BetterTouchTool&lt;/em&gt; is a really handy application all in all that will allow you to map an unthinkable amount of things to keyboard
+            shortcuts, mouse &amp;amp; trackpad gestures, and a bunch of other peripherals.
+            It has been a free application for a very long time, but
+            it won't be long until the &lt;em&gt;&quot;pay as much as you want&quot;&lt;/em&gt; licensing model will take into
+            effect. But I highly recommend it.
+        &lt;/p&gt;
+        &lt;p&gt;
+            &lt;strong&gt;Important&lt;/strong&gt;: If you just installed &lt;em&gt;BetterTouchTool&lt;/em&gt;, you will have to grant it access to accessibility services on your system. Go to &lt;em&gt;System Preferences &amp;gt; Security &amp;amp; Privacy &amp;gt; Privacy&lt;/em&gt;, and add &lt;em&gt;BetterTouchTool&lt;/em&gt; to the list under &lt;em&gt;Accessibility&lt;/em&gt;.
+        &lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;columns large-6&quot;&gt;
+        &lt;img src=&quot;/img/accessibility.png&quot; /&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;step-3&quot;&gt;Step 3&lt;/h2&gt;
+
+&lt;p&gt;Try it out! Go ahead and prune thorugh your alert notifications with more effiency. Or, actually learn to turn on &lt;em&gt;“Do Not Disturb”&lt;/em&gt; once in a while (no judgement here – I am also guilty of this.)&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Extra keyboard-fu protip:&lt;/strong&gt; You can quickly toggle &lt;em&gt;“Do Not Disturb”&lt;/em&gt; by Option-clicking
+on the &lt;em&gt;Notification Center&lt;/em&gt; icon on the menu bar, or you can actually assign
+a global hotkey to toggle it in &lt;em&gt;System Preferences &amp;gt; Keyboard &amp;gt; Shortcuts
+Mission Control &amp;gt; Turn Do Not Disturb On/Off&lt;/em&gt;
+(It’s so simple I don’t even know why I don’t bother to do this.)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+</description>
+        <pubDate>Sun, 17 Jan 2016 00:00:00 -0800</pubDate>
+        <link>/2016/01/17/breeze-through-osx-notifications-with-effiency-through-keyboard-shortcuts/</link>
+        <guid isPermaLink="true">/2016/01/17/breeze-through-osx-notifications-with-effiency-through-keyboard-shortcuts/</guid>
+
+
+      </item>
+
+      <item>
+        <title>Simple solution for tmux causing system freezes on Mac OS X</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;2015-10-21 Update:&lt;/strong&gt; Version 2.1 of &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; has just been release a couple
+of days ago and from what I can tell it has addressed this fatal issue! So the
+simpler solution would be doing &lt;code class=&quot;highlighter-rouge&quot;&gt;brew upgrade tmux&lt;/code&gt; to get the recent release.
+If you are stuck using 2.0 however, I hope this post is helpful.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;What fixed it for me was adding a single line to my &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.zshrc&lt;/code&gt; and a single line to my &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.tmux.conf&lt;/code&gt; file:&lt;/p&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# ~/.zshrc
+tmux start-server&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;div class=&quot;padded&quot;&gt;
+    &lt;div class=&quot;terminal&quot;&gt;
+      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# ~/.tmux.conf
+new-session&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;p&gt;It turns out, after trial and error, that the OS freezes (or in worst cases, kernel panics on older OS X versions) usually happen
+when you close the very last of all &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; pane of the very last &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; session.&lt;/p&gt;
+
+&lt;p&gt;With these additions to my config files, a &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; server is started with an empty &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; session whenever I fire up a terminal
+window for the first time. This means that I always have an empty &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; session – still active although never used – even after
+I exit out all the sessions I create on a daily basis.&lt;/p&gt;
+
+&lt;p&gt;I never had my MacBook Pro grind to a stop as soon as I close out all &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt;
+sessions and having to forcibly turn it off.&lt;/p&gt;
+
+&lt;p&gt;This does not fix &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt;, but is a simple work-around for a problem that has
+a potential to incur data loss in the future.&lt;/p&gt;
+
+</description>
+        <pubDate>Sat, 17 Oct 2015 00:00:00 -0700</pubDate>
+        <link>/2015/10/17/simple-solution-for-tmux-causing-system-freezes-on-mac-os-x/</link>
+        <guid isPermaLink="true">/2015/10/17/simple-solution-for-tmux-causing-system-freezes-on-mac-os-x/</guid>
+
+
+      </item>
+
+  </channel>
+</rss>

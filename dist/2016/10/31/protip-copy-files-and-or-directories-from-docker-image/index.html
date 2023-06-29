@@ -1,0 +1,170 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+
+
+    <title>/dev/blog - Protip: copy files and/or directories from a Docker image</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@400;500;700&family=Merriweather:ital,wght@0,300;0,700;1,300;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/prism.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
+
+    <meta property="og:image" content="http://www.gravatar.com/avatar/7c3c15142fcfe3e25ce2fae6b1912bcc.jpg?s=200" />
+
+
+    <meta property="og:title" content="Protip: copy files and/or directories from a Docker image" />
+
+        <meta property="og:description" content="I found myself needing to copy a bunch of files and directories straight from a Docker image. There is a trivial solution in the form of docker cp, but I came up with an alternative using docker run:" />
+
+        <meta name="description" content="I found myself needing to copy a bunch of files and directories straight from a Docker image. There is a trivial solution in the form of docker cp, but I came up with an alternative using docker run:" />
+
+  </head>
+  <body>
+    <header>
+      <div class="row site-headline">
+        <div class="large-12 columns">
+          <h1>
+            <span class="permissions">rwxr--r--</span>
+            <a href="/">
+              <div>/dev/blog</div>
+            </a>
+          </a></h1>
+          <h2>Bez Hermoso · Software Engineer @ Square</h2>
+        </div>
+      </div>
+    </header>
+    <section class="blog-post">
+  <div class="row">
+    <div class="large-12 columns">
+      <div class="post-meta">
+        <h1>Protip: copy files and/or directories from a Docker image</h1>
+        <time datetime="2016-10-31T00:00:00-07:00">31 Oct 2016</time>
+      </div>
+    </div>
+    <div class="blog-body large-12 columns">
+      <p>I found myself needing to copy a bunch of files and directories straight from a Docker image. There is a trivial solution in the form of <code class="highlighter-rouge">docker cp</code>, but I came up with an alternative using <code class="highlighter-rouge">docker run</code>:</p>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash">$ docker run --rm &lt;IMAGE NAME&gt; \
+   tar -cf - &lt;SRC_PATH_1&gt; [&lt;SRC_PATH_2&gt; ...] | tar -xvC - &lt;DEST_PATH&gt;</code></pre>
+    </div>
+  </div>
+
+<blockquote>
+  <p>This obviously relies on the the container having <code class="highlighter-rouge">tar</code> installed.</p>
+</blockquote>
+
+<p>This alternative has a few advantages over <code class="highlighter-rouge">docker cp</code>:</p>
+
+<!--stop-->
+
+<ul>
+  <li><code class="highlighter-rouge">docker cp</code> requires absolute paths. This supports paths relative to the image’s <code class="highlighter-rouge">WORKDIR</code>.</li>
+  <li><code class="highlighter-rouge">docker cp</code> copies from a container, not an image. This alternative does not require a running container, nor do you need to run <code class="highlighter-rouge">docker create</code> and having to clean it up later (a container is still being created here, but the <code class="highlighter-rouge">--rm</code> flag will take care of cleaning it up after use).</li>
+  <li>You can copy multiple paths in one go.</li>
+  <li>You get an progress/activity indicator for free, thanks to the <code class="highlighter-rouge">-v</code> flag in the <code class="highlighter-rouge">tar</code> command.  A list of filenames as they are being extracted to the destination folder.</li>
+</ul>
+
+<p>There is one <em>caveat</em>, however: depending on your image’s configuration, you might encounter this error:</p>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash">$ docker run --rm ...
+tar: Unrecognized archive format</code></pre>
+    </div>
+  </div>
+
+<p>This happens if you have an <code class="highlighter-rouge">ENTRYPOINT</code> that is polluting the <code class="highlighter-rouge">tar</code> output stream. If you can’t configure your <code class="highlighter-rouge">ENTRYPOINT</code> to be completely silent when acting in “<code class="highlighter-rouge">bash</code> pass-through mode”, you can chose to just bypass it during <code class="highlighter-rouge">docker run</code> execution:</p>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash">$ docker run --rm --entrypoint= &lt;IMAGE NAME&gt; tar -cf ...</code></pre>
+    </div>
+  </div>
+
+<h4 id="bonus">Bonus</h4>
+
+<p>This command can potentially produce a ton of output if you are copying a massive amount of files. You can, of course, omit the <code class="highlighter-rouge">-v</code> flag from the <code class="highlighter-rouge">tar</code> command. However, you can keep the <code class="highlighter-rouge">-v</code> flag on but tack this to the end of the command:</p>
+
+<div class="padded">
+    <div class="terminal">
+      <div class="icons"><span></span></div>
+      <div class="title">&nbsp;</div>
+      <pre><code class="language-bash">2&gt;&amp;1 | while read l; do echo -ne &quot;\033[2K\r$l&quot;; done; echo '...done!'</code></pre>
+    </div>
+  </div>
+
+<p>This reduces the output into a single-line: a “ticker” that displays the filenames as they are being extracted. This way, you don’t lose the perk of having an activity indicator.</p>
+
+
+    </div>
+  </div>
+  <section class="post-navigation">
+    <div class="row">
+      <div class="large-4 columns">
+
+        Previous: <a href="/2017/01/08/subreddit-quick-switcher-google-chrome/">Subreddit quick-switcher in Google Chrome -- no extensions required</a>
+
+      </div>
+      <div class="large-4 columns">
+        <a href="/" title="Go back home"><code>$HOME</code></a>
+      </div>
+      <div class="large-4 columns">
+
+        Next: <a href="/2016/06/23/protip-warn-about-changes-before-rsync/">Protip: warn about file changes, deletions & additions before rsync</a>
+
+      </div>
+    </div>
+  </section>
+</section>
+<section>
+  <div class="row">
+  <div class="columns medium-12">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'thftmsc'; // required: replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </div>
+</div>
+
+</section>
+
+    <footer>
+      Bez Hermoso (c) 2016
+    </footer>
+
+    <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-22506121-5', 'auto');
+ga('send', 'pageview');
+    </script>
+
+  </body>
+  <script src="/js/prism.js"></script>
+</html>

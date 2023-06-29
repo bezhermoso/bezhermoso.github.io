@@ -4,44 +4,44 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-
-
+    
+    
     <title>/dev/blog - Fun with functions in Javascript: high-order functions</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@400;500;700&family=Merriweather:ital,wght@0,300;0,700;1,300;1,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/prism.css" type="text/css" media="screen" charset="utf-8">
-    <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen" charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,700i,300,300i|Merriweather:300,300i,700,700i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
     <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
-
+    
     <meta property="og:image" content="http://www.gravatar.com/avatar/7c3c15142fcfe3e25ce2fae6b1912bcc.jpg?s=200" />
-
-
+    
+    
     <meta property="og:title" content="Fun with functions in Javascript: high-order functions" />
-
+        
         <meta property="og:description" content="Functional programming has been gaining popularity lately. It’s an interesting paradigm for solving problems and departs quite a bit from familiar concepts programmers like me who use object-oriented languages are used to.Just like object-oriented programming, it has its own sets of design principles and philosophies. I don’t pretend to know a lot of them – in fact I only have barely scratched the surface, but two concepts has stoodout to me so far – its the concept of high-order functions and the slew of interesting things you can do with them." />
-
+        
         <meta name="description" content="Functional programming has been gaining popularity lately. It’s an interesting paradigm for solving problems and departs quite a bit from familiar concepts programmers like me who use object-oriented languages are used to.Just like object-oriented programming, it has its own sets of design principles and philosophies. I don’t pretend to know a lot of them – in fact I only have barely scratched the surface, but two concepts has stoodout to me so far – its the concept of high-order functions and the slew of interesting things you can do with them." />
-
+    
+    <script src="/bundle.js"></script>
   </head>
   <body>
-    <header>
-      <div class="row site-headline">
-        <div class="large-12 columns">
+    <header class="grid-container">
+      <div class="grid-x site-headline">
+        <div class="large-12 cell">
           <h1>
             <span class="permissions">rwxr--r--</span>
             <a href="/">
               <div>/dev/blog</div>
             </a>
           </a></h1>
-          <h2>Bez Hermoso · Software Engineer @ Square</h2>
+          <h2>Bez Hermoso, Software Engineer @ Square</h2>
         </div>
       </div>
     </header>
-    <section class="blog-post">
-  <div class="row">
-    <div class="large-12 columns">
+    <section class="grid-container blog-post">
+  <div class="grid-x">
+    <div class="large-12 cell">
       <div class="post-meta">
         <h1>Fun with functions in Javascript: high-order functions</h1>
         <time datetime="2015-05-16T00:00:00-07:00">16 May 2015</time>
@@ -64,7 +64,7 @@ out to me so far – its the concept of <em>high-order functions</em> and the sl
 <div class="code-section">
   <div class="filename">
     <div class="row">
-
+      
     </div>
   </div>
   <div class="row">
@@ -117,7 +117,7 @@ strongShoutWithEmphasis('this is sparta'); //&lt;em&gt;&lt;strong&gt;THIS IS SPA
 <div class="code-section">
   <div class="filename">
     <div class="row">
-
+      
     </div>
   </div>
   <div class="row">
@@ -159,7 +159,7 @@ strongShoutWithEmphasis('this is sparta'); //&lt;em&gt;&lt;strong&gt;THIS IS SPA
 <div class="code-section">
   <div class="filename">
     <div class="row">
-
+      
     </div>
   </div>
   <div class="row">
@@ -186,7 +186,7 @@ or...
 <div class="code-section">
   <div class="filename">
     <div class="row">
-
+      
     </div>
   </div>
   <div class="row">
@@ -241,7 +241,7 @@ this assures that any previous substitutions does not affect the indices, as the
 <div class="code-section">
   <div class="filename">
     <div class="row">
-
+      
     </div>
   </div>
   <div class="row">
@@ -260,7 +260,7 @@ this assures that any previous substitutions does not affect the indices, as the
 <div class="code-section">
   <div class="filename">
     <div class="row">
-
+      
     </div>
   </div>
   <div class="row">
@@ -289,7 +289,7 @@ Takes a Function and an Object and returns a <strong>Function</strong> which tak
 <div class="code-section">
   <div class="filename">
     <div class="row">
-
+      
     </div>
   </div>
   <div class="row">
@@ -314,7 +314,7 @@ _compose(sub4, _compose(sub3, _compose(sub2, sub1)))(tweet);</code></pre>
 <div class="code-section">
   <div class="filename">
     <div class="row">
-
+      
     </div>
   </div>
   <div class="row">
@@ -338,7 +338,7 @@ _pipe('this is sparta', [shout, strong, emphasize]); //&lt;em&gt;&lt;strong&gt;T
 <div class="code-section">
   <div class="filename">
     <div class="row">
-
+      
     </div>
   </div>
   <div class="row">
@@ -361,7 +361,7 @@ _pipe('this is sparta', [shout, strong, emphasize]); //&lt;em&gt;&lt;strong&gt;T
 <div class="code-section">
   <div class="filename">
     <div class="row">
-
+      
     </div>
   </div>
   <div class="row">
@@ -398,7 +398,7 @@ to work with arbitrary and inconsequential in our implementation.</p>
 <div class="code-section">
   <div class="filename">
     <div class="row">
-
+      
     </div>
   </div>
   <div class="row">
@@ -426,7 +426,7 @@ var htmlTweet = _pipe(tweet.text, orderedSubs);</code></pre>
 <div class="code-section">
   <div class="filename">
     <div class="row">
-
+      
     </div>
   </div>
   <div class="row">
@@ -444,7 +444,7 @@ var htmlTweet = _pipe(tweet.text, orderedSubs);</code></pre>
 <div class="code-section">
   <div class="filename">
     <div class="row">
-
+      
     </div>
   </div>
   <div class="row">
@@ -565,19 +565,19 @@ console.log(renderTweet(tweet));</code></pre>
     </div>
   </div>
   <section class="post-navigation">
-    <div class="row">
-      <div class="large-4 columns">
-
+    <div class="grid-x">
+      <div class="large-4 cell">
+        
         Previous: <a href="/2015/10/02/vim-shell-indicator-in-powerline-theme/">Vim indicator in Powerline theme</a>
-
+        
       </div>
-      <div class="large-4 columns">
+      <div class="large-4 cell">
         <a href="/" title="Go back home"><code>$HOME</code></a>
       </div>
-      <div class="large-4 columns">
-
+      <div class="large-4 cell">
+        
         Next: <a href="/2015/03/17/couchdb-function-tostring-usage-in-coffeescript/">A practical usage of JavaScript's Function.toString method: CouchDB maps & reduces</a>
-
+        
       </div>
     </div>
   </section>
@@ -607,7 +607,7 @@ var disqus_shortname = 'thftmsc'; // required: replace example with your forum s
     <footer>
       Bez Hermoso (c) 2016
     </footer>
-
+    
     <script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -616,7 +616,6 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 ga('create', 'UA-22506121-5', 'auto');
 ga('send', 'pageview');
     </script>
-
+    
   </body>
-  <script src="/js/prism.js"></script>
 </html>

@@ -4,42 +4,42 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-
-
+    
+    
     <title>/dev/blog - Insert literal characters in Vim</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@400;500;700&family=Merriweather:ital,wght@0,300;0,700;1,300;1,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/prism.css" type="text/css" media="screen" charset="utf-8">
-    <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen" charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,700i,300,300i|Merriweather:300,300i,700,700i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
     <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
-
+    
     <meta property="og:image" content="http://bezhermoso.github.io/img/keep/til.png" />
-
-
+    
+    
     <meta content="Pro-tip: Insert literal characters in Vim" property="og:title">
     <meta property="og:description" content="In the rare occasion that I need to insert a tab character while having expandtab on, the C-v command in Normal mode comes in handy:# While in Normal mode, &amp;lt;C-v&amp;gt; signals vim that the next key-press is to be inserted literally:&amp;lt;C-v&amp;gt;&amp;lt;TAB&amp;gt;" />
     <meta name="description" content="In the rare occasion that I need to insert a tab character while having expandtab on, the C-v command in Normal mode comes in handy:# While in Normal mode, &amp;lt;C-v&amp;gt; signals vim that the next key-press is to be inserted literally:&amp;lt;C-v&amp;gt;&amp;lt;TAB&amp;gt;" />
-
+    
+    <script src="/bundle.js"></script>
   </head>
   <body>
-    <header>
-      <div class="row site-headline">
-        <div class="large-12 columns">
+    <header class="grid-container">
+      <div class="grid-x site-headline">
+        <div class="large-12 cell">
           <h1>
             <span class="permissions">rwxr--r--</span>
             <a href="/">
               <div>/dev/blog</div>
             </a>
           </a></h1>
-          <h2>Bez Hermoso · Software Engineer @ Square</h2>
+          <h2>Bez Hermoso, Software Engineer @ Square</h2>
         </div>
       </div>
     </header>
-    <section class="blog-post">
-  <div class="row">
-    <div class="large-12 columns">
+    <section class="grid-container blog-post">
+  <div class="grid-x">
+    <div class="large-12 cell">
       <div class="til-header">
         <h3>
         <a href="/til/">More Pro-tips...</a>
@@ -50,7 +50,7 @@
         <time datetime="2022-12-29T00:00:00-08:00">29 Dec 2022</time>
       </div>
     </div>
-    <div class="blog-body large-12 columns">
+    <div class="blog-body large-12 cell">
       <p>In the rare occasion that I need to insert a tab character while having <code class="highlighter-rouge">expandtab</code> on, the <code class="highlighter-rouge">C-v</code> command in Normal mode comes in handy:</p>
 
 <div class="language-vim highlighter-rouge"><pre class="highlight"><code># While <span class="k">in</span> Normal <span class="k">mode</span><span class="p">,</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">v</span><span class="p">&gt;</span> signals <span class="k">vim</span> that the next key<span class="p">-</span>press <span class="k">is</span> <span class="k">to</span> be inserted literally<span class="p">:</span>
@@ -61,7 +61,7 @@
     </div>
   </div>
   <section class="post-navigation">
-    <div class="large-12 columns">
+    <div class="large-12 cell">
       <a href="/til/">Click here for more pro-tips</a>
     </div>
   </section>
@@ -91,7 +91,7 @@ var disqus_shortname = 'thftmsc'; // required: replace example with your forum s
     <footer>
       Bez Hermoso (c) 2016
     </footer>
-
+    
     <script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -100,7 +100,6 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 ga('create', 'UA-22506121-5', 'auto');
 ga('send', 'pageview');
     </script>
-
+    
   </body>
-  <script src="/js/prism.js"></script>
 </html>

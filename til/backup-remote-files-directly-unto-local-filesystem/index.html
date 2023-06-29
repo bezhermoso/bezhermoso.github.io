@@ -4,42 +4,42 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-
-
+    
+    
     <title>/dev/blog - Backup remote files directly unto local filesystem</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@400;500;700&family=Merriweather:ital,wght@0,300;0,700;1,300;1,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/prism.css" type="text/css" media="screen" charset="utf-8">
-    <link rel="stylesheet" href="/css/app.css" type="text/css" media="screen" charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato:700,700i,300,300i|Merriweather:300,300i,700,700i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
     <meta name="keywords" content="programming software symfony zf2 php development javascript nodejs webdev web" />
-
+    
     <meta property="og:image" content="http://bezhermoso.github.io/img/keep/til.png" />
-
-
+    
+    
     <meta content="Pro-tip: Backup remote files directly unto local filesystem" property="og:title">
     <meta property="og:description" content="The trick is to execute tar on the remote server and telling it to output to standard output, and piping the output straight to a file on the local filesystem:                &amp;nbsp;      $ ssh &amp;lt;USER&amp;gt;@&amp;lt;HOST&amp;gt; tar -czvf /remote/path/to/backup &amp;gt; /path/to/local/backup.tar.gz      This will operate exactly as if the tar ... &amp;gt; ... command was executed within the remote server, except on that the destination file is written directly on your local machine. This is extremely useful when backing up files from the remote server that you’d like to clean up to free up some space later without having to use up additional space which might be limited already.To check the uncompressed size of the tar.gz file in MB without having to extract it into the filesystem:                &amp;nbsp;      $ tar -xzf /path/to/local/backup.tar.gz --to-stdout \   | wc -c \   | (read size; echo &amp;quot;scale=2; $size/1024^3&amp;quot; | bc)        scale=2 tells bc to show up to 2 decimal places. It defaults to floor it to the nearest ones place.You can check the total file size of the remote directory against this to verify you got everything:                &amp;nbsp;      $ ssh &amp;lt;USER&amp;gt;@&amp;lt;HOST&amp;gt; -- du -bs /remote/path/to/backup \   | (read size _; echo &amp;quot;scale=2; $size/1024^3&amp;quot; | bc)        See man ssh, man tar, &amp;amp; man du" />
     <meta name="description" content="The trick is to execute tar on the remote server and telling it to output to standard output, and piping the output straight to a file on the local filesystem:                &amp;nbsp;      $ ssh &amp;lt;USER&amp;gt;@&amp;lt;HOST&amp;gt; tar -czvf /remote/path/to/backup &amp;gt; /path/to/local/backup.tar.gz      This will operate exactly as if the tar ... &amp;gt; ... command was executed within the remote server, except on that the destination file is written directly on your local machine. This is extremely useful when backing up files from the remote server that you’d like to clean up to free up some space later without having to use up additional space which might be limited already.To check the uncompressed size of the tar.gz file in MB without having to extract it into the filesystem:                &amp;nbsp;      $ tar -xzf /path/to/local/backup.tar.gz --to-stdout \   | wc -c \   | (read size; echo &amp;quot;scale=2; $size/1024^3&amp;quot; | bc)        scale=2 tells bc to show up to 2 decimal places. It defaults to floor it to the nearest ones place.You can check the total file size of the remote directory against this to verify you got everything:                &amp;nbsp;      $ ssh &amp;lt;USER&amp;gt;@&amp;lt;HOST&amp;gt; -- du -bs /remote/path/to/backup \   | (read size _; echo &amp;quot;scale=2; $size/1024^3&amp;quot; | bc)        See man ssh, man tar, &amp;amp; man du" />
-
+    
+    <script src="/bundle.js"></script>
   </head>
   <body>
-    <header>
-      <div class="row site-headline">
-        <div class="large-12 columns">
+    <header class="grid-container">
+      <div class="grid-x site-headline">
+        <div class="large-12 cell">
           <h1>
             <span class="permissions">rwxr--r--</span>
             <a href="/">
               <div>/dev/blog</div>
             </a>
           </a></h1>
-          <h2>Bez Hermoso · Software Engineer @ Square</h2>
+          <h2>Bez Hermoso, Software Engineer @ Square</h2>
         </div>
       </div>
     </header>
-    <section class="blog-post">
-  <div class="row">
-    <div class="large-12 columns">
+    <section class="grid-container blog-post">
+  <div class="grid-x">
+    <div class="large-12 cell">
       <div class="til-header">
         <h3>
         <a href="/til/">More Pro-tips...</a>
@@ -50,7 +50,7 @@
         <time datetime="2016-08-19T00:00:00-07:00">19 Aug 2016</time>
       </div>
     </div>
-    <div class="blog-body large-12 columns">
+    <div class="blog-body large-12 cell">
       <p>The trick is to execute <code class="highlighter-rouge">tar</code> on the remote server and telling it to output to standard output, and piping the output straight to a file on the local filesystem:</p>
 
 <div class="padded">
@@ -97,7 +97,7 @@
     </div>
   </div>
   <section class="post-navigation">
-    <div class="large-12 columns">
+    <div class="large-12 cell">
       <a href="/til/">Click here for more pro-tips</a>
     </div>
   </section>
@@ -127,7 +127,7 @@ var disqus_shortname = 'thftmsc'; // required: replace example with your forum s
     <footer>
       Bez Hermoso (c) 2016
     </footer>
-
+    
     <script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -136,7 +136,6 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 ga('create', 'UA-22506121-5', 'auto');
 ga('send', 'pageview');
     </script>
-
+    
   </body>
-  <script src="/js/prism.js"></script>
 </html>

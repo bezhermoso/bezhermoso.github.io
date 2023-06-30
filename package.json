@@ -4,10 +4,10 @@
   "description": "My blog in Metalsmith",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compile": "webpack",
+    "bundle": "webpack",
     "html": "bundle exec jekyll build --config src/jekyll/_config.yml --source src/jekyll --destination dist",
     "serve": "npx webpack serve",
-    "build": "npm run html && npm run compile",
+    "build": "npm run html && npm run bundle",
     "watch": "watchexec -w src 'npm run html && npm run compile'"
   },
   "private": true,

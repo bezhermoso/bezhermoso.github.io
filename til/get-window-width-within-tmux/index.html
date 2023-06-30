@@ -52,19 +52,19 @@
     </div>
     <div class="blog-body large-12 cell">
       <p>In most circumstances, you can get the width of the terminal window using the
-comamnd <code class="highlighter-rouge">tput cols</code>. However I discovered that this doesn’t quite work as
-expected if you try it as part of your <code class="highlighter-rouge">status-right</code> or <code class="highlighter-rouge">status-left</code>
-configuration (and pretty much in any other format strings in <code class="highlighter-rouge">tmux</code>.) I tried
+comamnd <code>tput cols</code>. However I discovered that this doesn’t quite work as
+expected if you try it as part of your <code>status-right</code> or <code>status-left</code>
+configuration (and pretty much in any other format strings in <code>tmux</code>.) I tried
 to implement something that auto-hides certain items on my status-line when the
-iTerm2 narrows down to a particular size, but <code class="highlighter-rouge">tput cols</code>
-<em>always</em> return the value <code class="highlighter-rouge">80</code>.</p>
+iTerm2 narrows down to a particular size, but <code>tput cols</code>
+<em>always</em> return the value <code>80</code>.</p>
 
 <!--stop-->
 
-<p>To properly get the window width, you will need to use the <code class="highlighter-rouge">window_width</code>
+<p>To properly get the window width, you will need to use the <code>window_width</code>
 property that is available in all format strings:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>

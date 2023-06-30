@@ -68,11 +68,11 @@
             <time datetime="2018-07-28T00:00:00-07:00">28 Jul 2018</time>
           </div>
           <article class="excerpt">
-            <p>You want to jump back up to your project’s root directory from who knows many levels down. What would you do? Figure out the right amount of levels to <code class="highlighter-rouge">cd ../../..</code> up? Run <code class="highlighter-rouge">cd ..</code> repeatedly until you get there? or run <code class="highlighter-rouge">cd</code> to an absolute path directly?</p>
+            <p>You want to jump back up to your project’s root directory from who knows many levels down. What would you do? Figure out the right amount of levels to <code>cd ../../..</code> up? Run <code>cd ..</code> repeatedly until you get there? or run <code>cd</code> to an absolute path directly?</p>
 
 <p>If your project is managed with Git, here is a smarter way:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -80,43 +80,43 @@
     </div>
   </div>
 
-<p>The command <code class="highlighter-rouge">git rev-parse --show-toplevel</code> is a Git plumbing command that outputs the absolute path of the Git repository root of the project you are in. Therefore the most straight-forward form is to use its result as the argument for <code class="highlighter-rouge">cd</code>. <strong>No more repeating commands, figuring out exactly how far up the root is, or having to type out paths!</strong></p>
+<p>The command <code>git rev-parse --show-toplevel</code> is a Git plumbing command that outputs the absolute path of the Git repository root of the project you are in. Therefore the most straight-forward form is to use its result as the argument for <code>cd</code>. <strong>No more repeating commands, figuring out exactly how far up the root is, or having to type out paths!</strong></p>
 
-<p>The next obvious step is to make an alias of that command in your <code class="highlighter-rouge">.bashrc</code> or equivalent file:</p>
+<p>The next obvious step is to make an alias of that command in your <code>.bashrc</code> or equivalent file:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
       <pre><code class="language-bash"># Mnemonic: `gr` == `git root`
-# Also note the single-quotes; you don't want the sub-command to run on alias definition!
-alias gr='cd $(git rev-parse --show-toplevel)'</code></pre>
+# Also note the single-quotes; you don&apos;t want the sub-command to run on alias definition!
+alias gr=&apos;cd $(git rev-parse --show-toplevel)&apos;</code></pre>
     </div>
   </div>
 
-<p>From here on out, just run <code class="highlighter-rouge">gr</code> anytime you need to jump all the way up to your project root.</p>
+<p>From here on out, just run <code>gr</code> anytime you need to jump all the way up to your project root.</p>
 
 <p>We can take it a little further…</p>
 
 <hr />
 
-<p>What used to be this <code class="highlighter-rouge">gr</code> alias on my rc file evolved into a full-on shell function that handles some edge-cases:</p>
+<p>What used to be this <code>gr</code> alias on my rc file evolved into a full-on shell function that handles some edge-cases:</p>
 
 <ul>
-  <li>Do nothing when I’m not in the project root instead of spitting an error and jumping to <code class="highlighter-rouge">/</code></li>
+  <li>Do nothing when I’m not in the project root instead of spitting an error and jumping to <code>/</code></li>
   <li>Be smart with Git submodules: if already in a repo’s root, jump up to the nearest parent repo in the tree, if any.</li>
 </ul>
 
 <p>Here it is in it’s current form in my rc file (<a href="https://github.com/bezhermoso/jump-to-git-root">I hosted this on Github</a> if you’d like to clone it instead):</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
       <pre><code class="language-bash">function jump-to-git-root {
   local _root_dir=&quot;$(git rev-parse --show-toplevel 2&gt;/dev/null)&quot;
   if [[ $? -gt 0 ]]; then
-    &gt;&amp;2 echo 'Not a Git repo!'
+    &gt;&amp;2 echo &apos;Not a Git repo!&apos;
     exit 1
   fi
   local _pwd=$(pwd)
@@ -156,15 +156,15 @@ alias gr=jump-to-git-root</code></pre>
             <time datetime="2018-06-02T00:00:00-07:00">02 Jun 2018</time>
           </div>
           <article class="excerpt">
-            <p>If there is one tool I use the most, it has to be <code class="highlighter-rouge">tmux</code>. I do almost everything <em>in</em> it.</p>
+            <p>If there is one tool I use the most, it has to be <code>tmux</code>. I do almost everything <em>in</em> it.</p>
 
-<p>However, as useful as it is, I feel like its not very user-friendly out-of-the-box. This post is a collection of things in my <code class="highlighter-rouge">~/.tmux.conf</code> that makes <code class="highlighter-rouge">tmux</code> easier to use and to bring its more powerful capabilities within closer reach.</p>
+<p>However, as useful as it is, I feel like its not very user-friendly out-of-the-box. This post is a collection of things in my <code>~/.tmux.conf</code> that makes <code>tmux</code> easier to use and to bring its more powerful capabilities within closer reach.</p>
 
 <p><br /></p>
 
 <h2 id="a-better-prefix">A better prefix</h2>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -172,10 +172,10 @@ alias gr=jump-to-git-root</code></pre>
     </div>
   </div>
 
-<p><code class="highlighter-rouge">C-s</code> requires far less finger-flinging than the default <code class="highlighter-rouge">C-b</code> – the keys are close enough together, and it doesn’t conflict with any key-sequence I commonly use. This is extra awesome with <code class="highlighter-rouge">Capslock</code> mapped to <code class="highlighter-rouge">Ctrl</code>.</p>
+<p><code>C-s</code> requires far less finger-flinging than the default <code>C-b</code> – the keys are close enough together, and it doesn’t conflict with any key-sequence I commonly use. This is extra awesome with <code>Capslock</code> mapped to <code>Ctrl</code>.</p>
 
 <blockquote>
-  <p><code class="highlighter-rouge">Ctrl + s</code> is typically bound in terminals to “stop output to screen”. I can live without it, as entering  “Visual Mode” in <code class="highlighter-rouge">tmux</code> is a functional alternative.</p>
+  <p><code>Ctrl + s</code> is typically bound in terminals to “stop output to screen”. I can live without it, as entering  “Visual Mode” in <code>tmux</code> is a functional alternative.</p>
 </blockquote>
 
 <p><br /></p>
@@ -184,9 +184,9 @@ alias gr=jump-to-git-root</code></pre>
 
 <p>Support for copying and pasting to the system clipboard doesn’t quite work on macOS. Thankfully, getting it to work takes very little effort.</p>
 
-<p>First you need to install the <code class="highlighter-rouge">reattach-to-user-namespace</code> program. You can grab it straight from Homebrew:</p>
+<p>First you need to install the <code>reattach-to-user-namespace</code> program. You can grab it straight from Homebrew:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -194,15 +194,15 @@ alias gr=jump-to-git-root</code></pre>
     </div>
   </div>
 
-<p>Add this to <code class="highlighter-rouge">~/.tmux.conf</code> and you are off to the races:</p>
+<p>Add this to <code>~/.tmux.conf</code> and you are off to the races:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
       <pre><code class="language-bash"># Check whether we are on macOS / OS X
-if-shell 'test &quot;$(uname)&quot; = &quot;Darwin&quot;' \
-  'set-option -g default-command &quot;reattach-to-user-namespace -l zsh&quot;' ''
+if-shell &apos;test &quot;$(uname)&quot; = &quot;Darwin&quot;&apos; \
+  &apos;set-option -g default-command &quot;reattach-to-user-namespace -l zsh&quot;&apos; &apos;&apos;
 
 # vi bindings in copy-mode
 setw -g mode-keys vi
@@ -217,30 +217,30 @@ bind-key -t vi-copy y copy-pipe &quot;reattach-to-user-namespace pbcopy&quot;</c
 
 <h2 id="intuitive-window-splitting">Intuitive window splitting</h2>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
       <pre><code class="language-bash"># Horizontal split (left &amp; right):
-bind-key \ split-window -h -c '#{pane_current_path}'
+bind-key \ split-window -h -c &apos;#{pane_current_path}&apos;
 # Verical split (top &amp; bottom):
-bind-key - split-window -v -c '#{pane_current_path}'</code></pre>
+bind-key - split-window -v -c &apos;#{pane_current_path}&apos;</code></pre>
     </div>
   </div>
 
-<p>Compared to the default <code class="highlighter-rouge">&lt;prefix&gt; %</code> and <code class="highlighter-rouge">&lt;prefix&gt; "</code>, these bindings makes which way splits occur <em>really</em> obvious. The <code class="highlighter-rouge">-c #{pane_current_path}</code> argument passed will start new splits in the same working directory you are on.</p>
+<p>Compared to the default <code>&lt;prefix&gt; %</code> and <code>&lt;prefix&gt; "</code>, these bindings makes which way splits occur <em>really</em> obvious. The <code>-c #{pane_current_path}</code> argument passed will start new splits in the same working directory you are on.</p>
 
-<p>As of version 2.3, <code class="highlighter-rouge">split-window</code> now understands the <code class="highlighter-rouge">-f</code> flag, which indicates full-width or full-height splits. These are perfect when you want a “scratch” shell to appear on the bottom or to the right of everything else:</p>
+<p>As of version 2.3, <code>split-window</code> now understands the <code>-f</code> flag, which indicates full-width or full-height splits. These are perfect when you want a “scratch” shell to appear on the bottom or to the right of everything else:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
       <pre><code class="language-bash"># For tmux 2.3 or newer
 # Full-height horizontal split with 33% width:
-bind-key | split-window -fh -c '#{pane_current_path}' -p 33
+bind-key | split-window -fh -c &apos;#{pane_current_path}&apos; -p 33
 # Full-width vertical split with 33% height:
-bind-key _ split-window -fv -c '#{pane_current_path}' -p 33</code></pre>
+bind-key _ split-window -fv -c &apos;#{pane_current_path}&apos; -p 33</code></pre>
     </div>
   </div>
 
@@ -248,7 +248,7 @@ bind-key _ split-window -fv -c '#{pane_current_path}' -p 33</code></pre>
 
 <h2 id="tiered-navigation-controls">Tiered navigation controls</h2>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -264,27 +264,27 @@ bind-key -r l select-pane -R</code></pre>
     </div>
   </div>
 
-<p>Although the default <code class="highlighter-rouge">&lt;prefix&gt; n</code> and <code class="highlighter-rouge">&lt;prefix&gt; p</code> are easier to remember (<em>“next”</em> and <em>“previous”</em>), I find moving between windows faster with <code class="highlighter-rouge">&lt;prefix&gt; o</code> and <code class="highlighter-rouge">&lt;prefix&gt; p</code> as they are right next to each other. I happen to like vim-style cursor movements, so binding split navigations to <code class="highlighter-rouge">&lt;prefix&gt; {h,j,k,l}</code> is just logical.</p>
+<p>Although the default <code>&lt;prefix&gt; n</code> and <code>&lt;prefix&gt; p</code> are easier to remember (<em>“next”</em> and <em>“previous”</em>), I find moving between windows faster with <code>&lt;prefix&gt; o</code> and <code>&lt;prefix&gt; p</code> as they are right next to each other. I happen to like vim-style cursor movements, so binding split navigations to <code>&lt;prefix&gt; {h,j,k,l}</code> is just logical.</p>
 
 <p>With this configuration,  the navigation controls are tiered:</p>
 
 <ol>
   <li><strong><em>Pane navigation</em></strong>: I can use home-row keys in vi-like bindings to move between panes in the current window.</li>
-  <li><strong><em>Window navigation</em></strong>: I can find <code class="highlighter-rouge">o</code> and <code class="highlighter-rouge">p</code> right above the home-row keys to move between windows or “tabs” in the current session.</li>
-  <li><strong><em>Session navigation</em></strong>: Above <code class="highlighter-rouge">o</code> and <code class="highlighter-rouge">p</code> I can use the parentheses keys to move between various sessions.</li>
+  <li><strong><em>Window navigation</em></strong>: I can find <code>o</code> and <code>p</code> right above the home-row keys to move between windows or “tabs” in the current session.</li>
+  <li><strong><em>Session navigation</em></strong>: Above <code>o</code> and <code>p</code> I can use the parentheses keys to move between various sessions.</li>
 </ol>
 
 <blockquote>
-  <p>The <code class="highlighter-rouge">-r</code> flag marks the bindings repeatable – this means they will not bring you out of prefix-mode after invocation, allowing you to repeat them or even invoke other bindings right after.</p>
+  <p>The <code>-r</code> flag marks the bindings repeatable – this means they will not bring you out of prefix-mode after invocation, allowing you to repeat them or even invoke other bindings right after.</p>
 </blockquote>
 
 <p><br /></p>
 
 <h2 id="moving-panes-to-another-window">Moving panes to another window</h2>
 
-<p>It’s possible to move panes between different windows using <code class="highlighter-rouge">join-pane</code>. However it is slightly cumbersome to use (you have to pass in the window’s index as the <code class="highlighter-rouge">-t</code> argument). However using <code class="highlighter-rouge">choose-window</code> makes it as easy as selecting a window from a list:</p>
+<p>It’s possible to move panes between different windows using <code>join-pane</code>. However it is slightly cumbersome to use (you have to pass in the window’s index as the <code>-t</code> argument). However using <code>choose-window</code> makes it as easy as selecting a window from a list:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -297,15 +297,15 @@ bind-key c-w choose-window -F &quot;#{window_index}: #{window_name}&quot; &quot;
     </div>
   </div>
 
-<p>You can pick a window from a list and the current pane will be sent there as a horizontal split. <code class="highlighter-rouge">&lt;prefix&gt; M</code> will do the same, but will result in a vertical split.</p>
+<p>You can pick a window from a list and the current pane will be sent there as a horizontal split. <code>&lt;prefix&gt; M</code> will do the same, but will result in a vertical split.</p>
 
-<p><code class="highlighter-rouge">&lt;prefix&gt; C-w</code> in will bring up a list of all windows. The current window will swap places with the one you select.</p>
+<p><code>&lt;prefix&gt; C-w</code> in will bring up a list of all windows. The current window will swap places with the one you select.</p>
 
 <p><br /></p>
 
 <h2 id="resizing-panes">Resizing panes</h2>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -317,16 +317,16 @@ bind-key -r C-l resize-pane -r 5</code></pre>
     </div>
   </div>
 
-<p>These binds <code class="highlighter-rouge">&lt;prefix&gt; C-{h,j,k,l}</code> to resize the current window by 5 columns or rows, depending on the direction. I find resizing 1 unit at a time takes a bit too long and I rarely need precise control. Resizing by 5 units is just right.</p>
+<p>These binds <code>&lt;prefix&gt; C-{h,j,k,l}</code> to resize the current window by 5 columns or rows, depending on the direction. I find resizing 1 unit at a time takes a bit too long and I rarely need precise control. Resizing by 5 units is just right.</p>
 
 <p><br /></p>
 
 <h2 id="natural-numbering">Natural numbering</h2>
 
-<p>Speaking of window indices, <code class="highlighter-rouge">tmux</code> starts numbering things at 0. Zero-based index is second nature to programmers and all, but the <code class="highlighter-rouge">0</code> key does not appear next to <code class="highlighter-rouge">1</code> on any keyboard. It’s awkward for this purpose.
-I think its more natural to have <code class="highlighter-rouge">tmux</code> starting counting from 1:</p>
+<p>Speaking of window indices, <code>tmux</code> starts numbering things at 0. Zero-based index is second nature to programmers and all, but the <code>0</code> key does not appear next to <code>1</code> on any keyboard. It’s awkward for this purpose.
+I think its more natural to have <code>tmux</code> starting counting from 1:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -341,9 +341,9 @@ set -g renumber-windows on</code></pre>
 
 <h2 id="closing-panes--windows">Closing panes &amp; windows</h2>
 
-<p><code class="highlighter-rouge">&lt;prefix&gt; x</code> to close the pane, <code class="highlighter-rouge">&lt;prefix&gt; X</code> to close the window, and <code class="highlighter-rouge">&lt;prefix&gt; Q</code> to quit the session:</p>
+<p><code>&lt;prefix&gt; x</code> to close the pane, <code>&lt;prefix&gt; X</code> to close the window, and <code>&lt;prefix&gt; Q</code> to quit the session:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -357,9 +357,9 @@ bind-key Q confirm-before -p &quot;Kill session #S? (y/n)&quot; kill-session</co
 
 <h2 id="synchronize-panes">Synchronize panes</h2>
 
-<p>Another neat trick that <code class="highlighter-rouge">tmux</code> can do is synchronizing key-strokes across all panes in a window. I thought <code class="highlighter-rouge">&lt;prefix&gt; &amp;</code> is an apt binding to toggle the behavior:</p>
+<p>Another neat trick that <code>tmux</code> can do is synchronizing key-strokes across all panes in a window. I thought <code>&lt;prefix&gt; &amp;</code> is an apt binding to toggle the behavior:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -369,7 +369,7 @@ bind-key Q confirm-before -p &quot;Kill session #S? (y/n)&quot; kill-session</co
 
 <hr />
 
-<p>For more, you can find my <a href="https://github.com/bezhermoso/dotfiles/blob/master/tmux/tmux.conf">full <code class="highlighter-rouge">tmux</code> configuration hosted on Github!</a>.</p>
+<p>For more, you can find my <a href="https://github.com/bezhermoso/dotfiles/blob/master/tmux/tmux.conf">full <code>tmux</code> configuration hosted on Github!</a>.</p>
           </article>
           <div class="read-more-block">
             <a href="/2018/06/02/improved-tmux-experience/">Read more...</a>
@@ -386,11 +386,11 @@ bind-key Q confirm-before -p &quot;Kill session #S? (y/n)&quot; kill-session</co
             <time datetime="2017-05-29T00:00:00-07:00">29 May 2017</time>
           </div>
           <article class="excerpt">
-            <p><code class="highlighter-rouge">vim-gnupg</code> provides transparent PGP encryption/decryption when editing <code class="highlighter-rouge">*.gpg</code> <em>et al</em> files with <code class="highlighter-rouge">vim</code>. Sadly, if you are using a TTY-based pinentry your GNUPG setup like <code class="highlighter-rouge">pinentry-curses</code>, <a href="https://github.com/jamessan/vim-gnupg/issues/32">it won’t work</a> (with no fault from the plugin author).</p>
+            <p><code>vim-gnupg</code> provides transparent PGP encryption/decryption when editing <code>*.gpg</code> <em>et al</em> files with <code>vim</code>. Sadly, if you are using a TTY-based pinentry your GNUPG setup like <code>pinentry-curses</code>, <a href="https://github.com/jamessan/vim-gnupg/issues/32">it won’t work</a> (with no fault from the plugin author).</p>
 
-<p>The trick to get it to work is to somehow tell the <code class="highlighter-rouge">gpg-agent</code> to use an external pinentry program when triggered by <code class="highlighter-rouge">vim-gnupg</code>. For this, the <code class="highlighter-rouge">pinentry-mac</code> program fits the bill:</p>
+<p>The trick to get it to work is to somehow tell the <code>gpg-agent</code> to use an external pinentry program when triggered by <code>vim-gnupg</code>. For this, the <code>pinentry-mac</code> program fits the bill:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -398,9 +398,9 @@ bind-key Q confirm-before -p &quot;Kill session #S? (y/n)&quot; kill-session</co
     </div>
   </div>
 
-<p>Configure <code class="highlighter-rouge">gpg-agent</code> to use it as the pinentry program:</p>
+<p>Configure <code>gpg-agent</code> to use it as the pinentry program:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -411,7 +411,7 @@ pinentry-program /usr/local/bin/pinentry-mac</code></pre>
 
 <p>Configure your shell to use the TTY-based pinentry in most circumstances:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -423,9 +423,9 @@ export PINENTRY_USER_DATA=&quot;USE_CURSES=1&quot;</code></pre>
     </div>
   </div>
 
-<p>Restart your terminal application (or source your config file), then restart the <code class="highlighter-rouge">gpg-agent</code>:</p>
+<p>Restart your terminal application (or source your config file), then restart the <code>gpg-agent</code>:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -433,7 +433,7 @@ export PINENTRY_USER_DATA=&quot;USE_CURSES=1&quot;</code></pre>
     </div>
   </div>
 
-<p>Now it’s just a matter of configuring <code class="highlighter-rouge">vim-gnupg</code> to override the <code class="highlighter-rouge">PINENTRY_USER_DATA</code> so that PGP prompts will use the GUI pinentry:</p>
+<p>Now it’s just a matter of configuring <code>vim-gnupg</code> to override the <code>PINENTRY_USER_DATA</code> so that PGP prompts will use the GUI pinentry:</p>
 
 <div class="code-section">
   <div class="filename">
@@ -443,12 +443,12 @@ export PINENTRY_USER_DATA=&quot;USE_CURSES=1&quot;</code></pre>
   </div>
   <div class="row">
     <div class="large-12 columns">
-      <pre><code class="language-vim">let g:GPGExecutable = &quot;PINENTRY_USER_DATA='' gpg --trust-model always&quot;</code></pre>
+      <pre><code class="language-vim">let g:GPGExecutable = &quot;PINENTRY_USER_DATA=&apos;&apos; gpg --trust-model always&quot;</code></pre>
     </div>
   </div>
 </div>
 
-<p>Now, whenever you edit/write PGP encrypted files in Neovim, the GUI pinentry will be used and <code class="highlighter-rouge">vim-gnupg</code> should start working as expected.</p>
+<p>Now, whenever you edit/write PGP encrypted files in Neovim, the GUI pinentry will be used and <code>vim-gnupg</code> should start working as expected.</p>
 
 <p><img src="/img/pinentry-mac.png" alt="GUI pinentry from pinentry-mac" /></p>
           </article>
@@ -467,11 +467,11 @@ export PINENTRY_USER_DATA=&quot;USE_CURSES=1&quot;</code></pre>
             <time datetime="2017-02-28T00:00:00-08:00">28 Feb 2017</time>
           </div>
           <article class="excerpt">
-            <p>I just wrote my very first <code class="highlighter-rouge">zsh</code> plugin this week, and it has proven to be quite useful – I like to wrap identifiers/symbols in commit messages with backticks and often-times neglect to escape them. This would result in the identifier/symbol being evaluated, which is not what I want to happen.</p>
+            <p>I just wrote my very first <code>zsh</code> plugin this week, and it has proven to be quite useful – I like to wrap identifiers/symbols in commit messages with backticks and often-times neglect to escape them. This would result in the identifier/symbol being evaluated, which is not what I want to happen.</p>
 
 <p>Here is my solution:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -479,11 +479,11 @@ export PINENTRY_USER_DATA=&quot;USE_CURSES=1&quot;</code></pre>
 function expand-double-backtick-to-escaped-backtick {
   if [[ $LBUFFER = *[^\\]\` ]]; then
     zle backward-delete-char
-    LBUFFER+='\`'
+    LBUFFER+=&apos;\`&apos;
     # Bind backspace to something that undos the escape.
-    bindkey '^?' undo-escaped-backtick-or-backward-delete-char
+    bindkey &apos;^?&apos; undo-escaped-backtick-or-backward-delete-char
   else
-    LBUFFER+='`'
+    LBUFFER+=&apos;`&apos;
   fi
 }
 
@@ -492,10 +492,10 @@ function undo-escaped-backtick-or-backward-delete-char {
     # If chars to the left is an escaped backtick, unescape it.
     zle backward-delete-char
     zle backward-delete-char
-    LBUFFER+='`'
+    LBUFFER+=&apos;`&apos;
   fi
   # Rebind backspace to default behavior
-  bindkey '^?' backward-delete-char
+  bindkey &apos;^?&apos; backward-delete-char
 }
 
 zle -N expand-double-backtick-to-escaped-backtick
@@ -528,7 +528,7 @@ bindkey &quot;\`&quot; expand-double-backtick-to-escaped-backtick</code></pre>
     <ul>
       <li>Name: Anything you like (i.e. <em>“Subreddit”</em>)</li>
       <li>Keyword: <strong>r</strong></li>
-      <li>URL: <code class="highlighter-rouge">https://reddit.com/r/%s</code></li>
+      <li>URL: <code>https://reddit.com/r/%s</code></li>
     </ul>
 
     <p><br />
@@ -551,12 +551,12 @@ bindkey &quot;\`&quot; expand-double-backtick-to-escaped-backtick</code></pre>
 <ul>
   <li>Name: Jira</li>
   <li>Keyword: <strong>j</strong></li>
-  <li>URL: <code class="highlighter-rouge">https://&lt;ORG NAME&gt;.atlassian.net/browse/%s</code></li>
+  <li>URL: <code>https://&lt;ORG NAME&gt;.atlassian.net/browse/%s</code></li>
 </ul>
 
 <p>This will allow you to quickly navigate to any project or issue via typing <em>“j”</em>, hitting <em>Tab</em>, followed by the project/issue number in the <em>Address Bar</em>.</p>
 
-<p>You are also not limited to create substitutions to the path segment of URLs; you can configure it to fill in any part of URLs; for example, <code class="highlighter-rouge">https://%s.google.com</code> will let you switch to the various Google services, etc.</p>
+<p>You are also not limited to create substitutions to the path segment of URLs; you can configure it to fill in any part of URLs; for example, <code>https://%s.google.com</code> will let you switch to the various Google services, etc.</p>
           </article>
           <div class="read-more-block">
             <a href="/2017/01/08/subreddit-quick-switcher-google-chrome/">Read more...</a>
@@ -573,9 +573,9 @@ bindkey &quot;\`&quot; expand-double-backtick-to-escaped-backtick</code></pre>
             <time datetime="2016-10-31T00:00:00-07:00">31 Oct 2016</time>
           </div>
           <article class="excerpt">
-            <p>I found myself needing to copy a bunch of files and directories straight from a Docker image. There is a trivial solution in the form of <code class="highlighter-rouge">docker cp</code>, but I came up with an alternative using <code class="highlighter-rouge">docker run</code>:</p>
+            <p>I found myself needing to copy a bunch of files and directories straight from a Docker image. There is a trivial solution in the form of <code>docker cp</code>, but I came up with an alternative using <code>docker run</code>:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -585,10 +585,10 @@ bindkey &quot;\`&quot; expand-double-backtick-to-escaped-backtick</code></pre>
   </div>
 
 <blockquote>
-  <p>This obviously relies on the the container having <code class="highlighter-rouge">tar</code> installed.</p>
+  <p>This obviously relies on the the container having <code>tar</code> installed.</p>
 </blockquote>
 
-<p>This alternative has a few advantages over <code class="highlighter-rouge">docker cp</code>:</p>
+<p>This alternative has a few advantages over <code>docker cp</code>:</p>
           </article>
           <div class="read-more-block">
             <a href="/2016/10/31/protip-copy-files-and-or-directories-from-docker-image/">Read more...</a>
@@ -605,11 +605,11 @@ bindkey &quot;\`&quot; expand-double-backtick-to-escaped-backtick</code></pre>
             <time datetime="2016-06-23T00:00:00-07:00">23 Jun 2016</time>
           </div>
           <article class="excerpt">
-            <p>I wrote a shell script that wraps <code class="highlighter-rouge">rsync</code> with a user prompt in cases where files are going to be added, deleted, or changed, which is a scenario when some work might get lost:</p>
+            <p>I wrote a shell script that wraps <code>rsync</code> with a user prompt in cases where files are going to be added, deleted, or changed, which is a scenario when some work might get lost:</p>
 
-<p><code class="highlighter-rouge">safe-rsync.sh</code>:</p>
+<p><code>safe-rsync.sh</code>:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -617,7 +617,7 @@ bindkey &quot;\`&quot; expand-double-backtick-to-escaped-backtick</code></pre>
 
 args=$@
 
-diffs=&quot;$(rsync --dry-run --itemize-changes $args | grep '^[&gt;&lt;ch.][dfLDS]\|^\*deleting')&quot;
+diffs=&quot;$(rsync --dry-run --itemize-changes $args | grep &apos;^[&gt;&lt;ch.][dfLDS]\|^\*deleting&apos;)&quot;
 
 if [ -z &quot;$diffs&quot; ]; then
   echo &quot;Nothing to sync.&quot;
@@ -638,21 +638,21 @@ esac</code></pre>
 
 <h3 id="usage">Usage</h3>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
-      <pre><code class="language-bash">&gt; ./safe-rsync.sh --exclude='node_modules/' --recursive --progress --verbose ubuntu@aws-server102:/var/www/html ./html</code></pre>
+      <pre><code class="language-bash">&gt; ./safe-rsync.sh --exclude=&apos;node_modules/&apos; --recursive --progress --verbose ubuntu@aws-server102:/var/www/html ./html</code></pre>
     </div>
   </div>
 
-<p>To skip the dry-run and just <code class="highlighter-rouge">rsync</code> regardless of any diffs:</p>
+<p>To skip the dry-run and just <code>rsync</code> regardless of any diffs:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
-      <pre><code class="language-bash">&gt; yes | ./safe-rsync.sh --exclude='node_modules/' --recursive --progress --verbose ubuntu@aws-server102:/var/www/html ./html</code></pre>
+      <pre><code class="language-bash">&gt; yes | ./safe-rsync.sh --exclude=&apos;node_modules/&apos; --recursive --progress --verbose ubuntu@aws-server102:/var/www/html ./html</code></pre>
     </div>
   </div>
           </article>
@@ -701,12 +701,12 @@ are written in Lua.
 <p><br /></p>
 
 <p>However, unlike Javascript and Ruby, Lua does not have a built-in
-functional library to do things like <code class="highlighter-rouge">map</code>, <code class="highlighter-rouge">filter</code>, <code class="highlighter-rouge">reduce</code>,
-<em>etc.</em>, but Hammerspoon comes with <a href="http://www.hammerspoon.org/docs/hs.fnutils.html"><code class="highlighter-rouge">hs.fnutils</code></a> which provides a bunch of
+functional library to do things like <code>map</code>, <code>filter</code>, <code>reduce</code>,
+<em>etc.</em>, but Hammerspoon comes with <a href="http://www.hammerspoon.org/docs/hs.fnutils.html"><code>hs.fnutils</code></a> which provides a bunch of
 functional utilities. Its not exhaustive, but its good enough for not-so-complex
 scripting which Hammerspoon falls into.</p>
 
-<h2 id="inside-my-hammerspooninitlua">Inside my <code class="highlighter-rouge">~/.hammerspoon/init.lua</code></h2>
+<h2 id="inside-my-hammerspooninitlua">Inside my <code>~/.hammerspoon/init.lua</code></h2>
 
 <blockquote>
   <p>OS X already comes with <em>Automator</em>, which allows you to do automation on
@@ -724,7 +724,7 @@ Macs. But there are things that you  can’t do with <em>Automator</em> alone.</
 <p>I wanted to start small, so I picked a little annoyance I find myself battling with daily and aimed to solve it. One such annoyance pertains to switching focus between multiple displays:</p>
 
 <p>I have a dual-display setup at work and I have all my GUI applications running on the
-primary display, with the exception of a couple of full-screen terminal windows running <code class="highlighter-rouge">tmux</code>, <code class="highlighter-rouge">vim</code>, a <code class="highlighter-rouge">zsh</code> shell, monitoring tools, logs, <em>etc.</em> occupying the
+primary display, with the exception of a couple of full-screen terminal windows running <code>tmux</code>, <code>vim</code>, a <code>zsh</code> shell, monitoring tools, logs, <em>etc.</em> occupying the
 entirety of a secondary screen across multiple Spaces. I also have other full-screen applications
 living in their own Spaces on the primary display. My setup works really well for me most of the time, but
 there are certain combinations of circumstances on how applications are laid out across all
@@ -890,12 +890,12 @@ hs.urlevent.bind(&quot;ramentime&quot;, startRamenTimer)
   </div>
 </div>
 
-<p>Hammerspoon’s <code class="highlighter-rouge">hs.urlevent</code> is a beautiful thing: it allows you to bind some
-action to a URL with a <code class="highlighter-rouge">hammerspoon://</code> scheme. This makes Hammerspoon actions
-almost universally accessible! In this case, opening <code class="highlighter-rouge">hammerspoon://ramentime</code> will start the timer. Now, we can if we want create a bookmarklet on the browser’s
+<p>Hammerspoon’s <code>hs.urlevent</code> is a beautiful thing: it allows you to bind some
+action to a URL with a <code>hammerspoon://</code> scheme. This makes Hammerspoon actions
+almost universally accessible! In this case, opening <code>hammerspoon://ramentime</code> will start the timer. Now, we can if we want create a bookmarklet on the browser’s
 toolbar pointing to it that when clicked will activate the timer.</p>
 
-<p>Because of the portability of URL schemes, I was able to create a very basic <em>Alfred Workflow</em> that triggers the timer. have to do is type <code class="highlighter-rouge">ramen</code> into <a href="https://www.alfredapp.com/"><strong>Alfred</strong></a> to ensure prime ramen all the time:</p>
+<p>Because of the portability of URL schemes, I was able to create a very basic <em>Alfred Workflow</em> that triggers the timer. have to do is type <code>ramen</code> into <a href="https://www.alfredapp.com/"><strong>Alfred</strong></a> to ensure prime ramen all the time:</p>
 
 <div class="text-center">
 <p>
@@ -959,7 +959,7 @@ dismissal of notifications, and assigning a global hotkey to execute it.</p>
 workflow within <em>Automator</em> cause zero problems, but making it work through
 a keyboard shortcut is hit-and-miss. I found myself mucking around with accessibility settings in <em>System
 Preferences &gt; Security &amp; Privacy &gt; Privacy</em> a lot, adding system applications
-tucked away in <code class="highlighter-rouge">/Library/CoreServices/</code> to the <em>Accessibility</em> list before getting it to work for
+tucked away in <code>/Library/CoreServices/</code> to the <em>Accessibility</em> list before getting it to work for
 the first time, until I discovered that the service simply fails with no
 explanation when invoked while I have certain applications in focus.</p>
 
@@ -1120,10 +1120,10 @@ it installed to accomplish similar tasks.</p>
 <p>My mapping is as follows:</p>
 
 <ul>
-  <li><code class="highlighter-rouge">⇧ ⌥ ⌘ ]</code> - Dismiss all notifications</li>
-  <li><code class="highlighter-rouge">⌥ ⌘ ]</code> - Dismiss top-most notification</li>
-  <li><code class="highlighter-rouge">⌥ ⌘ [</code> - Click top-most notification</li>
-  <li><code class="highlighter-rouge">⌥ ⌘ '</code> - Click secondary action on top-most notification</li>
+  <li><code>⇧ ⌥ ⌘ ]</code> - Dismiss all notifications</li>
+  <li><code>⌥ ⌘ ]</code> - Dismiss top-most notification</li>
+  <li><code>⌥ ⌘ [</code> - Click top-most notification</li>
+  <li><code>⌥ ⌘ '</code> - Click secondary action on top-most notification</li>
 </ul>
 
 <div class="row">
@@ -1172,15 +1172,15 @@ Mission Control &gt; Turn Do Not Disturb On/Off</em>
           </div>
           <article class="excerpt">
             <blockquote>
-  <p><strong>2015-10-21 Update:</strong> Version 2.1 of <code class="highlighter-rouge">tmux</code> has just been release a couple
+  <p><strong>2015-10-21 Update:</strong> Version 2.1 of <code>tmux</code> has just been release a couple
 of days ago and from what I can tell it has addressed this fatal issue! So the
-simpler solution would be doing <code class="highlighter-rouge">brew upgrade tmux</code> to get the recent release.
+simpler solution would be doing <code>brew upgrade tmux</code> to get the recent release.
 If you are stuck using 2.0 however, I hope this post is helpful.</p>
 </blockquote>
 
-<p>What fixed it for me was adding a single line to my <code class="highlighter-rouge">~/.zshrc</code> and a single line to my <code class="highlighter-rouge">~/.tmux.conf</code> file:</p>
+<p>What fixed it for me was adding a single line to my <code>~/.zshrc</code> and a single line to my <code>~/.tmux.conf</code> file:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -1189,7 +1189,7 @@ tmux start-server</code></pre>
     </div>
   </div>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -1199,16 +1199,16 @@ new-session</code></pre>
   </div>
 
 <p>It turns out, after trial and error, that the OS freezes (or in worst cases, kernel panics on older OS X versions) usually happen
-when you close the very last of all <code class="highlighter-rouge">tmux</code> pane of the very last <code class="highlighter-rouge">tmux</code> session.</p>
+when you close the very last of all <code>tmux</code> pane of the very last <code>tmux</code> session.</p>
 
-<p>With these additions to my config files, a <code class="highlighter-rouge">tmux</code> server is started with an empty <code class="highlighter-rouge">tmux</code> session whenever I fire up a terminal
-window for the first time. This means that I always have an empty <code class="highlighter-rouge">tmux</code> session – still active although never used – even after
+<p>With these additions to my config files, a <code>tmux</code> server is started with an empty <code>tmux</code> session whenever I fire up a terminal
+window for the first time. This means that I always have an empty <code>tmux</code> session – still active although never used – even after
 I exit out all the sessions I create on a daily basis.</p>
 
-<p>I never had my MacBook Pro grind to a stop as soon as I close out all <code class="highlighter-rouge">tmux</code>
+<p>I never had my MacBook Pro grind to a stop as soon as I close out all <code>tmux</code>
 sessions and having to forcibly turn it off.</p>
 
-<p>This does not fix <code class="highlighter-rouge">tmux</code>, but is a simple work-around for a problem that has
+<p>This does not fix <code>tmux</code>, but is a simple work-around for a problem that has
 a potential to incur data loss in the future.</p>
           </article>
           <div class="read-more-block">
@@ -1231,9 +1231,9 @@ manage my local machine’s PHP version to using
 <a href="https://github.com/phpbrew/phpbrew"><strong>phpbrew</strong></a>. However the switch was
 without any issues.</p>
 
-<p>I needed to install PHP version 5.6.14 with <code class="highlighter-rouge">mcrypt</code>:</p>
+<p>I needed to install PHP version 5.6.14 with <code>mcrypt</code>:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -1244,7 +1244,7 @@ without any issues.</p>
 <p>However the build process keeps failing. Inspecting the build log gives me the following errors
 at different stages of troubleshooting:</p>
 
-<pre class="highlight language-text"><code class="language-text">configure: error: Cannot find OpenSSL's &lt;evp.h&gt;</code></pre>
+<pre class="highlight language-text"><code class="language-text">configure: error: Cannot find OpenSSL&apos;s &lt;evp.h&gt;</code></pre>
 
 <pre class="highlight language-text"><code class="language-text">configure: error: Please reinstall the BZip2 distribution</code></pre>
 
@@ -1256,7 +1256,7 @@ at different stages of troubleshooting:</p>
 a few libraries via Homebrew (because apparently, OS X does not ship them, or
 ship older versions):</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -1270,7 +1270,7 @@ ship older versions):</p>
 whenever I want it.</p>
 
 <p>If you are encountering these errors, I hope this helps you. Or if you haven’t attempted it yet but are planning to build PHP with
-<code class="highlighter-rouge">phpbrew</code>, I hope this will save you the trouble.</p>
+<code>phpbrew</code>, I hope this will save you the trouble.</p>
 
 <p><em>Happy coding!</em></p>
           </article>
@@ -1291,7 +1291,7 @@ whenever I want it.</p>
           <article class="excerpt">
             <p><img src="/img/vim-indicator.png" /></p>
 
-<p>I find it hard to remember if I stepped in to the shell from <code class="highlighter-rouge">vim</code> or not. I find myself attempting to open a file only to be told by <code class="highlighter-rouge">vim</code> that I already have the file open – indeed, I already was editing the file. I just forgot that I stepped into shell via <code class="highlighter-rouge">:sh</code> a few minutes before. Worst yet are the times when I typed <code class="highlighter-rouge">exit</code> on my shell thinking that I was coming <code class="highlighter-rouge">vim</code>, only to find I was wrong because terminal window closes.</p>
+<p>I find it hard to remember if I stepped in to the shell from <code>vim</code> or not. I find myself attempting to open a file only to be told by <code>vim</code> that I already have the file open – indeed, I already was editing the file. I just forgot that I stepped into shell via <code>:sh</code> a few minutes before. Worst yet are the times when I typed <code>exit</code> on my shell thinking that I was coming <code>vim</code>, only to find I was wrong because terminal window closes.</p>
 
 <p>I can’t be the only one.</p>
           </article>
@@ -1316,7 +1316,7 @@ out to me so far – its the concept of <em>high-order functions</em> and the sl
 
 <h2 id="high-order-functions">High-order functions</h2>
 
-<p><strong>high-order functions</strong> are simply functions that operate on <em>other</em> functions, by taking them as arguments are having functions as a return value (so meta). This is one of things you find in a languages like Haskell and Erlang (so I’ve heard) or even Javascript barring some short-comings where functions are first-class citizens, which is a cool way of saying that they can be treated like any other value i.e., you can assign them to a variable, append them to an array, pass them around as function arguments or return them as return values, etc. i.e. In Javascript, <code class="highlighter-rouge">function foo () {}</code> is equivalent to <code class="highlighter-rouge">var foo = function() {}</code>.</p>
+<p><strong>high-order functions</strong> are simply functions that operate on <em>other</em> functions, by taking them as arguments are having functions as a return value (so meta). This is one of things you find in a languages like Haskell and Erlang (so I’ve heard) or even Javascript barring some short-comings where functions are first-class citizens, which is a cool way of saying that they can be treated like any other value i.e., you can assign them to a variable, append them to an array, pass them around as function arguments or return them as return values, etc. i.e. In Javascript, <code>function foo () {}</code> is equivalent to <code>var foo = function() {}</code>.</p>
           </article>
           <div class="read-more-block">
             <a href="/2015/05/16/fun-with-javascript-functions/">Read more...</a>
@@ -1334,7 +1334,7 @@ out to me so far – its the concept of <em>high-order functions</em> and the sl
           </div>
           <article class="excerpt">
             <p>After reading a brief on <a href="http://couchdb.apache.org/">CouchDB</a>, I decided to use it instead of MongoDB for a pet project and
-began diving right in. <a href="https://github.com/flatiron/cradle">Cradle</a>, a CouchDB client for Node.js, was one <code class="highlighter-rouge">npm install</code> away. Installing CouchDB and creating the database was a breeze. I was able to quickly store data
+began diving right in. <a href="https://github.com/flatiron/cradle">Cradle</a>, a CouchDB client for Node.js, was one <code>npm install</code> away. Installing CouchDB and creating the database was a breeze. I was able to quickly store data
 and refined the structure when needed. Gotta love NoSQL!</p>
 
 <p>Querying data is where it got a bit more interesting: fetching data requires the creation
@@ -1361,18 +1361,18 @@ a data-set into a single aggregate value. Sounds easy. So I went ahead and pecke
           </div>
           <article class="excerpt">
             <p>Months ago I found <a href="https://twitter.com/liamosaur/status/506975850596536320">this hilarious and useful bash alias on Twitter</a> which is a real gem. Typing the F word when I
-realize I forget to start with <code class="highlighter-rouge">sudo</code> when I should have is somehow satisfying.</p>
+realize I forget to start with <code>sudo</code> when I should have is somehow satisfying.</p>
 
-<p>Lately I expanded it a bit more, while also replacing the profanity with a little bit of courtesy. In <code class="highlighter-rouge">.bashrc</code>:</p>
-<div class="padded">
+<p>Lately I expanded it a bit more, while also replacing the profanity with a little bit of courtesy. In <code>.bashrc</code>:</p>
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
       <pre><code class="language-bash">pls() {
 
-   echo ''
-   echo 'No problem!'
-   echo ''
+   echo &apos;&apos;
+   echo &apos;No problem!&apos;
+   echo &apos;&apos;
 
    if [ $# -eq 0 ]
    then
@@ -1401,7 +1401,7 @@ realize I forget to start with <code class="highlighter-rouge">sudo</code> when 
           <article class="excerpt">
             <p>Sometimes your project has some server-side dependencies that aren’t PHP libraries but which your PHP application can’t run without. Or they could be assets that you don’t want in your code repository, like huge database fixtures that you only need during dev and integration testing. Instead of adding them to your Git repository or any VCS of choice, why not use Composer to resolve them?</p>
 
-<p>If you are not aware what <strong>Composer</strong> is, then I think you are missing out. Essentially it is a dependency manager for PHP. It’s kinda like PEAR, but its so much better. It allows you to define your external library dependencies in a <code class="highlighter-rouge">composer.json</code> file, typically on your project root, and have it resolve and download them for you, including your dependencies’ own dependencies. Its an awesome, widely-adopted tool which greatly improves the PHP developers’ quality-of-life. I urge you to <a href="https://getcomposer.org/doc/" target="_blank">read the docs</a> and start using it.</p>
+<p>If you are not aware what <strong>Composer</strong> is, then I think you are missing out. Essentially it is a dependency manager for PHP. It’s kinda like PEAR, but its so much better. It allows you to define your external library dependencies in a <code>composer.json</code> file, typically on your project root, and have it resolve and download them for you, including your dependencies’ own dependencies. Its an awesome, widely-adopted tool which greatly improves the PHP developers’ quality-of-life. I urge you to <a href="https://getcomposer.org/doc/" target="_blank">read the docs</a> and start using it.</p>
           </article>
           <div class="read-more-block">
             <a href="/2015/01/28/server-side-assets-non-package-dependencies-with-composer/">Read more...</a>
@@ -1418,8 +1418,8 @@ realize I forget to start with <code class="highlighter-rouge">sudo</code> when 
             <time datetime="2014-08-19T00:00:00-07:00">19 Aug 2014</time>
           </div>
           <article class="excerpt">
-            <p>Configuring environment-specific parameters in Symfony2 has been made easy thanks to <code class="highlighter-rouge">Incenteev\ParameterHandler\ScriptHandler::buildParameters</code>. Attaching itself
-to the Composer workflow, it provides a very intuitive interface for defining required parameters defined in <code class="highlighter-rouge">app/config/parameters.yml.dist</code>.</p>
+            <p>Configuring environment-specific parameters in Symfony2 has been made easy thanks to <code>Incenteev\ParameterHandler\ScriptHandler::buildParameters</code>. Attaching itself
+to the Composer workflow, it provides a very intuitive interface for defining required parameters defined in <code>app/config/parameters.yml.dist</code>.</p>
 
 <p>In case you don’t know, this mechanism also gives you the ability to specify required parameters specific to your app which developers/deployers need to fill out:</p>
 
@@ -1463,12 +1463,12 @@ parameters:
 a beautiful documentation for your API endpoints, and it base them on the forms you use to gather input and also integrates with <a href="https://github.com/schmittjoh/JmsSerializerBundle">JmsSerializerBundle</a>
 and document the output of the endpoints based on how you configure your entities to be serialized.</p>
 
-<p>Usually <code class="highlighter-rouge">NelmioApiDocBundle</code> would just work out-of-the-box provided you added the right annotations properly on your controllers. However I discovered that documenting
+<p>Usually <code>NelmioApiDocBundle</code> would just work out-of-the-box provided you added the right annotations properly on your controllers. However I discovered that documenting
 polymorphic collections is a little tricky and requires some extra work.</p>
 
 <p>To illustrate the use-case:</p>
 
-<p>I have an <code class="highlighter-rouge">/activities/recent.json</code> endpoint that returns a list of recent activities which could be of different types:</p>
+<p>I have an <code>/activities/recent.json</code> endpoint that returns a list of recent activities which could be of different types:</p>
           </article>
           <div class="read-more-block">
             <a href="/2014/08/11/nelmio-api-doc-bundle-documenting-polymorphic-collections/">Read more...</a>
@@ -1490,14 +1490,14 @@ add extra behavior to a service without modifying its underlying code, as stipul
  principles.</p>
 
 <p>This is a continuation of a series of blog posts
-I wrote about reading resource bundles &amp; caching in the context of a fictional <code class="highlighter-rouge">TheHunt\SitemapBundle</code> bundle.
+I wrote about reading resource bundles &amp; caching in the context of a fictional <code>TheHunt\SitemapBundle</code> bundle.
 Here are <a href="/2014/07/21/config-cache-reading-bundle-resources-and-caching-for-performance/">part 1</a>
  &amp; <a href="/2014/07/22/reading-annotations-reading-bundle-resources-continued/">part 2</a> if you haven’t read them yet.</p>
 
 <hr />
 
-<p>In the previous post, we added a new service named <code class="highlighter-rouge">thehunt_sitemap.annotation_link_collector</code>, which gathers metadata from annotations on
-controllers. This is somewhat similar to <code class="highlighter-rouge">thehunt_sitemap.link_collector</code>, although this one reads YAML files instead of annotations, and has a
+<p>In the previous post, we added a new service named <code>thehunt_sitemap.annotation_link_collector</code>, which gathers metadata from annotations on
+controllers. This is somewhat similar to <code>thehunt_sitemap.link_collector</code>, although this one reads YAML files instead of annotations, and has a
 thin caching layer. However both of them have similarities, which is being able to produce a list of links. Afterall, this is their ultimate responsibility; from
 where they gather links from are just implementation details.</p>
           </article>
@@ -1557,7 +1557,7 @@ or actually to support such mechanism.</p>
 <p>There is also the problem that the configuration will reside where the subjected class is on. This poses a huge problem when you
 try to add configuration on a third-party class. Going in and modifying a class shipped by a third-party library is obviously a very
 horrible idea. I was faced with this problem when trying to document a REST API I was writing using <a href="https://github.com/zircote/swagger-php">Swagger-PHP</a>: since I was using
-<a href="https://github.com/FriendsOfSymfony/FOSUserBundle">FOSUserBundle</a> and extending its <code class="highlighter-rouge">User</code> class for use in my app, I was faced with two
+<a href="https://github.com/FriendsOfSymfony/FOSUserBundle">FOSUserBundle</a> and extending its <code>User</code> class for use in my app, I was faced with two
 possible approaches:</p>
           </article>
           <div class="read-more-block">
@@ -1577,16 +1577,16 @@ possible approaches:</p>
           <article class="excerpt">
             <p><strong>Some back-story:</strong> In the course of contributing some <a href="https://helloreverb.com/developers/swagger">Swagger</a>-specific features
 to the awesome <a href="https://github.com/nelmio/NelmioApiDocBundle">NelmioApiDocBundle</a>,
- the <code class="highlighter-rouge">Symfony\Component\Config\ConfigCache</code> class was brought to my attention. To give you an idea how this fits in, you
+ the <code>Symfony\Component\Config\ConfigCache</code> class was brought to my attention. To give you an idea how this fits in, you
  should know that the bundle generates an HTML page
- documenting your REST API. It gets the needed information from metadata declared as <code class="highlighter-rouge">@ApiDoc</code> annotations in controllers
+ documenting your REST API. It gets the needed information from metadata declared as <code>@ApiDoc</code> annotations in controllers
  in the Symfony app. On top of that, the bundle also processes metadata from different libraries:
  integration with <a href="https://github.com/schmittjoh/JMSSerializerBundle">JmsSerializerBundle</a>,
  Symfony’s <a href="http://symfony.com/doc/current/book/validation.html">Validator</a>
  and <a href="http://symfony.com/doc/current/book/routing.html">Routing</a> component,
  <a href="https://github.com/FriendsOfSymfony/FOSRestBundle">FOSRestBundle</a> is built-in.</p>
 
-<p>All these libraries does a good amount of caching on their end. However, <code class="highlighter-rouge">NelmioApiDocBundle</code> does not.
+<p>All these libraries does a good amount of caching on their end. However, <code>NelmioApiDocBundle</code> does not.
  This means, every time the documentation page is being viewed, all documentation metadata is being re-built.
  Although it did not present any significant performance issues in the beginning, it is apparent that things can speed up a bit if we could skip
  all these steps if none of the configuration regarding routes, serialization, or validation hasn’t changed at all.
@@ -1635,7 +1635,7 @@ is its modularity and shows you ways how to wield it.</p>
           </div>
           <article class="excerpt">
             <p>A month ago when I was writing a bundle that I needed for a Symfony project, I was presented with a challenge that I couldn’t quite figure how to solve:
-I needed to locate files from with other bundles’ <code class="highlighter-rouge">Resources/</code> directory during my bundle’s “bootstrap” phase. Basically, I was trying to configure a service
+I needed to locate files from with other bundles’ <code>Resources/</code> directory during my bundle’s “bootstrap” phase. Basically, I was trying to configure a service
 definition to pass in an array of file paths to YAML files that are scattered across different bundles as an argument.</p>
 
 <p>Normally, you could just do something like this to get the absolute file path to a file from within any bundle:</p>
@@ -1650,14 +1650,14 @@ definition to pass in an array of file paths to YAML files that are scattered ac
     <div class="large-12 columns">
       <pre><code class="language-php">&lt;?php
 
-$location = $this-&gt;container-&gt;get('kernel')-&gt;locateResource('@FooBundle/Resources/config/foo_metadata.yml');
+$location = $this-&gt;container-&gt;get(&apos;kernel&apos;)-&gt;locateResource(&apos;@FooBundle/Resources/config/foo_metadata.yml&apos;);
 
 /** do stuff **/</code></pre>
     </div>
   </div>
 </div>
 
-<p>However, since I needed to perform this during the early stages of the application life-cycle – even before the compiler is even compiled – the <code class="highlighter-rouge">kernel</code> service isn’t available yet.</p>
+<p>However, since I needed to perform this during the early stages of the application life-cycle – even before the compiler is even compiled – the <code>kernel</code> service isn’t available yet.</p>
           </article>
           <div class="read-more-block">
             <a href="/2014/07/15/locating-bundle-resources/">Read more...</a>

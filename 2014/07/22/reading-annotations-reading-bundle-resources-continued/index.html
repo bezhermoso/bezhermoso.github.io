@@ -19,9 +19,9 @@
     
     <meta property="og:title" content="Reading Annotations: &quot;Reading bundle resources...&quot; continued" />
         
-        <meta property="og:description" content="There seems to be quite a sizable portion of the PHP community that think that PHP annotations are a bad idea.However, there is also a sizable portion that think that PHP annotations is not evil, and maybe actually a godsend, if the wide-spread usage is of any indication." />
+        <meta property="og:description" content="There seems to be quite a sizable portion of the PHP community that think that PHP annotations are a bad idea.However, there is also a sizable portion that think that PHP annotations is not evil, and maybe actually a godsend, if the wide-spread usage is of any indication.Personally I acknowledge that using them can be pain to deal with in when used in the wrong places, but I also think that it has a place in a limited set of areas.It provides a lot of convenience with almost to zero drawbacks if used within the bounds of the domain exclusive to your app, but it can cause a lot of coupling when used to define metadata onthird-party libraries/bundles that you hope to plug into your app, making it brittle. I think this is rooted in the fact that there is currently no easy way to override configuration specified via annotations,or actually to support such mechanism.There is also the problem that the configuration will reside where the subjected class is on. This poses a huge problem when youtry to add configuration on a third-party class. Going in and modifying a class shipped by a third-party library is obviously a veryhorrible idea. I was faced with this problem when trying to document a REST API I was writing using Swagger-PHP: since I was usingFOSUserBundle and extending its User class for use in my app, I was faced with twopossible approaches:" />
         
-        <meta name="description" content="There seems to be quite a sizable portion of the PHP community that think that PHP annotations are a bad idea.However, there is also a sizable portion that think that PHP annotations is not evil, and maybe actually a godsend, if the wide-spread usage is of any indication." />
+        <meta name="description" content="There seems to be quite a sizable portion of the PHP community that think that PHP annotations are a bad idea.However, there is also a sizable portion that think that PHP annotations is not evil, and maybe actually a godsend, if the wide-spread usage is of any indication.Personally I acknowledge that using them can be pain to deal with in when used in the wrong places, but I also think that it has a place in a limited set of areas.It provides a lot of convenience with almost to zero drawbacks if used within the bounds of the domain exclusive to your app, but it can cause a lot of coupling when used to define metadata onthird-party libraries/bundles that you hope to plug into your app, making it brittle. I think this is rooted in the fact that there is currently no easy way to override configuration specified via annotations,or actually to support such mechanism.There is also the problem that the configuration will reside where the subjected class is on. This poses a huge problem when youtry to add configuration on a third-party class. Going in and modifying a class shipped by a third-party library is obviously a veryhorrible idea. I was faced with this problem when trying to document a REST API I was writing using Swagger-PHP: since I was usingFOSUserBundle and extending its User class for use in my app, I was faced with twopossible approaches:" />
     
     <script src="/bundle.js"></script>
   </head>
@@ -47,7 +47,7 @@
         <time datetime="2014-07-22T00:00:00-07:00">22 Jul 2014</time>
       </div>
     </div>
-    <div class="blog-body large-12 columns">
+    <div class="blog-body large-12 cell">
       <p>There seems to be quite a sizable portion of the PHP community that think that PHP annotations are a <a href="http://www.marclewis.com/2013/10/25/php_annotations_are_a_bad_idea/">bad idea</a>.
 However, there is also a sizable portion that think that PHP annotations is not evil, and maybe actually a godsend, if the wide-spread usage is of any indication.</p>
 
@@ -59,23 +59,23 @@ or actually to support such mechanism.</p>
 <p>There is also the problem that the configuration will reside where the subjected class is on. This poses a huge problem when you
 try to add configuration on a third-party class. Going in and modifying a class shipped by a third-party library is obviously a very
 horrible idea. I was faced with this problem when trying to document a REST API I was writing using <a href="https://github.com/zircote/swagger-php">Swagger-PHP</a>: since I was using
-<a href="https://github.com/FriendsOfSymfony/FOSUserBundle">FOSUserBundle</a> and extending its <code class="highlighter-rouge">User</code> class for use in my app, I was faced with two
+<a href="https://github.com/FriendsOfSymfony/FOSUserBundle">FOSUserBundle</a> and extending its <code>User</code> class for use in my app, I was faced with two
 possible approaches:</p>
 
 <!--stop-->
 <ol>
-  <li>Add <code class="highlighter-rouge">@Swagger\*</code> annotations within <code class="highlighter-rouge">FOS\UserBundle\Model\User</code> itself.</li>
-  <li>Extend <code class="highlighter-rouge">FOS\UserBundle\Model\User</code> and re-declare the properties just for the sole purpose of annotating them.</li>
+  <li>Add <code>@Swagger\*</code> annotations within <code>FOS\UserBundle\Model\User</code> itself.</li>
+  <li>Extend <code>FOS\UserBundle\Model\User</code> and re-declare the properties just for the sole purpose of annotating them.</li>
 </ol>
 
 <p>Option 1 shouldn’t even be a consideration, and option 2 doesn’t feel right, either. If only Swagger-PHP supports configuration via YAML or XML files…</p>
 
-<p>A rule of thumb that I follow is that I only ever use annotations within the “user-land”, or on application-specific classes (i.e. under <code class="highlighter-rouge">src/&lt;your app specific vendor&gt;</code>). Anything outside that is off-limits.
+<p>A rule of thumb that I follow is that I only ever use annotations within the “user-land”, or on application-specific classes (i.e. under <code>src/&lt;your app specific vendor&gt;</code>). Anything outside that is off-limits.
 I think a library that wishes to construct class metadata from annotations should also support configuration via other resource files. I think annotations should only be
 thought as a secondary option in defining domain metadata and not the sole option.</p>
 
 <p>This post is a continuation of <a href="/2014/07/21/config-cache-reading-bundle-resources-and-caching-for-performance/">this</a>.
-A quick recap: we wrote an <code class="highlighter-rouge">TheHunt\SitemapBundle</code> which reads YAML files to generate links for use in a site-map. In this post we will compliment
+A quick recap: we wrote an <code>TheHunt\SitemapBundle</code> which reads YAML files to generate links for use in a site-map. In this post we will compliment
 the link collection logic by adding support on specifying links through PHP annotations.</p>
 
 <p>The first task is creating an annotation class specific for our use:</p>
@@ -110,20 +110,20 @@ class Link
 
     public function __construct(array $options)
     {
-        if (empty($options['title'])) {
-            throw new \Exception('You must specify a title.');
+        if (empty($options[&apos;title&apos;])) {
+            throw new \Exception(&apos;You must specify a title.&apos;);
         }
 
-        if (empty($options['sections'])) {
-            throw new \Exception('You must specify at least one section.');
+        if (empty($options[&apos;sections&apos;])) {
+            throw new \Exception(&apos;You must specify at least one section.&apos;);
         }
 
-        $this-&gt;title = $options['title'];
-        $this-&gt;sections = $options['sections'];
-        $this-&gt;updated = empty($options['updated']) ? strtotime('Y-m-d H:i:s') : $options['updated'];
+        $this-&gt;title = $options[&apos;title&apos;];
+        $this-&gt;sections = $options[&apos;sections&apos;];
+        $this-&gt;updated = empty($options[&apos;updated&apos;]) ? strtotime(&apos;Y-m-d H:i:s&apos;) : $options[&apos;updated&apos;];
 
-        if (!empty($options['params'])) {
-            $this-&gt;params = $options['params'];
+        if (!empty($options[&apos;params&apos;])) {
+            $this-&gt;params = $options[&apos;params&apos;];
         }
 
     }
@@ -152,8 +152,8 @@ class Link
   </div>
 </div>
 
-<p>Notice that we added <code class="highlighter-rouge">@Annotation</code> in the the class doc-block. This serves as some sort of a tag which signifies that we can
-use this class as a valid annotation. The <code class="highlighter-rouge">@Target({"METHOD"})</code> simply declares that this annotation can only be used
+<p>Notice that we added <code>@Annotation</code> in the the class doc-block. This serves as some sort of a tag which signifies that we can
+use this class as a valid annotation. The <code>@Target({"METHOD"})</code> simply declares that this annotation can only be used
 on class methods.</p>
 
 <p>We would use it like this:</p>
@@ -182,8 +182,8 @@ class FAQController
   </div>
 </div>
 
-<p>In the case of the above example, <code class="highlighter-rouge">"FAQs"</code> will be assigned to <code class="highlighter-rouge">$params['title']</code>, <code class="highlighter-rouge">array("footer")</code> to <code class="highlighter-rouge">$params['sections']</code>,
-and <code class="highlighter-rouge">array('_locale' =&gt; 'en')</code>, <code class="highlighter-rouge">$params['params']</code>, etc. in our own annotation’s constructor. Straight-forward, isn’t it?
+<p>In the case of the above example, <code>"FAQs"</code> will be assigned to <code>$params['title']</code>, <code>array("footer")</code> to <code>$params['sections']</code>,
+and <code>array('_locale' =&gt; 'en')</code>, <code>$params['params']</code>, etc. in our own annotation’s constructor. Straight-forward, isn’t it?
     You can look back at the constructor’s code and see how these values are used.</p>
 
 <p>Extracting annotations is straight-forward as well:</p>
@@ -199,25 +199,25 @@ and <code class="highlighter-rouge">array('_locale' =&gt; 'en')</code>, <code cl
       <pre><code class="language-php">&lt;?php
 
 $reader = new \Doctrine\Common\Annotations\AnnotationReader();
-$refClass = new \ReflectionClass('SomeController');
-$refMethod = $refClass-&gt;getMethod('someAction');
-$link = $reader-&gt;getMethodAnnotation($refMethod, 'TheHunt\\SitemapBundle\\Annotation\\Link');
+$refClass = new \ReflectionClass(&apos;SomeController&apos;);
+$refMethod = $refClass-&gt;getMethod(&apos;someAction&apos;);
+$link = $reader-&gt;getMethodAnnotation($refMethod, &apos;TheHunt\\SitemapBundle\\Annotation\\Link&apos;);
 
 var_dump($link-&gt;getTitle()); // string(4) &quot;FAQs&quot;</code></pre>
     </div>
   </div>
 </div>
 
-<p><code class="highlighter-rouge">AnnotationReader</code> is available in the <a href="http://docs.doctrine-project.org/projects/doctrine-common/en/latest/reference/annotations.html">Doctrine Annotations</a>
-library. (Available via <a href="https://getcomposer.org">Composer</a> of course as <a href="https://packagist.org/packages/doctrine/annotations"><code class="highlighter-rouge">doctrine/annotations</code></a>)</p>
+<p><code>AnnotationReader</code> is available in the <a href="http://docs.doctrine-project.org/projects/doctrine-common/en/latest/reference/annotations.html">Doctrine Annotations</a>
+library. (Available via <a href="https://getcomposer.org">Composer</a> of course as <a href="https://packagist.org/packages/doctrine/annotations"><code>doctrine/annotations</code></a>)</p>
 
 <p>Its important to note that the annotations library require us to actually configure an exclusive autoloader to autoload annotation classes. This is done by
-interfacing with the <code class="highlighter-rouge">Doctrine\Common\Annotations\AnnotationRegistry</code> class. However if you are using Symfony, this is already taken care of (you can check <code class="highlighter-rouge">app/autoload.php</code> to see
+interfacing with the <code>Doctrine\Common\Annotations\AnnotationRegistry</code> class. However if you are using Symfony, this is already taken care of (you can check <code>app/autoload.php</code> to see
 how its done.)</p>
 
 <h2 id="putting-it-to-use">Putting it to use…</h2>
 
-<p>In order to integrate this to our <code class="highlighter-rouge">TheHunt\SitemapBundle</code>, we’ll create another link collector:</p>
+<p>In order to integrate this to our <code>TheHunt\SitemapBundle</code>, we’ll create another link collector:</p>
 
 <div class="code-section">
   <div class="filename">
@@ -244,7 +244,7 @@ class AnnotationLinkCollector
 
     protected $reader;
 
-    const ANNOTATION_CLASS = 'TheHunt\\SitemapBundle\\Annotation\\Link';
+    const ANNOTATION_CLASS = &apos;TheHunt\\SitemapBundle\\Annotation\\Link&apos;;
 
     public function __construct(AnnotationReader, RouterInterface $router, ContainerInterface $container)
     {
@@ -261,7 +261,7 @@ class AnnotationLinkCollector
 
             foreach ($this-&gt;router-&gt;getRouteCollection()-&gt;all() as $name =&gt; $route) {
 
-                $method = $this-&gt;getReflectionMethod($route-&gt;getDefault('_controller'));
+                $method = $this-&gt;getReflectionMethod($route-&gt;getDefault(&apos;_controller&apos;));
 
                 /* Extract @Link annotation */
                 if (null === ($link =
@@ -270,11 +270,11 @@ class AnnotationLinkCollector
                 }
 
                 $this-&gt;links[] = array(
-                    'title' =&gt; $link-&gt;getTitle(),
-                    'sections' =&gt; $link-&gt;getSections(),
-                    'href' =&gt;
+                    &apos;title&apos; =&gt; $link-&gt;getTitle(),
+                    &apos;sections&apos; =&gt; $link-&gt;getSections(),
+                    &apos;href&apos; =&gt;
                         $this-&gt;router-&gt;generate($name, $link-&gt;getParameters(), UrlGeneratorInterface::ABSOLUTE_URL),
-                    'updated' =&gt; $link-&gt;getUpdated(),
+                    &apos;updated&apos; =&gt; $link-&gt;getUpdated(),
                 );
             }
         }
@@ -291,16 +291,16 @@ class AnnotationLinkCollector
      */
     protected function getReflectionMethod($controller)
     {
-        if (strpos($controller, '::') !== false) {
-            list($controller, $method) = explode('::', $controller);
+        if (strpos($controller, &apos;::&apos;) !== false) {
+            list($controller, $method) = explode(&apos;::&apos;, $controller);
             $refClass = new \ReflectionClass($controller);
             return $refClass-&gt;getMethod($method);
-        } elseif (strpos($controller, ':') !== false) {
-            list($service, $method) = explode(':', $controller);
+        } elseif (strpos($controller, &apos;:&apos;) !== false) {
+            list($service, $method) = explode(&apos;:&apos;, $controller);
             $refObject = new \ReflectionObject($this-&gt;container-&gt;get($service));
             return $refClass-&gt;getMethod($method);
         } else {
-            throw new \InvalidArgumentException('Invalid controller.');
+            throw new \InvalidArgumentException(&apos;Invalid controller.&apos;);
         }
     }
 }</code></pre>
@@ -329,22 +329,22 @@ class AnnotationLinkCollector
   </div>
 </div>
 
-<p>Now we have a service that will return sitemap links based on metadata defined by the use of our own <code class="highlighter-rouge">@Link</code> annotation.</p>
+<p>Now we have a service that will return sitemap links based on metadata defined by the use of our own <code>@Link</code> annotation.</p>
 
 <h2 id="caching">Caching</h2>
 
-<p>The <code class="highlighter-rouge">annotation_reader</code> service in Symfony is actually an instance of <code class="highlighter-rouge">Doctrine\Common\Annotations\FileCacheReader</code>, which already caches annotations
+<p>The <code>annotation_reader</code> service in Symfony is actually an instance of <code>Doctrine\Common\Annotations\FileCacheReader</code>, which already caches annotations
 as long as the files are not being modified. However, we still have to maintain our own cache of our underlying domain data which is the collection of links.</p>
 
-<p>As it stands, our <code class="highlighter-rouge">AnnotationLinkCollector</code> doesn’t have a caching couterpart like the YAML reading <code class="highlighter-rouge">LinkCollector</code> does. We could create a
-<code class="highlighter-rouge">CachingAnnotationLinkCollector</code>, but that would just entail reproducing logic from the other class, thereby violating <a href="http://en.wikipedia.org/wiki/Don't_repeat_yourself">DRY</a>. That
+<p>As it stands, our <code>AnnotationLinkCollector</code> doesn’t have a caching couterpart like the YAML reading <code>LinkCollector</code> does. We could create a
+<code>CachingAnnotationLinkCollector</code>, but that would just entail reproducing logic from the other class, thereby violating <a href="http://en.wikipedia.org/wiki/Don't_repeat_yourself">DRY</a>. That
 won’t be the right approach. We’ll remedy this by some manageable amount of refactoring which I will detail on a future blog post.</p>
 
 <h2 id="annotations-on-the-classes-properties-and-within-another-annotation">Annotations on the classes, properties, and within another annotation</h2>
 
-<p>The <code class="highlighter-rouge">@Link</code> annotation we created only applies to methods. However, you are probably aware that annotations can be added
+<p>The <code>@Link</code> annotation we created only applies to methods. However, you are probably aware that annotations can be added
 on the class-level or on properties as well. Extracting them is just as easy. You would simply need to extract the
-necessary <code class="highlighter-rouge">\ReflectionClass</code> or the <code class="highlighter-rouge">\ReflectionProperty</code> and call the appropriate methods in <code class="highlighter-rouge">AnnotationReader</code>. All you need
+necessary <code>\ReflectionClass</code> or the <code>\ReflectionProperty</code> and call the appropriate methods in <code>AnnotationReader</code>. All you need
 to know you would find <a href="http://php.net/manual/en/book.reflection.php">here</a> and <a href="http://docs.doctrine-project.org/projects/doctrine-common/en/latest/reference/annotations.html">here</a>.</p>
 
 <p>Another possible use of annotations is nesting them within another. So far I am have only stumbled on one library that

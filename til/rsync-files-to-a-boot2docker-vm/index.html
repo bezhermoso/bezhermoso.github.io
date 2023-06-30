@@ -51,9 +51,9 @@
       </div>
     </div>
     <div class="blog-body large-12 cell">
-      <p><code class="highlighter-rouge">rsync</code> is usually a smarter choice for syncing code from the host machine to a directory inside a VM compared to <code class="highlighter-rouge">scp</code>, and is a lot performant than relying on an NFS share to sync files.</p>
+      <p><code>rsync</code> is usually a smarter choice for syncing code from the host machine to a directory inside a VM compared to <code>scp</code>, and is a lot performant than relying on an NFS share to sync files.</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -63,10 +63,10 @@
     </div>
   </div>
 
-<p>The key concept here is the use of the <code class="highlighter-rouge">--rsh</code> option, which allows you to specify the proper SSH command using the necessary identity file. <code class="highlighter-rouge">DOCKER_CERT_PATH</code> is an environment variable that gets set when we do <code class="highlighter-rouge">eval $(docker-machine env default)</code> to get Docker commands to work against the Docker daemon on the <code class="highlighter-rouge">boot2docker</code> instance.</p>
+<p>The key concept here is the use of the <code>--rsh</code> option, which allows you to specify the proper SSH command using the necessary identity file. <code>DOCKER_CERT_PATH</code> is an environment variable that gets set when we do <code>eval $(docker-machine env default)</code> to get Docker commands to work against the Docker daemon on the <code>boot2docker</code> instance.</p>
 
 <blockquote>
-  <p>See <code class="highlighter-rouge">man rsync</code> and <a href="https://docs.docker.com/machine/get-started/">Docker Machine</a></p>
+  <p>See <code>man rsync</code> and <a href="https://docs.docker.com/machine/get-started/">Docker Machine</a></p>
 </blockquote>
 
 

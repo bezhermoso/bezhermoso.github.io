@@ -19,9 +19,9 @@
     
     <meta property="og:title" content="Fix errors when building PHP 5.6.14 with phpbrew on Mac OS X" />
         
-        <meta property="og:description" content="Last night I decided to make the switch from using purely Homebrew tomanage my local machine’s PHP version to usingphpbrew. However the switch waswithout any issues." />
+        <meta property="og:description" content="Last night I decided to make the switch from using purely Homebrew tomanage my local machine’s PHP version to usingphpbrew. However the switch waswithout any issues.I needed to install PHP version 5.6.14 with mcrypt:                &amp;nbsp;      &amp;gt; phpbrew install 5.6.14 +default+mcrypt      However the build process keeps failing. Inspecting the build log gives me the following errorsat different stages of troubleshooting:configure: error: Cannot find OpenSSL&amp;apos;s &amp;lt;evp.h&amp;gt;configure: error: Please reinstall the BZip2 distributionld: symbol(s) not found for architecture x86_64 clang: error: linker command failed with exit code 1 (use -v to see invocation) make: *** [sapi/cli/php] Error 1SolutionWhat I ended up having to do was re-install XCode Command-Line Tools and installa few libraries via Homebrew (because apparently, OS X does not ship them, orship older versions):                &amp;nbsp;      &amp;gt; xcode-select --install&amp;gt; brew install openssl libxml2 mcrypt&amp;gt; brew link openssl libxml2 --force      And that’s it! The build completed, and now I have PHP 5.6.14 availablewhenever I want it.If you are encountering these errors, I hope this helps you. Or if you haven’t attempted it yet but are planning to build PHP withphpbrew, I hope this will save you the trouble.Happy coding!" />
         
-        <meta name="description" content="Last night I decided to make the switch from using purely Homebrew tomanage my local machine’s PHP version to usingphpbrew. However the switch waswithout any issues." />
+        <meta name="description" content="Last night I decided to make the switch from using purely Homebrew tomanage my local machine’s PHP version to usingphpbrew. However the switch waswithout any issues.I needed to install PHP version 5.6.14 with mcrypt:                &amp;nbsp;      &amp;gt; phpbrew install 5.6.14 +default+mcrypt      However the build process keeps failing. Inspecting the build log gives me the following errorsat different stages of troubleshooting:configure: error: Cannot find OpenSSL&amp;apos;s &amp;lt;evp.h&amp;gt;configure: error: Please reinstall the BZip2 distributionld: symbol(s) not found for architecture x86_64 clang: error: linker command failed with exit code 1 (use -v to see invocation) make: *** [sapi/cli/php] Error 1SolutionWhat I ended up having to do was re-install XCode Command-Line Tools and installa few libraries via Homebrew (because apparently, OS X does not ship them, orship older versions):                &amp;nbsp;      &amp;gt; xcode-select --install&amp;gt; brew install openssl libxml2 mcrypt&amp;gt; brew link openssl libxml2 --force      And that’s it! The build completed, and now I have PHP 5.6.14 availablewhenever I want it.If you are encountering these errors, I hope this helps you. Or if you haven’t attempted it yet but are planning to build PHP withphpbrew, I hope this will save you the trouble.Happy coding!" />
     
     <script src="/bundle.js"></script>
   </head>
@@ -47,15 +47,15 @@
         <time datetime="2015-10-16T00:00:00-07:00">16 Oct 2015</time>
       </div>
     </div>
-    <div class="blog-body large-12 columns">
+    <div class="blog-body large-12 cell">
       <p>Last night I decided to make the switch from using purely Homebrew to
 manage my local machine’s PHP version to using
 <a href="https://github.com/phpbrew/phpbrew"><strong>phpbrew</strong></a>. However the switch was
 without any issues.</p>
 
-<p>I needed to install PHP version 5.6.14 with <code class="highlighter-rouge">mcrypt</code>:</p>
+<p>I needed to install PHP version 5.6.14 with <code>mcrypt</code>:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -66,7 +66,7 @@ without any issues.</p>
 <p>However the build process keeps failing. Inspecting the build log gives me the following errors
 at different stages of troubleshooting:</p>
 
-<pre class="highlight language-text"><code class="language-text">configure: error: Cannot find OpenSSL's &lt;evp.h&gt;</code></pre>
+<pre class="highlight language-text"><code class="language-text">configure: error: Cannot find OpenSSL&apos;s &lt;evp.h&gt;</code></pre>
 
 <pre class="highlight language-text"><code class="language-text">configure: error: Please reinstall the BZip2 distribution</code></pre>
 
@@ -78,7 +78,7 @@ at different stages of troubleshooting:</p>
 a few libraries via Homebrew (because apparently, OS X does not ship them, or
 ship older versions):</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -92,7 +92,7 @@ ship older versions):</p>
 whenever I want it.</p>
 
 <p>If you are encountering these errors, I hope this helps you. Or if you haven’t attempted it yet but are planning to build PHP with
-<code class="highlighter-rouge">phpbrew</code>, I hope this will save you the trouble.</p>
+<code>phpbrew</code>, I hope this will save you the trouble.</p>
 
 <p><em>Happy coding!</em></p>
 

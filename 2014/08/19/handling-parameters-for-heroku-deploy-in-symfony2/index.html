@@ -19,9 +19,9 @@
     
     <meta property="og:title" content="Handling parameters for Heroku deploy in Symfony2" />
         
-        <meta property="og:description" content="Configuring environment-specific parameters in Symfony2 has been made easy thanks to Incenteev\ParameterHandler\ScriptHandler::buildParameters. Attaching itselfto the Composer workflow, it provides a very intuitive interface for defining required parameters defined in app/config/parameters.yml.dist." />
+        <meta property="og:description" content="Configuring environment-specific parameters in Symfony2 has been made easy thanks to Incenteev\ParameterHandler\ScriptHandler::buildParameters. Attaching itselfto the Composer workflow, it provides a very intuitive interface for defining required parameters defined in app/config/parameters.yml.dist.In case you don’t know, this mechanism also gives you the ability to specify required parameters specific to your app which developers/deployers need to fill out:                              # app/config/parameters.yml.distparameters:    database_driver:   pdo_mysql    database_host:     127.0.0.1    ...    # Project-specific parameters not part of the standard distribution:    elasticsearch_hosts: [ http://localhost:9200 ]    elasticsearch_index: main      " />
         
-        <meta name="description" content="Configuring environment-specific parameters in Symfony2 has been made easy thanks to Incenteev\ParameterHandler\ScriptHandler::buildParameters. Attaching itselfto the Composer workflow, it provides a very intuitive interface for defining required parameters defined in app/config/parameters.yml.dist." />
+        <meta name="description" content="Configuring environment-specific parameters in Symfony2 has been made easy thanks to Incenteev\ParameterHandler\ScriptHandler::buildParameters. Attaching itselfto the Composer workflow, it provides a very intuitive interface for defining required parameters defined in app/config/parameters.yml.dist.In case you don’t know, this mechanism also gives you the ability to specify required parameters specific to your app which developers/deployers need to fill out:                              # app/config/parameters.yml.distparameters:    database_driver:   pdo_mysql    database_host:     127.0.0.1    ...    # Project-specific parameters not part of the standard distribution:    elasticsearch_hosts: [ http://localhost:9200 ]    elasticsearch_index: main      " />
     
     <script src="/bundle.js"></script>
   </head>
@@ -47,9 +47,9 @@
         <time datetime="2014-08-19T00:00:00-07:00">19 Aug 2014</time>
       </div>
     </div>
-    <div class="blog-body large-12 columns">
-      <p>Configuring environment-specific parameters in Symfony2 has been made easy thanks to <code class="highlighter-rouge">Incenteev\ParameterHandler\ScriptHandler::buildParameters</code>. Attaching itself
-to the Composer workflow, it provides a very intuitive interface for defining required parameters defined in <code class="highlighter-rouge">app/config/parameters.yml.dist</code>.</p>
+    <div class="blog-body large-12 cell">
+      <p>Configuring environment-specific parameters in Symfony2 has been made easy thanks to <code>Incenteev\ParameterHandler\ScriptHandler::buildParameters</code>. Attaching itself
+to the Composer workflow, it provides a very intuitive interface for defining required parameters defined in <code>app/config/parameters.yml.dist</code>.</p>
 
 <p>In case you don’t know, this mechanism also gives you the ability to specify required parameters specific to your app which developers/deployers need to fill out:</p>
 
@@ -75,18 +75,18 @@ parameters:
 </div>
 
 <!--stop-->
-<p>A value for <code class="highlighter-rouge">elasticsearch_hosts</code> &amp; <code class="highlighter-rouge">elasticssearch_index</code> will be prompted during <code class="highlighter-rouge">composer install</code> or <code class="highlighter-rouge">composer update</code>, and will default to the specified values if none are provided during the prompt. Really handy.</p>
+<p>A value for <code>elasticsearch_hosts</code> &amp; <code>elasticssearch_index</code> will be prompted during <code>composer install</code> or <code>composer update</code>, and will default to the specified values if none are provided during the prompt. Really handy.</p>
 
-<p><strong>However, this doesn’t work well with <a href="https://heroku.com">Heroku</a> deploys.</strong> <a href="https://devcenter.heroku.com/articles/php-support#build-behavior">Because Heroku runs Composer with <code class="highlighter-rouge">--no-interaction</code> flag</a>,
-the prompts are suppressed, and the parameters generated would silently fall back to the default values in the <code class="highlighter-rouge">.dist</code> file.</p>
+<p><strong>However, this doesn’t work well with <a href="https://heroku.com">Heroku</a> deploys.</strong> <a href="https://devcenter.heroku.com/articles/php-support#build-behavior">Because Heroku runs Composer with <code>--no-interaction</code> flag</a>,
+the prompts are suppressed, and the parameters generated would silently fall back to the default values in the <code>.dist</code> file.</p>
 
-<p>Work-arounds have been formulated to solve this; the one which is widely adopted being <a href="https://github.com/Incenteev/ParameterHandler#using-environment-variables-to-set-the-parameters">the use of environment variables to set container parameters</a> in conjunction with <a href="http://symfony.com/doc/current/cookbook/configuration/external_parameters.html">Symfony’s built-in functionality of converting <code class="highlighter-rouge">SYMFONY__*</code> env variables to container parameters.</a></p>
+<p>Work-arounds have been formulated to solve this; the one which is widely adopted being <a href="https://github.com/Incenteev/ParameterHandler#using-environment-variables-to-set-the-parameters">the use of environment variables to set container parameters</a> in conjunction with <a href="http://symfony.com/doc/current/cookbook/configuration/external_parameters.html">Symfony’s built-in functionality of converting <code>SYMFONY__*</code> env variables to container parameters.</a></p>
 
 <p>Unfortunately, I had some troubles adopting these solutions with the mere fact that some parameters I need are arrays and hashes. Environment variables can only contain scalars like strings and integers.</p>
 
 <p>So I came up with this solution:</p>
 
-<p><strong>Create an <code class="highlighter-rouge">app/config/env_parameters.php</code> file:</strong></p>
+<p><strong>Create an <code>app/config/env_parameters.php</code> file:</strong></p>
 
 <div class="code-section">
   <div class="filename">
@@ -103,11 +103,11 @@ use Symfony\Component\Yaml\Yaml;
 /** @var $container \Symfony\Component\DependencyInjection\ContainerBuilder */
 $container;
 
-$dist = Yaml::parse(file_get_contents(__DIR__ . '/parameters.yml.dist'));
-$distParameters = $dist['parameters'];
+$dist = Yaml::parse(file_get_contents(__DIR__ . &apos;/parameters.yml.dist&apos;));
+$distParameters = $dist[&apos;parameters&apos;];
 
 foreach ($distParameters as $parameterName =&gt; $default) {
-    if (false !== ($value = getenv('sf2.' . $parameterName))) {
+    if (false !== ($value = getenv(&apos;sf2.&apos; . $parameterName))) {
         $container-&gt;setParameter($parameterName, Yaml::parse($value));
     }
 }</code></pre>
@@ -121,7 +121,7 @@ foreach ($distParameters as $parameterName =&gt; $default) {
 See <strong><a href="#yaml-amendments">amendments</a></strong>.
 </div>
 
-<p><strong>Update <code class="highlighter-rouge">app/config/config.yml</code> and add <code class="highlighter-rouge">env_parameters.php</code> as a resource to import:</strong></p>
+<p><strong>Update <code>app/config/config.yml</code> and add <code>env_parameters.php</code> as a resource to import:</strong></p>
 
 <div class="code-section">
   <div class="filename">
@@ -141,7 +141,7 @@ See <strong><a href="#yaml-amendments">amendments</a></strong>.
 
 <p>With this strategy, you can specify Heroku-specific parameters like so:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -152,7 +152,7 @@ $ heroku config:set sf2.database_name=heroku_...</code></pre>
 
 <p>This will also allow for non-scalars like arrays and hashes:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -161,10 +161,10 @@ $ heroku config:set sf2.some_config={foo: true, bar: 3.14}</code></pre>
     </div>
   </div>
 
-<p>In a nutshell, <code class="highlighter-rouge">env_parameters.php</code> will look at the required parameters defined in <code class="highlighter-rouge">parameters.yml.dist</code> file, and look for
-any matching environment variables prefixed with <code class="highlighter-rouge">sf2.*</code>.</p>
+<p>In a nutshell, <code>env_parameters.php</code> will look at the required parameters defined in <code>parameters.yml.dist</code> file, and look for
+any matching environment variables prefixed with <code>sf2.*</code>.</p>
 
-<p>If you don’t like mucking around with the <code class="highlighter-rouge">composer.json</code> file to support Heroku deployment,
+<p>If you don’t like mucking around with the <code>composer.json</code> file to support Heroku deployment,
 or you just need to specify non-scalar parameters, give this approach a try.</p>
 
 <div class="alert-info">
@@ -174,7 +174,7 @@ See an <strong><a href="#alternate-solution">alternate solution</a></strong> if 
 
 <hr />
 
-<p><strong>2014-08-20 Update</strong>: <code class="highlighter-rouge">Yaml::parse</code> have an often-unwanted behavior of parsing file contents if the value passed is a valid file-name. A fix is needed in case
+<p><strong>2014-08-20 Update</strong>: <code>Yaml::parse</code> have an often-unwanted behavior of parsing file contents if the value passed is a valid file-name. A fix is needed in case
 one of your parameters are actual filenames:</p>
 
 <div class="code-section">
@@ -192,11 +192,11 @@ use Symfony\Component\Yaml\Yaml;
 /** @var $container \Symfony\Component\DependencyInjection\ContainerBuilder */
 $container;
 
-$dist = Yaml::parse(file_get_contents(__DIR__ . '/parameters.yml.dist'));
-$distParameters = $dist['parameters'];
+$dist = Yaml::parse(file_get_contents(__DIR__ . &apos;/parameters.yml.dist&apos;));
+$distParameters = $dist[&apos;parameters&apos;];
 
 foreach ($distParameters as $parameterName =&gt; $default) {
-    if (false !== ($value = getenv('sf2.' . $parameterName))) {
+    if (false !== ($value = getenv(&apos;sf2.&apos; . $parameterName))) {
         $container-&gt;setParameter($parameterName, is_file($value) ? $value : Yaml::parse($value));
     }
 }</code></pre>
@@ -206,7 +206,7 @@ foreach ($distParameters as $parameterName =&gt; $default) {
 
 <hr />
 
-<p><strong id="yaml-amendments">2014-08-21 Update</strong>: A better, cleaner fix for the unfortunate <code class="highlighter-rouge">Yaml::parse</code> behavior is just instantiating a new <code class="highlighter-rouge">Symfony\Component\Yaml\Parser</code> object:</p>
+<p><strong id="yaml-amendments">2014-08-21 Update</strong>: A better, cleaner fix for the unfortunate <code>Yaml::parse</code> behavior is just instantiating a new <code>Symfony\Component\Yaml\Parser</code> object:</p>
 
 <div class="code-section">
   <div class="filename">
@@ -225,11 +225,11 @@ $container;
 
 $parser = new Parser();
 
-$dist = $parser-&gt;parse(file_get_contents(__DIR__ . '/parameters.yml.dist'));
-$distParameters = $dist['parameters'];
+$dist = $parser-&gt;parse(file_get_contents(__DIR__ . &apos;/parameters.yml.dist&apos;));
+$distParameters = $dist[&apos;parameters&apos;];
 
 foreach ($distParameters as $parameterName =&gt; $default) {
-    if (false !== ($value = getenv('sf2.' . $parameterName))) {
+    if (false !== ($value = getenv(&apos;sf2.&apos; . $parameterName))) {
         $container-&gt;setParameter($parameterName, $parser-&gt;parse($value));
     }
 }</code></pre>
@@ -239,14 +239,14 @@ foreach ($distParameters as $parameterName =&gt; $default) {
 
 <hr />
 
-<p><strong id="alternate-solution">2014-08-30 Update</strong>: David Zuelke (<a href="https://twitter.com/dzuelke"><strong>@dzuelke</strong></a>), the developer of <a href="https://github.com/heroku/heroku-buildpack-php"><strong><code class="highlighter-rouge">heroku/heroku-buildpack-php</code></strong></a>,
+<p><strong id="alternate-solution">2014-08-30 Update</strong>: David Zuelke (<a href="https://twitter.com/dzuelke"><strong>@dzuelke</strong></a>), the developer of <a href="https://github.com/heroku/heroku-buildpack-php"><strong><code>heroku/heroku-buildpack-php</code></strong></a>,
 has pointed out to me that the Heroku PHP buildpack only exports
-valid shell identifiers (<code class="highlighter-rouge">[A-Z_][A-Z0-9_]*</code>) during the <code class="highlighter-rouge">git push</code> hook on Heroku. Therefore <code class="highlighter-rouge">sf2.*</code> config variables wouldn’t be accessible
-during Composer’s <code class="highlighter-rouge">post-install-cmd</code> hooks.
+valid shell identifiers (<code>[A-Z_][A-Z0-9_]*</code>) during the <code>git push</code> hook on Heroku. Therefore <code>sf2.*</code> config variables wouldn’t be accessible
+during Composer’s <code>post-install-cmd</code> hooks.
 Luckily, this does not affect the project where I am using this solution on, but it might affect yours if you need to
 override parameters that are used during post-install operations that interact with Symfony’s kernel.</p>
 
-<p>In which case, you could use this alternate <code class="highlighter-rouge">env_parameters.php</code> file:</p>
+<p>In which case, you could use this alternate <code>env_parameters.php</code> file:</p>
 
 <div class="code-section">
   <div class="filename">
@@ -265,12 +265,12 @@ $container;
 
 $parser = new Parser();
 
-$dist = $parser-&gt;parse(file_get_contents(__DIR__ . '/parameters.yml.dist'));
-$distParameters = $dist['parameters'];
+$dist = $parser-&gt;parse(file_get_contents(__DIR__ . &apos;/parameters.yml.dist&apos;));
+$distParameters = $dist[&apos;parameters&apos;];
 
 foreach ($distParameters as $parameterName =&gt; $default) {
-    /* That's two underscores... */
-    $envName = 'SF2_' . strtoupper(str_replace('.', '__', $parameterName));
+    /* That&apos;s two underscores... */
+    $envName = &apos;SF2_&apos; . strtoupper(str_replace(&apos;.&apos;, &apos;__&apos;, $parameterName));
     if (false !== ($value = getenv($parameterName))) {
         $container-&gt;setParameter($parameterName, $parser-&gt;parse($value));
     }
@@ -281,7 +281,7 @@ foreach ($distParameters as $parameterName =&gt; $default) {
 
 <p>And your config variables should be named like these:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -290,9 +290,9 @@ $ heroku config:set SF2_SOME_CONFIG={foo: true, bar: 3.14}</code></pre>
     </div>
   </div>
 
-<p>If you need to have parameters with dots in them, like <code class="highlighter-rouge">foo.some_entity.class</code>, substitute dots with two underscores:</p>
+<p>If you need to have parameters with dots in them, like <code>foo.some_entity.class</code>, substitute dots with two underscores:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>

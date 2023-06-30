@@ -19,9 +19,9 @@
     
     <meta property="og:title" content="Vim indicator in Powerline theme" />
         
-        <meta property="og:description" content="" />
+        <meta property="og:description" content="I find it hard to remember if I stepped in to the shell from vim or not. I find myself attempting to open a file only to be told by vim that I already have the file open – indeed, I already was editing the file. I just forgot that I stepped into shell via :sh a few minutes before. Worst yet are the times when I typed exit on my shell thinking that I was coming vim, only to find I was wrong because terminal window closes.I can’t be the only one." />
         
-        <meta name="description" content="" />
+        <meta name="description" content="I find it hard to remember if I stepped in to the shell from vim or not. I find myself attempting to open a file only to be told by vim that I already have the file open – indeed, I already was editing the file. I just forgot that I stepped into shell via :sh a few minutes before. Worst yet are the times when I typed exit on my shell thinking that I was coming vim, only to find I was wrong because terminal window closes.I can’t be the only one." />
     
     <script src="/bundle.js"></script>
   </head>
@@ -47,44 +47,44 @@
         <time datetime="2015-10-02T00:00:00-07:00">02 Oct 2015</time>
       </div>
     </div>
-    <div class="blog-body large-12 columns">
+    <div class="blog-body large-12 cell">
       <p><img src="/img/vim-indicator.png" /></p>
 
-<p>I find it hard to remember if I stepped in to the shell from <code class="highlighter-rouge">vim</code> or not. I find myself attempting to open a file only to be told by <code class="highlighter-rouge">vim</code> that I already have the file open – indeed, I already was editing the file. I just forgot that I stepped into shell via <code class="highlighter-rouge">:sh</code> a few minutes before. Worst yet are the times when I typed <code class="highlighter-rouge">exit</code> on my shell thinking that I was coming <code class="highlighter-rouge">vim</code>, only to find I was wrong because terminal window closes.</p>
+<p>I find it hard to remember if I stepped in to the shell from <code>vim</code> or not. I find myself attempting to open a file only to be told by <code>vim</code> that I already have the file open – indeed, I already was editing the file. I just forgot that I stepped into shell via <code>:sh</code> a few minutes before. Worst yet are the times when I typed <code>exit</code> on my shell thinking that I was coming <code>vim</code>, only to find I was wrong because terminal window closes.</p>
 
 <p>I can’t be the only one.</p>
 
 <!--stop-->
 
 <p>I spent some time tweaking my Powerline config to get what I need: an indicator
-that tells me whether or not I am currently in <code class="highlighter-rouge">vim</code> shell or not. As you can see
-on the screenshot, this is indicated by a green segment with <code class="highlighter-rouge">:sh</code> in it.</p>
+that tells me whether or not I am currently in <code>vim</code> shell or not. As you can see
+on the screenshot, this is indicated by a green segment with <code>:sh</code> in it.</p>
 
 <p>I am using <a href="http://powerline.readthedocs.org/en/latest/"> <strong>powerline-status</strong> </a> to add use Powerline glyphs throughout my
-development tools like <code class="highlighter-rouge">zsh</code>, <code class="highlighter-rouge">vim</code>, and <code class="highlighter-rouge">tmux</code>.</p>
+development tools like <code>zsh</code>, <code>vim</code>, and <code>tmux</code>.</p>
 
-<p>Although <code class="highlighter-rouge">powerline-status</code> doesn’t come with a segment that is specifically
+<p>Although <code>powerline-status</code> doesn’t come with a segment that is specifically
 addressed for this, you can repurpose the
-<code class="highlighter-rouge">powerline.segments.common.env.environment</code> segment to show an indicator based on
-whether or not the <code class="highlighter-rouge">VIMRUNTIME</code> environment variable is set.</p>
+<code>powerline.segments.common.env.environment</code> segment to show an indicator based on
+whether or not the <code>VIMRUNTIME</code> environment variable is set.</p>
 
-<p>Inside your <code class="highlighter-rouge">~/.zshrc</code> (or <code class="highlighter-rouge">.bashrc</code>, <code class="highlighter-rouge">.bash_profile</code> or equivalent):</p>
+<p>Inside your <code>~/.zshrc</code> (or <code>.bashrc</code>, <code>.bash_profile</code> or equivalent):</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
       <pre><code class="language-bash">if [[ -n &quot;$VIMRUNTIME&quot; ]]; then
-    export POWERLINE_VIM_SHELL_INDICATOR=':sh'
+    export POWERLINE_VIM_SHELL_INDICATOR=&apos;:sh&apos;
 fi</code></pre>
     </div>
   </div>
 
-<p>Then register an <code class="highlighter-rouge">environment</code> segment inside your Powerline theme JSON file
-and tell it to display <code class="highlighter-rouge">$POWERLINE_VIM_SHELL_INDICATOR</code>.</p>
+<p>Then register an <code>environment</code> segment inside your Powerline theme JSON file
+and tell it to display <code>$POWERLINE_VIM_SHELL_INDICATOR</code>.</p>
 
 <p>For example, this is what your
-<code class="highlighter-rouge">~/.config/powerline/themes/shell/default.json</code> could look like:</p>
+<code>~/.config/powerline/themes/shell/default.json</code> could look like:</p>
 
 <div class="code-section">
   <div class="filename">
@@ -109,8 +109,8 @@ and tell it to display <code class="highlighter-rouge">$POWERLINE_VIM_SHELL_INDI
   </div>
 </div>
 
-<p>Restart Powerline with <code class="highlighter-rouge">powerline-daemon -rq</code> to make sure the changes take effect.
-Open a file in <code class="highlighter-rouge">vim</code>, step into the shell via <code class="highlighter-rouge">:sh</code>, and you should see a green
+<p>Restart Powerline with <code>powerline-daemon -rq</code> to make sure the changes take effect.
+Open a file in <code>vim</code>, step into the shell via <code>:sh</code>, and you should see a green
 indicator as the left-most segment on your shell.</p>
 
 <p>The only problem I had with this method though is that there isn’t a way to change
@@ -121,13 +121,13 @@ you want each of them styled differently.</p>
 
 <h2 id="vim-power">vim-power</h2>
 
-<p>Just for kicks I wrote a tiny Python package which allows for easier configuration of <code class="highlighter-rouge">vim</code>
+<p>Just for kicks I wrote a tiny Python package which allows for easier configuration of <code>vim</code>
 shell indicators in Powerline by eliminating the need for adding variables into your
 environment and has the added benefit of being customizable via its own highlight group.</p>
 
 <p>To get it just do:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -135,13 +135,13 @@ environment and has the added benefit of being customizable via its own highligh
     </div>
   </div>
 
-<p>…and a new segment function <code class="highlighter-rouge">vim_power.segments.in_vim_shell</code> will be available for you to use.
-It can take an option argument <code class="highlighter-rouge">text</code> which you can use to override what to show in the
-segment when in <code class="highlighter-rouge">vim</code> shell i.e. <code class="highlighter-rouge">:sh</code>.</p>
+<p>…and a new segment function <code>vim_power.segments.in_vim_shell</code> will be available for you to use.
+It can take an option argument <code>text</code> which you can use to override what to show in the
+segment when in <code>vim</code> shell i.e. <code>:sh</code>.</p>
 
-<p>Now its just a matter of adding a definition for <code class="highlighter-rouge">in_vim_shell</code> in color scheme JSON file.</p>
+<p>Now its just a matter of adding a definition for <code>in_vim_shell</code> in color scheme JSON file.</p>
 
-<p>Here is what my <code class="highlighter-rouge">~/.config/powerline/colorschemes/default.json</code> looks like:</p>
+<p>Here is what my <code>~/.config/powerline/colorschemes/default.json</code> looks like:</p>
 
 <div class="code-section">
   <div class="filename">
@@ -164,11 +164,11 @@ segment when in <code class="highlighter-rouge">vim</code> shell i.e. <code clas
   </div>
 </div>
 
-<p><code class="highlighter-rouge">vim-power</code> also comes with <code class="highlighter-rouge">vim_power.segments.prompt_text</code>, which I use to
-display the <code class="highlighter-rouge">λ</code> on my shell’s prompt with the ability to target it with styling
+<p><code>vim-power</code> also comes with <code>vim_power.segments.prompt_text</code>, which I use to
+display the <code>λ</code> on my shell’s prompt with the ability to target it with styling
 using the prompt_text highlight group.</p>
 
-<p>See my <code class="highlighter-rouge">powerline-status</code> config on GitHub if you want to dig around more:</p>
+<p>See my <code>powerline-status</code> config on GitHub if you want to dig around more:</p>
 
 <p><a href="https://github.com/bezhermoso/dotfiles/tree/master/.config/powerline">https://github.com/bezhermoso/dotfiles/tree/master/.config/powerline</a></p>
 

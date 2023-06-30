@@ -19,9 +19,9 @@
     
     <meta property="og:title" content="Improved tmux experience" />
         
-        <meta property="og:description" content="If there is one tool I use the most, it has to be tmux. I do almost everything in it." />
+        <meta property="og:description" content="If there is one tool I use the most, it has to be tmux. I do almost everything in it.However, as useful as it is, I feel like its not very user-friendly out-of-the-box. This post is a collection of things in my ~/.tmux.conf that makes tmux easier to use and to bring its more powerful capabilities within closer reach.A better prefix                &amp;nbsp;      set -g prefix C-s      C-s requires far less finger-flinging than the default C-b – the keys are close enough together, and it doesn’t conflict with any key-sequence I commonly use. This is extra awesome with Capslock mapped to Ctrl.  Ctrl + s is typically bound in terminals to “stop output to screen”. I can live without it, as entering  “Visual Mode” in tmux is a functional alternative.Fix clipboard integration on macOS + vi-style bindingsSupport for copying and pasting to the system clipboard doesn’t quite work on macOS. Thankfully, getting it to work takes very little effort.First you need to install the reattach-to-user-namespace program. You can grab it straight from Homebrew:                &amp;nbsp;      $ brew install reattach-to-user-namespace      Add this to ~/.tmux.conf and you are off to the races:                &amp;nbsp;      # Check whether we are on macOS / OS Xif-shell &amp;apos;test &amp;quot;$(uname)&amp;quot; = &amp;quot;Darwin&amp;quot;&amp;apos; \  &amp;apos;set-option -g default-command &amp;quot;reattach-to-user-namespace -l zsh&amp;quot;&amp;apos; &amp;apos;&amp;apos;# vi bindings in copy-modesetw -g mode-keys vi# Bind `v` to enter VISUAL-like selection mode.bind-key -t vi-copy v begin-selectionbind-key -t vi-copy y copy-pipe &amp;quot;reattach-to-user-namespace pbcopy&amp;quot;      Intuitive window splitting                &amp;nbsp;      # Horizontal split (left &amp;amp; right):bind-key \ split-window -h -c &amp;apos;#{pane_current_path}&amp;apos;# Verical split (top &amp;amp; bottom):bind-key - split-window -v -c &amp;apos;#{pane_current_path}&amp;apos;      Compared to the default &amp;lt;prefix&amp;gt; % and &amp;lt;prefix&amp;gt; &quot;, these bindings makes which way splits occur really obvious. The -c #{pane_current_path} argument passed will start new splits in the same working directory you are on.As of version 2.3, split-window now understands the -f flag, which indicates full-width or full-height splits. These are perfect when you want a “scratch” shell to appear on the bottom or to the right of everything else:                &amp;nbsp;      # For tmux 2.3 or newer# Full-height horizontal split with 33% width:bind-key | split-window -fh -c &amp;apos;#{pane_current_path}&amp;apos; -p 33# Full-width vertical split with 33% height:bind-key _ split-window -fv -c &amp;apos;#{pane_current_path}&amp;apos; -p 33      Tiered navigation controls                &amp;nbsp;      # Move between windows/tabs with `o` and `p`:bind-key -r p next-windowbind-key -r o previous-window# Move between splits vi-style:bind-key -r h select-pane -Lbind-key -r j select-pane -Dbind-key -r k select-pane -Ubind-key -r l select-pane -R      Although the default &amp;lt;prefix&amp;gt; n and &amp;lt;prefix&amp;gt; p are easier to remember (“next” and “previous”), I find moving between windows faster with &amp;lt;prefix&amp;gt; o and &amp;lt;prefix&amp;gt; p as they are right next to each other. I happen to like vim-style cursor movements, so binding split navigations to &amp;lt;prefix&amp;gt; {h,j,k,l} is just logical.With this configuration,  the navigation controls are tiered:  Pane navigation: I can use home-row keys in vi-like bindings to move between panes in the current window.  Window navigation: I can find o and p right above the home-row keys to move between windows or “tabs” in the current session.  Session navigation: Above o and p I can use the parentheses keys to move between various sessions.  The -r flag marks the bindings repeatable – this means they will not bring you out of prefix-mode after invocation, allowing you to repeat them or even invoke other bindings right after.Moving panes to another windowIt’s possible to move panes between different windows using join-pane. However it is slightly cumbersome to use (you have to pass in the window’s index as the -t argument). However using choose-window makes it as easy as selecting a window from a list:                &amp;nbsp;      # Move pane to a different window. You can choose window from a list:bind-key m choose-window -F &amp;quot;#{window_index}: #{window_name}&amp;quot; &amp;quot;join-pane -h -t %%&amp;quot;bind-key M choose-window -F &amp;quot;#{window_index}: #{window_name}&amp;quot; &amp;quot;join-pane -v -t %%&amp;quot;# Swap windows. Choose window to swap with from a list:bind-key c-w choose-window -F &amp;quot;#{window_index}: #{window_name}&amp;quot; &amp;quot;swap-window -t %1&amp;quot;      You can pick a window from a list and the current pane will be sent there as a horizontal split. &amp;lt;prefix&amp;gt; M will do the same, but will result in a vertical split.&amp;lt;prefix&amp;gt; C-w in will bring up a list of all windows. The current window will swap places with the one you select.Resizing panes                &amp;nbsp;      # Resize panes directionally via vi-style bindingsbind-key -r C-k resize-pane -u 5bind-key -r C-j resize-pane -d 5bind-key -r C-h resize-pane -l 5bind-key -r C-l resize-pane -r 5      These binds &amp;lt;prefix&amp;gt; C-{h,j,k,l} to resize the current window by 5 columns or rows, depending on the direction. I find resizing 1 unit at a time takes a bit too long and I rarely need precise control. Resizing by 5 units is just right.Natural numberingSpeaking of window indices, tmux starts numbering things at 0. Zero-based index is second nature to programmers and all, but the 0 key does not appear next to 1 on any keyboard. It’s awkward for this purpose.I think its more natural to have tmux starting counting from 1:                &amp;nbsp;      # Begin numbering at 1:set -g base-index 1set -g pane-base-index 1# Maintain ordinality after swapping windows; and also make sure there is no gaps after killing windows:set -g renumber-windows on      Closing panes &amp;amp; windows&amp;lt;prefix&amp;gt; x to close the pane, &amp;lt;prefix&amp;gt; X to close the window, and &amp;lt;prefix&amp;gt; Q to quit the session:                &amp;nbsp;      bind-key x confirm-before -p &amp;quot;kill-pane #P? (y/n)&amp;quot; kill-panebind-key X confirm-before -p &amp;quot;Kill window #W? (y/n)&amp;quot; kill-windowbind-key Q confirm-before -p &amp;quot;Kill session #S? (y/n)&amp;quot; kill-session      A prompt will be presented to confirm the action.Synchronize panesAnother neat trick that tmux can do is synchronizing key-strokes across all panes in a window. I thought &amp;lt;prefix&amp;gt; &amp;amp; is an apt binding to toggle the behavior:                &amp;nbsp;      bind-key &amp;amp; set-window-option synchronize-panes      For more, you can find my full tmux configuration hosted on Github!." />
         
-        <meta name="description" content="If there is one tool I use the most, it has to be tmux. I do almost everything in it." />
+        <meta name="description" content="If there is one tool I use the most, it has to be tmux. I do almost everything in it.However, as useful as it is, I feel like its not very user-friendly out-of-the-box. This post is a collection of things in my ~/.tmux.conf that makes tmux easier to use and to bring its more powerful capabilities within closer reach.A better prefix                &amp;nbsp;      set -g prefix C-s      C-s requires far less finger-flinging than the default C-b – the keys are close enough together, and it doesn’t conflict with any key-sequence I commonly use. This is extra awesome with Capslock mapped to Ctrl.  Ctrl + s is typically bound in terminals to “stop output to screen”. I can live without it, as entering  “Visual Mode” in tmux is a functional alternative.Fix clipboard integration on macOS + vi-style bindingsSupport for copying and pasting to the system clipboard doesn’t quite work on macOS. Thankfully, getting it to work takes very little effort.First you need to install the reattach-to-user-namespace program. You can grab it straight from Homebrew:                &amp;nbsp;      $ brew install reattach-to-user-namespace      Add this to ~/.tmux.conf and you are off to the races:                &amp;nbsp;      # Check whether we are on macOS / OS Xif-shell &amp;apos;test &amp;quot;$(uname)&amp;quot; = &amp;quot;Darwin&amp;quot;&amp;apos; \  &amp;apos;set-option -g default-command &amp;quot;reattach-to-user-namespace -l zsh&amp;quot;&amp;apos; &amp;apos;&amp;apos;# vi bindings in copy-modesetw -g mode-keys vi# Bind `v` to enter VISUAL-like selection mode.bind-key -t vi-copy v begin-selectionbind-key -t vi-copy y copy-pipe &amp;quot;reattach-to-user-namespace pbcopy&amp;quot;      Intuitive window splitting                &amp;nbsp;      # Horizontal split (left &amp;amp; right):bind-key \ split-window -h -c &amp;apos;#{pane_current_path}&amp;apos;# Verical split (top &amp;amp; bottom):bind-key - split-window -v -c &amp;apos;#{pane_current_path}&amp;apos;      Compared to the default &amp;lt;prefix&amp;gt; % and &amp;lt;prefix&amp;gt; &quot;, these bindings makes which way splits occur really obvious. The -c #{pane_current_path} argument passed will start new splits in the same working directory you are on.As of version 2.3, split-window now understands the -f flag, which indicates full-width or full-height splits. These are perfect when you want a “scratch” shell to appear on the bottom or to the right of everything else:                &amp;nbsp;      # For tmux 2.3 or newer# Full-height horizontal split with 33% width:bind-key | split-window -fh -c &amp;apos;#{pane_current_path}&amp;apos; -p 33# Full-width vertical split with 33% height:bind-key _ split-window -fv -c &amp;apos;#{pane_current_path}&amp;apos; -p 33      Tiered navigation controls                &amp;nbsp;      # Move between windows/tabs with `o` and `p`:bind-key -r p next-windowbind-key -r o previous-window# Move between splits vi-style:bind-key -r h select-pane -Lbind-key -r j select-pane -Dbind-key -r k select-pane -Ubind-key -r l select-pane -R      Although the default &amp;lt;prefix&amp;gt; n and &amp;lt;prefix&amp;gt; p are easier to remember (“next” and “previous”), I find moving between windows faster with &amp;lt;prefix&amp;gt; o and &amp;lt;prefix&amp;gt; p as they are right next to each other. I happen to like vim-style cursor movements, so binding split navigations to &amp;lt;prefix&amp;gt; {h,j,k,l} is just logical.With this configuration,  the navigation controls are tiered:  Pane navigation: I can use home-row keys in vi-like bindings to move between panes in the current window.  Window navigation: I can find o and p right above the home-row keys to move between windows or “tabs” in the current session.  Session navigation: Above o and p I can use the parentheses keys to move between various sessions.  The -r flag marks the bindings repeatable – this means they will not bring you out of prefix-mode after invocation, allowing you to repeat them or even invoke other bindings right after.Moving panes to another windowIt’s possible to move panes between different windows using join-pane. However it is slightly cumbersome to use (you have to pass in the window’s index as the -t argument). However using choose-window makes it as easy as selecting a window from a list:                &amp;nbsp;      # Move pane to a different window. You can choose window from a list:bind-key m choose-window -F &amp;quot;#{window_index}: #{window_name}&amp;quot; &amp;quot;join-pane -h -t %%&amp;quot;bind-key M choose-window -F &amp;quot;#{window_index}: #{window_name}&amp;quot; &amp;quot;join-pane -v -t %%&amp;quot;# Swap windows. Choose window to swap with from a list:bind-key c-w choose-window -F &amp;quot;#{window_index}: #{window_name}&amp;quot; &amp;quot;swap-window -t %1&amp;quot;      You can pick a window from a list and the current pane will be sent there as a horizontal split. &amp;lt;prefix&amp;gt; M will do the same, but will result in a vertical split.&amp;lt;prefix&amp;gt; C-w in will bring up a list of all windows. The current window will swap places with the one you select.Resizing panes                &amp;nbsp;      # Resize panes directionally via vi-style bindingsbind-key -r C-k resize-pane -u 5bind-key -r C-j resize-pane -d 5bind-key -r C-h resize-pane -l 5bind-key -r C-l resize-pane -r 5      These binds &amp;lt;prefix&amp;gt; C-{h,j,k,l} to resize the current window by 5 columns or rows, depending on the direction. I find resizing 1 unit at a time takes a bit too long and I rarely need precise control. Resizing by 5 units is just right.Natural numberingSpeaking of window indices, tmux starts numbering things at 0. Zero-based index is second nature to programmers and all, but the 0 key does not appear next to 1 on any keyboard. It’s awkward for this purpose.I think its more natural to have tmux starting counting from 1:                &amp;nbsp;      # Begin numbering at 1:set -g base-index 1set -g pane-base-index 1# Maintain ordinality after swapping windows; and also make sure there is no gaps after killing windows:set -g renumber-windows on      Closing panes &amp;amp; windows&amp;lt;prefix&amp;gt; x to close the pane, &amp;lt;prefix&amp;gt; X to close the window, and &amp;lt;prefix&amp;gt; Q to quit the session:                &amp;nbsp;      bind-key x confirm-before -p &amp;quot;kill-pane #P? (y/n)&amp;quot; kill-panebind-key X confirm-before -p &amp;quot;Kill window #W? (y/n)&amp;quot; kill-windowbind-key Q confirm-before -p &amp;quot;Kill session #S? (y/n)&amp;quot; kill-session      A prompt will be presented to confirm the action.Synchronize panesAnother neat trick that tmux can do is synchronizing key-strokes across all panes in a window. I thought &amp;lt;prefix&amp;gt; &amp;amp; is an apt binding to toggle the behavior:                &amp;nbsp;      bind-key &amp;amp; set-window-option synchronize-panes      For more, you can find my full tmux configuration hosted on Github!." />
     
     <script src="/bundle.js"></script>
   </head>
@@ -47,16 +47,16 @@
         <time datetime="2018-06-02T00:00:00-07:00">02 Jun 2018</time>
       </div>
     </div>
-    <div class="blog-body large-12 columns">
-      <p>If there is one tool I use the most, it has to be <code class="highlighter-rouge">tmux</code>. I do almost everything <em>in</em> it.</p>
+    <div class="blog-body large-12 cell">
+      <p>If there is one tool I use the most, it has to be <code>tmux</code>. I do almost everything <em>in</em> it.</p>
 
-<p>However, as useful as it is, I feel like its not very user-friendly out-of-the-box. This post is a collection of things in my <code class="highlighter-rouge">~/.tmux.conf</code> that makes <code class="highlighter-rouge">tmux</code> easier to use and to bring its more powerful capabilities within closer reach.</p>
+<p>However, as useful as it is, I feel like its not very user-friendly out-of-the-box. This post is a collection of things in my <code>~/.tmux.conf</code> that makes <code>tmux</code> easier to use and to bring its more powerful capabilities within closer reach.</p>
 
 <p><br /></p>
 
 <h2 id="a-better-prefix">A better prefix</h2>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -64,10 +64,10 @@
     </div>
   </div>
 
-<p><code class="highlighter-rouge">C-s</code> requires far less finger-flinging than the default <code class="highlighter-rouge">C-b</code> – the keys are close enough together, and it doesn’t conflict with any key-sequence I commonly use. This is extra awesome with <code class="highlighter-rouge">Capslock</code> mapped to <code class="highlighter-rouge">Ctrl</code>.</p>
+<p><code>C-s</code> requires far less finger-flinging than the default <code>C-b</code> – the keys are close enough together, and it doesn’t conflict with any key-sequence I commonly use. This is extra awesome with <code>Capslock</code> mapped to <code>Ctrl</code>.</p>
 
 <blockquote>
-  <p><code class="highlighter-rouge">Ctrl + s</code> is typically bound in terminals to “stop output to screen”. I can live without it, as entering  “Visual Mode” in <code class="highlighter-rouge">tmux</code> is a functional alternative.</p>
+  <p><code>Ctrl + s</code> is typically bound in terminals to “stop output to screen”. I can live without it, as entering  “Visual Mode” in <code>tmux</code> is a functional alternative.</p>
 </blockquote>
 
 <p><br /></p>
@@ -76,9 +76,9 @@
 
 <p>Support for copying and pasting to the system clipboard doesn’t quite work on macOS. Thankfully, getting it to work takes very little effort.</p>
 
-<p>First you need to install the <code class="highlighter-rouge">reattach-to-user-namespace</code> program. You can grab it straight from Homebrew:</p>
+<p>First you need to install the <code>reattach-to-user-namespace</code> program. You can grab it straight from Homebrew:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -86,15 +86,15 @@
     </div>
   </div>
 
-<p>Add this to <code class="highlighter-rouge">~/.tmux.conf</code> and you are off to the races:</p>
+<p>Add this to <code>~/.tmux.conf</code> and you are off to the races:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
       <pre><code class="language-bash"># Check whether we are on macOS / OS X
-if-shell 'test &quot;$(uname)&quot; = &quot;Darwin&quot;' \
-  'set-option -g default-command &quot;reattach-to-user-namespace -l zsh&quot;' ''
+if-shell &apos;test &quot;$(uname)&quot; = &quot;Darwin&quot;&apos; \
+  &apos;set-option -g default-command &quot;reattach-to-user-namespace -l zsh&quot;&apos; &apos;&apos;
 
 # vi bindings in copy-mode
 setw -g mode-keys vi
@@ -109,30 +109,30 @@ bind-key -t vi-copy y copy-pipe &quot;reattach-to-user-namespace pbcopy&quot;</c
 
 <h2 id="intuitive-window-splitting">Intuitive window splitting</h2>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
       <pre><code class="language-bash"># Horizontal split (left &amp; right):
-bind-key \ split-window -h -c '#{pane_current_path}'
+bind-key \ split-window -h -c &apos;#{pane_current_path}&apos;
 # Verical split (top &amp; bottom):
-bind-key - split-window -v -c '#{pane_current_path}'</code></pre>
+bind-key - split-window -v -c &apos;#{pane_current_path}&apos;</code></pre>
     </div>
   </div>
 
-<p>Compared to the default <code class="highlighter-rouge">&lt;prefix&gt; %</code> and <code class="highlighter-rouge">&lt;prefix&gt; "</code>, these bindings makes which way splits occur <em>really</em> obvious. The <code class="highlighter-rouge">-c #{pane_current_path}</code> argument passed will start new splits in the same working directory you are on.</p>
+<p>Compared to the default <code>&lt;prefix&gt; %</code> and <code>&lt;prefix&gt; "</code>, these bindings makes which way splits occur <em>really</em> obvious. The <code>-c #{pane_current_path}</code> argument passed will start new splits in the same working directory you are on.</p>
 
-<p>As of version 2.3, <code class="highlighter-rouge">split-window</code> now understands the <code class="highlighter-rouge">-f</code> flag, which indicates full-width or full-height splits. These are perfect when you want a “scratch” shell to appear on the bottom or to the right of everything else:</p>
+<p>As of version 2.3, <code>split-window</code> now understands the <code>-f</code> flag, which indicates full-width or full-height splits. These are perfect when you want a “scratch” shell to appear on the bottom or to the right of everything else:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
       <pre><code class="language-bash"># For tmux 2.3 or newer
 # Full-height horizontal split with 33% width:
-bind-key | split-window -fh -c '#{pane_current_path}' -p 33
+bind-key | split-window -fh -c &apos;#{pane_current_path}&apos; -p 33
 # Full-width vertical split with 33% height:
-bind-key _ split-window -fv -c '#{pane_current_path}' -p 33</code></pre>
+bind-key _ split-window -fv -c &apos;#{pane_current_path}&apos; -p 33</code></pre>
     </div>
   </div>
 
@@ -140,7 +140,7 @@ bind-key _ split-window -fv -c '#{pane_current_path}' -p 33</code></pre>
 
 <h2 id="tiered-navigation-controls">Tiered navigation controls</h2>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -156,27 +156,27 @@ bind-key -r l select-pane -R</code></pre>
     </div>
   </div>
 
-<p>Although the default <code class="highlighter-rouge">&lt;prefix&gt; n</code> and <code class="highlighter-rouge">&lt;prefix&gt; p</code> are easier to remember (<em>“next”</em> and <em>“previous”</em>), I find moving between windows faster with <code class="highlighter-rouge">&lt;prefix&gt; o</code> and <code class="highlighter-rouge">&lt;prefix&gt; p</code> as they are right next to each other. I happen to like vim-style cursor movements, so binding split navigations to <code class="highlighter-rouge">&lt;prefix&gt; {h,j,k,l}</code> is just logical.</p>
+<p>Although the default <code>&lt;prefix&gt; n</code> and <code>&lt;prefix&gt; p</code> are easier to remember (<em>“next”</em> and <em>“previous”</em>), I find moving between windows faster with <code>&lt;prefix&gt; o</code> and <code>&lt;prefix&gt; p</code> as they are right next to each other. I happen to like vim-style cursor movements, so binding split navigations to <code>&lt;prefix&gt; {h,j,k,l}</code> is just logical.</p>
 
 <p>With this configuration,  the navigation controls are tiered:</p>
 
 <ol>
   <li><strong><em>Pane navigation</em></strong>: I can use home-row keys in vi-like bindings to move between panes in the current window.</li>
-  <li><strong><em>Window navigation</em></strong>: I can find <code class="highlighter-rouge">o</code> and <code class="highlighter-rouge">p</code> right above the home-row keys to move between windows or “tabs” in the current session.</li>
-  <li><strong><em>Session navigation</em></strong>: Above <code class="highlighter-rouge">o</code> and <code class="highlighter-rouge">p</code> I can use the parentheses keys to move between various sessions.</li>
+  <li><strong><em>Window navigation</em></strong>: I can find <code>o</code> and <code>p</code> right above the home-row keys to move between windows or “tabs” in the current session.</li>
+  <li><strong><em>Session navigation</em></strong>: Above <code>o</code> and <code>p</code> I can use the parentheses keys to move between various sessions.</li>
 </ol>
 
 <blockquote>
-  <p>The <code class="highlighter-rouge">-r</code> flag marks the bindings repeatable – this means they will not bring you out of prefix-mode after invocation, allowing you to repeat them or even invoke other bindings right after.</p>
+  <p>The <code>-r</code> flag marks the bindings repeatable – this means they will not bring you out of prefix-mode after invocation, allowing you to repeat them or even invoke other bindings right after.</p>
 </blockquote>
 
 <p><br /></p>
 
 <h2 id="moving-panes-to-another-window">Moving panes to another window</h2>
 
-<p>It’s possible to move panes between different windows using <code class="highlighter-rouge">join-pane</code>. However it is slightly cumbersome to use (you have to pass in the window’s index as the <code class="highlighter-rouge">-t</code> argument). However using <code class="highlighter-rouge">choose-window</code> makes it as easy as selecting a window from a list:</p>
+<p>It’s possible to move panes between different windows using <code>join-pane</code>. However it is slightly cumbersome to use (you have to pass in the window’s index as the <code>-t</code> argument). However using <code>choose-window</code> makes it as easy as selecting a window from a list:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -189,15 +189,15 @@ bind-key c-w choose-window -F &quot;#{window_index}: #{window_name}&quot; &quot;
     </div>
   </div>
 
-<p>You can pick a window from a list and the current pane will be sent there as a horizontal split. <code class="highlighter-rouge">&lt;prefix&gt; M</code> will do the same, but will result in a vertical split.</p>
+<p>You can pick a window from a list and the current pane will be sent there as a horizontal split. <code>&lt;prefix&gt; M</code> will do the same, but will result in a vertical split.</p>
 
-<p><code class="highlighter-rouge">&lt;prefix&gt; C-w</code> in will bring up a list of all windows. The current window will swap places with the one you select.</p>
+<p><code>&lt;prefix&gt; C-w</code> in will bring up a list of all windows. The current window will swap places with the one you select.</p>
 
 <p><br /></p>
 
 <h2 id="resizing-panes">Resizing panes</h2>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -209,16 +209,16 @@ bind-key -r C-l resize-pane -r 5</code></pre>
     </div>
   </div>
 
-<p>These binds <code class="highlighter-rouge">&lt;prefix&gt; C-{h,j,k,l}</code> to resize the current window by 5 columns or rows, depending on the direction. I find resizing 1 unit at a time takes a bit too long and I rarely need precise control. Resizing by 5 units is just right.</p>
+<p>These binds <code>&lt;prefix&gt; C-{h,j,k,l}</code> to resize the current window by 5 columns or rows, depending on the direction. I find resizing 1 unit at a time takes a bit too long and I rarely need precise control. Resizing by 5 units is just right.</p>
 
 <p><br /></p>
 
 <h2 id="natural-numbering">Natural numbering</h2>
 
-<p>Speaking of window indices, <code class="highlighter-rouge">tmux</code> starts numbering things at 0. Zero-based index is second nature to programmers and all, but the <code class="highlighter-rouge">0</code> key does not appear next to <code class="highlighter-rouge">1</code> on any keyboard. It’s awkward for this purpose.
-I think its more natural to have <code class="highlighter-rouge">tmux</code> starting counting from 1:</p>
+<p>Speaking of window indices, <code>tmux</code> starts numbering things at 0. Zero-based index is second nature to programmers and all, but the <code>0</code> key does not appear next to <code>1</code> on any keyboard. It’s awkward for this purpose.
+I think its more natural to have <code>tmux</code> starting counting from 1:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -233,9 +233,9 @@ set -g renumber-windows on</code></pre>
 
 <h2 id="closing-panes--windows">Closing panes &amp; windows</h2>
 
-<p><code class="highlighter-rouge">&lt;prefix&gt; x</code> to close the pane, <code class="highlighter-rouge">&lt;prefix&gt; X</code> to close the window, and <code class="highlighter-rouge">&lt;prefix&gt; Q</code> to quit the session:</p>
+<p><code>&lt;prefix&gt; x</code> to close the pane, <code>&lt;prefix&gt; X</code> to close the window, and <code>&lt;prefix&gt; Q</code> to quit the session:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -249,9 +249,9 @@ bind-key Q confirm-before -p &quot;Kill session #S? (y/n)&quot; kill-session</co
 
 <h2 id="synchronize-panes">Synchronize panes</h2>
 
-<p>Another neat trick that <code class="highlighter-rouge">tmux</code> can do is synchronizing key-strokes across all panes in a window. I thought <code class="highlighter-rouge">&lt;prefix&gt; &amp;</code> is an apt binding to toggle the behavior:</p>
+<p>Another neat trick that <code>tmux</code> can do is synchronizing key-strokes across all panes in a window. I thought <code>&lt;prefix&gt; &amp;</code> is an apt binding to toggle the behavior:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -261,7 +261,7 @@ bind-key Q confirm-before -p &quot;Kill session #S? (y/n)&quot; kill-session</co
 
 <hr />
 
-<p>For more, you can find my <a href="https://github.com/bezhermoso/dotfiles/blob/master/tmux/tmux.conf">full <code class="highlighter-rouge">tmux</code> configuration hosted on Github!</a>.</p>
+<p>For more, you can find my <a href="https://github.com/bezhermoso/dotfiles/blob/master/tmux/tmux.conf">full <code>tmux</code> configuration hosted on Github!</a>.</p>
 
 
     </div>

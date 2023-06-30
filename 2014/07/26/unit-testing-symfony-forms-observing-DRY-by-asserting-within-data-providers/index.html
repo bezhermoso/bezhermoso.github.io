@@ -19,9 +19,9 @@
     
     <meta property="og:title" content="Unit-testing Symfony forms: observing DRY by asserting within data providers " />
         
-        <meta property="og:description" content="I’ve been using a lot of the Symfony Form component lately to handleinput in REST endpoints.Instead of handling the parameters myself within controllers, I use forms to do it for me for various reasons:" />
+        <meta property="og:description" content="I’ve been using a lot of the Symfony Form component lately to handleinput in REST endpoints.Instead of handling the parameters myself within controllers, I use forms to do it for me for various reasons:  It keeps the controllers thin.  It makes the definition of the parameters explicit. The form itself serves as the documentation of what the REST endpoint willaccept as valid input.  It makes validation a breeze thanks to how the Form component integates with Symfony Validation.  It makes our Swagger API documentation up-to-date with our code at all times,thanks to NelmioApiDocBundle  It helps making changes to the endpoint’s interface a lot easier.  …and quite importantly, it makes the parameter handling and validation testable." />
         
-        <meta name="description" content="I’ve been using a lot of the Symfony Form component lately to handleinput in REST endpoints.Instead of handling the parameters myself within controllers, I use forms to do it for me for various reasons:" />
+        <meta name="description" content="I’ve been using a lot of the Symfony Form component lately to handleinput in REST endpoints.Instead of handling the parameters myself within controllers, I use forms to do it for me for various reasons:  It keeps the controllers thin.  It makes the definition of the parameters explicit. The form itself serves as the documentation of what the REST endpoint willaccept as valid input.  It makes validation a breeze thanks to how the Form component integates with Symfony Validation.  It makes our Swagger API documentation up-to-date with our code at all times,thanks to NelmioApiDocBundle  It helps making changes to the endpoint’s interface a lot easier.  …and quite importantly, it makes the parameter handling and validation testable." />
     
     <script src="/bundle.js"></script>
   </head>
@@ -47,7 +47,7 @@
         <time datetime="2014-07-26T00:00:00-07:00">26 Jul 2014</time>
       </div>
     </div>
-    <div class="blog-body large-12 columns">
+    <div class="blog-body large-12 cell">
       <p>I’ve been using a lot of the <a href="http://symfony.com/doc/current/book/forms.html">Symfony Form</a> component lately to handle
 input in REST endpoints.
 Instead of handling the parameters myself within controllers, I use forms to do it for me for various reasons:</p>
@@ -87,7 +87,7 @@ class UserFormTest extends KernelTestCase
     public function setUp()
     {
         static::bootKernel();
-        $this-&gt;formFactory = static::$kernel-&gt;getContainer()-&gt;get('form.factory');
+        $this-&gt;formFactory = static::$kernel-&gt;getContainer()-&gt;get(&apos;form.factory&apos;);
     }
 
     /**
@@ -109,42 +109,42 @@ class UserFormTest extends KernelTestCase
     public function dataFormTest()
     {
         return array(
-            'scenario_1' =&gt; array(
+            &apos;scenario_1&apos; =&gt; array(
                 array(
-                    'first_name' =&gt; 'Bezalel',
-                    'last_name' =&gt; 'Hermoso',
-                    'title' =&gt; 'Mr.',
-                    'username' =&gt; 'BezHermoso',
+                    &apos;first_name&apos; =&gt; &apos;Bezalel&apos;,
+                    &apos;last_name&apos; =&gt; &apos;Hermoso&apos;,
+                    &apos;title&apos; =&gt; &apos;Mr.&apos;,
+                    &apos;username&apos; =&gt; &apos;BezHermoso&apos;,
                     /* Rest of data */
                 ),
                 array(
-                    'validation_groups' =&gt; array('Registration'),
-                    'csrf_protection' =&gt; false,
+                    &apos;validation_groups&apos; =&gt; array(&apos;Registration&apos;),
+                    &apos;csrf_protection&apos; =&gt; false,
                 ),
                 function (Form $form, User $user, KernelTestCase $testCase) {
                     $testCase-&gt;assertTrue($form-&gt;isValid());
-                    $testCase-&gt;assertEquals('Mr. Bezalel Hermoso', $user-&gt;getDisplayName());
-                    $testCase-&gt;assertEquals('bezhermoso', $user-&gt;getUsername());
+                    $testCase-&gt;assertEquals(&apos;Mr. Bezalel Hermoso&apos;, $user-&gt;getDisplayName());
+                    $testCase-&gt;assertEquals(&apos;bezhermoso&apos;, $user-&gt;getUsername());
                     /* More assertions */
                 },
             ),
-            'scenario_2' =&gt; array(
+            &apos;scenario_2&apos; =&gt; array(
                 array(
-                    'first_name' =&gt; 'Justin',
-                    'last_name' =&gt; 'Case',
-                    'title' =&gt; null,
-                    'username' =&gt; null,
+                    &apos;first_name&apos; =&gt; &apos;Justin&apos;,
+                    &apos;last_name&apos; =&gt; &apos;Case&apos;,
+                    &apos;title&apos; =&gt; null,
+                    &apos;username&apos; =&gt; null,
                     /* Rest of data */
                 ),
                 array(
-                    'validation_groups' =&gt; array('Registration'),
-                    'csrf_protection' =&gt; false,
+                    &apos;validation_groups&apos; =&gt; array(&apos;Registration&apos;),
+                    &apos;csrf_protection&apos; =&gt; false,
                 ),
                 function (Form $form, User $user, KernelTestCase $testCase) {
                     $testCase-&gt;assertFalse($form-&gt;isValid());
                     $errors = $form-&gt;getErrors();
                     $testCase-&gt;assertCount(1, $errors);
-                    $testCase-&gt;assertEquals('Username cannot be blank.', $errors[0]-&gt;getMessage());
+                    $testCase-&gt;assertEquals(&apos;Username cannot be blank.&apos;, $errors[0]-&gt;getMessage());
                     /* More assertions */
                 },
             ),

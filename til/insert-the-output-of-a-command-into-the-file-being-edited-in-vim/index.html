@@ -18,8 +18,8 @@
     
     
     <meta content="Pro-tip: Insert the output of command into the file being edited in Vim" property="og:title">
-    <meta property="og:description" content=":r &amp;lt;path/to/file&amp;gt; when executed will read the contents of a file and insert it to where the cursor is in the file being edited. But just like the :w command, you can read the output of a command instead. Just prefix the comamnd with !.Here is a quick example:                &amp;nbsp;      :r !echo &#39;SELECT name, email FROM users ORDER BY created_at DESC LIMIT 10;&#39; | mysql -u root -p app_db      This will insert the result of the query into the file.  See :help :read for more details." />
-    <meta name="description" content=":r &amp;lt;path/to/file&amp;gt; when executed will read the contents of a file and insert it to where the cursor is in the file being edited. But just like the :w command, you can read the output of a command instead. Just prefix the comamnd with !.Here is a quick example:                &amp;nbsp;      :r !echo &#39;SELECT name, email FROM users ORDER BY created_at DESC LIMIT 10;&#39; | mysql -u root -p app_db      This will insert the result of the query into the file.  See :help :read for more details." />
+    <meta property="og:description" content=":r &amp;lt;path/to/file&amp;gt; when executed will read the contents of a file and insert it to where the cursor is in the file being edited. But just like the :w command, you can read the output of a command instead. Just prefix the comamnd with !.Here is a quick example:                &amp;nbsp;      :r !echo &amp;apos;SELECT name, email FROM users ORDER BY created_at DESC LIMIT 10;&amp;apos; | mysql -u root -p app_db      This will insert the result of the query into the file.  See :help :read for more details." />
+    <meta name="description" content=":r &amp;lt;path/to/file&amp;gt; when executed will read the contents of a file and insert it to where the cursor is in the file being edited. But just like the :w command, you can read the output of a command instead. Just prefix the comamnd with !.Here is a quick example:                &amp;nbsp;      :r !echo &amp;apos;SELECT name, email FROM users ORDER BY created_at DESC LIMIT 10;&amp;apos; | mysql -u root -p app_db      This will insert the result of the query into the file.  See :help :read for more details." />
     
     <script src="/bundle.js"></script>
   </head>
@@ -51,22 +51,22 @@
       </div>
     </div>
     <div class="blog-body large-12 cell">
-      <p><code class="highlighter-rouge">:r &lt;path/to/file&gt;</code> when executed will read the contents of a file and insert it to where the cursor is in the file being edited. But just like the <code class="highlighter-rouge">:w</code> command, you can read the output of a command instead. Just prefix the comamnd with <code class="highlighter-rouge">!</code>.</p>
+      <p><code>:r &lt;path/to/file&gt;</code> when executed will read the contents of a file and insert it to where the cursor is in the file being edited. But just like the <code>:w</code> command, you can read the output of a command instead. Just prefix the comamnd with <code>!</code>.</p>
 
 <p>Here is a quick example:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
-      <pre><code class="language-bash">:r !echo 'SELECT name, email FROM users ORDER BY created_at DESC LIMIT 10;' | mysql -u root -p app_db</code></pre>
+      <pre><code class="language-bash">:r !echo &apos;SELECT name, email FROM users ORDER BY created_at DESC LIMIT 10;&apos; | mysql -u root -p app_db</code></pre>
     </div>
   </div>
 
 <p>This will insert the result of the query into the file.</p>
 
 <blockquote>
-  <p>See <code class="highlighter-rouge">:help :read</code> for more details.</p>
+  <p>See <code>:help :read</code> for more details.</p>
 </blockquote>
 
     </div>

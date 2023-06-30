@@ -52,12 +52,12 @@
     </div>
     <div class="blog-body large-12 cell">
       <p>If you are writing a custom function in Vimscript that operates on a range, 
-you may not want to rely on the <code class="highlighter-rouge">'&lt;,'&gt;</code> range to get the visual selection
+you may not want to rely on the <code>'&lt;,'&gt;</code> range to get the visual selection
 because it can also refer the <em>previous</em> selection which you are no longer
 interested in.</p>
 
 <p>To ensure that you are only operating on the <em>current</em> visual selection, mark
-your function as a range function by adding <code class="highlighter-rouge">range</code> after the argument list:
+your function as a range function by adding <code>range</code> after the argument list:
 <!--stop--></p>
 
 <div class="code-section">
@@ -70,8 +70,8 @@ your function as a range function by adding <code class="highlighter-rouge">rang
     <div class="large-12 columns">
       <pre><code class="language-vim">&quot;Convert GitHub-Flavored Markdown syntax-highlighting to Liquid syntax-highlighting.
 function! ConvertToLiquidHighlighting() range
-  silent! execute a:firstline . &quot;,&quot; . a:lastline . 's/^```\([a-z]\+\)$/{% highlight \1 %}/g'
-  silent! execute a:firstline . &quot;,&quot; . a:lastline . 's/^```$/{% endhighlight %}/g'
+  silent! execute a:firstline . &quot;,&quot; . a:lastline . &apos;s/^```\([a-z]\+\)$/{% highlight \1 %}/g&apos;
+  silent! execute a:firstline . &quot;,&quot; . a:lastline . &apos;s/^```$/{% endhighlight %}/g&apos;
 endfunction
 
 &quot;Convert within visual selection
@@ -82,12 +82,12 @@ nnoremap &lt;leader&gt;H  :0,$call ConvertToLiquidHighlighting()&lt;cr&gt;</code
   </div>
 </div>
 
-<p>With the <code class="highlighter-rouge">range</code> keyword in place, the <code class="highlighter-rouge">a:firstline</code> and <code class="highlighter-rouge">a:lastline</code> will be available within
+<p>With the <code>range</code> keyword in place, the <code>a:firstline</code> and <code>a:lastline</code> will be available within
 the function and will contain the line numbers of
 the current visual selection’s first line and the last line, respectively.</p>
 
 <blockquote>
-  <p><code class="highlighter-rouge">:help func-range</code> for more info.</p>
+  <p><code>:help func-range</code> for more info.</p>
 </blockquote>
 
     </div>

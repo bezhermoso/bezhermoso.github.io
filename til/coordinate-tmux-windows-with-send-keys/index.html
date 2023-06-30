@@ -51,28 +51,28 @@
       </div>
     </div>
     <div class="blog-body large-12 cell">
-      <p>I use <code class="highlighter-rouge">tmux</code> throughout the day and booting up Vagrant machines is a constant part of my daily workflow. Oftentimes I want to create two additional splits: one for SSHing into the machine/containers, and the other one to display some real-time logs. I used to wait until the Vagrant machine is all booted up before I can manually create the splits and type in the commands – until I learned about <code class="highlighter-rouge">send-keys</code>:
+      <p>I use <code>tmux</code> throughout the day and booting up Vagrant machines is a constant part of my daily workflow. Oftentimes I want to create two additional splits: one for SSHing into the machine/containers, and the other one to display some real-time logs. I used to wait until the Vagrant machine is all booted up before I can manually create the splits and type in the commands – until I learned about <code>send-keys</code>:
 <!--stop--></p>
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
       <pre><code class="language-bash">vagrant up \
 &amp;&amp; tmux split-window -h -c &quot;$PWD&quot;; tmux send-keys -t 2 &quot;vagrant ssh&quot; C-j \
-&amp;&amp; tmux split-window -h -c &quot;$PWD&quot;; tmux send-keys -t 3 &quot;vagrant ssh -c 'tail -f /var/logs/app.log'&quot; C-j \
+&amp;&amp; tmux split-window -h -c &quot;$PWD&quot;; tmux send-keys -t 3 &quot;vagrant ssh -c &apos;tail -f /var/logs/app.log&apos;&quot; C-j \
 &amp;&amp; tmux select-layout even-horizontal \
 &amp;&amp; tmux split-window -v -c &quot;$PWD&quot;; tmux send-keys -t 4 &quot;vagrant rsync-auto&quot; C-j</code></pre>
     </div>
   </div>
 
-<p>Since these commands are ran sequentially, the commands executed within the new <code class="highlighter-rouge">tmux</code> splits are assured to work because the VM should already be up and running.</p>
+<p>Since these commands are ran sequentially, the commands executed within the new <code>tmux</code> splits are assured to work because the VM should already be up and running.</p>
 
-<p>This is very useful when you are using something like <code class="highlighter-rouge">tmuxinator</code> to manage and automate the creation of <code class="highlighter-rouge">tmux</code> sessions on a project-to-project basis.</p>
+<p>This is very useful when you are using something like <code>tmuxinator</code> to manage and automate the creation of <code>tmux</code> sessions on a project-to-project basis.</p>
 
 <blockquote>
-  <p><code class="highlighter-rouge">tmux select-layout even-horizontal</code> will even out the width of the horizontal splits before the vertical split is created. This assures that you get nicely spaced-out windows.</p>
+  <p><code>tmux select-layout even-horizontal</code> will even out the width of the horizontal splits before the vertical split is created. This assures that you get nicely spaced-out windows.</p>
 
-  <p>See <code class="highlighter-rouge">man tmux</code> and <a href="https://github.com/tmuxinator/tmuxinator"><code class="highlighter-rouge">tmuxinator</code></a>.</p>
+  <p>See <code>man tmux</code> and <a href="https://github.com/tmuxinator/tmuxinator"><code>tmuxinator</code></a>.</p>
 </blockquote>
 
 

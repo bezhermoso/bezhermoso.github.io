@@ -6,17 +6,17 @@
 </description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 29 Jun 2023 08:30:35 -0700</pubDate>
-    <lastBuildDate>Thu, 29 Jun 2023 08:30:35 -0700</lastBuildDate>
-    <generator>Jekyll v3.2.1</generator>
+    <pubDate>Fri, 30 Jun 2023 01:06:41 -0700</pubDate>
+    <lastBuildDate>Fri, 30 Jun 2023 01:06:41 -0700</lastBuildDate>
+    <generator>Jekyll v4.3.2</generator>
     
       <item>
-        <title>Jump back up to your Git repo's root directory</title>
-        <description>&lt;p&gt;You want to jump back up to your project’s root directory from who knows many levels down. What would you do? Figure out the right amount of levels to &lt;code class=&quot;highlighter-rouge&quot;&gt;cd ../../..&lt;/code&gt; up? Run &lt;code class=&quot;highlighter-rouge&quot;&gt;cd ..&lt;/code&gt; repeatedly until you get there? or run &lt;code class=&quot;highlighter-rouge&quot;&gt;cd&lt;/code&gt; to an absolute path directly?&lt;/p&gt;
+        <title>Jump back up to your Git repo&apos;s root directory</title>
+        <description>&lt;p&gt;You want to jump back up to your project’s root directory from who knows many levels down. What would you do? Figure out the right amount of levels to &lt;code&gt;cd ../../..&lt;/code&gt; up? Run &lt;code&gt;cd ..&lt;/code&gt; repeatedly until you get there? or run &lt;code&gt;cd&lt;/code&gt; to an absolute path directly?&lt;/p&gt;
 
 &lt;p&gt;If your project is managed with Git, here is a smarter way:&lt;/p&gt;
 
-&lt;div class=&quot;padded&quot;&gt;
+&lt;div class=&quot;grid-container&quot;&gt;
     &lt;div class=&quot;terminal&quot;&gt;
       &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
@@ -24,43 +24,43 @@
     &lt;/div&gt;
   &lt;/div&gt;
 
-&lt;p&gt;The command &lt;code class=&quot;highlighter-rouge&quot;&gt;git rev-parse --show-toplevel&lt;/code&gt; is a Git plumbing command that outputs the absolute path of the Git repository root of the project you are in. Therefore the most straight-forward form is to use its result as the argument for &lt;code class=&quot;highlighter-rouge&quot;&gt;cd&lt;/code&gt;. &lt;strong&gt;No more repeating commands, figuring out exactly how far up the root is, or having to type out paths!&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The command &lt;code&gt;git rev-parse --show-toplevel&lt;/code&gt; is a Git plumbing command that outputs the absolute path of the Git repository root of the project you are in. Therefore the most straight-forward form is to use its result as the argument for &lt;code&gt;cd&lt;/code&gt;. &lt;strong&gt;No more repeating commands, figuring out exactly how far up the root is, or having to type out paths!&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;The next obvious step is to make an alias of that command in your &lt;code class=&quot;highlighter-rouge&quot;&gt;.bashrc&lt;/code&gt; or equivalent file:&lt;/p&gt;
+&lt;p&gt;The next obvious step is to make an alias of that command in your &lt;code&gt;.bashrc&lt;/code&gt; or equivalent file:&lt;/p&gt;
 
-&lt;div class=&quot;padded&quot;&gt;
+&lt;div class=&quot;grid-container&quot;&gt;
     &lt;div class=&quot;terminal&quot;&gt;
       &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
       &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# Mnemonic: `gr` == `git root`
-# Also note the single-quotes; you don't want the sub-command to run on alias definition!
-alias gr='cd $(git rev-parse --show-toplevel)'&lt;/code&gt;&lt;/pre&gt;
+# Also note the single-quotes; you don&amp;apos;t want the sub-command to run on alias definition!
+alias gr=&amp;apos;cd $(git rev-parse --show-toplevel)&amp;apos;&lt;/code&gt;&lt;/pre&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 
-&lt;p&gt;From here on out, just run &lt;code class=&quot;highlighter-rouge&quot;&gt;gr&lt;/code&gt; anytime you need to jump all the way up to your project root.&lt;/p&gt;
+&lt;p&gt;From here on out, just run &lt;code&gt;gr&lt;/code&gt; anytime you need to jump all the way up to your project root.&lt;/p&gt;
 
 &lt;p&gt;We can take it a little further…&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;What used to be this &lt;code class=&quot;highlighter-rouge&quot;&gt;gr&lt;/code&gt; alias on my rc file evolved into a full-on shell function that handles some edge-cases:&lt;/p&gt;
+&lt;p&gt;What used to be this &lt;code&gt;gr&lt;/code&gt; alias on my rc file evolved into a full-on shell function that handles some edge-cases:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;Do nothing when I’m not in the project root instead of spitting an error and jumping to &lt;code class=&quot;highlighter-rouge&quot;&gt;/&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Do nothing when I’m not in the project root instead of spitting an error and jumping to &lt;code&gt;/&lt;/code&gt;&lt;/li&gt;
   &lt;li&gt;Be smart with Git submodules: if already in a repo’s root, jump up to the nearest parent repo in the tree, if any.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Here it is in it’s current form in my rc file (&lt;a href=&quot;https://github.com/bezhermoso/jump-to-git-root&quot;&gt;I hosted this on Github&lt;/a&gt; if you’d like to clone it instead):&lt;/p&gt;
 
-&lt;div class=&quot;padded&quot;&gt;
+&lt;div class=&quot;grid-container&quot;&gt;
     &lt;div class=&quot;terminal&quot;&gt;
       &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
       &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;function jump-to-git-root {
   local _root_dir=&amp;quot;$(git rev-parse --show-toplevel 2&amp;gt;/dev/null)&amp;quot;
   if [[ $? -gt 0 ]]; then
-    &amp;gt;&amp;amp;2 echo 'Not a Git repo!'
+    &amp;gt;&amp;amp;2 echo &amp;apos;Not a Git repo!&amp;apos;
     exit 1
   fi
   local _pwd=$(pwd)
@@ -95,15 +95,15 @@ alias gr=jump-to-git-root&lt;/code&gt;&lt;/pre&gt;
     
       <item>
         <title>Improved tmux experience</title>
-        <description>&lt;p&gt;If there is one tool I use the most, it has to be &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt;. I do almost everything &lt;em&gt;in&lt;/em&gt; it.&lt;/p&gt;
+        <description>&lt;p&gt;If there is one tool I use the most, it has to be &lt;code&gt;tmux&lt;/code&gt;. I do almost everything &lt;em&gt;in&lt;/em&gt; it.&lt;/p&gt;
 
-&lt;p&gt;However, as useful as it is, I feel like its not very user-friendly out-of-the-box. This post is a collection of things in my &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.tmux.conf&lt;/code&gt; that makes &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; easier to use and to bring its more powerful capabilities within closer reach.&lt;/p&gt;
+&lt;p&gt;However, as useful as it is, I feel like its not very user-friendly out-of-the-box. This post is a collection of things in my &lt;code&gt;~/.tmux.conf&lt;/code&gt; that makes &lt;code&gt;tmux&lt;/code&gt; easier to use and to bring its more powerful capabilities within closer reach.&lt;/p&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;a-better-prefix&quot;&gt;A better prefix&lt;/h2&gt;
 
-&lt;div class=&quot;padded&quot;&gt;
+&lt;div class=&quot;grid-container&quot;&gt;
     &lt;div class=&quot;terminal&quot;&gt;
       &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
@@ -111,10 +111,10 @@ alias gr=jump-to-git-root&lt;/code&gt;&lt;/pre&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;C-s&lt;/code&gt; requires far less finger-flinging than the default &lt;code class=&quot;highlighter-rouge&quot;&gt;C-b&lt;/code&gt; – the keys are close enough together, and it doesn’t conflict with any key-sequence I commonly use. This is extra awesome with &lt;code class=&quot;highlighter-rouge&quot;&gt;Capslock&lt;/code&gt; mapped to &lt;code class=&quot;highlighter-rouge&quot;&gt;Ctrl&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;C-s&lt;/code&gt; requires far less finger-flinging than the default &lt;code&gt;C-b&lt;/code&gt; – the keys are close enough together, and it doesn’t conflict with any key-sequence I commonly use. This is extra awesome with &lt;code&gt;Capslock&lt;/code&gt; mapped to &lt;code&gt;Ctrl&lt;/code&gt;.&lt;/p&gt;
 
 &lt;blockquote&gt;
-  &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Ctrl + s&lt;/code&gt; is typically bound in terminals to “stop output to screen”. I can live without it, as entering  “Visual Mode” in &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; is a functional alternative.&lt;/p&gt;
+  &lt;p&gt;&lt;code&gt;Ctrl + s&lt;/code&gt; is typically bound in terminals to “stop output to screen”. I can live without it, as entering  “Visual Mode” in &lt;code&gt;tmux&lt;/code&gt; is a functional alternative.&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
@@ -123,9 +123,9 @@ alias gr=jump-to-git-root&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Support for copying and pasting to the system clipboard doesn’t quite work on macOS. Thankfully, getting it to work takes very little effort.&lt;/p&gt;
 
-&lt;p&gt;First you need to install the &lt;code class=&quot;highlighter-rouge&quot;&gt;reattach-to-user-namespace&lt;/code&gt; program. You can grab it straight from Homebrew:&lt;/p&gt;
+&lt;p&gt;First you need to install the &lt;code&gt;reattach-to-user-namespace&lt;/code&gt; program. You can grab it straight from Homebrew:&lt;/p&gt;
 
-&lt;div class=&quot;padded&quot;&gt;
+&lt;div class=&quot;grid-container&quot;&gt;
     &lt;div class=&quot;terminal&quot;&gt;
       &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
@@ -133,15 +133,15 @@ alias gr=jump-to-git-root&lt;/code&gt;&lt;/pre&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 
-&lt;p&gt;Add this to &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.tmux.conf&lt;/code&gt; and you are off to the races:&lt;/p&gt;
+&lt;p&gt;Add this to &lt;code&gt;~/.tmux.conf&lt;/code&gt; and you are off to the races:&lt;/p&gt;
 
-&lt;div class=&quot;padded&quot;&gt;
+&lt;div class=&quot;grid-container&quot;&gt;
     &lt;div class=&quot;terminal&quot;&gt;
       &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
       &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# Check whether we are on macOS / OS X
-if-shell 'test &amp;quot;$(uname)&amp;quot; = &amp;quot;Darwin&amp;quot;' \
-  'set-option -g default-command &amp;quot;reattach-to-user-namespace -l zsh&amp;quot;' ''
+if-shell &amp;apos;test &amp;quot;$(uname)&amp;quot; = &amp;quot;Darwin&amp;quot;&amp;apos; \
+  &amp;apos;set-option -g default-command &amp;quot;reattach-to-user-namespace -l zsh&amp;quot;&amp;apos; &amp;apos;&amp;apos;
 
 # vi bindings in copy-mode
 setw -g mode-keys vi
@@ -156,30 +156,30 @@ bind-key -t vi-copy y copy-pipe &amp;quot;reattach-to-user-namespace pbcopy&amp;
 
 &lt;h2 id=&quot;intuitive-window-splitting&quot;&gt;Intuitive window splitting&lt;/h2&gt;
 
-&lt;div class=&quot;padded&quot;&gt;
+&lt;div class=&quot;grid-container&quot;&gt;
     &lt;div class=&quot;terminal&quot;&gt;
       &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
       &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# Horizontal split (left &amp;amp; right):
-bind-key \ split-window -h -c '#{pane_current_path}'
+bind-key \ split-window -h -c &amp;apos;#{pane_current_path}&amp;apos;
 # Verical split (top &amp;amp; bottom):
-bind-key - split-window -v -c '#{pane_current_path}'&lt;/code&gt;&lt;/pre&gt;
+bind-key - split-window -v -c &amp;apos;#{pane_current_path}&amp;apos;&lt;/code&gt;&lt;/pre&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 
-&lt;p&gt;Compared to the default &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;prefix&amp;gt; %&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;prefix&amp;gt; &quot;&lt;/code&gt;, these bindings makes which way splits occur &lt;em&gt;really&lt;/em&gt; obvious. The &lt;code class=&quot;highlighter-rouge&quot;&gt;-c #{pane_current_path}&lt;/code&gt; argument passed will start new splits in the same working directory you are on.&lt;/p&gt;
+&lt;p&gt;Compared to the default &lt;code&gt;&amp;lt;prefix&amp;gt; %&lt;/code&gt; and &lt;code&gt;&amp;lt;prefix&amp;gt; &quot;&lt;/code&gt;, these bindings makes which way splits occur &lt;em&gt;really&lt;/em&gt; obvious. The &lt;code&gt;-c #{pane_current_path}&lt;/code&gt; argument passed will start new splits in the same working directory you are on.&lt;/p&gt;
 
-&lt;p&gt;As of version 2.3, &lt;code class=&quot;highlighter-rouge&quot;&gt;split-window&lt;/code&gt; now understands the &lt;code class=&quot;highlighter-rouge&quot;&gt;-f&lt;/code&gt; flag, which indicates full-width or full-height splits. These are perfect when you want a “scratch” shell to appear on the bottom or to the right of everything else:&lt;/p&gt;
+&lt;p&gt;As of version 2.3, &lt;code&gt;split-window&lt;/code&gt; now understands the &lt;code&gt;-f&lt;/code&gt; flag, which indicates full-width or full-height splits. These are perfect when you want a “scratch” shell to appear on the bottom or to the right of everything else:&lt;/p&gt;
 
-&lt;div class=&quot;padded&quot;&gt;
+&lt;div class=&quot;grid-container&quot;&gt;
     &lt;div class=&quot;terminal&quot;&gt;
       &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
       &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# For tmux 2.3 or newer
 # Full-height horizontal split with 33% width:
-bind-key | split-window -fh -c '#{pane_current_path}' -p 33
+bind-key | split-window -fh -c &amp;apos;#{pane_current_path}&amp;apos; -p 33
 # Full-width vertical split with 33% height:
-bind-key _ split-window -fv -c '#{pane_current_path}' -p 33&lt;/code&gt;&lt;/pre&gt;
+bind-key _ split-window -fv -c &amp;apos;#{pane_current_path}&amp;apos; -p 33&lt;/code&gt;&lt;/pre&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 
@@ -187,7 +187,7 @@ bind-key _ split-window -fv -c '#{pane_current_path}' -p 33&lt;/code&gt;&lt;/pre
 
 &lt;h2 id=&quot;tiered-navigation-controls&quot;&gt;Tiered navigation controls&lt;/h2&gt;
 
-&lt;div class=&quot;padded&quot;&gt;
+&lt;div class=&quot;grid-container&quot;&gt;
     &lt;div class=&quot;terminal&quot;&gt;
       &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
@@ -203,27 +203,27 @@ bind-key -r l select-pane -R&lt;/code&gt;&lt;/pre&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 
-&lt;p&gt;Although the default &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;prefix&amp;gt; n&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;prefix&amp;gt; p&lt;/code&gt; are easier to remember (&lt;em&gt;“next”&lt;/em&gt; and &lt;em&gt;“previous”&lt;/em&gt;), I find moving between windows faster with &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;prefix&amp;gt; o&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;prefix&amp;gt; p&lt;/code&gt; as they are right next to each other. I happen to like vim-style cursor movements, so binding split navigations to &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;prefix&amp;gt; {h,j,k,l}&lt;/code&gt; is just logical.&lt;/p&gt;
+&lt;p&gt;Although the default &lt;code&gt;&amp;lt;prefix&amp;gt; n&lt;/code&gt; and &lt;code&gt;&amp;lt;prefix&amp;gt; p&lt;/code&gt; are easier to remember (&lt;em&gt;“next”&lt;/em&gt; and &lt;em&gt;“previous”&lt;/em&gt;), I find moving between windows faster with &lt;code&gt;&amp;lt;prefix&amp;gt; o&lt;/code&gt; and &lt;code&gt;&amp;lt;prefix&amp;gt; p&lt;/code&gt; as they are right next to each other. I happen to like vim-style cursor movements, so binding split navigations to &lt;code&gt;&amp;lt;prefix&amp;gt; {h,j,k,l}&lt;/code&gt; is just logical.&lt;/p&gt;
 
 &lt;p&gt;With this configuration,  the navigation controls are tiered:&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;&lt;strong&gt;&lt;em&gt;Pane navigation&lt;/em&gt;&lt;/strong&gt;: I can use home-row keys in vi-like bindings to move between panes in the current window.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;em&gt;Window navigation&lt;/em&gt;&lt;/strong&gt;: I can find &lt;code class=&quot;highlighter-rouge&quot;&gt;o&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;p&lt;/code&gt; right above the home-row keys to move between windows or “tabs” in the current session.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;&lt;em&gt;Session navigation&lt;/em&gt;&lt;/strong&gt;: Above &lt;code class=&quot;highlighter-rouge&quot;&gt;o&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;p&lt;/code&gt; I can use the parentheses keys to move between various sessions.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;em&gt;Window navigation&lt;/em&gt;&lt;/strong&gt;: I can find &lt;code&gt;o&lt;/code&gt; and &lt;code&gt;p&lt;/code&gt; right above the home-row keys to move between windows or “tabs” in the current session.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;em&gt;Session navigation&lt;/em&gt;&lt;/strong&gt;: Above &lt;code&gt;o&lt;/code&gt; and &lt;code&gt;p&lt;/code&gt; I can use the parentheses keys to move between various sessions.&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;blockquote&gt;
-  &lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;-r&lt;/code&gt; flag marks the bindings repeatable – this means they will not bring you out of prefix-mode after invocation, allowing you to repeat them or even invoke other bindings right after.&lt;/p&gt;
+  &lt;p&gt;The &lt;code&gt;-r&lt;/code&gt; flag marks the bindings repeatable – this means they will not bring you out of prefix-mode after invocation, allowing you to repeat them or even invoke other bindings right after.&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;moving-panes-to-another-window&quot;&gt;Moving panes to another window&lt;/h2&gt;
 
-&lt;p&gt;It’s possible to move panes between different windows using &lt;code class=&quot;highlighter-rouge&quot;&gt;join-pane&lt;/code&gt;. However it is slightly cumbersome to use (you have to pass in the window’s index as the &lt;code class=&quot;highlighter-rouge&quot;&gt;-t&lt;/code&gt; argument). However using &lt;code class=&quot;highlighter-rouge&quot;&gt;choose-window&lt;/code&gt; makes it as easy as selecting a window from a list:&lt;/p&gt;
+&lt;p&gt;It’s possible to move panes between different windows using &lt;code&gt;join-pane&lt;/code&gt;. However it is slightly cumbersome to use (you have to pass in the window’s index as the &lt;code&gt;-t&lt;/code&gt; argument). However using &lt;code&gt;choose-window&lt;/code&gt; makes it as easy as selecting a window from a list:&lt;/p&gt;
 
-&lt;div class=&quot;padded&quot;&gt;
+&lt;div class=&quot;grid-container&quot;&gt;
     &lt;div class=&quot;terminal&quot;&gt;
       &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
@@ -236,15 +236,15 @@ bind-key c-w choose-window -F &amp;quot;#{window_index}: #{window_name}&amp;quot
     &lt;/div&gt;
   &lt;/div&gt;
 
-&lt;p&gt;You can pick a window from a list and the current pane will be sent there as a horizontal split. &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;prefix&amp;gt; M&lt;/code&gt; will do the same, but will result in a vertical split.&lt;/p&gt;
+&lt;p&gt;You can pick a window from a list and the current pane will be sent there as a horizontal split. &lt;code&gt;&amp;lt;prefix&amp;gt; M&lt;/code&gt; will do the same, but will result in a vertical split.&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;prefix&amp;gt; C-w&lt;/code&gt; in will bring up a list of all windows. The current window will swap places with the one you select.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;&amp;lt;prefix&amp;gt; C-w&lt;/code&gt; in will bring up a list of all windows. The current window will swap places with the one you select.&lt;/p&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;resizing-panes&quot;&gt;Resizing panes&lt;/h2&gt;
 
-&lt;div class=&quot;padded&quot;&gt;
+&lt;div class=&quot;grid-container&quot;&gt;
     &lt;div class=&quot;terminal&quot;&gt;
       &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
@@ -256,16 +256,16 @@ bind-key -r C-l resize-pane -r 5&lt;/code&gt;&lt;/pre&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 
-&lt;p&gt;These binds &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;prefix&amp;gt; C-{h,j,k,l}&lt;/code&gt; to resize the current window by 5 columns or rows, depending on the direction. I find resizing 1 unit at a time takes a bit too long and I rarely need precise control. Resizing by 5 units is just right.&lt;/p&gt;
+&lt;p&gt;These binds &lt;code&gt;&amp;lt;prefix&amp;gt; C-{h,j,k,l}&lt;/code&gt; to resize the current window by 5 columns or rows, depending on the direction. I find resizing 1 unit at a time takes a bit too long and I rarely need precise control. Resizing by 5 units is just right.&lt;/p&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;natural-numbering&quot;&gt;Natural numbering&lt;/h2&gt;
 
-&lt;p&gt;Speaking of window indices, &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; starts numbering things at 0. Zero-based index is second nature to programmers and all, but the &lt;code class=&quot;highlighter-rouge&quot;&gt;0&lt;/code&gt; key does not appear next to &lt;code class=&quot;highlighter-rouge&quot;&gt;1&lt;/code&gt; on any keyboard. It’s awkward for this purpose.
-I think its more natural to have &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; starting counting from 1:&lt;/p&gt;
+&lt;p&gt;Speaking of window indices, &lt;code&gt;tmux&lt;/code&gt; starts numbering things at 0. Zero-based index is second nature to programmers and all, but the &lt;code&gt;0&lt;/code&gt; key does not appear next to &lt;code&gt;1&lt;/code&gt; on any keyboard. It’s awkward for this purpose.
+I think its more natural to have &lt;code&gt;tmux&lt;/code&gt; starting counting from 1:&lt;/p&gt;
 
-&lt;div class=&quot;padded&quot;&gt;
+&lt;div class=&quot;grid-container&quot;&gt;
     &lt;div class=&quot;terminal&quot;&gt;
       &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
@@ -280,9 +280,9 @@ set -g renumber-windows on&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&quot;closing-panes--windows&quot;&gt;Closing panes &amp;amp; windows&lt;/h2&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;prefix&amp;gt; x&lt;/code&gt; to close the pane, &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;prefix&amp;gt; X&lt;/code&gt; to close the window, and &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;prefix&amp;gt; Q&lt;/code&gt; to quit the session:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;&amp;lt;prefix&amp;gt; x&lt;/code&gt; to close the pane, &lt;code&gt;&amp;lt;prefix&amp;gt; X&lt;/code&gt; to close the window, and &lt;code&gt;&amp;lt;prefix&amp;gt; Q&lt;/code&gt; to quit the session:&lt;/p&gt;
 
-&lt;div class=&quot;padded&quot;&gt;
+&lt;div class=&quot;grid-container&quot;&gt;
     &lt;div class=&quot;terminal&quot;&gt;
       &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
@@ -296,9 +296,9 @@ bind-key Q confirm-before -p &amp;quot;Kill session #S? (y/n)&amp;quot; kill-ses
 
 &lt;h2 id=&quot;synchronize-panes&quot;&gt;Synchronize panes&lt;/h2&gt;
 
-&lt;p&gt;Another neat trick that &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; can do is synchronizing key-strokes across all panes in a window. I thought &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;prefix&amp;gt; &amp;amp;&lt;/code&gt; is an apt binding to toggle the behavior:&lt;/p&gt;
+&lt;p&gt;Another neat trick that &lt;code&gt;tmux&lt;/code&gt; can do is synchronizing key-strokes across all panes in a window. I thought &lt;code&gt;&amp;lt;prefix&amp;gt; &amp;amp;&lt;/code&gt; is an apt binding to toggle the behavior:&lt;/p&gt;
 
-&lt;div class=&quot;padded&quot;&gt;
+&lt;div class=&quot;grid-container&quot;&gt;
     &lt;div class=&quot;terminal&quot;&gt;
       &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
@@ -308,7 +308,7 @@ bind-key Q confirm-before -p &amp;quot;Kill session #S? (y/n)&amp;quot; kill-ses
 
 &lt;hr /&gt;
 
-&lt;p&gt;For more, you can find my &lt;a href=&quot;https://github.com/bezhermoso/dotfiles/blob/master/tmux/tmux.conf&quot;&gt;full &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; configuration hosted on Github!&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;For more, you can find my &lt;a href=&quot;https://github.com/bezhermoso/dotfiles/blob/master/tmux/tmux.conf&quot;&gt;full &lt;code&gt;tmux&lt;/code&gt; configuration hosted on Github!&lt;/a&gt;.&lt;/p&gt;
 
 </description>
         <pubDate>Sat, 02 Jun 2018 00:00:00 -0700</pubDate>
@@ -320,11 +320,11 @@ bind-key Q confirm-before -p &amp;quot;Kill session #S? (y/n)&amp;quot; kill-ses
     
       <item>
         <title>vim-gnupg + Neovim + MacOS and how to get pinentry to work</title>
-        <description>&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;vim-gnupg&lt;/code&gt; provides transparent PGP encryption/decryption when editing &lt;code class=&quot;highlighter-rouge&quot;&gt;*.gpg&lt;/code&gt; &lt;em&gt;et al&lt;/em&gt; files with &lt;code class=&quot;highlighter-rouge&quot;&gt;vim&lt;/code&gt;. Sadly, if you are using a TTY-based pinentry your GNUPG setup like &lt;code class=&quot;highlighter-rouge&quot;&gt;pinentry-curses&lt;/code&gt;, &lt;a href=&quot;https://github.com/jamessan/vim-gnupg/issues/32&quot;&gt;it won’t work&lt;/a&gt; (with no fault from the plugin author).&lt;/p&gt;
+        <description>&lt;p&gt;&lt;code&gt;vim-gnupg&lt;/code&gt; provides transparent PGP encryption/decryption when editing &lt;code&gt;*.gpg&lt;/code&gt; &lt;em&gt;et al&lt;/em&gt; files with &lt;code&gt;vim&lt;/code&gt;. Sadly, if you are using a TTY-based pinentry your GNUPG setup like &lt;code&gt;pinentry-curses&lt;/code&gt;, &lt;a href=&quot;https://github.com/jamessan/vim-gnupg/issues/32&quot;&gt;it won’t work&lt;/a&gt; (with no fault from the plugin author).&lt;/p&gt;
 
-&lt;p&gt;The trick to get it to work is to somehow tell the &lt;code class=&quot;highlighter-rouge&quot;&gt;gpg-agent&lt;/code&gt; to use an external pinentry program when triggered by &lt;code class=&quot;highlighter-rouge&quot;&gt;vim-gnupg&lt;/code&gt;. For this, the &lt;code class=&quot;highlighter-rouge&quot;&gt;pinentry-mac&lt;/code&gt; program fits the bill:&lt;/p&gt;
+&lt;p&gt;The trick to get it to work is to somehow tell the &lt;code&gt;gpg-agent&lt;/code&gt; to use an external pinentry program when triggered by &lt;code&gt;vim-gnupg&lt;/code&gt;. For this, the &lt;code&gt;pinentry-mac&lt;/code&gt; program fits the bill:&lt;/p&gt;
 
-&lt;div class=&quot;padded&quot;&gt;
+&lt;div class=&quot;grid-container&quot;&gt;
     &lt;div class=&quot;terminal&quot;&gt;
       &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
@@ -332,9 +332,9 @@ bind-key Q confirm-before -p &amp;quot;Kill session #S? (y/n)&amp;quot; kill-ses
     &lt;/div&gt;
   &lt;/div&gt;
 
-&lt;p&gt;Configure &lt;code class=&quot;highlighter-rouge&quot;&gt;gpg-agent&lt;/code&gt; to use it as the pinentry program:&lt;/p&gt;
+&lt;p&gt;Configure &lt;code&gt;gpg-agent&lt;/code&gt; to use it as the pinentry program:&lt;/p&gt;
 
-&lt;div class=&quot;padded&quot;&gt;
+&lt;div class=&quot;grid-container&quot;&gt;
     &lt;div class=&quot;terminal&quot;&gt;
       &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
@@ -345,7 +345,7 @@ pinentry-program /usr/local/bin/pinentry-mac&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Configure your shell to use the TTY-based pinentry in most circumstances:&lt;/p&gt;
 
-&lt;div class=&quot;padded&quot;&gt;
+&lt;div class=&quot;grid-container&quot;&gt;
     &lt;div class=&quot;terminal&quot;&gt;
       &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
@@ -357,9 +357,9 @@ export PINENTRY_USER_DATA=&amp;quot;USE_CURSES=1&amp;quot;&lt;/code&gt;&lt;/pre&
     &lt;/div&gt;
   &lt;/div&gt;
 
-&lt;p&gt;Restart your terminal application (or source your config file), then restart the &lt;code class=&quot;highlighter-rouge&quot;&gt;gpg-agent&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;Restart your terminal application (or source your config file), then restart the &lt;code&gt;gpg-agent&lt;/code&gt;:&lt;/p&gt;
 
-&lt;div class=&quot;padded&quot;&gt;
+&lt;div class=&quot;grid-container&quot;&gt;
     &lt;div class=&quot;terminal&quot;&gt;
       &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
@@ -367,7 +367,7 @@ export PINENTRY_USER_DATA=&amp;quot;USE_CURSES=1&amp;quot;&lt;/code&gt;&lt;/pre&
     &lt;/div&gt;
   &lt;/div&gt;
 
-&lt;p&gt;Now it’s just a matter of configuring &lt;code class=&quot;highlighter-rouge&quot;&gt;vim-gnupg&lt;/code&gt; to override the &lt;code class=&quot;highlighter-rouge&quot;&gt;PINENTRY_USER_DATA&lt;/code&gt; so that PGP prompts will use the GUI pinentry:&lt;/p&gt;
+&lt;p&gt;Now it’s just a matter of configuring &lt;code&gt;vim-gnupg&lt;/code&gt; to override the &lt;code&gt;PINENTRY_USER_DATA&lt;/code&gt; so that PGP prompts will use the GUI pinentry:&lt;/p&gt;
 
 &lt;div class=&quot;code-section&quot;&gt;
   &lt;div class=&quot;filename&quot;&gt;
@@ -377,12 +377,12 @@ export PINENTRY_USER_DATA=&amp;quot;USE_CURSES=1&amp;quot;&lt;/code&gt;&lt;/pre&
   &lt;/div&gt;
   &lt;div class=&quot;row&quot;&gt;
     &lt;div class=&quot;large-12 columns&quot;&gt;
-      &lt;pre&gt;&lt;code class=&quot;language-vim&quot;&gt;let g:GPGExecutable = &amp;quot;PINENTRY_USER_DATA='' gpg --trust-model always&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-vim&quot;&gt;let g:GPGExecutable = &amp;quot;PINENTRY_USER_DATA=&amp;apos;&amp;apos; gpg --trust-model always&amp;quot;&lt;/code&gt;&lt;/pre&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;p&gt;Now, whenever you edit/write PGP encrypted files in Neovim, the GUI pinentry will be used and &lt;code class=&quot;highlighter-rouge&quot;&gt;vim-gnupg&lt;/code&gt; should start working as expected.&lt;/p&gt;
+&lt;p&gt;Now, whenever you edit/write PGP encrypted files in Neovim, the GUI pinentry will be used and &lt;code&gt;vim-gnupg&lt;/code&gt; should start working as expected.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/img/pinentry-mac.png&quot; alt=&quot;GUI pinentry from pinentry-mac&quot; /&gt;&lt;/p&gt;
 </description>
@@ -395,11 +395,11 @@ export PINENTRY_USER_DATA=&amp;quot;USE_CURSES=1&amp;quot;&lt;/code&gt;&lt;/pre&
     
       <item>
         <title>Escaping backticks with the zsh line editor</title>
-        <description>&lt;p&gt;I just wrote my very first &lt;code class=&quot;highlighter-rouge&quot;&gt;zsh&lt;/code&gt; plugin this week, and it has proven to be quite useful – I like to wrap identifiers/symbols in commit messages with backticks and often-times neglect to escape them. This would result in the identifier/symbol being evaluated, which is not what I want to happen.&lt;/p&gt;
+        <description>&lt;p&gt;I just wrote my very first &lt;code&gt;zsh&lt;/code&gt; plugin this week, and it has proven to be quite useful – I like to wrap identifiers/symbols in commit messages with backticks and often-times neglect to escape them. This would result in the identifier/symbol being evaluated, which is not what I want to happen.&lt;/p&gt;
 
 &lt;p&gt;Here is my solution:&lt;/p&gt;
 
-&lt;div class=&quot;padded&quot;&gt;
+&lt;div class=&quot;grid-container&quot;&gt;
     &lt;div class=&quot;terminal&quot;&gt;
       &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
@@ -407,11 +407,11 @@ export PINENTRY_USER_DATA=&amp;quot;USE_CURSES=1&amp;quot;&lt;/code&gt;&lt;/pre&
 function expand-double-backtick-to-escaped-backtick {
   if [[ $LBUFFER = *[^\\]\` ]]; then
     zle backward-delete-char
-    LBUFFER+='\`'
+    LBUFFER+=&amp;apos;\`&amp;apos;
     # Bind backspace to something that undos the escape.
-    bindkey '^?' undo-escaped-backtick-or-backward-delete-char
+    bindkey &amp;apos;^?&amp;apos; undo-escaped-backtick-or-backward-delete-char
   else
-    LBUFFER+='`'
+    LBUFFER+=&amp;apos;`&amp;apos;
   fi
 }
 
@@ -420,10 +420,10 @@ function undo-escaped-backtick-or-backward-delete-char {
     # If chars to the left is an escaped backtick, unescape it.
     zle backward-delete-char
     zle backward-delete-char
-    LBUFFER+='`'
+    LBUFFER+=&amp;apos;`&amp;apos;
   fi
   # Rebind backspace to default behavior
-  bindkey '^?' backward-delete-char
+  bindkey &amp;apos;^?&amp;apos; backward-delete-char
 }
 
 zle -N expand-double-backtick-to-escaped-backtick
@@ -435,11 +435,11 @@ bindkey &amp;quot;\`&amp;quot; expand-double-backtick-to-escaped-backtick&lt;/co
 
 &lt;!--stop--&gt;
 
-&lt;p&gt;Now when I need an escaped backtick, I only have to type the backtick character twice. Also, hitting &lt;code class=&quot;highlighter-rouge&quot;&gt;Backspace&lt;/code&gt; will undo the escaping instead of leaving me with just a backslash.&lt;/p&gt;
+&lt;p&gt;Now when I need an escaped backtick, I only have to type the backtick character twice. Also, hitting &lt;code&gt;Backspace&lt;/code&gt; will undo the escaping instead of leaving me with just a backslash.&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;I have put this script in a Git repo which you can find here: &lt;a href=&quot;https://github.com/bezhermoso/zsh-escape-backtick&quot;&gt;https://github.com/bezhermoso/zsh-escape-backtick&lt;/a&gt;. If you want to try it, just clone it and source &lt;code class=&quot;highlighter-rouge&quot;&gt;escape-backtick.zsh&lt;/code&gt; and you should be good to go.&lt;/p&gt;
+&lt;p&gt;I have put this script in a Git repo which you can find here: &lt;a href=&quot;https://github.com/bezhermoso/zsh-escape-backtick&quot;&gt;https://github.com/bezhermoso/zsh-escape-backtick&lt;/a&gt;. If you want to try it, just clone it and source &lt;code&gt;escape-backtick.zsh&lt;/code&gt; and you should be good to go.&lt;/p&gt;
 
 </description>
         <pubDate>Tue, 28 Feb 2017 00:00:00 -0800</pubDate>
@@ -459,7 +459,7 @@ bindkey &amp;quot;\`&amp;quot; expand-double-backtick-to-escaped-backtick&lt;/co
     &lt;ul&gt;
       &lt;li&gt;Name: Anything you like (i.e. &lt;em&gt;“Subreddit”&lt;/em&gt;)&lt;/li&gt;
       &lt;li&gt;Keyword: &lt;strong&gt;r&lt;/strong&gt;&lt;/li&gt;
-      &lt;li&gt;URL: &lt;code class=&quot;highlighter-rouge&quot;&gt;https://reddit.com/r/%s&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;URL: &lt;code&gt;https://reddit.com/r/%s&lt;/code&gt;&lt;/li&gt;
     &lt;/ul&gt;
 
     &lt;p&gt;&lt;br /&gt;
@@ -482,12 +482,12 @@ bindkey &amp;quot;\`&amp;quot; expand-double-backtick-to-escaped-backtick&lt;/co
 &lt;ul&gt;
   &lt;li&gt;Name: Jira&lt;/li&gt;
   &lt;li&gt;Keyword: &lt;strong&gt;j&lt;/strong&gt;&lt;/li&gt;
-  &lt;li&gt;URL: &lt;code class=&quot;highlighter-rouge&quot;&gt;https://&amp;lt;ORG NAME&amp;gt;.atlassian.net/browse/%s&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;URL: &lt;code&gt;https://&amp;lt;ORG NAME&amp;gt;.atlassian.net/browse/%s&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;This will allow you to quickly navigate to any project or issue via typing &lt;em&gt;“j”&lt;/em&gt;, hitting &lt;em&gt;Tab&lt;/em&gt;, followed by the project/issue number in the &lt;em&gt;Address Bar&lt;/em&gt;.&lt;/p&gt;
 
-&lt;p&gt;You are also not limited to create substitutions to the path segment of URLs; you can configure it to fill in any part of URLs; for example, &lt;code class=&quot;highlighter-rouge&quot;&gt;https://%s.google.com&lt;/code&gt; will let you switch to the various Google services, etc.&lt;/p&gt;
+&lt;p&gt;You are also not limited to create substitutions to the path segment of URLs; you can configure it to fill in any part of URLs; for example, &lt;code&gt;https://%s.google.com&lt;/code&gt; will let you switch to the various Google services, etc.&lt;/p&gt;
 
 </description>
         <pubDate>Sun, 08 Jan 2017 00:00:00 -0800</pubDate>
@@ -499,9 +499,9 @@ bindkey &amp;quot;\`&amp;quot; expand-double-backtick-to-escaped-backtick&lt;/co
     
       <item>
         <title>Protip: copy files and/or directories from a Docker image</title>
-        <description>&lt;p&gt;I found myself needing to copy a bunch of files and directories straight from a Docker image. There is a trivial solution in the form of &lt;code class=&quot;highlighter-rouge&quot;&gt;docker cp&lt;/code&gt;, but I came up with an alternative using &lt;code class=&quot;highlighter-rouge&quot;&gt;docker run&lt;/code&gt;:&lt;/p&gt;
+        <description>&lt;p&gt;I found myself needing to copy a bunch of files and directories straight from a Docker image. There is a trivial solution in the form of &lt;code&gt;docker cp&lt;/code&gt;, but I came up with an alternative using &lt;code&gt;docker run&lt;/code&gt;:&lt;/p&gt;
 
-&lt;div class=&quot;padded&quot;&gt;
+&lt;div class=&quot;grid-container&quot;&gt;
     &lt;div class=&quot;terminal&quot;&gt;
       &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
@@ -511,23 +511,23 @@ bindkey &amp;quot;\`&amp;quot; expand-double-backtick-to-escaped-backtick&lt;/co
   &lt;/div&gt;
 
 &lt;blockquote&gt;
-  &lt;p&gt;This obviously relies on the the container having &lt;code class=&quot;highlighter-rouge&quot;&gt;tar&lt;/code&gt; installed.&lt;/p&gt;
+  &lt;p&gt;This obviously relies on the the container having &lt;code&gt;tar&lt;/code&gt; installed.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;This alternative has a few advantages over &lt;code class=&quot;highlighter-rouge&quot;&gt;docker cp&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;This alternative has a few advantages over &lt;code&gt;docker cp&lt;/code&gt;:&lt;/p&gt;
 
 &lt;!--stop--&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;docker cp&lt;/code&gt; requires absolute paths. This supports paths relative to the image’s &lt;code class=&quot;highlighter-rouge&quot;&gt;WORKDIR&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;docker cp&lt;/code&gt; copies from a container, not an image. This alternative does not require a running container, nor do you need to run &lt;code class=&quot;highlighter-rouge&quot;&gt;docker create&lt;/code&gt; and having to clean it up later (a container is still being created here, but the &lt;code class=&quot;highlighter-rouge&quot;&gt;--rm&lt;/code&gt; flag will take care of cleaning it up after use).&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;docker cp&lt;/code&gt; requires absolute paths. This supports paths relative to the image’s &lt;code&gt;WORKDIR&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;docker cp&lt;/code&gt; copies from a container, not an image. This alternative does not require a running container, nor do you need to run &lt;code&gt;docker create&lt;/code&gt; and having to clean it up later (a container is still being created here, but the &lt;code&gt;--rm&lt;/code&gt; flag will take care of cleaning it up after use).&lt;/li&gt;
   &lt;li&gt;You can copy multiple paths in one go.&lt;/li&gt;
-  &lt;li&gt;You get an progress/activity indicator for free, thanks to the &lt;code class=&quot;highlighter-rouge&quot;&gt;-v&lt;/code&gt; flag in the &lt;code class=&quot;highlighter-rouge&quot;&gt;tar&lt;/code&gt; command.  A list of filenames as they are being extracted to the destination folder.&lt;/li&gt;
+  &lt;li&gt;You get an progress/activity indicator for free, thanks to the &lt;code&gt;-v&lt;/code&gt; flag in the &lt;code&gt;tar&lt;/code&gt; command.  A list of filenames as they are being extracted to the destination folder.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;There is one &lt;em&gt;caveat&lt;/em&gt;, however: depending on your image’s configuration, you might encounter this error:&lt;/p&gt;
 
-&lt;div class=&quot;padded&quot;&gt;
+&lt;div class=&quot;grid-container&quot;&gt;
     &lt;div class=&quot;terminal&quot;&gt;
       &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
@@ -536,9 +536,9 @@ tar: Unrecognized archive format&lt;/code&gt;&lt;/pre&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 
-&lt;p&gt;This happens if you have an &lt;code class=&quot;highlighter-rouge&quot;&gt;ENTRYPOINT&lt;/code&gt; that is polluting the &lt;code class=&quot;highlighter-rouge&quot;&gt;tar&lt;/code&gt; output stream. If you can’t configure your &lt;code class=&quot;highlighter-rouge&quot;&gt;ENTRYPOINT&lt;/code&gt; to be completely silent when acting in “&lt;code class=&quot;highlighter-rouge&quot;&gt;bash&lt;/code&gt; pass-through mode”, you can chose to just bypass it during &lt;code class=&quot;highlighter-rouge&quot;&gt;docker run&lt;/code&gt; execution:&lt;/p&gt;
+&lt;p&gt;This happens if you have an &lt;code&gt;ENTRYPOINT&lt;/code&gt; that is polluting the &lt;code&gt;tar&lt;/code&gt; output stream. If you can’t configure your &lt;code&gt;ENTRYPOINT&lt;/code&gt; to be completely silent when acting in “&lt;code&gt;bash&lt;/code&gt; pass-through mode”, you can chose to just bypass it during &lt;code&gt;docker run&lt;/code&gt; execution:&lt;/p&gt;
 
-&lt;div class=&quot;padded&quot;&gt;
+&lt;div class=&quot;grid-container&quot;&gt;
     &lt;div class=&quot;terminal&quot;&gt;
       &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
@@ -548,13 +548,13 @@ tar: Unrecognized archive format&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h4 id=&quot;bonus&quot;&gt;Bonus&lt;/h4&gt;
 
-&lt;p&gt;This command can potentially produce a ton of output if you are copying a massive amount of files. You can, of course, omit the &lt;code class=&quot;highlighter-rouge&quot;&gt;-v&lt;/code&gt; flag from the &lt;code class=&quot;highlighter-rouge&quot;&gt;tar&lt;/code&gt; command. However, you can keep the &lt;code class=&quot;highlighter-rouge&quot;&gt;-v&lt;/code&gt; flag on but tack this to the end of the command:&lt;/p&gt;
+&lt;p&gt;This command can potentially produce a ton of output if you are copying a massive amount of files. You can, of course, omit the &lt;code&gt;-v&lt;/code&gt; flag from the &lt;code&gt;tar&lt;/code&gt; command. However, you can keep the &lt;code&gt;-v&lt;/code&gt; flag on but tack this to the end of the command:&lt;/p&gt;
 
-&lt;div class=&quot;padded&quot;&gt;
+&lt;div class=&quot;grid-container&quot;&gt;
     &lt;div class=&quot;terminal&quot;&gt;
       &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
-      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;2&amp;gt;&amp;amp;1 | while read l; do echo -ne &amp;quot;\033[2K\r$l&amp;quot;; done; echo '...done!'&lt;/code&gt;&lt;/pre&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;2&amp;gt;&amp;amp;1 | while read l; do echo -ne &amp;quot;\033[2K\r$l&amp;quot;; done; echo &amp;apos;...done!&amp;apos;&lt;/code&gt;&lt;/pre&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 
@@ -570,11 +570,11 @@ tar: Unrecognized archive format&lt;/code&gt;&lt;/pre&gt;
     
       <item>
         <title>Protip: warn about file changes, deletions &amp; additions before rsync</title>
-        <description>&lt;p&gt;I wrote a shell script that wraps &lt;code class=&quot;highlighter-rouge&quot;&gt;rsync&lt;/code&gt; with a user prompt in cases where files are going to be added, deleted, or changed, which is a scenario when some work might get lost:&lt;/p&gt;
+        <description>&lt;p&gt;I wrote a shell script that wraps &lt;code&gt;rsync&lt;/code&gt; with a user prompt in cases where files are going to be added, deleted, or changed, which is a scenario when some work might get lost:&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;safe-rsync.sh&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;safe-rsync.sh&lt;/code&gt;:&lt;/p&gt;
 
-&lt;div class=&quot;padded&quot;&gt;
+&lt;div class=&quot;grid-container&quot;&gt;
     &lt;div class=&quot;terminal&quot;&gt;
       &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
@@ -582,7 +582,7 @@ tar: Unrecognized archive format&lt;/code&gt;&lt;/pre&gt;
 
 args=$@
 
-diffs=&amp;quot;$(rsync --dry-run --itemize-changes $args | grep '^[&amp;gt;&amp;lt;ch.][dfLDS]\|^\*deleting')&amp;quot;
+diffs=&amp;quot;$(rsync --dry-run --itemize-changes $args | grep &amp;apos;^[&amp;gt;&amp;lt;ch.][dfLDS]\|^\*deleting&amp;apos;)&amp;quot;
 
 if [ -z &amp;quot;$diffs&amp;quot; ]; then
   echo &amp;quot;Nothing to sync.&amp;quot;
@@ -603,21 +603,21 @@ esac&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3 id=&quot;usage&quot;&gt;Usage&lt;/h3&gt;
 
-&lt;div class=&quot;padded&quot;&gt;
+&lt;div class=&quot;grid-container&quot;&gt;
     &lt;div class=&quot;terminal&quot;&gt;
       &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
-      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&amp;gt; ./safe-rsync.sh --exclude='node_modules/' --recursive --progress --verbose ubuntu@aws-server102:/var/www/html ./html&lt;/code&gt;&lt;/pre&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&amp;gt; ./safe-rsync.sh --exclude=&amp;apos;node_modules/&amp;apos; --recursive --progress --verbose ubuntu@aws-server102:/var/www/html ./html&lt;/code&gt;&lt;/pre&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 
-&lt;p&gt;To skip the dry-run and just &lt;code class=&quot;highlighter-rouge&quot;&gt;rsync&lt;/code&gt; regardless of any diffs:&lt;/p&gt;
+&lt;p&gt;To skip the dry-run and just &lt;code&gt;rsync&lt;/code&gt; regardless of any diffs:&lt;/p&gt;
 
-&lt;div class=&quot;padded&quot;&gt;
+&lt;div class=&quot;grid-container&quot;&gt;
     &lt;div class=&quot;terminal&quot;&gt;
       &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
-      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&amp;gt; yes | ./safe-rsync.sh --exclude='node_modules/' --recursive --progress --verbose ubuntu@aws-server102:/var/www/html ./html&lt;/code&gt;&lt;/pre&gt;
+      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&amp;gt; yes | ./safe-rsync.sh --exclude=&amp;apos;node_modules/&amp;apos; --recursive --progress --verbose ubuntu@aws-server102:/var/www/html ./html&lt;/code&gt;&lt;/pre&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 
@@ -650,7 +650,7 @@ are written in Lua.
     you already have a leg up on the rest.
     &lt;/p&gt;
     &lt;p&gt;
-    I find Lua's simplicity refreshing. I found it easy to pick up the basics of &lt;em&gt;Lua&lt;/em&gt; and start writing something in it, and was able to just learn more as I went. Functions are first-class citizens in Lua (can be passed around as arguments or as return values) so familiarity with functional programming paradigms goes a long way.
+    I find Lua&apos;s simplicity refreshing. I found it easy to pick up the basics of &lt;em&gt;Lua&lt;/em&gt; and start writing something in it, and was able to just learn more as I went. Functions are first-class citizens in Lua (can be passed around as arguments or as return values) so familiarity with functional programming paradigms goes a long way.
     &lt;/p&gt;
     &lt;/div&gt;
     &lt;div class=&quot;columns large-6&quot;&gt;
@@ -661,12 +661,12 @@ are written in Lua.
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
 &lt;p&gt;However, unlike Javascript and Ruby, Lua does not have a built-in
-functional library to do things like &lt;code class=&quot;highlighter-rouge&quot;&gt;map&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;filter&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;reduce&lt;/code&gt;,
-&lt;em&gt;etc.&lt;/em&gt;, but Hammerspoon comes with &lt;a href=&quot;http://www.hammerspoon.org/docs/hs.fnutils.html&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;hs.fnutils&lt;/code&gt;&lt;/a&gt; which provides a bunch of
+functional library to do things like &lt;code&gt;map&lt;/code&gt;, &lt;code&gt;filter&lt;/code&gt;, &lt;code&gt;reduce&lt;/code&gt;,
+&lt;em&gt;etc.&lt;/em&gt;, but Hammerspoon comes with &lt;a href=&quot;http://www.hammerspoon.org/docs/hs.fnutils.html&quot;&gt;&lt;code&gt;hs.fnutils&lt;/code&gt;&lt;/a&gt; which provides a bunch of
 functional utilities. Its not exhaustive, but its good enough for not-so-complex
 scripting which Hammerspoon falls into.&lt;/p&gt;
 
-&lt;h2 id=&quot;inside-my-hammerspooninitlua&quot;&gt;Inside my &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.hammerspoon/init.lua&lt;/code&gt;&lt;/h2&gt;
+&lt;h2 id=&quot;inside-my-hammerspooninitlua&quot;&gt;Inside my &lt;code&gt;~/.hammerspoon/init.lua&lt;/code&gt;&lt;/h2&gt;
 
 &lt;blockquote&gt;
   &lt;p&gt;OS X already comes with &lt;em&gt;Automator&lt;/em&gt;, which allows you to do automation on
@@ -684,7 +684,7 @@ Macs. But there are things that you  can’t do with &lt;em&gt;Automator&lt;/em&
 &lt;p&gt;I wanted to start small, so I picked a little annoyance I find myself battling with daily and aimed to solve it. One such annoyance pertains to switching focus between multiple displays:&lt;/p&gt;
 
 &lt;p&gt;I have a dual-display setup at work and I have all my GUI applications running on the
-primary display, with the exception of a couple of full-screen terminal windows running &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;vim&lt;/code&gt;, a &lt;code class=&quot;highlighter-rouge&quot;&gt;zsh&lt;/code&gt; shell, monitoring tools, logs, &lt;em&gt;etc.&lt;/em&gt; occupying the
+primary display, with the exception of a couple of full-screen terminal windows running &lt;code&gt;tmux&lt;/code&gt;, &lt;code&gt;vim&lt;/code&gt;, a &lt;code&gt;zsh&lt;/code&gt; shell, monitoring tools, logs, &lt;em&gt;etc.&lt;/em&gt; occupying the
 entirety of a secondary screen across multiple Spaces. I also have other full-screen applications
 living in their own Spaces on the primary display. My setup works really well for me most of the time, but
 there are certain combinations of circumstances on how applications are laid out across all
@@ -850,12 +850,12 @@ hs.urlevent.bind(&amp;quot;ramentime&amp;quot;, startRamenTimer)
   &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;p&gt;Hammerspoon’s &lt;code class=&quot;highlighter-rouge&quot;&gt;hs.urlevent&lt;/code&gt; is a beautiful thing: it allows you to bind some
-action to a URL with a &lt;code class=&quot;highlighter-rouge&quot;&gt;hammerspoon://&lt;/code&gt; scheme. This makes Hammerspoon actions
-almost universally accessible! In this case, opening &lt;code class=&quot;highlighter-rouge&quot;&gt;hammerspoon://ramentime&lt;/code&gt; will start the timer. Now, we can if we want create a bookmarklet on the browser’s
+&lt;p&gt;Hammerspoon’s &lt;code&gt;hs.urlevent&lt;/code&gt; is a beautiful thing: it allows you to bind some
+action to a URL with a &lt;code&gt;hammerspoon://&lt;/code&gt; scheme. This makes Hammerspoon actions
+almost universally accessible! In this case, opening &lt;code&gt;hammerspoon://ramentime&lt;/code&gt; will start the timer. Now, we can if we want create a bookmarklet on the browser’s
 toolbar pointing to it that when clicked will activate the timer.&lt;/p&gt;
 
-&lt;p&gt;Because of the portability of URL schemes, I was able to create a very basic &lt;em&gt;Alfred Workflow&lt;/em&gt; that triggers the timer. have to do is type &lt;code class=&quot;highlighter-rouge&quot;&gt;ramen&lt;/code&gt; into &lt;a href=&quot;https://www.alfredapp.com/&quot;&gt;&lt;strong&gt;Alfred&lt;/strong&gt;&lt;/a&gt; to ensure prime ramen all the time:&lt;/p&gt;
+&lt;p&gt;Because of the portability of URL schemes, I was able to create a very basic &lt;em&gt;Alfred Workflow&lt;/em&gt; that triggers the timer. have to do is type &lt;code&gt;ramen&lt;/code&gt; into &lt;a href=&quot;https://www.alfredapp.com/&quot;&gt;&lt;strong&gt;Alfred&lt;/strong&gt;&lt;/a&gt; to ensure prime ramen all the time:&lt;/p&gt;
 
 &lt;div class=&quot;text-center&quot;&gt;
 &lt;p&gt;
@@ -913,7 +913,7 @@ dismissal of notifications, and assigning a global hotkey to execute it.&lt;/p&g
 workflow within &lt;em&gt;Automator&lt;/em&gt; cause zero problems, but making it work through
 a keyboard shortcut is hit-and-miss. I found myself mucking around with accessibility settings in &lt;em&gt;System
 Preferences &amp;gt; Security &amp;amp; Privacy &amp;gt; Privacy&lt;/em&gt; a lot, adding system applications
-tucked away in &lt;code class=&quot;highlighter-rouge&quot;&gt;/Library/CoreServices/&lt;/code&gt; to the &lt;em&gt;Accessibility&lt;/em&gt; list before getting it to work for
+tucked away in &lt;code&gt;/Library/CoreServices/&lt;/code&gt; to the &lt;em&gt;Accessibility&lt;/em&gt; list before getting it to work for
 the first time, until I discovered that the service simply fails with no
 explanation when invoked while I have certain applications in focus.&lt;/p&gt;
 
@@ -922,7 +922,7 @@ explanation when invoked while I have certain applications in focus.&lt;/p&gt;
 &lt;div class=&quot;row&quot;&gt;
     &lt;div class=&quot;columns large-7 text-justify&quot;&gt;
     &lt;p&gt;
-        I'll also share additional workflows I wrote that allows you to perform more fine-grained actions like acting on one
+        I&apos;ll also share additional workflows I wrote that allows you to perform more fine-grained actions like acting on one
         notification item at a time, i.e. dismissing it, clicking it, or clicking on
         the secondary action if available. This is great for those alert notifications
         that supports quick reply:
@@ -1074,10 +1074,10 @@ it installed to accomplish similar tasks.&lt;/p&gt;
 &lt;p&gt;My mapping is as follows:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;⇧ ⌥ ⌘ ]&lt;/code&gt; - Dismiss all notifications&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;⌥ ⌘ ]&lt;/code&gt; - Dismiss top-most notification&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;⌥ ⌘ [&lt;/code&gt; - Click top-most notification&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;⌥ ⌘ '&lt;/code&gt; - Click secondary action on top-most notification&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;⇧ ⌥ ⌘ ]&lt;/code&gt; - Dismiss all notifications&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;⌥ ⌘ ]&lt;/code&gt; - Dismiss top-most notification&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;⌥ ⌘ [&lt;/code&gt; - Click top-most notification&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;⌥ ⌘ &apos;&lt;/code&gt; - Click secondary action on top-most notification&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;div class=&quot;row&quot;&gt;
@@ -1086,7 +1086,7 @@ it installed to accomplish similar tasks.&lt;/p&gt;
             &lt;em&gt;BetterTouchTool&lt;/em&gt; is a really handy application all in all that will allow you to map an unthinkable amount of things to keyboard
             shortcuts, mouse &amp;amp; trackpad gestures, and a bunch of other peripherals.
             It has been a free application for a very long time, but
-            it won't be long until the &lt;em&gt;&quot;pay as much as you want&quot;&lt;/em&gt; licensing model will take into
+            it won&apos;t be long until the &lt;em&gt;&quot;pay as much as you want&quot;&lt;/em&gt; licensing model will take into
             effect. But I highly recommend it.
         &lt;/p&gt;
         &lt;p&gt;
@@ -1121,15 +1121,15 @@ Mission Control &amp;gt; Turn Do Not Disturb On/Off&lt;/em&gt;
       <item>
         <title>Simple solution for tmux causing system freezes on Mac OS X</title>
         <description>&lt;blockquote&gt;
-  &lt;p&gt;&lt;strong&gt;2015-10-21 Update:&lt;/strong&gt; Version 2.1 of &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; has just been release a couple
+  &lt;p&gt;&lt;strong&gt;2015-10-21 Update:&lt;/strong&gt; Version 2.1 of &lt;code&gt;tmux&lt;/code&gt; has just been release a couple
 of days ago and from what I can tell it has addressed this fatal issue! So the
-simpler solution would be doing &lt;code class=&quot;highlighter-rouge&quot;&gt;brew upgrade tmux&lt;/code&gt; to get the recent release.
+simpler solution would be doing &lt;code&gt;brew upgrade tmux&lt;/code&gt; to get the recent release.
 If you are stuck using 2.0 however, I hope this post is helpful.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;What fixed it for me was adding a single line to my &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.zshrc&lt;/code&gt; and a single line to my &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.tmux.conf&lt;/code&gt; file:&lt;/p&gt;
+&lt;p&gt;What fixed it for me was adding a single line to my &lt;code&gt;~/.zshrc&lt;/code&gt; and a single line to my &lt;code&gt;~/.tmux.conf&lt;/code&gt; file:&lt;/p&gt;
 
-&lt;div class=&quot;padded&quot;&gt;
+&lt;div class=&quot;grid-container&quot;&gt;
     &lt;div class=&quot;terminal&quot;&gt;
       &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
@@ -1138,7 +1138,7 @@ tmux start-server&lt;/code&gt;&lt;/pre&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 
-&lt;div class=&quot;padded&quot;&gt;
+&lt;div class=&quot;grid-container&quot;&gt;
     &lt;div class=&quot;terminal&quot;&gt;
       &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
@@ -1148,16 +1148,16 @@ new-session&lt;/code&gt;&lt;/pre&gt;
   &lt;/div&gt;
 
 &lt;p&gt;It turns out, after trial and error, that the OS freezes (or in worst cases, kernel panics on older OS X versions) usually happen
-when you close the very last of all &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; pane of the very last &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; session.&lt;/p&gt;
+when you close the very last of all &lt;code&gt;tmux&lt;/code&gt; pane of the very last &lt;code&gt;tmux&lt;/code&gt; session.&lt;/p&gt;
 
-&lt;p&gt;With these additions to my config files, a &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; server is started with an empty &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; session whenever I fire up a terminal
-window for the first time. This means that I always have an empty &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt; session – still active although never used – even after
+&lt;p&gt;With these additions to my config files, a &lt;code&gt;tmux&lt;/code&gt; server is started with an empty &lt;code&gt;tmux&lt;/code&gt; session whenever I fire up a terminal
+window for the first time. This means that I always have an empty &lt;code&gt;tmux&lt;/code&gt; session – still active although never used – even after
 I exit out all the sessions I create on a daily basis.&lt;/p&gt;
 
-&lt;p&gt;I never had my MacBook Pro grind to a stop as soon as I close out all &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt;
+&lt;p&gt;I never had my MacBook Pro grind to a stop as soon as I close out all &lt;code&gt;tmux&lt;/code&gt;
 sessions and having to forcibly turn it off.&lt;/p&gt;
 
-&lt;p&gt;This does not fix &lt;code class=&quot;highlighter-rouge&quot;&gt;tmux&lt;/code&gt;, but is a simple work-around for a problem that has
+&lt;p&gt;This does not fix &lt;code&gt;tmux&lt;/code&gt;, but is a simple work-around for a problem that has
 a potential to incur data loss in the future.&lt;/p&gt;
 
 </description>

@@ -19,9 +19,9 @@
     
     <meta property="og:title" content="Documenting polymorphic collections in RESTful API endpoints with NelmioApiDocBundle" />
         
-        <meta property="og:description" content="Lately I’ve been using NelmioApiDocBundle to document REST APIs I implement in Symfony. This bundle generatesa beautiful documentation for your API endpoints, and it base them on the forms you use to gather input and also integrates with JmsSerializerBundleand document the output of the endpoints based on how you configure your entities to be serialized." />
+        <meta property="og:description" content="Lately I’ve been using NelmioApiDocBundle to document REST APIs I implement in Symfony. This bundle generatesa beautiful documentation for your API endpoints, and it base them on the forms you use to gather input and also integrates with JmsSerializerBundleand document the output of the endpoints based on how you configure your entities to be serialized.Usually NelmioApiDocBundle would just work out-of-the-box provided you added the right annotations properly on your controllers. However I discovered that documentingpolymorphic collections is a little tricky and requires some extra work.To illustrate the use-case:I have an /activities/recent.json endpoint that returns a list of recent activities which could be of different types:" />
         
-        <meta name="description" content="Lately I’ve been using NelmioApiDocBundle to document REST APIs I implement in Symfony. This bundle generatesa beautiful documentation for your API endpoints, and it base them on the forms you use to gather input and also integrates with JmsSerializerBundleand document the output of the endpoints based on how you configure your entities to be serialized." />
+        <meta name="description" content="Lately I’ve been using NelmioApiDocBundle to document REST APIs I implement in Symfony. This bundle generatesa beautiful documentation for your API endpoints, and it base them on the forms you use to gather input and also integrates with JmsSerializerBundleand document the output of the endpoints based on how you configure your entities to be serialized.Usually NelmioApiDocBundle would just work out-of-the-box provided you added the right annotations properly on your controllers. However I discovered that documentingpolymorphic collections is a little tricky and requires some extra work.To illustrate the use-case:I have an /activities/recent.json endpoint that returns a list of recent activities which could be of different types:" />
     
     <script src="/bundle.js"></script>
   </head>
@@ -47,17 +47,17 @@
         <time datetime="2014-08-11T00:00:00-07:00">11 Aug 2014</time>
       </div>
     </div>
-    <div class="blog-body large-12 columns">
+    <div class="blog-body large-12 cell">
       <p>Lately I’ve been using <a href="https://github.com/nelmio/NelmioApiDocBundle">NelmioApiDocBundle</a> to document REST APIs I implement in Symfony. This bundle generates
 a beautiful documentation for your API endpoints, and it base them on the forms you use to gather input and also integrates with <a href="https://github.com/schmittjoh/JmsSerializerBundle">JmsSerializerBundle</a>
 and document the output of the endpoints based on how you configure your entities to be serialized.</p>
 
-<p>Usually <code class="highlighter-rouge">NelmioApiDocBundle</code> would just work out-of-the-box provided you added the right annotations properly on your controllers. However I discovered that documenting
+<p>Usually <code>NelmioApiDocBundle</code> would just work out-of-the-box provided you added the right annotations properly on your controllers. However I discovered that documenting
 polymorphic collections is a little tricky and requires some extra work.</p>
 
 <p>To illustrate the use-case:</p>
 
-<p>I have an <code class="highlighter-rouge">/activities/recent.json</code> endpoint that returns a list of recent activities which could be of different types:</p>
+<p>I have an <code>/activities/recent.json</code> endpoint that returns a list of recent activities which could be of different types:</p>
 
 <!--stop-->
 
@@ -142,18 +142,18 @@ class ActivityCollection implements \IteratorAggregate, \Countable
  */
 public function recentsAction(Request $request)
 {
-    $recent = $this-&gt;get('activities')-&gt;getRecent();
+    $recent = $this-&gt;get(&apos;activities&apos;)-&gt;getRecent();
 
     /** $recent is something like:
      *   new ActivityCollection(array(
-     *       new UserActivity($actor, 'join', ...),
-     *       new InteractionActivity($actor, $actee, 'follow', ...),
-     *       new AnnouncementActivity('http://mysite.com/summer-sale'),
+     *       new UserActivity($actor, &apos;join&apos;, ...),
+     *       new InteractionActivity($actor, $actee, &apos;follow&apos;, ...),
+     *       new AnnouncementActivity(&apos;http://mysite.com/summer-sale&apos;),
      *   ));
      **/
 
     $serialized
-        = $this-&gt;serializer-&gt;serialize($recent, 'json', SerializationContext::create()-&gt;setGroups('REST'));
+        = $this-&gt;serializer-&gt;serialize($recent, &apos;json&apos;, SerializationContext::create()-&gt;setGroups(&apos;REST&apos;));
 
     return JsonResponse($serialized);
 
@@ -256,10 +256,10 @@ ActivityCollection:
   </div>
 </div>
 
-<p>However, because the serialization config for <code class="highlighter-rouge">ActivityCollection</code>’s <code class="highlighter-rouge">activities</code> field is only specified as <code class="highlighter-rouge">array</code>, <code class="highlighter-rouge">NelmioApiDocBundle</code> wouldn’t know the underlying
+<p>However, because the serialization config for <code>ActivityCollection</code>’s <code>activities</code> field is only specified as <code>array</code>, <code>NelmioApiDocBundle</code> wouldn’t know the underlying
 structure of its children. This results in a documentation that is not really descriptive.</p>
 
-<p>To fix this you would be tempted change the type to <code class="highlighter-rouge">array&lt;AbstractActivity&gt;</code>. As a matter of fact, this will result into <code class="highlighter-rouge">NelmioApiDocBundle</code> to describe <code class="highlighter-rouge">activities</code> a little more.
+<p>To fix this you would be tempted change the type to <code>array&lt;AbstractActivity&gt;</code>. As a matter of fact, this will result into <code>NelmioApiDocBundle</code> to describe <code>activities</code> a little more.
 However, this will only include fields from the abstract ancestor. But the worst part is that <strong>it breaks the serialization process</strong>:</p>
 
 <div class="code-section">
@@ -294,11 +294,11 @@ However, this will only include fields from the abstract ancestor. But the worst
   </div>
 </div>
 
-<p>Because we set it to <code class="highlighter-rouge">array&lt;AbstractActivity&gt;</code>, <code class="highlighter-rouge">jms-serializer</code> only serializes fields from <code class="highlighter-rouge">AbstractActivity</code>. It makes sense, but it is not what we really want.</p>
+<p>Because we set it to <code>array&lt;AbstractActivity&gt;</code>, <code>jms-serializer</code> only serializes fields from <code>AbstractActivity</code>. It makes sense, but it is not what we really want.</p>
 
 <h3 id="solution">Solution</h3>
 
-<p>The solution I opted with was to create a set of custom parsers that deals with documenting the <code class="highlighter-rouge">ActivityCollection</code> and the <code class="highlighter-rouge">AbstractActivity</code> class:</p>
+<p>The solution I opted with was to create a set of custom parsers that deals with documenting the <code>ActivityCollection</code> and the <code>AbstractActivity</code> class:</p>
 
 <div class="code-section">
   <div class="filename">
@@ -321,7 +321,7 @@ class AbstractActivityParser implements ParserInterface
 
     public function supports(array $item)
     {
-        return $item['class'] === 'AbstractActivity';
+        return $item[&apos;class&apos;] === &apos;AbstractActivity&apos;;
     }
 
     public function parse(array $item)
@@ -330,9 +330,9 @@ class AbstractActivityParser implements ParserInterface
 
         /* Hard-coded here for illustration purposes. Better if injected as constructor argument. */
         $subTypes = array(
-            'AnnouncementActivity',
-            'UserActivity',
-            'InteractionActivity',
+            &apos;AnnouncementActivity&apos;,
+            &apos;UserActivity&apos;,
+            &apos;InteractionActivity&apos;,
         );
 
         $extraParams = array();
@@ -341,15 +341,15 @@ class AbstractActivityParser implements ParserInterface
          * Loop through sub-types and extract extra fields.
          */
         foreach ($subTypes as $subType) {
-            $item['class'] = $subType;
+            $item[&apos;class&apos;] = $subType;
             /* Get only params that are not in $rootParams */
             $subParams = array_diff($this-&gt;parser-&gt;parse($item), $rootParams);
             $extraParams = array_merge_recursive($extraParams, $subParams);
         }
 
         foreach ($extraParams $name =&gt; $attributes) {
-            $attributes['required'] = false;
-            $attributes['description'] .= '(Available only on activities of certain type.)';
+            $attributes[&apos;required&apos;] = false;
+            $attributes[&apos;description&apos;] .= &apos;(Available only on activities of certain type.)&apos;;
             $rootParams[$name] = $attributes;
         }
 
@@ -368,24 +368,24 @@ class AbstractCollectionParser implements ParserInterface
 
     public function supports(array $item)
     {
-        return $item['class'] === 'AbstractCollection';
+        return $item[&apos;class&apos;] === &apos;AbstractCollection&apos;;
     }
 
     public function parse(array $item)
     {
-        $item['class'] = 'AbstractActivity';
+        $item[&apos;class&apos;] = &apos;AbstractActivity&apos;;
         $rootParams = $this-&gt;parser-&gt;parse($item);
 
         return array(
-            'matches' =&gt; array(
-                'dataType' =&gt; 'array of objects (Activity)',
-                'actualType' =&gt; DataTypes::COLLECTION,
-                'subType' =&gt; 'Activity',
-                'description' =&gt; 'array of activities',
-                'required' =&gt; true,
-                'readonly' =&gt; true,
-                'default' =&gt; null,
-                'children' =&gt; $rootParams,
+            &apos;matches&apos; =&gt; array(
+                &apos;dataType&apos; =&gt; &apos;array of objects (Activity)&apos;,
+                &apos;actualType&apos; =&gt; DataTypes::COLLECTION,
+                &apos;subType&apos; =&gt; &apos;Activity&apos;,
+                &apos;description&apos; =&gt; &apos;array of activities&apos;,
+                &apos;required&apos; =&gt; true,
+                &apos;readonly&apos; =&gt; true,
+                &apos;default&apos; =&gt; null,
+                &apos;children&apos; =&gt; $rootParams,
             ),
         );
     }
@@ -394,8 +394,8 @@ class AbstractCollectionParser implements ParserInterface
   </div>
 </div>
 
-<p>In concert, the API documentation for endpoints that return <code class="highlighter-rouge">AbstractActivity</code> will contain fields from sub-classes, and the documentation for <code class="highlighter-rouge">/activities/recent.json</code> will
-give more information on the underlying structure of <code class="highlighter-rouge">activities</code> items.</p>
+<p>In concert, the API documentation for endpoints that return <code>AbstractActivity</code> will contain fields from sub-classes, and the documentation for <code>/activities/recent.json</code> will
+give more information on the underlying structure of <code>activities</code> items.</p>
 
     </div>
   </div>

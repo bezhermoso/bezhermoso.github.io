@@ -18,8 +18,8 @@
     
     
     <meta content="Pro-tip: Dispatch multiple actions from a single ngrx @Effect stream" property="og:title">
-    <meta property="og:description" content="If you need a single @Effect stream to have multiple side-effects i.e. dispatch more than one action, you can use Rx.Observable.of in conjunection with mergeMap:                              import { Oservable } from &#39;rxjs/Observable&#39;;@Injectable()class Effects {   @Effect() loadList$ = this.actions$      .ofType(this.actions.LOAD_LIST)      .map(action =&amp;gt; action.payload)      .switchMap(id =&amp;gt; {          return this.service.list(id)            .map(res =&amp;gt; res.json())            .mergeMap(list =&amp;gt; this.actions.setList(list))            .mergeMap(action =&amp;gt; {               // Here we return an Observable that produces two actions, one after the other:               return Observable.of(action, this.actions.secondAction());            });            .catch(err =&amp;gt; this.errorActions.createWith(err))      })}        Note to self: concat seem to be the more obvious choice, but the concat operator is not available for reasons I don’t know." />
-    <meta name="description" content="If you need a single @Effect stream to have multiple side-effects i.e. dispatch more than one action, you can use Rx.Observable.of in conjunection with mergeMap:                              import { Oservable } from &#39;rxjs/Observable&#39;;@Injectable()class Effects {   @Effect() loadList$ = this.actions$      .ofType(this.actions.LOAD_LIST)      .map(action =&amp;gt; action.payload)      .switchMap(id =&amp;gt; {          return this.service.list(id)            .map(res =&amp;gt; res.json())            .mergeMap(list =&amp;gt; this.actions.setList(list))            .mergeMap(action =&amp;gt; {               // Here we return an Observable that produces two actions, one after the other:               return Observable.of(action, this.actions.secondAction());            });            .catch(err =&amp;gt; this.errorActions.createWith(err))      })}        Note to self: concat seem to be the more obvious choice, but the concat operator is not available for reasons I don’t know." />
+    <meta property="og:description" content="If you need a single @Effect stream to have multiple side-effects i.e. dispatch more than one action, you can use Rx.Observable.of in conjunection with mergeMap:                              import { Oservable } from &amp;apos;rxjs/Observable&amp;apos;;@Injectable()class Effects {   @Effect() loadList$ = this.actions$      .ofType(this.actions.LOAD_LIST)      .map(action =&amp;gt; action.payload)      .switchMap(id =&amp;gt; {          return this.service.list(id)            .map(res =&amp;gt; res.json())            .mergeMap(list =&amp;gt; this.actions.setList(list))            .mergeMap(action =&amp;gt; {               // Here we return an Observable that produces two actions, one after the other:               return Observable.of(action, this.actions.secondAction());            });            .catch(err =&amp;gt; this.errorActions.createWith(err))      })}        Note to self: concat seem to be the more obvious choice, but the concat operator is not available for reasons I don’t know." />
+    <meta name="description" content="If you need a single @Effect stream to have multiple side-effects i.e. dispatch more than one action, you can use Rx.Observable.of in conjunection with mergeMap:                              import { Oservable } from &amp;apos;rxjs/Observable&amp;apos;;@Injectable()class Effects {   @Effect() loadList$ = this.actions$      .ofType(this.actions.LOAD_LIST)      .map(action =&amp;gt; action.payload)      .switchMap(id =&amp;gt; {          return this.service.list(id)            .map(res =&amp;gt; res.json())            .mergeMap(list =&amp;gt; this.actions.setList(list))            .mergeMap(action =&amp;gt; {               // Here we return an Observable that produces two actions, one after the other:               return Observable.of(action, this.actions.secondAction());            });            .catch(err =&amp;gt; this.errorActions.createWith(err))      })}        Note to self: concat seem to be the more obvious choice, but the concat operator is not available for reasons I don’t know." />
     
     <script src="/bundle.js"></script>
   </head>
@@ -51,7 +51,7 @@
       </div>
     </div>
     <div class="blog-body large-12 cell">
-      <p>If you need a single <code class="highlighter-rouge">@Effect</code> stream to have multiple side-effects i.e. dispatch more than one action, you can use <code class="highlighter-rouge">Rx.Observable.of</code> in conjunection with <code class="highlighter-rouge">mergeMap</code>:</p>
+      <p>If you need a single <code>@Effect</code> stream to have multiple side-effects i.e. dispatch more than one action, you can use <code>Rx.Observable.of</code> in conjunection with <code>mergeMap</code>:</p>
 
 <div class="code-section">
   <div class="filename">
@@ -61,7 +61,7 @@
   </div>
   <div class="row">
     <div class="large-12 columns">
-      <pre><code class="language-typescript">import { Oservable } from 'rxjs/Observable';
+      <pre><code class="language-typescript">import { Oservable } from &apos;rxjs/Observable&apos;;
 
 @Injectable()
 class Effects {
@@ -85,7 +85,7 @@ class Effects {
 </div>
 
 <blockquote>
-  <p><em>Note to self</em>: <code class="highlighter-rouge">concat</code> seem to be the more obvious choice, but the <code class="highlighter-rouge">concat</code> operator is not available for reasons I don’t know.</p>
+  <p><em>Note to self</em>: <code>concat</code> seem to be the more obvious choice, but the <code>concat</code> operator is not available for reasons I don’t know.</p>
 </blockquote>
 
     </div>

@@ -51,11 +51,11 @@
       </div>
     </div>
     <div class="blog-body large-12 cell">
-      <p>The <a href="http://bluebirdjs.com/"><code class="highlighter-rouge">bluebird</code></a> library doesn’t quite work with Angular out-of-the-box. You’ll have to configure <code class="highlighter-rouge">bluebird</code> to execute resolution/rejection functions within Angular’s digest loop. I also learned that even if you have that in place, <a href="https://github.com/angular-ui/ui-router/wiki#resolve"><code class="highlighter-rouge">ui-router</code>’s Resolve</a> functionality still wouldn’t work with <code class="highlighter-rouge">bluebird</code> promises. You’ll have to do something extra for that, too:</p>
+      <p>The <a href="http://bluebirdjs.com/"><code>bluebird</code></a> library doesn’t quite work with Angular out-of-the-box. You’ll have to configure <code>bluebird</code> to execute resolution/rejection functions within Angular’s digest loop. I also learned that even if you have that in place, <a href="https://github.com/angular-ui/ui-router/wiki#resolve"><code>ui-router</code>’s Resolve</a> functionality still wouldn’t work with <code>bluebird</code> promises. You’ll have to do something extra for that, too:</p>
 
 <!--stop-->
 
-<p>If you need <code class="highlighter-rouge">bluebird</code>’s superior <code class="highlighter-rouge">Promise</code> objects within Angular and with <code class="highlighter-rouge">ui-router</code>, you’ll have to configure it like this:</p>
+<p>If you need <code>bluebird</code>’s superior <code>Promise</code> objects within Angular and with <code>ui-router</code>, you’ll have to configure it like this:</p>
 
 <div class="code-section">
   <div class="filename">
@@ -65,17 +65,17 @@
   </div>
   <div class="row">
     <div class="large-12 columns">
-      <pre><code class="language-javascript">var app = angular.module('main');
+      <pre><code class="language-javascript">var app = angular.module(&apos;main&apos;);
 
 app.run(function ($rootScope, $q) {
     
   // This ensures that resolutions/rejections are ran
-  // within Angular's digest loop:
+  // within Angular&apos;s digest loop:
   Promise.setScheduler(function (fn) {
     $rootScope.$evalAsync(fn);
   });
 
-  // Wrap the promise's resolution/rejection within a $q.defer promise.
+  // Wrap the promise&apos;s resolution/rejection within a $q.defer promise.
   Promise.prototype.qDeferred = function () {
     var deferred = $q.defer();
     this.then(deferred.resolve, deferred.reject);
@@ -96,7 +96,7 @@ app.run(function ($rootScope, $q) {
   </div>
   <div class="row">
     <div class="large-12 columns">
-      <pre><code class="language-javascript">$stateProvider.state('stuff', {
+      <pre><code class="language-javascript">$stateProvider.state(&apos;stuff&apos;, {
   resolve: {
     collection: function () {
       return Promise.all([ ... ]).qDeferred();

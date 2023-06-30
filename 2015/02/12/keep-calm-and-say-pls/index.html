@@ -21,7 +21,7 @@
         
         <meta property="og:description" content="Months ago I found this hilarious and useful bash alias on Twitter which is a real gem. I wrote an expansion and made it a bit more polite." />
         
-        <meta name="description" content="Months ago I found this hilarious and useful bash alias on Twitter which is a real gem. Typing the F word when Irealize I forget to start with sudo when I should have is somehow satisfying." />
+        <meta name="description" content="Months ago I found this hilarious and useful bash alias on Twitter which is a real gem. Typing the F word when Irealize I forget to start with sudo when I should have is somehow satisfying.Lately I expanded it a bit more, while also replacing the profanity with a little bit of courtesy. In .bashrc:                &amp;nbsp;      pls() {   echo &amp;apos;&amp;apos;   echo &amp;apos;No problem!&amp;apos;   echo &amp;apos;&amp;apos;   if [ $# -eq 0 ]   then        sudo $(history -p !!)   else        sudo $@   fi}      " />
     
     <script src="/bundle.js"></script>
   </head>
@@ -47,20 +47,20 @@
         <time datetime="2015-02-12T00:00:00-08:00">12 Feb 2015</time>
       </div>
     </div>
-    <div class="blog-body large-12 columns">
+    <div class="blog-body large-12 cell">
       <p>Months ago I found <a href="https://twitter.com/liamosaur/status/506975850596536320">this hilarious and useful bash alias on Twitter</a> which is a real gem. Typing the F word when I
-realize I forget to start with <code class="highlighter-rouge">sudo</code> when I should have is somehow satisfying.</p>
+realize I forget to start with <code>sudo</code> when I should have is somehow satisfying.</p>
 
-<p>Lately I expanded it a bit more, while also replacing the profanity with a little bit of courtesy. In <code class="highlighter-rouge">.bashrc</code>:</p>
-<div class="padded">
+<p>Lately I expanded it a bit more, while also replacing the profanity with a little bit of courtesy. In <code>.bashrc</code>:</p>
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
       <pre><code class="language-bash">pls() {
 
-   echo ''
-   echo 'No problem!'
-   echo ''
+   echo &apos;&apos;
+   echo &apos;No problem!&apos;
+   echo &apos;&apos;
 
    if [ $# -eq 0 ]
    then
@@ -78,7 +78,7 @@ realize I forget to start with <code class="highlighter-rouge">sudo</code> when 
 
 <p>The original use-case still works:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -95,7 +95,7 @@ No problem!
 
 <p>But now you can also do this:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>

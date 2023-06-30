@@ -55,7 +55,7 @@
 
 <!--stop-->
 
-<p>Here is a short snippet of how to create a custom <code class="highlighter-rouge">Error</code> sub-type in Javascript:</p>
+<p>Here is a short snippet of how to create a custom <code>Error</code> sub-type in Javascript:</p>
 
 <div class="code-section">
   <div class="filename">
@@ -66,7 +66,7 @@
   <div class="row">
     <div class="large-12 columns">
       <pre><code class="language-javascript">function CustomError(message) {
-  this.message = message || &quot;You shouldn't have done that.&quot;;
+  this.message = message || &quot;You shouldn&apos;t have done that.&quot;;
   this.stack = (new Error()).stack;
 }
 CustomError.prototype = Object.create(Error.prototype);
@@ -76,7 +76,7 @@ CustomError.prototype.name = &quot;CustomError&quot;;</code></pre>
   </div>
 </div>
 
-<p>It’s more succinct in <code class="highlighter-rouge">ES6</code>:</p>
+<p>It’s more succinct in <code>ES6</code>:</p>
 
 <div class="code-section">
   <div class="filename">
@@ -89,7 +89,7 @@ CustomError.prototype.name = &quot;CustomError&quot;;</code></pre>
       <pre><code class="language-javascript">class CustomError extends Error {
     constructor(message) {
         super(message);
-        this.message = message || &quot;You shouldn't have done that.&quot;;
+        this.message = message || &quot;You shouldn&apos;t have done that.&quot;;
         this.name = this.constructor.name;
         this.stack = (new Error()).stack;
     }

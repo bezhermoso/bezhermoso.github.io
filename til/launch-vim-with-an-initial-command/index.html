@@ -51,11 +51,11 @@
       </div>
     </div>
     <div class="blog-body large-12 cell">
-      <p>To launch Vim and have a command executed as soon as it starts, prefix the command with a <code class="highlighter-rouge">+</code> and pass it as an argument. For example:</p>
+      <p>To launch Vim and have a command executed as soon as it starts, prefix the command with a <code>+</code> and pass it as an argument. For example:</p>
 
 <!--stop-->
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -63,18 +63,18 @@
     </div>
   </div>
 
-<p>This is equivalent to doing <code class="highlighter-rouge">:digraphs</code> as soon as Vim starts. Commands can be chained as well. Say you have <a href="https://github.com/guns/xterm-color-table.vim"><code class="highlighter-rouge">XtermColorTable</code></a> installed:</p>
+<p>This is equivalent to doing <code>:digraphs</code> as soon as Vim starts. Commands can be chained as well. Say you have <a href="https://github.com/guns/xterm-color-table.vim"><code>XtermColorTable</code></a> installed:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
-      <pre><code class="language-bash">alias colortable='vim +XtermColorTable +only'</code></pre>
+      <pre><code class="language-bash">alias colortable=&apos;vim +XtermColorTable +only&apos;</code></pre>
     </div>
   </div>
 
-<p>Executing <code class="highlighter-rouge">colortable</code> in your shell will launch Vim showing a color table occupying the full-window instead of the plugin’s default
-vertical split, thanks to <code class="highlighter-rouge">:only</code>.</p>
+<p>Executing <code>colortable</code> in your shell will launch Vim showing a color table occupying the full-window instead of the plugin’s default
+vertical split, thanks to <code>:only</code>.</p>
 
     </div>
   </div>

@@ -5,3 +5,4 @@ bower_components
 vendor
 yarn-error.log
 .sass-cache
+.idea

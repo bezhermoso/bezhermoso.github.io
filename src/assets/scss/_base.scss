@@ -1,11 +1,24 @@
 
 body {
   font-family: $body-font-family;
-  background: linear-gradient(127deg, scale-color($code-red, $lightness: 90%), rgba(0,255,0,0) 30%),
-              linear-gradient(217deg, rgba(0, 0, 0, 0), scale-color($primary-color, $lightness: 85%) 95%),
-              linear-gradient(336deg, scale-color($code-red, $lightness: 90%), rgba(0, 0, 0, 0) 50%);
-  background-attachment: fixed;
+
+  //.bg {
+  //  background: linear-gradient(127deg, scale-color($code-red, $lightness: 90%), rgba(0,255,0,0) 30%),
+  //  linear-gradient(217deg, rgba(0, 0, 0, 0), scale-color($primary-color, $lightness: 85%) 95%),
+  //  linear-gradient(336deg, scale-color($code-red, $lightness: 90%), rgba(0, 0, 0, 0) 50%);
+  //  background-attachment: fixed;
+  //  position: fixed;
+  //  height: 100vh;
+  //  width: 100vw;
+  //}
+  //
+  //.content {
+  //  position: absolute;
+  //  left: 0;
+  //  right: 0;
+  //}
 }
+
 
 a code {
   text-decoration: underline;

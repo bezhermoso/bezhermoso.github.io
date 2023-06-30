@@ -12,7 +12,13 @@ ga_profile: UA-22506121-5
 # Build settings
 markdown: kramdown
 
+kramdown:
+  syntax_highlighter_opts:
+    span:
+      disable: true
+
 permalink: pretty
+excerpt_separator: <!--stop-->
 
 collections:
   til:

@@ -19,9 +19,9 @@
     
     <meta property="og:title" content="Symfony2 development, Infrastructure as Code, and consistent environments with Vagrant" />
         
-        <meta property="og:description" content="My new job at ActiveLAMP has put me in a position where I get to use and learn a wider set of technologies. And its a greatposition to be in. Instead of confining myself with the boundaries of the LAMP stack, now I am working on projects withrequirements that necessitate the use of other technologies to achieve specific aspects of the product that are particularlydemanding on their own right that the the unholy quadro that is Linux-Apache2-MySQL-PHP just isn’t sufficient anymore." />
+        <meta property="og:description" content="My new job at ActiveLAMP has put me in a position where I get to use and learn a wider set of technologies. And its a greatposition to be in. Instead of confining myself with the boundaries of the LAMP stack, now I am working on projects withrequirements that necessitate the use of other technologies to achieve specific aspects of the product that are particularlydemanding on their own right that the the unholy quadro that is Linux-Apache2-MySQL-PHP just isn’t sufficient anymore.For one project I have to learn and work with Apache Solr to provide performant and speedy search capabilities, which includefuzzy full-text searches and geo-spatial queries as well. On another I am working with Elasticsearch to provide the exact sameset of searching capability. In other instances, I have to deal with legacy code which requires legacy versions of PHP and the rest of thetechnology stack used." />
         
-        <meta name="description" content="My new job at ActiveLAMP has put me in a position where I get to use and learn a wider set of technologies. And its a greatposition to be in. Instead of confining myself with the boundaries of the LAMP stack, now I am working on projects withrequirements that necessitate the use of other technologies to achieve specific aspects of the product that are particularlydemanding on their own right that the the unholy quadro that is Linux-Apache2-MySQL-PHP just isn’t sufficient anymore." />
+        <meta name="description" content="My new job at ActiveLAMP has put me in a position where I get to use and learn a wider set of technologies. And its a greatposition to be in. Instead of confining myself with the boundaries of the LAMP stack, now I am working on projects withrequirements that necessitate the use of other technologies to achieve specific aspects of the product that are particularlydemanding on their own right that the the unholy quadro that is Linux-Apache2-MySQL-PHP just isn’t sufficient anymore.For one project I have to learn and work with Apache Solr to provide performant and speedy search capabilities, which includefuzzy full-text searches and geo-spatial queries as well. On another I am working with Elasticsearch to provide the exact sameset of searching capability. In other instances, I have to deal with legacy code which requires legacy versions of PHP and the rest of thetechnology stack used." />
     
     <script src="/bundle.js"></script>
   </head>
@@ -47,7 +47,7 @@
         <time datetime="2014-07-07T00:00:00-07:00">07 Jul 2014</time>
       </div>
     </div>
-    <div class="blog-body large-12 columns">
+    <div class="blog-body large-12 cell">
       <p>My new job at ActiveLAMP has put me in a position where I get to use and learn a wider set of technologies. And its a great
 position to be in. Instead of confining myself with the boundaries of the LAMP stack, now I am working on projects with
 requirements that necessitate the use of other technologies to achieve specific aspects of the product that are particularly
@@ -74,14 +74,14 @@ files and in code, which has the added benefit of being versioned along with the
 <h3 id="vagrant">Vagrant</h3>
 
 <p><a href="http://vagrantup.com">Vagrant</a> is a tool that allows you to define what type of machine(s) you need to run a project,
-and it will prepare and boot up a virtual machine of it for you. Configuration is written in a <code class="highlighter-rouge">Vagrantfile</code>, therefore it can be versioned as well.</p>
+and it will prepare and boot up a virtual machine of it for you. Configuration is written in a <code>Vagrantfile</code>, therefore it can be versioned as well.</p>
 
 <h3 id="consistent-development-environments-for-your-symfony-team">Consistent development environments for your Symfony team</h3>
 
 <p>I created a simple Vagrant + Infrastructure in Code template for Symfony projects which you can find here: <a href="https://github.com/bezhermoso/symfony-vm">symfony-vm</a>. I hope
 the instructions are easy enough to follow.</p>
 
-<p>Using this will add a <code class="highlighter-rouge">vm/</code> directory within your project-root which you should probably version. This means each member
+<p>Using this will add a <code>vm/</code> directory within your project-root which you should probably version. This means each member
 of your team will have their own environment which is consistent with everyone else. This also guarantees that your testers are testing your
 application under the exact same environment. And provided that you provision your production servers using the exact same manifests, then you
 are shielded against enviromental errors.</p>

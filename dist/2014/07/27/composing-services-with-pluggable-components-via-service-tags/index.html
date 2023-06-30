@@ -19,9 +19,9 @@
     
     <meta property="og:title" content="Consolidating alike services via service tags and the Composite design pattern: &quot;Reading bundle resources...&quot; part 3" />
         
-        <meta property="og:description" content="This post dives into the concept of tagged services and how it can be utilized to compose services with pluggable components toadd extra behavior to a service without modifying its underlying code, as stipulated by the SOLID principles." />
+        <meta property="og:description" content="This post dives into the concept of tagged services and how it can be utilized to compose services with pluggable components toadd extra behavior to a service without modifying its underlying code, as stipulated by the SOLID principles.This is a continuation of a series of blog postsI wrote about reading resource bundles &amp;amp; caching in the context of a fictional TheHunt\SitemapBundle bundle.Here are part 1 &amp;amp; part 2 if you haven’t read them yet.In the previous post, we added a new service named thehunt_sitemap.annotation_link_collector, which gathers metadata from annotations oncontrollers. This is somewhat similar to thehunt_sitemap.link_collector, although this one reads YAML files instead of annotations, and has athin caching layer. However both of them have similarities, which is being able to produce a list of links. Afterall, this is their ultimate responsibility; fromwhere they gather links from are just implementation details." />
         
-        <meta name="description" content="This post dives into the concept of tagged services and how it can be utilized to compose services with pluggable components toadd extra behavior to a service without modifying its underlying code, as stipulated by the SOLID principles." />
+        <meta name="description" content="This post dives into the concept of tagged services and how it can be utilized to compose services with pluggable components toadd extra behavior to a service without modifying its underlying code, as stipulated by the SOLID principles.This is a continuation of a series of blog postsI wrote about reading resource bundles &amp;amp; caching in the context of a fictional TheHunt\SitemapBundle bundle.Here are part 1 &amp;amp; part 2 if you haven’t read them yet.In the previous post, we added a new service named thehunt_sitemap.annotation_link_collector, which gathers metadata from annotations oncontrollers. This is somewhat similar to thehunt_sitemap.link_collector, although this one reads YAML files instead of annotations, and has athin caching layer. However both of them have similarities, which is being able to produce a list of links. Afterall, this is their ultimate responsibility; fromwhere they gather links from are just implementation details." />
     
     <script src="/bundle.js"></script>
   </head>
@@ -47,20 +47,20 @@
         <time datetime="2014-07-27T00:00:00-07:00">27 Jul 2014</time>
       </div>
     </div>
-    <div class="blog-body large-12 columns">
+    <div class="blog-body large-12 cell">
       <p>This post dives into the concept of <strong>tagged services</strong> and how it can be utilized to compose services with pluggable components to
 add extra behavior to a service without modifying its underlying code, as stipulated by the <a href="http://en.wikipedia.org/wiki/SOLID_(object-oriented_design)">SOLID</a>
  principles.</p>
 
 <p>This is a continuation of a series of blog posts
-I wrote about reading resource bundles &amp; caching in the context of a fictional <code class="highlighter-rouge">TheHunt\SitemapBundle</code> bundle.
+I wrote about reading resource bundles &amp; caching in the context of a fictional <code>TheHunt\SitemapBundle</code> bundle.
 Here are <a href="/2014/07/21/config-cache-reading-bundle-resources-and-caching-for-performance/">part 1</a>
  &amp; <a href="/2014/07/22/reading-annotations-reading-bundle-resources-continued/">part 2</a> if you haven’t read them yet.</p>
 
 <hr />
 
-<p>In the previous post, we added a new service named <code class="highlighter-rouge">thehunt_sitemap.annotation_link_collector</code>, which gathers metadata from annotations on
-controllers. This is somewhat similar to <code class="highlighter-rouge">thehunt_sitemap.link_collector</code>, although this one reads YAML files instead of annotations, and has a
+<p>In the previous post, we added a new service named <code>thehunt_sitemap.annotation_link_collector</code>, which gathers metadata from annotations on
+controllers. This is somewhat similar to <code>thehunt_sitemap.link_collector</code>, although this one reads YAML files instead of annotations, and has a
 thin caching layer. However both of them have similarities, which is being able to produce a list of links. Afterall, this is their ultimate responsibility; from
 where they gather links from are just implementation details.</p>
 
@@ -69,12 +69,12 @@ where they gather links from are just implementation details.</p>
 
 <p>You actually glimpse at the progression of our bundle architecture by looking at the name of our services: the annotation-reading
 service appears to have a very descriptive name, while its YAML-reading counterpart has a very generic one. You could look
-at this and see that when we wrote the <code class="highlighter-rouge">thehunt_sitemap.link_collector</code> service, we have never considered that there could be another variant of a link collector.
+at this and see that when we wrote the <code>thehunt_sitemap.link_collector</code> service, we have never considered that there could be another variant of a link collector.
 Only until we considered support annotations did we realize that the naming is too generic.</p>
 
 <p>We could easily change the name to
-<code class="highlighter-rouge">thehunt_sitemap.yaml_link_collector</code> to make it more meaningful. But what if there are other services that already depends on the <code class="highlighter-rouge">thehunt_sitemap.link_collector</code>
-service name? <strong>Removing the <code class="highlighter-rouge">thehunt_sitemap.link_collector</code> will break backward-compatibility</strong> as doing so will render dependent services broken.</p>
+<code>thehunt_sitemap.yaml_link_collector</code> to make it more meaningful. But what if there are other services that already depends on the <code>thehunt_sitemap.link_collector</code>
+service name? <strong>Removing the <code>thehunt_sitemap.link_collector</code> will break backward-compatibility</strong> as doing so will render dependent services broken.</p>
 
 <p>We can solve this by the use of the <a href="http://sourcemaking.com/design_patterns/composite"><strong>Composite design pattern</strong></a>. Here is a brief
 description from Wikipedia:</p>
@@ -83,7 +83,7 @@ description from Wikipedia:</p>
 
 <p>This pattern will help solve our BC-break problem by allowing us to keep the service name and assign it a service that interacts
 with the two existing collectors, but can also be treated as if its just another link collector variant. Existing consumers
-of the <code class="highlighter-rouge">thehunt_sitemap.link_collector</code> will be none-the-wiser.</p>
+of the <code>thehunt_sitemap.link_collector</code> will be none-the-wiser.</p>
 
 <h2 id="a-much-needed-refactoring">A much needed refactoring…</h2>
 <p>Lets get the ball rolling by defining what actually <em>is</em> a link collector. We do this by defining an interface:</p>
@@ -122,7 +122,7 @@ interface LinkCollectorInterface
 
 <p>The doc-block should be pretty explanatory of what is expected from each concrete link collectors.</p>
 
-<p>Now let’s rename <code class="highlighter-rouge">LinkCollector</code> and <code class="highlighter-rouge">CachingLinkCollector</code> to <code class="highlighter-rouge">YamlLinkCollector</code> and <code class="highlighter-rouge">CachingYamlCollector</code> respectively,
+<p>Now let’s rename <code>LinkCollector</code> and <code>CachingLinkCollector</code> to <code>YamlLinkCollector</code> and <code>CachingYamlCollector</code> respectively,
 and update it and the other collectors to implement our new interface:</p>
 
 <div class="code-section">
@@ -155,7 +155,7 @@ class AnnotationLinkCollector implements LinkCollectorInterface
   </div>
 </div>
 
-<p>As these classes already has a <code class="highlighter-rouge">getLinks</code> method, we don’t have to change the rest of the code at all.</p>
+<p>As these classes already has a <code>getLinks</code> method, we don’t have to change the rest of the code at all.</p>
 
 <p>We can now create a new class which will be our composite class:</p>
 
@@ -204,7 +204,7 @@ class LinkCollectorChain implements LinkCollectorInterface
   </div>
 </div>
 
-<p>As you can see, the <code class="highlighter-rouge">LinkCollectorChain</code> doesn’t do that much: all it does is loop through the link collectors that it is composed
+<p>As you can see, the <code>LinkCollectorChain</code> doesn’t do that much: all it does is loop through the link collectors that it is composed
 of, and collate the results into one. Think of it as a link collector which collects links from other link collectors. <strong>It disguises
 the use of multiple link collectors as a single link collector.</strong> This dynamic is the essence of the <em>Composite design pattern.</em></p>
 
@@ -238,7 +238,7 @@ $links = $collector-&gt;getLinks();</code></pre>
 <p>Since we want to support link collectors that other bundles wishes to use, we need to build the chain at run-time. We do this by
 using <a href="http://symfony.com/doc/current/components/dependency_injection/tags.html"><strong>tagged services</strong></a>:</p>
 
-<p>Let us stipulate that link collectors should be tagged as a <code class="highlighter-rouge">sitemap.link_collector</code>. Our service definition will look
+<p>Let us stipulate that link collectors should be tagged as a <code>sitemap.link_collector</code>. Our service definition will look
 like this:</p>
 
 <div class="code-section">
@@ -302,9 +302,9 @@ class LinkCollectorsPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        $chain = $container-&gt;getDefinition('thehunt_sitemap.link_collector_chain');
+        $chain = $container-&gt;getDefinition(&apos;thehunt_sitemap.link_collector_chain&apos;);
 
-        $collectors = $container-&gt;findTaggedServiceIds('sitemap.link_collector');
+        $collectors = $container-&gt;findTaggedServiceIds(&apos;sitemap.link_collector&apos;);
 
         /**
          * Loop through the tagged services and add them to the provider chain
@@ -312,7 +312,7 @@ class LinkCollectorsPass implements CompilerPassInterface
          */
         foreach ($collectors as $serviceId =&gt; $attributes) {
             foreach ($attributes as $attr) {
-                $chain-&gt;addMethodCall('addLinkCollector', array(
+                $chain-&gt;addMethodCall(&apos;addLinkCollector&apos;, array(
                     new Definition($serviceId),
                 ));
             }
@@ -323,11 +323,11 @@ class LinkCollectorsPass implements CompilerPassInterface
   </div>
 </div>
 
-<p>Now, whenever the <code class="highlighter-rouge">thehunt_sitemap.link_collector_chain</code> service is initialized the first time, all services tagged with
-<code class="highlighter-rouge">thehunt_sitemap.link_collector</code> are injected into it. Calling <code class="highlighter-rouge">getLinks</code> on it will return links read from both YAML and annotation
+<p>Now, whenever the <code>thehunt_sitemap.link_collector_chain</code> service is initialized the first time, all services tagged with
+<code>thehunt_sitemap.link_collector</code> are injected into it. Calling <code>getLinks</code> on it will return links read from both YAML and annotation
 resources.</p>
 
-<p>We also achieved backwards-compatibility such that any existing user-land code using the <code class="highlighter-rouge">thehunt_sitemap.link_collector</code> service somewhere
+<p>We also achieved backwards-compatibility such that any existing user-land code using the <code>thehunt_sitemap.link_collector</code> service somewhere
 still work the way they should.</p>
 
 <hr />
@@ -356,14 +356,14 @@ class TheHuntSitemapExtension extends Extension
     {
         /** Gather files... **/
 
-        $collector = $container-&gt;getDefinition('thehunt_sitemap.yaml_link_collector');
+        $collector = $container-&gt;getDefinition(&apos;thehunt_sitemap.yaml_link_collector&apos;);
         $collector-&gt;replaceArgument(0, $files);
 
-        // If caching is turned on in the bundle's configuration
-        if ($config['cache'] === true) {
+        // If caching is turned on in the bundle&apos;s configuration
+        if ($config[&apos;cache&apos;] === true) {
 
             // Replace the link collector class to use the one with caching awareness
-            $collector-&gt;setClass('TheHunt\SitemapBundle\Sitemap\CachingYamlLinkCollector');
+            $collector-&gt;setClass(&apos;TheHunt\SitemapBundle\Sitemap\CachingYamlLinkCollector&apos;);
 
             /** Rest of the stuff **/
 
@@ -376,14 +376,14 @@ class TheHuntSitemapExtension extends Extension
 
 <h4 id="hiding-internals-by-protecting-services">Hiding internals by protecting services</h4>
 
-<p>You might be wondering what’s up with the <code class="highlighter-rouge">public: false</code> and the <code class="highlighter-rouge">alias</code> clause in our new service configuration…</p>
+<p>You might be wondering what’s up with the <code>public: false</code> and the <code>alias</code> clause in our new service configuration…</p>
 
-<p>We set <code class="highlighter-rouge">thehunt_sitemap.link_collector_chain</code> as <strong>private</strong> so that we can hide it from the user-land. This means that
-calling <code class="highlighter-rouge">$this-&gt;container-&gt;get('thehunt_sitemap.link_collector_chain')</code> will result to an exception. This prevents any
+<p>We set <code>thehunt_sitemap.link_collector_chain</code> as <strong>private</strong> so that we can hide it from the user-land. This means that
+calling <code>$this-&gt;container-&gt;get('thehunt_sitemap.link_collector_chain')</code> will result to an exception. This prevents any
 code from possibly registering more link collectors on-the-fly after the container is compiled.</p>
 
 <p>However we can still have it available for use by setting aliasing
-it as <code class="highlighter-rouge">thehunt_sitemap.link_collector</code>, which is simply defined as a <code class="highlighter-rouge">LinkCollectorInterface</code>. Consumers only needs to know
+it as <code>thehunt_sitemap.link_collector</code>, which is simply defined as a <code>LinkCollectorInterface</code>. Consumers only needs to know
 that the service implements that interface, and that’s it. This way we can shield ourselves from possible BC breaks in the future caused by consumers that
 know too much and <strong>wrongfully</strong> rely on the underlying implementation. This will help enforce that our consumers should
 program against our interface and not against an implementation, in respect to the <a href="http://en.wikipedia.org/wiki/Liskov_substitution_principle"><strong>Liskov substitution principle</strong></a>.</p>

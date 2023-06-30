@@ -19,9 +19,9 @@
     
     <meta property="og:title" content="Protip: warn about file changes, deletions &amp; additions before rsync" />
         
-        <meta property="og:description" content="I wrote a shell script that wraps rsync with a user prompt in cases where files are going to be added, deleted, or changed, which is a scenario when some work might get lost:" />
+        <meta property="og:description" content="I wrote a shell script that wraps rsync with a user prompt in cases where files are going to be added, deleted, or changed, which is a scenario when some work might get lost:safe-rsync.sh:                &amp;nbsp;      #!/usr/bin/env bashargs=$@diffs=&amp;quot;$(rsync --dry-run --itemize-changes $args | grep &amp;apos;^[&amp;gt;&amp;lt;ch.][dfLDS]\|^\*deleting&amp;apos;)&amp;quot;if [ -z &amp;quot;$diffs&amp;quot; ]; then  echo &amp;quot;Nothing to sync.&amp;quot;  exit 0fiecho &amp;quot;These are the differences detected during dry-run. You might lose work. Please review before proceeding:&amp;quot;echo &amp;quot;$diffs&amp;quot;echo &amp;quot;&amp;quot;read -p &amp;quot;Confirm? (y/N): &amp;quot; choicecase &amp;quot;$choice&amp;quot; in  y|Y ) rsync $args;;  * ) echo &amp;quot;Cancelled.&amp;quot;;;esac      Usage                &amp;nbsp;      &amp;gt; ./safe-rsync.sh --exclude=&amp;apos;node_modules/&amp;apos; --recursive --progress --verbose ubuntu@aws-server102:/var/www/html ./html      To skip the dry-run and just rsync regardless of any diffs:                &amp;nbsp;      &amp;gt; yes | ./safe-rsync.sh --exclude=&amp;apos;node_modules/&amp;apos; --recursive --progress --verbose ubuntu@aws-server102:/var/www/html ./html      " />
         
-        <meta name="description" content="I wrote a shell script that wraps rsync with a user prompt in cases where files are going to be added, deleted, or changed, which is a scenario when some work might get lost:" />
+        <meta name="description" content="I wrote a shell script that wraps rsync with a user prompt in cases where files are going to be added, deleted, or changed, which is a scenario when some work might get lost:safe-rsync.sh:                &amp;nbsp;      #!/usr/bin/env bashargs=$@diffs=&amp;quot;$(rsync --dry-run --itemize-changes $args | grep &amp;apos;^[&amp;gt;&amp;lt;ch.][dfLDS]\|^\*deleting&amp;apos;)&amp;quot;if [ -z &amp;quot;$diffs&amp;quot; ]; then  echo &amp;quot;Nothing to sync.&amp;quot;  exit 0fiecho &amp;quot;These are the differences detected during dry-run. You might lose work. Please review before proceeding:&amp;quot;echo &amp;quot;$diffs&amp;quot;echo &amp;quot;&amp;quot;read -p &amp;quot;Confirm? (y/N): &amp;quot; choicecase &amp;quot;$choice&amp;quot; in  y|Y ) rsync $args;;  * ) echo &amp;quot;Cancelled.&amp;quot;;;esac      Usage                &amp;nbsp;      &amp;gt; ./safe-rsync.sh --exclude=&amp;apos;node_modules/&amp;apos; --recursive --progress --verbose ubuntu@aws-server102:/var/www/html ./html      To skip the dry-run and just rsync regardless of any diffs:                &amp;nbsp;      &amp;gt; yes | ./safe-rsync.sh --exclude=&amp;apos;node_modules/&amp;apos; --recursive --progress --verbose ubuntu@aws-server102:/var/www/html ./html      " />
     
     <script src="/bundle.js"></script>
   </head>
@@ -47,12 +47,12 @@
         <time datetime="2016-06-23T00:00:00-07:00">23 Jun 2016</time>
       </div>
     </div>
-    <div class="blog-body large-12 columns">
-      <p>I wrote a shell script that wraps <code class="highlighter-rouge">rsync</code> with a user prompt in cases where files are going to be added, deleted, or changed, which is a scenario when some work might get lost:</p>
+    <div class="blog-body large-12 cell">
+      <p>I wrote a shell script that wraps <code>rsync</code> with a user prompt in cases where files are going to be added, deleted, or changed, which is a scenario when some work might get lost:</p>
 
-<p><code class="highlighter-rouge">safe-rsync.sh</code>:</p>
+<p><code>safe-rsync.sh</code>:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -60,7 +60,7 @@
 
 args=$@
 
-diffs=&quot;$(rsync --dry-run --itemize-changes $args | grep '^[&gt;&lt;ch.][dfLDS]\|^\*deleting')&quot;
+diffs=&quot;$(rsync --dry-run --itemize-changes $args | grep &apos;^[&gt;&lt;ch.][dfLDS]\|^\*deleting&apos;)&quot;
 
 if [ -z &quot;$diffs&quot; ]; then
   echo &quot;Nothing to sync.&quot;
@@ -81,21 +81,21 @@ esac</code></pre>
 
 <h3 id="usage">Usage</h3>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
-      <pre><code class="language-bash">&gt; ./safe-rsync.sh --exclude='node_modules/' --recursive --progress --verbose ubuntu@aws-server102:/var/www/html ./html</code></pre>
+      <pre><code class="language-bash">&gt; ./safe-rsync.sh --exclude=&apos;node_modules/&apos; --recursive --progress --verbose ubuntu@aws-server102:/var/www/html ./html</code></pre>
     </div>
   </div>
 
-<p>To skip the dry-run and just <code class="highlighter-rouge">rsync</code> regardless of any diffs:</p>
+<p>To skip the dry-run and just <code>rsync</code> regardless of any diffs:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
-      <pre><code class="language-bash">&gt; yes | ./safe-rsync.sh --exclude='node_modules/' --recursive --progress --verbose ubuntu@aws-server102:/var/www/html ./html</code></pre>
+      <pre><code class="language-bash">&gt; yes | ./safe-rsync.sh --exclude=&apos;node_modules/&apos; --recursive --progress --verbose ubuntu@aws-server102:/var/www/html ./html</code></pre>
     </div>
   </div>
 

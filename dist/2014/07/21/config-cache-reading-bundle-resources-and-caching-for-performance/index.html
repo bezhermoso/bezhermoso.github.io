@@ -19,9 +19,9 @@
     
     <meta property="og:title" content="ConfigCache: Reading bundle resources and caching for performance" />
         
-        <meta property="og:description" content="Some back-story: In the course of contributing some Swagger-specific featuresto the awesome NelmioApiDocBundle, the Symfony\Component\Config\ConfigCache class was brought to my attention. To give you an idea how this fits in, you should know that the bundle generates an HTML page documenting your REST API. It gets the needed information from metadata declared as @ApiDoc annotations in controllers in the Symfony app. On top of that, the bundle also processes metadata from different libraries: integration with JmsSerializerBundle, Symfony’s Validator and Routing component, FOSRestBundle is built-in." />
+        <meta property="og:description" content="Some back-story: In the course of contributing some Swagger-specific featuresto the awesome NelmioApiDocBundle, the Symfony\Component\Config\ConfigCache class was brought to my attention. To give you an idea how this fits in, you should know that the bundle generates an HTML page documenting your REST API. It gets the needed information from metadata declared as @ApiDoc annotations in controllers in the Symfony app. On top of that, the bundle also processes metadata from different libraries: integration with JmsSerializerBundle, Symfony’s Validator and Routing component, FOSRestBundle is built-in.All these libraries does a good amount of caching on their end. However, NelmioApiDocBundle does not. This means, every time the documentation page is being viewed, all documentation metadata is being re-built. Although it did not present any significant performance issues in the beginning, it is apparent that things can speed up a bit if we could skip all these steps if none of the configuration regarding routes, serialization, or validation hasn’t changed at all. I mean, how often do they change in production, anyway?" />
         
-        <meta name="description" content="Some back-story: In the course of contributing some Swagger-specific featuresto the awesome NelmioApiDocBundle, the Symfony\Component\Config\ConfigCache class was brought to my attention. To give you an idea how this fits in, you should know that the bundle generates an HTML page documenting your REST API. It gets the needed information from metadata declared as @ApiDoc annotations in controllers in the Symfony app. On top of that, the bundle also processes metadata from different libraries: integration with JmsSerializerBundle, Symfony’s Validator and Routing component, FOSRestBundle is built-in." />
+        <meta name="description" content="Some back-story: In the course of contributing some Swagger-specific featuresto the awesome NelmioApiDocBundle, the Symfony\Component\Config\ConfigCache class was brought to my attention. To give you an idea how this fits in, you should know that the bundle generates an HTML page documenting your REST API. It gets the needed information from metadata declared as @ApiDoc annotations in controllers in the Symfony app. On top of that, the bundle also processes metadata from different libraries: integration with JmsSerializerBundle, Symfony’s Validator and Routing component, FOSRestBundle is built-in.All these libraries does a good amount of caching on their end. However, NelmioApiDocBundle does not. This means, every time the documentation page is being viewed, all documentation metadata is being re-built. Although it did not present any significant performance issues in the beginning, it is apparent that things can speed up a bit if we could skip all these steps if none of the configuration regarding routes, serialization, or validation hasn’t changed at all. I mean, how often do they change in production, anyway?" />
     
     <script src="/bundle.js"></script>
   </head>
@@ -47,19 +47,19 @@
         <time datetime="2014-07-21T00:00:00-07:00">21 Jul 2014</time>
       </div>
     </div>
-    <div class="blog-body large-12 columns">
+    <div class="blog-body large-12 cell">
       <p><strong>Some back-story:</strong> In the course of contributing some <a href="https://helloreverb.com/developers/swagger">Swagger</a>-specific features
 to the awesome <a href="https://github.com/nelmio/NelmioApiDocBundle">NelmioApiDocBundle</a>,
- the <code class="highlighter-rouge">Symfony\Component\Config\ConfigCache</code> class was brought to my attention. To give you an idea how this fits in, you
+ the <code>Symfony\Component\Config\ConfigCache</code> class was brought to my attention. To give you an idea how this fits in, you
  should know that the bundle generates an HTML page
- documenting your REST API. It gets the needed information from metadata declared as <code class="highlighter-rouge">@ApiDoc</code> annotations in controllers
+ documenting your REST API. It gets the needed information from metadata declared as <code>@ApiDoc</code> annotations in controllers
  in the Symfony app. On top of that, the bundle also processes metadata from different libraries:
  integration with <a href="https://github.com/schmittjoh/JMSSerializerBundle">JmsSerializerBundle</a>,
  Symfony’s <a href="http://symfony.com/doc/current/book/validation.html">Validator</a>
  and <a href="http://symfony.com/doc/current/book/routing.html">Routing</a> component,
  <a href="https://github.com/FriendsOfSymfony/FOSRestBundle">FOSRestBundle</a> is built-in.</p>
 
-<p>All these libraries does a good amount of caching on their end. However, <code class="highlighter-rouge">NelmioApiDocBundle</code> does not.
+<p>All these libraries does a good amount of caching on their end. However, <code>NelmioApiDocBundle</code> does not.
  This means, every time the documentation page is being viewed, all documentation metadata is being re-built.
  Although it did not present any significant performance issues in the beginning, it is apparent that things can speed up a bit if we could skip
  all these steps if none of the configuration regarding routes, serialization, or validation hasn’t changed at all.
@@ -67,32 +67,32 @@ to the awesome <a href="https://github.com/nelmio/NelmioApiDocBundle">NelmioApiD
 
 <!--stop-->
 <p>I raised this concern on a PR when the project lead, <a href="http://williamdurand.fr/">Will Durand</a>, broached the subject about
-using <code class="highlighter-rouge">ConfigCache</code> to address this. So scurried
+using <code>ConfigCache</code> to address this. So scurried
 to learn how it works. Sure enough,
 there I found a nice, succinct <a href="http://symfony.com/doc/current/components/config/caching.html">documentation</a> for it.</p>
 
-<p>I decided to write this article to provide a comprehensive example of how to utilize <code class="highlighter-rouge">ConfigCache</code>,
+<p>I decided to write this article to provide a comprehensive example of how to utilize <code>ConfigCache</code>,
 in case some of you out there still
 require a little bit of help after reading the official documentation.</p>
 
 <hr />
 
 <p>In a <a href="/2014/07/15/locating-bundle-resources/">previous blog post</a>, I detailed a way to locate resources within all registered bundles prior to or during
-the compile stage of the service container. Let us build on top of that in a way that illustrates how to utilize the <code class="highlighter-rouge">ConfigCache</code> class as well.</p>
+the compile stage of the service container. Let us build on top of that in a way that illustrates how to utilize the <code>ConfigCache</code> class as well.</p>
 
-<p>I’ll illustrate these topics by telling a story of a certain fictional bundle named <code class="highlighter-rouge">TheHunt/SitemapBundle</code>, which offers this set of functionality:</p>
+<p>I’ll illustrate these topics by telling a story of a certain fictional bundle named <code>TheHunt/SitemapBundle</code>, which offers this set of functionality:</p>
 
 <ul>
-  <li>Provides the ability to generate a <code class="highlighter-rouge">sitemap.xml</code> file</li>
+  <li>Provides the ability to generate a <code>sitemap.xml</code> file</li>
   <li>Creates a page or a template partial that lists links (for footer or sidebar menus, for example.)</li>
   <li>Requires very minimal to zero configuration</li>
 </ul>
 
 <p>By <em>“very minimal to zero”</em> configuration, I mean it would require very little work to add a link to the list of links, and most importantly does not require changing any of
-the major configuration files within <code class="highlighter-rouge">app/config/*</code>. In fact, let us define how exactly we can specify links for this bundle to use:</p>
+the major configuration files within <code>app/config/*</code>. In fact, let us define how exactly we can specify links for this bundle to use:</p>
 
 <ol>
-  <li>Links defined within <code class="highlighter-rouge">sitemap.yml</code> files scattered across different bundles.</li>
+  <li>Links defined within <code>sitemap.yml</code> files scattered across different bundles.</li>
   <li>Via annotations in controller actions.</li>
 </ol>
 
@@ -102,7 +102,7 @@ via YAML files within bundles. Lets set aside configuring by annotations for ano
 <h2 id="building-the-bundle">Building the bundle</h2>
 
 <h3 id="resources--sitemapyml-files">Resources – sitemap.yml files</h3>
-<p>Let’s define how sitemap metadata can be defined in <code class="highlighter-rouge">sitemap.yml</code> files:</p>
+<p>Let’s define how sitemap metadata can be defined in <code>sitemap.yml</code> files:</p>
 
 <div class="code-section">
   <div class="filename">
@@ -127,7 +127,7 @@ french_site:
     title: French site
     route: home_page
     params:
-        _locale: 'fr'
+        _locale: &apos;fr&apos;
     sections [ footer ]
 
 hello_world:
@@ -147,15 +147,15 @@ sponsor_1:
   </div>
 </div>
 
-<p>Such files will be locate under the <code class="highlighter-rouge">Resources/config</code> directory across different bundles in your app.
-(For example, your <code class="highlighter-rouge">TheHunt\UserBundle\Resources\config\sitemap.yml</code> would register the user pages to the sitemap,
-while a similar file in <code class="highlighter-rouge">TheHunt\BlogBundle</code> would register blog posts, etc.)</p>
+<p>Such files will be locate under the <code>Resources/config</code> directory across different bundles in your app.
+(For example, your <code>TheHunt\UserBundle\Resources\config\sitemap.yml</code> would register the user pages to the sitemap,
+while a similar file in <code>TheHunt\BlogBundle</code> would register blog posts, etc.)</p>
 
 <h3 id="services">Services</h3>
 
 <p>This bundle doesn’t do that many things, and all of its responsibilities can be broken down across only a few services. The service of primary interest for us would be this, though:</p>
 
-<p><code class="highlighter-rouge">TheHunt\SitemapBundle\Sitemap\LinkCollector</code> - This class is responsible for collecting links that are defined across different bundles:</p>
+<p><code>TheHunt\SitemapBundle\Sitemap\LinkCollector</code> - This class is responsible for collecting links that are defined across different bundles:</p>
 
 <div class="code-section">
   <div class="filename">
@@ -206,29 +206,29 @@ class LinkCollector
 
     private function generateLink($linkDef)
     {
-        if (!empty($linkDef['route'])) {
+        if (!empty($linkDef[&apos;route&apos;])) {
             $href =
                 $this-&gt;generator-&gt;generate(
-                    $linkDef['route'],
-                    !empty($linkDef['params']) ? $linkDef['params'] : array(),
+                    $linkDef[&apos;route&apos;],
+                    !empty($linkDef[&apos;params&apos;]) ? $linkDef[&apos;params&apos;] : array(),
                     UrlGeneratorInterface::ABSOLUTE_URL
                 );
-        } elseif (!empty($linkDef['url']) {
-            $href = $linkDef['url'];
+        } elseif (!empty($linkDef[&apos;url&apos;]) {
+            $href = $linkDef[&apos;url&apos;];
         } else {
-            throw new \DomainException('Not enough information provided to generate a link.');
+            throw new \DomainException(&apos;Not enough information provided to generate a link.&apos;);
         }
 
 
-        if (empty($linkDef['sections'])) {
-            throw new \InvalidArgumentException(sprintf('No section specified for %s', $href);
+        if (empty($linkDef[&apos;sections&apos;])) {
+            throw new \InvalidArgumentException(sprintf(&apos;No section specified for %s&apos;, $href);
         }
 
         return array(
-            'title' =&gt; $linkDef['title'],
-            'href' =&gt; $href,
-            'sections' =&gt; $linkDef['sections'],
-            'updated' =&gt; !empty($linkDef['updated']) ? $linkDef['updated'] : strtotime('Y-m-d H:i:s'),
+            &apos;title&apos; =&gt; $linkDef[&apos;title&apos;],
+            &apos;href&apos; =&gt; $href,
+            &apos;sections&apos; =&gt; $linkDef[&apos;sections&apos;],
+            &apos;updated&apos; =&gt; !empty($linkDef[&apos;updated&apos;]) ? $linkDef[&apos;updated&apos;] : strtotime(&apos;Y-m-d H:i:s&apos;),
         );
 
     }
@@ -283,24 +283,24 @@ class TheHuntSitemapExtension extends Extension
     {
         /** Some boilerplate stuff **/
 
-        $bundles = $container-&gt;getParameter('kernel.bundles');
+        $bundles = $container-&gt;getParameter(&apos;kernel.bundles&apos;);
 
 
-        // Let's gather the paths of all sitemap.yml files that exist in bundles
+        // Let&apos;s gather the paths of all sitemap.yml files that exist in bundles
         $files = array();
 
         foreach ($bundles as $bundleName =&gt; $bundleClass) {
 
             $refClass = new \ReflectionClass($bundleClass);
-            $file = dirname($refClass-&gt;getFileName()) . '/Resources/config/sitemap.yml';
+            $file = dirname($refClass-&gt;getFileName()) . &apos;/Resources/config/sitemap.yml&apos;;
 
             if (file_exists($file) === true) {
                 $files[] = $file;
             }
         }
 
-        // Let's replace the placeholder blank array with the actual list.
-        $collector = $container-&gt;getDefinition('thehunt_sitemap.link_collector');
+        // Let&apos;s replace the placeholder blank array with the actual list.
+        $collector = $container-&gt;getDefinition(&apos;thehunt_sitemap.link_collector&apos;);
         $collector-&gt;replaceArgument(0, $files);
     }
 }</code></pre>
@@ -308,7 +308,7 @@ class TheHuntSitemapExtension extends Extension
   </div>
 </div>
 
-<p>As far as collecting and generating sitemap links go, we are done. Consumers of the <code class="highlighter-rouge">thehunt_sitemap.link_collector</code> will simply have to call its <code class="highlighter-rouge">getLinks</code> method and do with the results
+<p>As far as collecting and generating sitemap links go, we are done. Consumers of the <code>thehunt_sitemap.link_collector</code> will simply have to call its <code>getLinks</code> method and do with the results
 however they wish (to generate an XML file, or to use them in a Twig template, etc.)</p>
 
 <h3 id="caching">Caching</h3>
@@ -322,9 +322,9 @@ however they wish (to generate an XML file, or to use them in a Twig template, e
 </ol>
 
 <p>The first item may not be expensive, but the last two can potentially a negative effect on performance, especially if we are dealing with huge YAML files or a list of 100+ routes. Imagine if we
-decide to support configuration by annotations. That additional complexity would take a toll, too. We could really use some caching mechanism. Fortunately, Symfony ships with <code class="highlighter-rouge">Symfony\Component\Config\ConfigCache</code> which is perfect for our needs.</p>
+decide to support configuration by annotations. That additional complexity would take a toll, too. We could really use some caching mechanism. Fortunately, Symfony ships with <code>Symfony\Component\Config\ConfigCache</code> which is perfect for our needs.</p>
 
-<p>To make it more interesting, let us exercise some OOP chops: Instead of refactoring the existing <code class="highlighter-rouge">LinkCollector</code>, lets create another class that extends it and simply adds a thin layer of caching:</p>
+<p>To make it more interesting, let us exercise some OOP chops: Instead of refactoring the existing <code>LinkCollector</code>, lets create another class that extends it and simply adds a thin layer of caching:</p>
 
 <div class="code-section">
   <div class="filename">
@@ -349,7 +349,7 @@ class CachingLinkCollector extends LinkCollector
     public function __construct($files, UrlGeneratorInterface $generator, $cacheDir, $debug)
     {
         parent::__construct($files, $generator);
-        $this-&gt;cacheFile = $cacheDir . '/sitemap-links.php.cache';
+        $this-&gt;cacheFile = $cacheDir . &apos;/sitemap-links.php.cache&apos;;
         $this-&gt;cache = new ConfigCache($cacheDir, $debug);
     }
 
@@ -366,7 +366,7 @@ class CachingLinkCollector extends LinkCollector
 
             $links = parent::getLinks();
 
-            $this-&gt;cache-&gt;write(sprintf('&lt;?php return %s', var_export($links, true)), $resources);
+            $this-&gt;cache-&gt;write(sprintf(&apos;&lt;?php return %s&apos;, var_export($links, true)), $resources);
 
             return $links;
         }
@@ -379,7 +379,7 @@ class CachingLinkCollector extends LinkCollector
   </div>
 </div>
 
-<p>Now, when <code class="highlighter-rouge">$this-&gt;get('thehunt_sitemap.link_collector')-&gt;getLinks()</code> is run for the first time, a file named <code class="highlighter-rouge">sitemap-links.php.cache</code> will
+<p>Now, when <code>$this-&gt;get('thehunt_sitemap.link_collector')-&gt;getLinks()</code> is run for the first time, a file named <code>sitemap-links.php.cache</code> will
 be created under the cache directory which contains something like:</p>
 
 <div class="code-section">
@@ -393,26 +393,26 @@ be created under the cache directory which contains something like:</p>
       <pre><code class="language-php">&lt;?php
 
 return array(
-    'registration_page' =&gt; array(
-        'title' =&gt; 'Join Us!',
-        'href' =&gt; 'http://yoursite.com/user/register',
-        'updated' =&gt; '2014-07-21 01:30:00',
-        'sections' =&gt; array('sitemap', 'footer'),
+    &apos;registration_page&apos; =&gt; array(
+        &apos;title&apos; =&gt; &apos;Join Us!&apos;,
+        &apos;href&apos; =&gt; &apos;http://yoursite.com/user/register&apos;,
+        &apos;updated&apos; =&gt; &apos;2014-07-21 01:30:00&apos;,
+        &apos;sections&apos; =&gt; array(&apos;sitemap&apos;, &apos;footer&apos;),
     ),
-    'french_site' =&gt; ...
+    &apos;french_site&apos; =&gt; ...
 );</code></pre>
     </div>
   </div>
 </div>
 
-<p><em>(Since the data we are caching is just an array that contains primitive and scalar values, storing it as an executable PHP file with the help of <code class="highlighter-rouge">var_export</code> can do the job very well.
-If however you are dealing with objects, this won’t really work. In such a case, using <code class="highlighter-rouge">serialize</code> to store it and using <code class="highlighter-rouge">deserialize</code> during retrieval is the way to go.)</em></p>
+<p><em>(Since the data we are caching is just an array that contains primitive and scalar values, storing it as an executable PHP file with the help of <code>var_export</code> can do the job very well.
+If however you are dealing with objects, this won’t really work. In such a case, using <code>serialize</code> to store it and using <code>deserialize</code> during retrieval is the way to go.)</em></p>
 
-<p>Now, as long as none of the <code class="highlighter-rouge">sitemap.yml</code> files remains unmodified, this file will remain there and will never be regenerated.</p>
+<p>Now, as long as none of the <code>sitemap.yml</code> files remains unmodified, this file will remain there and will never be regenerated.</p>
 
-<p>The <code class="highlighter-rouge">ConfigCache</code> class takes care most of the complicated logic of implementing a caching layer which is smart enough to know when it should be busted or invalidated.
-Compared to the TTL (time-to-live) based caching wherein the cache is busted after a set period of time, <code class="highlighter-rouge">ConfigCache</code> is way smarter because it actually checks whether or not
-any of the resources we registered has changed since (using <a href="http://php.net/manual/en/function.filemtime.php"><code class="highlighter-rouge">filemtime</code></a>). If any of them has been modified, it is only logical
+<p>The <code>ConfigCache</code> class takes care most of the complicated logic of implementing a caching layer which is smart enough to know when it should be busted or invalidated.
+Compared to the TTL (time-to-live) based caching wherein the cache is busted after a set period of time, <code>ConfigCache</code> is way smarter because it actually checks whether or not
+any of the resources we registered has changed since (using <a href="http://php.net/manual/en/function.filemtime.php"><code>filemtime</code></a>). If any of them has been modified, it is only logical
 to bust the cache is there is a chance that the underlying data should change. This means that your cache is only built once in production as the files would remain unchanged until your next deploy (unless
 you change stuff directly on production, you evil you).
 Symfony’s service container and router generator/matcher uses this very mechanism.</p>
@@ -443,7 +443,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             -&gt;children()
-                -&gt;booleanNode('cache')-&gt;defaultValue(true)-&gt;end()
+                -&gt;booleanNode(&apos;cache&apos;)-&gt;defaultValue(true)-&gt;end()
             -&gt;end();
 
         return $treeBuilder;
@@ -471,7 +471,7 @@ thehunt_sitemap:
   </div>
 </div>
 
-<p>And finally, the switching between the non-caching and caching <code class="highlighter-rouge">LinkCollector</code>s is done via:</p>
+<p>And finally, the switching between the non-caching and caching <code>LinkCollector</code>s is done via:</p>
 
 <div class="code-section">
   <div class="filename">
@@ -494,20 +494,20 @@ class TheHuntSitemapExtension extends Extension
     {
         /** Gather files... **/
 
-        // Let's replace the placeholder blank array with the actual list.
-        $collector = $container-&gt;getDefinition('thehunt_sitemap.link_collector');
+        // Let&apos;s replace the placeholder blank array with the actual list.
+        $collector = $container-&gt;getDefinition(&apos;thehunt_sitemap.link_collector&apos;);
         $collector-&gt;replaceArgument(0, $files);
 
 
-        // If caching is turned on in the bundle's configuration
-        if ($config['cache'] === true) {
+        // If caching is turned on in the bundle&apos;s configuration
+        if ($config[&apos;cache&apos;] === true) {
 
             // Replace the link collector class to use the one with caching awareness
-            $collector-&gt;setClass('TheHunt\SitemapBundle\Sitemap\CachingLinkCollector');
+            $collector-&gt;setClass(&apos;TheHunt\SitemapBundle\Sitemap\CachingLinkCollector&apos;);
 
             // Add the additional required values needed by the cache-aware counterpart
-            $collector-&gt;addArgument($container-&gt;getParameter('kernel.cache_dir'));
-            $collector-&gt;addArgument($container-&gt;getParameter('kernel.debug'));
+            $collector-&gt;addArgument($container-&gt;getParameter(&apos;kernel.cache_dir&apos;));
+            $collector-&gt;addArgument($container-&gt;getParameter(&apos;kernel.debug&apos;));
 
         }
     }
@@ -519,11 +519,11 @@ class TheHuntSitemapExtension extends Extension
 <p>Now our mechanism for gathering sitemap links from YAML files is complete! We wrote two classes each having their own responsibilities.</p>
 
 <p>We also managed to inject just the right amount of information that these classes need, and no more.
-We could have injected the container into <code class="highlighter-rouge">LinkCollector</code> and have it pull the <code class="highlighter-rouge">router</code> service from there to generate
-the URLs, or even use the <code class="highlighter-rouge">$this-&gt;container-&gt;locateResource(...)</code> method for finding the <code class="highlighter-rouge">sitemap.yml</code> files.
-But giving the <code class="highlighter-rouge">kernel</code> or the <code class="highlighter-rouge">service_container</code> to our <code class="highlighter-rouge">LinkCollector</code> is not optimal as it introduces coupling and can be considered an <a href="http://blog.ploeh.dk/2010/02/03/ServiceLocatorisanAnti-Pattern/">anti-pattern</a> in
+We could have injected the container into <code>LinkCollector</code> and have it pull the <code>router</code> service from there to generate
+the URLs, or even use the <code>$this-&gt;container-&gt;locateResource(...)</code> method for finding the <code>sitemap.yml</code> files.
+But giving the <code>kernel</code> or the <code>service_container</code> to our <code>LinkCollector</code> is not optimal as it introduces coupling and can be considered an <a href="http://blog.ploeh.dk/2010/02/03/ServiceLocatorisanAnti-Pattern/">anti-pattern</a> in
 our particular use-case.
-After-all, all it needs is the list of files to read from and the <code class="highlighter-rouge">router</code> service to generate fully-qualified URLs, and that is all that we are giving it. Its easy to determine
+After-all, all it needs is the list of files to read from and the <code>router</code> service to generate fully-qualified URLs, and that is all that we are giving it. Its easy to determine
 what this class needs to do its job, which makes it easier to understand, manage, and test with mocks or otherwise.</p>
 
 <p>Perhaps for the next blog post, lets improve this bundle even more by giving it the ability to read configuration from annotations. That task, too, will really benefit from our

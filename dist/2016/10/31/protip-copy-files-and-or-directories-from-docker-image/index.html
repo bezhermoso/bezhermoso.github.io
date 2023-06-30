@@ -19,9 +19,9 @@
     
     <meta property="og:title" content="Protip: copy files and/or directories from a Docker image" />
         
-        <meta property="og:description" content="I found myself needing to copy a bunch of files and directories straight from a Docker image. There is a trivial solution in the form of docker cp, but I came up with an alternative using docker run:" />
+        <meta property="og:description" content="I found myself needing to copy a bunch of files and directories straight from a Docker image. There is a trivial solution in the form of docker cp, but I came up with an alternative using docker run:                &amp;nbsp;      $ docker run --rm &amp;lt;IMAGE NAME&amp;gt; \   tar -cf - &amp;lt;SRC_PATH_1&amp;gt; [&amp;lt;SRC_PATH_2&amp;gt; ...] | tar -xvC - &amp;lt;DEST_PATH&amp;gt;        This obviously relies on the the container having tar installed.This alternative has a few advantages over docker cp:" />
         
-        <meta name="description" content="I found myself needing to copy a bunch of files and directories straight from a Docker image. There is a trivial solution in the form of docker cp, but I came up with an alternative using docker run:" />
+        <meta name="description" content="I found myself needing to copy a bunch of files and directories straight from a Docker image. There is a trivial solution in the form of docker cp, but I came up with an alternative using docker run:                &amp;nbsp;      $ docker run --rm &amp;lt;IMAGE NAME&amp;gt; \   tar -cf - &amp;lt;SRC_PATH_1&amp;gt; [&amp;lt;SRC_PATH_2&amp;gt; ...] | tar -xvC - &amp;lt;DEST_PATH&amp;gt;        This obviously relies on the the container having tar installed.This alternative has a few advantages over docker cp:" />
     
     <script src="/bundle.js"></script>
   </head>
@@ -47,10 +47,10 @@
         <time datetime="2016-10-31T00:00:00-07:00">31 Oct 2016</time>
       </div>
     </div>
-    <div class="blog-body large-12 columns">
-      <p>I found myself needing to copy a bunch of files and directories straight from a Docker image. There is a trivial solution in the form of <code class="highlighter-rouge">docker cp</code>, but I came up with an alternative using <code class="highlighter-rouge">docker run</code>:</p>
+    <div class="blog-body large-12 cell">
+      <p>I found myself needing to copy a bunch of files and directories straight from a Docker image. There is a trivial solution in the form of <code>docker cp</code>, but I came up with an alternative using <code>docker run</code>:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -60,23 +60,23 @@
   </div>
 
 <blockquote>
-  <p>This obviously relies on the the container having <code class="highlighter-rouge">tar</code> installed.</p>
+  <p>This obviously relies on the the container having <code>tar</code> installed.</p>
 </blockquote>
 
-<p>This alternative has a few advantages over <code class="highlighter-rouge">docker cp</code>:</p>
+<p>This alternative has a few advantages over <code>docker cp</code>:</p>
 
 <!--stop-->
 
 <ul>
-  <li><code class="highlighter-rouge">docker cp</code> requires absolute paths. This supports paths relative to the image’s <code class="highlighter-rouge">WORKDIR</code>.</li>
-  <li><code class="highlighter-rouge">docker cp</code> copies from a container, not an image. This alternative does not require a running container, nor do you need to run <code class="highlighter-rouge">docker create</code> and having to clean it up later (a container is still being created here, but the <code class="highlighter-rouge">--rm</code> flag will take care of cleaning it up after use).</li>
+  <li><code>docker cp</code> requires absolute paths. This supports paths relative to the image’s <code>WORKDIR</code>.</li>
+  <li><code>docker cp</code> copies from a container, not an image. This alternative does not require a running container, nor do you need to run <code>docker create</code> and having to clean it up later (a container is still being created here, but the <code>--rm</code> flag will take care of cleaning it up after use).</li>
   <li>You can copy multiple paths in one go.</li>
-  <li>You get an progress/activity indicator for free, thanks to the <code class="highlighter-rouge">-v</code> flag in the <code class="highlighter-rouge">tar</code> command.  A list of filenames as they are being extracted to the destination folder.</li>
+  <li>You get an progress/activity indicator for free, thanks to the <code>-v</code> flag in the <code>tar</code> command.  A list of filenames as they are being extracted to the destination folder.</li>
 </ul>
 
 <p>There is one <em>caveat</em>, however: depending on your image’s configuration, you might encounter this error:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -85,9 +85,9 @@ tar: Unrecognized archive format</code></pre>
     </div>
   </div>
 
-<p>This happens if you have an <code class="highlighter-rouge">ENTRYPOINT</code> that is polluting the <code class="highlighter-rouge">tar</code> output stream. If you can’t configure your <code class="highlighter-rouge">ENTRYPOINT</code> to be completely silent when acting in “<code class="highlighter-rouge">bash</code> pass-through mode”, you can chose to just bypass it during <code class="highlighter-rouge">docker run</code> execution:</p>
+<p>This happens if you have an <code>ENTRYPOINT</code> that is polluting the <code>tar</code> output stream. If you can’t configure your <code>ENTRYPOINT</code> to be completely silent when acting in “<code>bash</code> pass-through mode”, you can chose to just bypass it during <code>docker run</code> execution:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -97,13 +97,13 @@ tar: Unrecognized archive format</code></pre>
 
 <h4 id="bonus">Bonus</h4>
 
-<p>This command can potentially produce a ton of output if you are copying a massive amount of files. You can, of course, omit the <code class="highlighter-rouge">-v</code> flag from the <code class="highlighter-rouge">tar</code> command. However, you can keep the <code class="highlighter-rouge">-v</code> flag on but tack this to the end of the command:</p>
+<p>This command can potentially produce a ton of output if you are copying a massive amount of files. You can, of course, omit the <code>-v</code> flag from the <code>tar</code> command. However, you can keep the <code>-v</code> flag on but tack this to the end of the command:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
-      <pre><code class="language-bash">2&gt;&amp;1 | while read l; do echo -ne &quot;\033[2K\r$l&quot;; done; echo '...done!'</code></pre>
+      <pre><code class="language-bash">2&gt;&amp;1 | while read l; do echo -ne &quot;\033[2K\r$l&quot;; done; echo &apos;...done!&apos;</code></pre>
     </div>
   </div>
 

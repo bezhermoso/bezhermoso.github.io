@@ -19,9 +19,9 @@
     
     <meta property="og:title" content="Simple solution for tmux causing system freezes on Mac OS X" />
         
-        <meta property="og:description" content="  2015-10-21 Update: Version 2.1 of tmux has just been release a coupleof days ago and from what I can tell it has addressed this fatal issue! So thesimpler solution would be doing brew upgrade tmux to get the recent release.If you are stuck using 2.0 however, I hope this post is helpful." />
+        <meta property="og:description" content="  2015-10-21 Update: Version 2.1 of tmux has just been release a coupleof days ago and from what I can tell it has addressed this fatal issue! So thesimpler solution would be doing brew upgrade tmux to get the recent release.If you are stuck using 2.0 however, I hope this post is helpful.What fixed it for me was adding a single line to my ~/.zshrc and a single line to my ~/.tmux.conf file:                &amp;nbsp;      # ~/.zshrctmux start-server                      &amp;nbsp;      # ~/.tmux.confnew-session      It turns out, after trial and error, that the OS freezes (or in worst cases, kernel panics on older OS X versions) usually happenwhen you close the very last of all tmux pane of the very last tmux session.With these additions to my config files, a tmux server is started with an empty tmux session whenever I fire up a terminalwindow for the first time. This means that I always have an empty tmux session – still active although never used – even afterI exit out all the sessions I create on a daily basis.I never had my MacBook Pro grind to a stop as soon as I close out all tmuxsessions and having to forcibly turn it off.This does not fix tmux, but is a simple work-around for a problem that hasa potential to incur data loss in the future." />
         
-        <meta name="description" content="  2015-10-21 Update: Version 2.1 of tmux has just been release a coupleof days ago and from what I can tell it has addressed this fatal issue! So thesimpler solution would be doing brew upgrade tmux to get the recent release.If you are stuck using 2.0 however, I hope this post is helpful." />
+        <meta name="description" content="  2015-10-21 Update: Version 2.1 of tmux has just been release a coupleof days ago and from what I can tell it has addressed this fatal issue! So thesimpler solution would be doing brew upgrade tmux to get the recent release.If you are stuck using 2.0 however, I hope this post is helpful.What fixed it for me was adding a single line to my ~/.zshrc and a single line to my ~/.tmux.conf file:                &amp;nbsp;      # ~/.zshrctmux start-server                      &amp;nbsp;      # ~/.tmux.confnew-session      It turns out, after trial and error, that the OS freezes (or in worst cases, kernel panics on older OS X versions) usually happenwhen you close the very last of all tmux pane of the very last tmux session.With these additions to my config files, a tmux server is started with an empty tmux session whenever I fire up a terminalwindow for the first time. This means that I always have an empty tmux session – still active although never used – even afterI exit out all the sessions I create on a daily basis.I never had my MacBook Pro grind to a stop as soon as I close out all tmuxsessions and having to forcibly turn it off.This does not fix tmux, but is a simple work-around for a problem that hasa potential to incur data loss in the future." />
     
     <script src="/bundle.js"></script>
   </head>
@@ -47,17 +47,17 @@
         <time datetime="2015-10-17T00:00:00-07:00">17 Oct 2015</time>
       </div>
     </div>
-    <div class="blog-body large-12 columns">
+    <div class="blog-body large-12 cell">
       <blockquote>
-  <p><strong>2015-10-21 Update:</strong> Version 2.1 of <code class="highlighter-rouge">tmux</code> has just been release a couple
+  <p><strong>2015-10-21 Update:</strong> Version 2.1 of <code>tmux</code> has just been release a couple
 of days ago and from what I can tell it has addressed this fatal issue! So the
-simpler solution would be doing <code class="highlighter-rouge">brew upgrade tmux</code> to get the recent release.
+simpler solution would be doing <code>brew upgrade tmux</code> to get the recent release.
 If you are stuck using 2.0 however, I hope this post is helpful.</p>
 </blockquote>
 
-<p>What fixed it for me was adding a single line to my <code class="highlighter-rouge">~/.zshrc</code> and a single line to my <code class="highlighter-rouge">~/.tmux.conf</code> file:</p>
+<p>What fixed it for me was adding a single line to my <code>~/.zshrc</code> and a single line to my <code>~/.tmux.conf</code> file:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -66,7 +66,7 @@ tmux start-server</code></pre>
     </div>
   </div>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -76,16 +76,16 @@ new-session</code></pre>
   </div>
 
 <p>It turns out, after trial and error, that the OS freezes (or in worst cases, kernel panics on older OS X versions) usually happen
-when you close the very last of all <code class="highlighter-rouge">tmux</code> pane of the very last <code class="highlighter-rouge">tmux</code> session.</p>
+when you close the very last of all <code>tmux</code> pane of the very last <code>tmux</code> session.</p>
 
-<p>With these additions to my config files, a <code class="highlighter-rouge">tmux</code> server is started with an empty <code class="highlighter-rouge">tmux</code> session whenever I fire up a terminal
-window for the first time. This means that I always have an empty <code class="highlighter-rouge">tmux</code> session – still active although never used – even after
+<p>With these additions to my config files, a <code>tmux</code> server is started with an empty <code>tmux</code> session whenever I fire up a terminal
+window for the first time. This means that I always have an empty <code>tmux</code> session – still active although never used – even after
 I exit out all the sessions I create on a daily basis.</p>
 
-<p>I never had my MacBook Pro grind to a stop as soon as I close out all <code class="highlighter-rouge">tmux</code>
+<p>I never had my MacBook Pro grind to a stop as soon as I close out all <code>tmux</code>
 sessions and having to forcibly turn it off.</p>
 
-<p>This does not fix <code class="highlighter-rouge">tmux</code>, but is a simple work-around for a problem that has
+<p>This does not fix <code>tmux</code>, but is a simple work-around for a problem that has
 a potential to incur data loss in the future.</p>
 
 

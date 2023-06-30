@@ -19,9 +19,9 @@
     
     <meta property="og:title" content="Fun with functions in Javascript: high-order functions" />
         
-        <meta property="og:description" content="Functional programming has been gaining popularity lately. It’s an interesting paradigm for solving problems and departs quite a bit from familiar concepts programmers like me who use object-oriented languages are used to.Just like object-oriented programming, it has its own sets of design principles and philosophies. I don’t pretend to know a lot of them – in fact I only have barely scratched the surface, but two concepts has stoodout to me so far – its the concept of high-order functions and the slew of interesting things you can do with them." />
+        <meta property="og:description" content="Functional programming has been gaining popularity lately. It’s an interesting paradigm for solving problems and departs quite a bit from familiar concepts programmers like me who use object-oriented languages are used to.Just like object-oriented programming, it has its own sets of design principles and philosophies. I don’t pretend to know a lot of them – in fact I only have barely scratched the surface, but two concepts has stoodout to me so far – its the concept of high-order functions and the slew of interesting things you can do with them.High-order functionshigh-order functions are simply functions that operate on other functions, by taking them as arguments are having functions as a return value (so meta). This is one of things you find in a languages like Haskell and Erlang (so I’ve heard) or even Javascript barring some short-comings where functions are first-class citizens, which is a cool way of saying that they can be treated like any other value i.e., you can assign them to a variable, append them to an array, pass them around as function arguments or return them as return values, etc. i.e. In Javascript, function foo () {} is equivalent to var foo = function() {}." />
         
-        <meta name="description" content="Functional programming has been gaining popularity lately. It’s an interesting paradigm for solving problems and departs quite a bit from familiar concepts programmers like me who use object-oriented languages are used to.Just like object-oriented programming, it has its own sets of design principles and philosophies. I don’t pretend to know a lot of them – in fact I only have barely scratched the surface, but two concepts has stoodout to me so far – its the concept of high-order functions and the slew of interesting things you can do with them." />
+        <meta name="description" content="Functional programming has been gaining popularity lately. It’s an interesting paradigm for solving problems and departs quite a bit from familiar concepts programmers like me who use object-oriented languages are used to.Just like object-oriented programming, it has its own sets of design principles and philosophies. I don’t pretend to know a lot of them – in fact I only have barely scratched the surface, but two concepts has stoodout to me so far – its the concept of high-order functions and the slew of interesting things you can do with them.High-order functionshigh-order functions are simply functions that operate on other functions, by taking them as arguments are having functions as a return value (so meta). This is one of things you find in a languages like Haskell and Erlang (so I’ve heard) or even Javascript barring some short-comings where functions are first-class citizens, which is a cool way of saying that they can be treated like any other value i.e., you can assign them to a variable, append them to an array, pass them around as function arguments or return them as return values, etc. i.e. In Javascript, function foo () {} is equivalent to var foo = function() {}." />
     
     <script src="/bundle.js"></script>
   </head>
@@ -47,14 +47,14 @@
         <time datetime="2015-05-16T00:00:00-07:00">16 May 2015</time>
       </div>
     </div>
-    <div class="blog-body large-12 columns">
+    <div class="blog-body large-12 cell">
       <p><a href="http://en.wikipedia.org/wiki/Functional_programming">Functional programming</a> has been gaining popularity lately. It’s an interesting paradigm for solving problems and departs quite a bit from familiar concepts programmers like me who use object-oriented languages are used to.
 Just like object-oriented programming, it has its own sets of design principles and philosophies. I don’t pretend to know a lot of them – in fact I only have barely scratched the surface, but two concepts has stood
 out to me so far – its the concept of <em>high-order functions</em> and the slew of interesting things you can do with them.</p>
 
 <h2 id="high-order-functions">High-order functions</h2>
 
-<p><strong>high-order functions</strong> are simply functions that operate on <em>other</em> functions, by taking them as arguments are having functions as a return value (so meta). This is one of things you find in a languages like Haskell and Erlang (so I’ve heard) or even Javascript barring some short-comings where functions are first-class citizens, which is a cool way of saying that they can be treated like any other value i.e., you can assign them to a variable, append them to an array, pass them around as function arguments or return them as return values, etc. i.e. In Javascript, <code class="highlighter-rouge">function foo () {}</code> is equivalent to <code class="highlighter-rouge">var foo = function() {}</code>.</p>
+<p><strong>high-order functions</strong> are simply functions that operate on <em>other</em> functions, by taking them as arguments are having functions as a return value (so meta). This is one of things you find in a languages like Haskell and Erlang (so I’ve heard) or even Javascript barring some short-comings where functions are first-class citizens, which is a cool way of saying that they can be treated like any other value i.e., you can assign them to a variable, append them to an array, pass them around as function arguments or return them as return values, etc. i.e. In Javascript, <code>function foo () {}</code> is equivalent to <code>var foo = function() {}</code>.</p>
 
 <!--stop-->
 <h2 id="function-composition">Function Composition</h2>
@@ -80,29 +80,29 @@ var _compose = function (f, g) {
 };
 
 var shout = function (text) {
-  return (text.toUpperCase()) + '!!!1!';
+  return (text.toUpperCase()) + &apos;!!!1!&apos;;
 };
 
 var strong = function (text) {
-  return '&lt;strong&gt;' + text + '&lt;/strong&gt;';
+  return &apos;&lt;strong&gt;&apos; + text + &apos;&lt;/strong&gt;&apos;;
 }
 
 var emphasize = function (text) {
-  return '&lt;em&gt;' + text + '&lt;/em&gt;';
+  return &apos;&lt;em&gt;&apos; + text + &apos;&lt;/em&gt;&apos;;
 }
 
 var strongShout = _compose(strong, shout);
 
-strongShout('this is sparta'); //&lt;strong&gt;THIS IS SPARTA!!!1!&lt;/strong&gt;
+strongShout(&apos;this is sparta&apos;); //&lt;strong&gt;THIS IS SPARTA!!!1!&lt;/strong&gt;
 
 var strongShoutWithEmphasis = _compose(emphasize, strongShout);
 
-strongShoutWithEmphasis('this is sparta'); //&lt;em&gt;&lt;strong&gt;THIS IS SPARTA!!!1!&lt;/strong&gt;&lt;/em&gt;</code></pre>
+strongShoutWithEmphasis(&apos;this is sparta&apos;); //&lt;em&gt;&lt;strong&gt;THIS IS SPARTA!!!1!&lt;/strong&gt;&lt;/em&gt;</code></pre>
     </div>
   </div>
 </div>
 
-<p><code class="highlighter-rouge">strong</code>, <code class="highlighter-rouge">shout</code>, and <code class="highlighter-rouge">emphasize</code> is said to be composable with each other because you can take any two of them and compose them together to create a completely new function at run-time like <code class="highlighter-rouge">strongShout</code>. You can also nest compositions to produce a function like <code class="highlighter-rouge">strongShoutWithEmphasis</code>, which is pretty cool.</p>
+<p><code>strong</code>, <code>shout</code>, and <code>emphasize</code> is said to be composable with each other because you can take any two of them and compose them together to create a completely new function at run-time like <code>strongShout</code>. You can also nest compositions to produce a function like <code>strongShoutWithEmphasis</code>, which is pretty cool.</p>
 
 <p>I’d like to show a very simple application of the concept which takes things a little further:</p>
 
@@ -123,26 +123,26 @@ strongShoutWithEmphasis('this is sparta'); //&lt;em&gt;&lt;strong&gt;THIS IS SPA
   <div class="row">
     <div class="large-12 columns">
       <pre><code class="language-javascript">{
-    text: 'Check out what we\'ve done with #Drupal #Symfony #Elasticsearch  &amp;amp; #AngularJS at @activelamp: http://t.co/d4EXKNGv3h',
+    text: &apos;Check out what we\&apos;ve done with #Drupal #Symfony #Elasticsearch  &amp;amp; #AngularJS at @activelamp: http://t.co/d4EXKNGv3h&apos;,
     entities: {
       hashtags: [
-        { text: 'Drupal', indices: [ 31, 38 ] },
-        { text: 'Symfony', indices: [ 39, 47 ] },
-        { text: 'Elasticsearch', indices: [ 48, 62 ] },
-        { text: 'AngularJS', indices: [ 70, 80 ] }
+        { text: &apos;Drupal&apos;, indices: [ 31, 38 ] },
+        { text: &apos;Symfony&apos;, indices: [ 39, 47 ] },
+        { text: &apos;Elasticsearch&apos;, indices: [ 48, 62 ] },
+        { text: &apos;AngularJS&apos;, indices: [ 70, 80 ] }
       ],
       user_mentions: [
-        { screen_name: 'activelamp',
-          name: 'ActiveLAMP',
+        { screen_name: &apos;activelamp&apos;,
+          name: &apos;ActiveLAMP&apos;,
           id: 40290704,
-          id_str: '40290704',
+          id_str: &apos;40290704&apos;,
           indices: [ 84, 95 ]
         }
       ],
       urls: [
-        { url: 'http://t.co/d4EXKNGv3h',
-          expanded_url: 'http://actvl.mp/1cwJMZA',
-          display_url: 'actvl.mp/1cwJMZA',
+        { url: &apos;http://t.co/d4EXKNGv3h&apos;,
+          expanded_url: &apos;http://actvl.mp/1cwJMZA&apos;,
+          display_url: &apos;actvl.mp/1cwJMZA&apos;,
           indices: [ 97, 119 ]
         }
       ]
@@ -152,7 +152,7 @@ strongShoutWithEmphasis('this is sparta'); //&lt;em&gt;&lt;strong&gt;THIS IS SPA
   </div>
 </div>
 
-<p>What the of interest here are the list of entities that are embedded in this tweet and the indices which tells us where to find them in the plain-text tweet; i.e. the <code class="highlighter-rouge">Symfony</code> hashtag starts on the 48th character up to the 62nd (zero-indexed).</p>
+<p>What the of interest here are the list of entities that are embedded in this tweet and the indices which tells us where to find them in the plain-text tweet; i.e. the <code>Symfony</code> hashtag starts on the 48th character up to the 62nd (zero-indexed).</p>
 
 <p>It’s pretty obvious that the essence of the solution is a chain of string substitutions, and the solution abstract is basically taking a string and replacing a piece of it with something else. Here is a function that does that:</p>
 
@@ -192,24 +192,24 @@ or...
   <div class="row">
     <div class="large-12 columns">
       <pre><code class="language-javascript">var substituteMention = function (str, mention) {
-  var repl = '&lt;a href=&quot;https://twitter.com/' + mention.screen_name + '&quot;&gt;@' + mention.screen_name + '&lt;/a&gt;';
+  var repl = &apos;&lt;a href=&quot;https://twitter.com/&apos; + mention.screen_name + &apos;&quot;&gt;@&apos; + mention.screen_name + &apos;&lt;/a&gt;&apos;;
   return substitute(str, mention.indices[0], mention.indices[1], repl);
 }
 
 var substituteHashtag = function (str, hashtag) {
-  var repl = '&lt;a href=&quot;https://twitter.com/hashtag/' + hashtag.text + '?src=hash&quot;&gt;#' + hashtag.text + '&lt;/a&gt;';
+  var repl = &apos;&lt;a href=&quot;https://twitter.com/hashtag/&apos; + hashtag.text + &apos;?src=hash&quot;&gt;#&apos; + hashtag.text + &apos;&lt;/a&gt;&apos;;
   return substitute(str, hashtag.indices[0], hashtag.indices[1], repl);
 }
 
 var substituteUrl = function (str, url) {
-  var repl = '&lt;a href=&quot;' + url.expanded_url + '&quot;&gt;' + url.display_url + '&lt;/a&gt;';
+  var repl = &apos;&lt;a href=&quot;&apos; + url.expanded_url + &apos;&quot;&gt;&apos; + url.display_url + &apos;&lt;/a&gt;&apos;;
   return substitute(str, url.indices[0], url.indices[1], repl);
 }</code></pre>
     </div>
   </div>
 </div>
 
-<p>We are just building on top of our <code class="highlighter-rouge">substitute</code> function, just differing on what replacement string to pass in depending on the context.</p>
+<p>We are just building on top of our <code>substitute</code> function, just differing on what replacement string to pass in depending on the context.</p>
 
 <p>Take note of each of their function signatures as well:</p>
 
@@ -219,12 +219,12 @@ substitute<sub>x</sub>: (String, Object) -&gt; String
 
 <h2 id="now-this-is-where-the-fun-begins">Now this is where the fun begins…</h2>
 
-<p>Here is an aspect to the problem that is not readily apparent on first reading: it is that <strong>string replacements must be done in a certain order to get the proper result</strong>. Think about it: the moment you modify the plain-text tweet by replacing a portion of it with something else, <strong>the rest of indices will be off.</strong> For example, the moment you replace <code class="highlighter-rouge">#Drupal</code> with <code class="highlighter-rouge">&lt;a href="https://twitter.com/hashtag/Drupal?src=hash"&gt;#Drupal&lt;/a&gt;</code>, the indices <code class="highlighter-rouge">[ 39, 47 ]</code> for <code class="highlighter-rouge">Symfony</code> would no longer point to the right spot in the string.</p>
+<p>Here is an aspect to the problem that is not readily apparent on first reading: it is that <strong>string replacements must be done in a certain order to get the proper result</strong>. Think about it: the moment you modify the plain-text tweet by replacing a portion of it with something else, <strong>the rest of indices will be off.</strong> For example, the moment you replace <code>#Drupal</code> with <code>&lt;a href="https://twitter.com/hashtag/Drupal?src=hash"&gt;#Drupal&lt;/a&gt;</code>, the indices <code>[ 39, 47 ]</code> for <code>Symfony</code> would no longer point to the right spot in the string.</p>
 
 <p>What we need to do to get the correct result every time is to <strong>do the string substitutions from the right-most entity to left-most</strong> –
-this assures that any previous substitutions does not affect the indices, as the indices are counted left to right, i.e. what happens to <code class="highlighter-rouge">[9, 12]</code> could <em>never</em> shift anything from <code class="highlighter-rouge">[0, 8]</code> which will remain unchanged.</p>
+this assures that any previous substitutions does not affect the indices, as the indices are counted left to right, i.e. what happens to <code>[9, 12]</code> could <em>never</em> shift anything from <code>[0, 8]</code> which will remain unchanged.</p>
 
-<p>Its now apparent what we can’t just loop through each of the entity type and execute these <code class="highlighter-rouge">substitute_*</code> functions against our plain-text string off-the-bat – we need to somehow make them into a sequence of discrete procedures that are ordered in the sequence we want them executed.</p>
+<p>Its now apparent what we can’t just loop through each of the entity type and execute these <code>substitute_*</code> functions against our plain-text string off-the-bat – we need to somehow make them into a sequence of discrete procedures that are ordered in the sequence we want them executed.</p>
 
 <p>Our execution logic should resemble something like this:</p>
 
@@ -272,7 +272,7 @@ s(plainTweet); // ...is equivalent to substituteHashtag(plainTweet, hashtagData)
   </div>
 </div>
 
-<p>What we achieved here is <em>we effectively took the <code class="highlighter-rouge">substituteHashtag</code> function – a function that takes a string and an object as arguments – into a function that only takes a string as argument.</em></p>
+<p>What we achieved here is <em>we effectively took the <code>substituteHashtag</code> function – a function that takes a string and an object as arguments – into a function that only takes a string as argument.</em></p>
 
 <p>The function signature is:</p>
 
@@ -284,7 +284,7 @@ Takes a Function and an Object and returns a <strong>Function</strong> which tak
 
 <p><img src="/img/yudodis.jpg" style="margin: 10px auto; display: block;" /></p>
 
-<p>Remember our function composition examples? We can finally apply the concept of function composition to our substitution functions, as they can now be composed together, thanks to <code class="highlighter-rouge">substituteFunc</code>.</p>
+<p>Remember our function composition examples? We can finally apply the concept of function composition to our substitution functions, as they can now be composed together, thanks to <code>substituteFunc</code>.</p>
 
 <div class="code-section">
   <div class="filename">
@@ -305,11 +305,11 @@ _compose(sub4, _compose(sub3, _compose(sub2, sub1)))(tweet);</code></pre>
   </div>
 </div>
 
-<p>However it looks muddled and does not scale at all; adding more substitutions requires careful attention, and even re-ordering the operations is a PITA. Plus you can’t even add or reorder substitutions at run-time (which we need to do because we will never know ahead of time how many substitutions are necessary let alone in which order.).  Using <code class="highlighter-rouge">_compose</code> does really solve our bigger problem, but its almost there.</p>
+<p>However it looks muddled and does not scale at all; adding more substitutions requires careful attention, and even re-ordering the operations is a PITA. Plus you can’t even add or reorder substitutions at run-time (which we need to do because we will never know ahead of time how many substitutions are necessary let alone in which order.).  Using <code>_compose</code> does really solve our bigger problem, but its almost there.</p>
 
 <h2 id="piping-functions">Piping functions</h2>
 
-<p>Let’s introduce a <code class="highlighter-rouge">_pipe</code> function:</p>
+<p>Let’s introduce a <code>_pipe</code> function:</p>
 
 <div class="code-section">
   <div class="filename">
@@ -326,14 +326,14 @@ _compose(sub4, _compose(sub3, _compose(sub2, sub1)))(tweet);</code></pre>
   return value;
 };
 
-_pipe('this is sparta', [shout, strong, emphasize]); //&lt;em&gt;&lt;strong&gt;THIS IS SPARTA!!!1!&lt;/strong&gt;&lt;/em&gt;</code></pre>
+_pipe(&apos;this is sparta&apos;, [shout, strong, emphasize]); //&lt;em&gt;&lt;strong&gt;THIS IS SPARTA!!!1!&lt;/strong&gt;&lt;/em&gt;</code></pre>
     </div>
   </div>
 </div>
 
-<p>What <code class="highlighter-rouge">_pipe</code> does is basically take the value and apply the functions from the list to it iteratively, and returning the final product of all the operations. Obviously, the biggest requirement is that a function in the list must be compatible with the return value of the function before it. It just so happens that <code class="highlighter-rouge">shout</code>, <code class="highlighter-rouge">strong</code>, &amp; <code class="highlighter-rouge">emphasize</code> are compatible with each other no matter the order, so we can pipe a string value through them in any order we want.</p>
+<p>What <code>_pipe</code> does is basically take the value and apply the functions from the list to it iteratively, and returning the final product of all the operations. Obviously, the biggest requirement is that a function in the list must be compatible with the return value of the function before it. It just so happens that <code>shout</code>, <code>strong</code>, &amp; <code>emphasize</code> are compatible with each other no matter the order, so we can pipe a string value through them in any order we want.</p>
 
-<p>We can actually write <code class="highlighter-rouge">_pipe</code> this way to be even fancier:</p>
+<p>We can actually write <code>_pipe</code> this way to be even fancier:</p>
 
 <div class="code-section">
   <div class="filename">
@@ -351,12 +351,12 @@ _pipe('this is sparta', [shout, strong, emphasize]); //&lt;em&gt;&lt;strong&gt;T
 </div>
 
 <blockquote>
-  <p>Here is an explanation of what <code class="highlighter-rouge">Array.prototype.reduce</code> does and how it works:  <a href="https://www.airpair.com/javascript/javascript-array-reduce">https://www.airpair.com/javascript/javascript-array-reduce</a>.</p>
+  <p>Here is an explanation of what <code>Array.prototype.reduce</code> does and how it works:  <a href="https://www.airpair.com/javascript/javascript-array-reduce">https://www.airpair.com/javascript/javascript-array-reduce</a>.</p>
 </blockquote>
 
 <p>Try it out.</p>
 
-<p>We can use the <code class="highlighter-rouge">_pipe</code> function to our string substitution dilemma:</p>
+<p>We can use the <code>_pipe</code> function to our string substitution dilemma:</p>
 
 <div class="code-section">
   <div class="filename">
@@ -386,14 +386,14 @@ _pipe(tweet.text. hashtagSubs.concat(urlSubs).concat(mentionSubs));</code></pre>
   </div>
 </div>
 
-<p>As you can see, <code class="highlighter-rouge">_pipe</code> allows us to compose our functions at run-time, making the number of functions
+<p>As you can see, <code>_pipe</code> allows us to compose our functions at run-time, making the number of functions
 to work with arbitrary and inconsequential in our implementation.</p>
 
 <h3 id="but-wait">But wait…</h3>
 
 <p>We still haven’t solved the execution-order problem. The current code will simply execute them in the order in which they are added into the array. Its nothing different from looping through each of them and applying them to a continuously-evolving tweet. Remember, we need to substitute starting from the right-most entities first.</p>
 
-<p>Let’s modify the <code class="highlighter-rouge">substituteFunc</code> function:</p>
+<p>Let’s modify the <code>substituteFunc</code> function:</p>
 
 <div class="code-section">
   <div class="filename">
@@ -419,9 +419,9 @@ var htmlTweet = _pipe(tweet.text, orderedSubs);</code></pre>
   </div>
 </div>
 
-<p>We are just using the fact that <strong>Javascript functions are also objects at heart</strong>, and that you can not only treat them like any other value – like assign them to variables or append them to arrays –  but you can actually assign properties to it. Here we just added a <code class="highlighter-rouge">weight</code> property which we use to order them in reverse.</p>
+<p>We are just using the fact that <strong>Javascript functions are also objects at heart</strong>, and that you can not only treat them like any other value – like assign them to variables or append them to arrays –  but you can actually assign properties to it. Here we just added a <code>weight</code> property which we use to order them in reverse.</p>
 
-<p>Now, <code class="highlighter-rouge">_pipe</code> applies the substitutions in the order we need.</p>
+<p>Now, <code>_pipe</code> applies the substitutions in the order we need.</p>
 
 <div class="code-section">
   <div class="filename">
@@ -432,7 +432,7 @@ var htmlTweet = _pipe(tweet.text, orderedSubs);</code></pre>
   <div class="row">
     <div class="large-12 columns">
       <pre><code class="language-javascript">console.log(htmlTweet);
-//'Check out what we\'ve done with &lt;a href=&quot;https://twitter.com/hashtag/Drupal?src=hash&quot; target=&quot;_blank&quot;&gt;#Drupal&lt;/a&gt; &lt;a href=&quot;https://twitter.com/hashtag/Symfony?src=hash&quot; target=&quot;_blank&quot;&gt;#Symfony&lt;/a&gt; &lt;a href=&quot;https://twitter.com/hashtag/Elasticsearch?src=hash&quot; target=&quot;_blank&quot;&gt;#Elasticsearch&lt;/a&gt;  &amp;amp; &lt;a href=&quot;https://twitter.com/hashtag/AngularJS?src=hash&quot; target=&quot;_blank&quot;&gt;#AngularJS&lt;/a&gt; at &lt;a href=&quot;https://twitter.com/activelamp&quot; target=&quot;_blank&quot;&gt;@activelamp&lt;/a&gt;: &lt;a href=&quot;http://t.co/d4EXKNGv3h&quot; target=&quot;_blank&quot;&gt;actvl.mp/1cwJMZA&lt;/a&gt;';</code></pre>
+//&apos;Check out what we\&apos;ve done with &lt;a href=&quot;https://twitter.com/hashtag/Drupal?src=hash&quot; target=&quot;_blank&quot;&gt;#Drupal&lt;/a&gt; &lt;a href=&quot;https://twitter.com/hashtag/Symfony?src=hash&quot; target=&quot;_blank&quot;&gt;#Symfony&lt;/a&gt; &lt;a href=&quot;https://twitter.com/hashtag/Elasticsearch?src=hash&quot; target=&quot;_blank&quot;&gt;#Elasticsearch&lt;/a&gt;  &amp;amp; &lt;a href=&quot;https://twitter.com/hashtag/AngularJS?src=hash&quot; target=&quot;_blank&quot;&gt;#AngularJS&lt;/a&gt; at &lt;a href=&quot;https://twitter.com/activelamp&quot; target=&quot;_blank&quot;&gt;@activelamp&lt;/a&gt;: &lt;a href=&quot;http://t.co/d4EXKNGv3h&quot; target=&quot;_blank&quot;&gt;actvl.mp/1cwJMZA&lt;/a&gt;&apos;;</code></pre>
     </div>
   </div>
 </div>
@@ -451,7 +451,7 @@ var htmlTweet = _pipe(tweet.text, orderedSubs);</code></pre>
     <div class="large-12 columns">
       <pre><code class="language-javascript">#!/usr/bin/env node
 
-'use strict';
+&apos;use strict&apos;;
 
 /**
  * Takes function f(x) and g(x)
@@ -478,19 +478,19 @@ function substitute(str, start, end, replacement) {
 
 /* Replaces user mentions based on object from tweet.entities.user_mentions */
 function substituteMention(str, mention) {
-  var repl = '&lt;a href=&quot;https://twitter.com/' + mention.screen_name + '&quot;&gt;@' + mention.screen_name + '&lt;/a&gt;';
+  var repl = &apos;&lt;a href=&quot;https://twitter.com/&apos; + mention.screen_name + &apos;&quot;&gt;@&apos; + mention.screen_name + &apos;&lt;/a&gt;&apos;;
   return substitute(str, mention.indices[0], mention.indices[1], repl);
 }
 
 /* Replaces hashtags based on object from tweet.entities.hashtags */
 function substituteHashtag(str, hashtag) {
-  var repl = '&lt;a href=&quot;https://twitter.com/hashtag/' + hashtag.text + '?src=hash&quot;&gt;#' + hashtag.text + '&lt;/a&gt;';
+  var repl = &apos;&lt;a href=&quot;https://twitter.com/hashtag/&apos; + hashtag.text + &apos;?src=hash&quot;&gt;#&apos; + hashtag.text + &apos;&lt;/a&gt;&apos;;
   return substitute(str, hashtag.indices[0], hashtag.indices[1], repl);
 }
 
 /* Replaces URLs based on object from tweet.entities.urls */
 function substituteUrl(str, url) {
-  var repl = '&lt;a href=&quot;' + url.expanded_url + '&quot;&gt;' + url.display_url + '&lt;/a&gt;';
+  var repl = &apos;&lt;a href=&quot;&apos; + url.expanded_url + &apos;&quot;&gt;&apos; + url.display_url + &apos;&lt;/a&gt;&apos;;
   return substitute(str, url.indices[0], url.indices[1], repl);
 }
 
@@ -530,26 +530,26 @@ function renderTweet(tweet) {
 }
 
 var tweet = {
-    text: 'Check out what we\'ve done with #Drupal #Symfony #Elasticsearch  &amp;amp; #AngularJS at @activelamp: http://t.co/d4EXKNGv3h',
+    text: &apos;Check out what we\&apos;ve done with #Drupal #Symfony #Elasticsearch  &amp;amp; #AngularJS at @activelamp: http://t.co/d4EXKNGv3h&apos;,
     entities: {
       hashtags: [
-        { text: 'Drupal', indices: [ 31, 38 ] },
-        { text: 'Symfony', indices: [ 39, 47 ] },
-        { text: 'Elasticsearch', indices: [ 48, 62 ] },
-        { text: 'AngularJS', indices: [ 70, 80 ] }
+        { text: &apos;Drupal&apos;, indices: [ 31, 38 ] },
+        { text: &apos;Symfony&apos;, indices: [ 39, 47 ] },
+        { text: &apos;Elasticsearch&apos;, indices: [ 48, 62 ] },
+        { text: &apos;AngularJS&apos;, indices: [ 70, 80 ] }
       ],
       user_mentions: [
-        { screen_name: 'activelamp',
-          name: 'ActiveLAMP',
+        { screen_name: &apos;activelamp&apos;,
+          name: &apos;ActiveLAMP&apos;,
           id: 40290704,
-          id_str: '40290704',
+          id_str: &apos;40290704&apos;,
           indices: [ 84, 95 ]
         }
       ],
       urls: [
-        { url: 'http://t.co/d4EXKNGv3h',
-          expanded_url: 'http://actvl.mp/1cwJMZA',
-          display_url: 'actvl.mp/1cwJMZA',
+        { url: &apos;http://t.co/d4EXKNGv3h&apos;,
+          expanded_url: &apos;http://actvl.mp/1cwJMZA&apos;,
+          display_url: &apos;actvl.mp/1cwJMZA&apos;,
           indices: [ 97, 119 ]
         }
       ]

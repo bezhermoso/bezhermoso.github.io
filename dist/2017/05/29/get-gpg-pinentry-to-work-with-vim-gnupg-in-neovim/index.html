@@ -19,9 +19,9 @@
     
     <meta property="og:title" content="vim-gnupg + Neovim + MacOS and how to get pinentry to work" />
         
-        <meta property="og:description" content="vim-gnupg provides transparent PGP encryption/decryption when editing *.gpg et al files with vim. Sadly, if you are using a TTY-based pinentry your GNUPG setup like pinentry-curses, it won’t work (with no fault from the plugin author)." />
+        <meta property="og:description" content="vim-gnupg provides transparent PGP encryption/decryption when editing *.gpg et al files with vim. Sadly, if you are using a TTY-based pinentry your GNUPG setup like pinentry-curses, it won’t work (with no fault from the plugin author).The trick to get it to work is to somehow tell the gpg-agent to use an external pinentry program when triggered by vim-gnupg. For this, the pinentry-mac program fits the bill:                &amp;nbsp;      $ brew install pinentry-mac      Configure gpg-agent to use it as the pinentry program:                &amp;nbsp;      # ~/.gnupg/gpg-agent.conf:pinentry-program /usr/local/bin/pinentry-mac      Configure your shell to use the TTY-based pinentry in most circumstances:                &amp;nbsp;      # ~/.bashrc ~/.zshrc, etc. :GPG_TTY=$(tty)# Tell the pinentry program to use the nice, full-screen pinentry program:export PINENTRY_USER_DATA=&amp;quot;USE_CURSES=1&amp;quot;      Restart your terminal application (or source your config file), then restart the gpg-agent:                &amp;nbsp;      $ gpgconf --kill gpg-agent      Now it’s just a matter of configuring vim-gnupg to override the PINENTRY_USER_DATA so that PGP prompts will use the GUI pinentry:                              let g:GPGExecutable = &amp;quot;PINENTRY_USER_DATA=&amp;apos;&amp;apos; gpg --trust-model always&amp;quot;      Now, whenever you edit/write PGP encrypted files in Neovim, the GUI pinentry will be used and vim-gnupg should start working as expected." />
         
-        <meta name="description" content="vim-gnupg provides transparent PGP encryption/decryption when editing *.gpg et al files with vim. Sadly, if you are using a TTY-based pinentry your GNUPG setup like pinentry-curses, it won’t work (with no fault from the plugin author)." />
+        <meta name="description" content="vim-gnupg provides transparent PGP encryption/decryption when editing *.gpg et al files with vim. Sadly, if you are using a TTY-based pinentry your GNUPG setup like pinentry-curses, it won’t work (with no fault from the plugin author).The trick to get it to work is to somehow tell the gpg-agent to use an external pinentry program when triggered by vim-gnupg. For this, the pinentry-mac program fits the bill:                &amp;nbsp;      $ brew install pinentry-mac      Configure gpg-agent to use it as the pinentry program:                &amp;nbsp;      # ~/.gnupg/gpg-agent.conf:pinentry-program /usr/local/bin/pinentry-mac      Configure your shell to use the TTY-based pinentry in most circumstances:                &amp;nbsp;      # ~/.bashrc ~/.zshrc, etc. :GPG_TTY=$(tty)# Tell the pinentry program to use the nice, full-screen pinentry program:export PINENTRY_USER_DATA=&amp;quot;USE_CURSES=1&amp;quot;      Restart your terminal application (or source your config file), then restart the gpg-agent:                &amp;nbsp;      $ gpgconf --kill gpg-agent      Now it’s just a matter of configuring vim-gnupg to override the PINENTRY_USER_DATA so that PGP prompts will use the GUI pinentry:                              let g:GPGExecutable = &amp;quot;PINENTRY_USER_DATA=&amp;apos;&amp;apos; gpg --trust-model always&amp;quot;      Now, whenever you edit/write PGP encrypted files in Neovim, the GUI pinentry will be used and vim-gnupg should start working as expected." />
     
     <script src="/bundle.js"></script>
   </head>
@@ -47,12 +47,12 @@
         <time datetime="2017-05-29T00:00:00-07:00">29 May 2017</time>
       </div>
     </div>
-    <div class="blog-body large-12 columns">
-      <p><code class="highlighter-rouge">vim-gnupg</code> provides transparent PGP encryption/decryption when editing <code class="highlighter-rouge">*.gpg</code> <em>et al</em> files with <code class="highlighter-rouge">vim</code>. Sadly, if you are using a TTY-based pinentry your GNUPG setup like <code class="highlighter-rouge">pinentry-curses</code>, <a href="https://github.com/jamessan/vim-gnupg/issues/32">it won’t work</a> (with no fault from the plugin author).</p>
+    <div class="blog-body large-12 cell">
+      <p><code>vim-gnupg</code> provides transparent PGP encryption/decryption when editing <code>*.gpg</code> <em>et al</em> files with <code>vim</code>. Sadly, if you are using a TTY-based pinentry your GNUPG setup like <code>pinentry-curses</code>, <a href="https://github.com/jamessan/vim-gnupg/issues/32">it won’t work</a> (with no fault from the plugin author).</p>
 
-<p>The trick to get it to work is to somehow tell the <code class="highlighter-rouge">gpg-agent</code> to use an external pinentry program when triggered by <code class="highlighter-rouge">vim-gnupg</code>. For this, the <code class="highlighter-rouge">pinentry-mac</code> program fits the bill:</p>
+<p>The trick to get it to work is to somehow tell the <code>gpg-agent</code> to use an external pinentry program when triggered by <code>vim-gnupg</code>. For this, the <code>pinentry-mac</code> program fits the bill:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -60,9 +60,9 @@
     </div>
   </div>
 
-<p>Configure <code class="highlighter-rouge">gpg-agent</code> to use it as the pinentry program:</p>
+<p>Configure <code>gpg-agent</code> to use it as the pinentry program:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -73,7 +73,7 @@ pinentry-program /usr/local/bin/pinentry-mac</code></pre>
 
 <p>Configure your shell to use the TTY-based pinentry in most circumstances:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -85,9 +85,9 @@ export PINENTRY_USER_DATA=&quot;USE_CURSES=1&quot;</code></pre>
     </div>
   </div>
 
-<p>Restart your terminal application (or source your config file), then restart the <code class="highlighter-rouge">gpg-agent</code>:</p>
+<p>Restart your terminal application (or source your config file), then restart the <code>gpg-agent</code>:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -95,7 +95,7 @@ export PINENTRY_USER_DATA=&quot;USE_CURSES=1&quot;</code></pre>
     </div>
   </div>
 
-<p>Now it’s just a matter of configuring <code class="highlighter-rouge">vim-gnupg</code> to override the <code class="highlighter-rouge">PINENTRY_USER_DATA</code> so that PGP prompts will use the GUI pinentry:</p>
+<p>Now it’s just a matter of configuring <code>vim-gnupg</code> to override the <code>PINENTRY_USER_DATA</code> so that PGP prompts will use the GUI pinentry:</p>
 
 <div class="code-section">
   <div class="filename">
@@ -105,12 +105,12 @@ export PINENTRY_USER_DATA=&quot;USE_CURSES=1&quot;</code></pre>
   </div>
   <div class="row">
     <div class="large-12 columns">
-      <pre><code class="language-vim">let g:GPGExecutable = &quot;PINENTRY_USER_DATA='' gpg --trust-model always&quot;</code></pre>
+      <pre><code class="language-vim">let g:GPGExecutable = &quot;PINENTRY_USER_DATA=&apos;&apos; gpg --trust-model always&quot;</code></pre>
     </div>
   </div>
 </div>
 
-<p>Now, whenever you edit/write PGP encrypted files in Neovim, the GUI pinentry will be used and <code class="highlighter-rouge">vim-gnupg</code> should start working as expected.</p>
+<p>Now, whenever you edit/write PGP encrypted files in Neovim, the GUI pinentry will be used and <code>vim-gnupg</code> should start working as expected.</p>
 
 <p><img src="/img/pinentry-mac.png" alt="GUI pinentry from pinentry-mac" /></p>
 

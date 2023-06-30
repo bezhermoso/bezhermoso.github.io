@@ -51,19 +51,19 @@
       </div>
     </div>
     <div class="blog-body large-12 cell">
-      <p>If you want to paste the contents of a named register without exiting <em>Insert</em> mode, hit <code class="highlighter-rouge">&lt;C-r&gt;</code>, and then the register name.</p>
+      <p>If you want to paste the contents of a named register without exiting <em>Insert</em> mode, hit <code>&lt;C-r&gt;</code>, and then the register name.</p>
 
-<p>For example, <code class="highlighter-rouge">&lt;C-r&gt;1</code> will paste the text that was most recently deleted, <code class="highlighter-rouge">&lt;C-r&gt;0</code> will paste the text that was most recently yanked, <code class="highlighter-rouge">&lt;C-r&gt;q</code> will paste the contents of the <code class="highlighter-rouge">q</code> macro, etc.</p>
+<p>For example, <code>&lt;C-r&gt;1</code> will paste the text that was most recently deleted, <code>&lt;C-r&gt;0</code> will paste the text that was most recently yanked, <code>&lt;C-r&gt;q</code> will paste the contents of the <code>q</code> macro, etc.</p>
 
 <p>This also works while in <em>Comand-line mode</em>, too:</p>
 
 <pre class="highlight language-text"><code class="language-text">:%s/(... hit &lt;C-r&gt;0 to paste in yanked text to replace ...)/&lt;replacement text&gt;/g</code></pre>
 
 <blockquote>
-  <p>Alternately, you can just do <code class="highlighter-rouge">&lt;C-o&gt;p</code> to paste from within <em>Insert</em> mode. (Hitting <code class="highlighter-rouge">&lt;C-o&gt;</code> will temporarily bring you to <em>Normal</em> mode for one command and dropping you back into
+  <p>Alternately, you can just do <code>&lt;C-o&gt;p</code> to paste from within <em>Insert</em> mode. (Hitting <code>&lt;C-o&gt;</code> will temporarily bring you to <em>Normal</em> mode for one command and dropping you back into
 <em>Insert</em> mode right after.)</p>
 
-  <p>See <code class="highlighter-rouge">:help registers</code> for more information on what the various registers contain.</p>
+  <p>See <code>:help registers</code> for more information on what the various registers contain.</p>
 </blockquote>
 
 

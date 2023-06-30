@@ -19,9 +19,9 @@
     
     <meta property="og:title" content="A practical usage of JavaScript&#39;s Function.toString method: CouchDB maps &amp; reduces" />
         
-        <meta property="og:description" content="After reading a brief on CouchDB, I decided to use it instead of MongoDB for a pet project andbegan diving right in. Cradle, a CouchDB client for Node.js, was one npm install away. Installing CouchDB and creating the database was a breeze. I was able to quickly store dataand refined the structure when needed. Gotta love NoSQL!" />
+        <meta property="og:description" content="After reading a brief on CouchDB, I decided to use it instead of MongoDB for a pet project andbegan diving right in. Cradle, a CouchDB client for Node.js, was one npm install away. Installing CouchDB and creating the database was a breeze. I was able to quickly store dataand refined the structure when needed. Gotta love NoSQL!Querying data is where it got a bit more interesting: fetching data requires the creationof views. This is unlike other popular data stores that has their own query DSLs (domain-specific language), likeSQL for SQL-flavored RDBMS, JSON-based query DSLs for MongoDB and other NoSQL stores.CouchDB views are simply applications of the MapReduce paradigm. In a nutshell, you providemap functions and/or reduce functions which will be used to narrow down the data-set and/or to reducea data-set into a single aggregate value. Sounds easy. So I went ahead and pecked these on my keyboard:" />
         
-        <meta name="description" content="After reading a brief on CouchDB, I decided to use it instead of MongoDB for a pet project andbegan diving right in. Cradle, a CouchDB client for Node.js, was one npm install away. Installing CouchDB and creating the database was a breeze. I was able to quickly store dataand refined the structure when needed. Gotta love NoSQL!" />
+        <meta name="description" content="After reading a brief on CouchDB, I decided to use it instead of MongoDB for a pet project andbegan diving right in. Cradle, a CouchDB client for Node.js, was one npm install away. Installing CouchDB and creating the database was a breeze. I was able to quickly store dataand refined the structure when needed. Gotta love NoSQL!Querying data is where it got a bit more interesting: fetching data requires the creationof views. This is unlike other popular data stores that has their own query DSLs (domain-specific language), likeSQL for SQL-flavored RDBMS, JSON-based query DSLs for MongoDB and other NoSQL stores.CouchDB views are simply applications of the MapReduce paradigm. In a nutshell, you providemap functions and/or reduce functions which will be used to narrow down the data-set and/or to reducea data-set into a single aggregate value. Sounds easy. So I went ahead and pecked these on my keyboard:" />
     
     <script src="/bundle.js"></script>
   </head>
@@ -47,9 +47,9 @@
         <time datetime="2015-03-17T00:00:00-07:00">17 Mar 2015</time>
       </div>
     </div>
-    <div class="blog-body large-12 columns">
+    <div class="blog-body large-12 cell">
       <p>After reading a brief on <a href="http://couchdb.apache.org/">CouchDB</a>, I decided to use it instead of MongoDB for a pet project and
-began diving right in. <a href="https://github.com/flatiron/cradle">Cradle</a>, a CouchDB client for Node.js, was one <code class="highlighter-rouge">npm install</code> away. Installing CouchDB and creating the database was a breeze. I was able to quickly store data
+began diving right in. <a href="https://github.com/flatiron/cradle">Cradle</a>, a CouchDB client for Node.js, was one <code>npm install</code> away. Installing CouchDB and creating the database was a breeze. I was able to quickly store data
 and refined the structure when needed. Gotta love NoSQL!</p>
 
 <p>Querying data is where it got a bit more interesting: fetching data requires the creation
@@ -74,24 +74,24 @@ a data-set into a single aggregate value. Sounds easy. So I went ahead and pecke
     	onError err if onError
     	return
 
-    db.save '_design/games',
+    db.save &apos;_design/games&apos;,
       views:
-        # Emit all document of type 'game'
+        # Emit all document of type &apos;game&apos;
         all:
           map: (doc) -&gt;
-            emit(null, doc) if doc.type == 'game'
+            emit(null, doc) if doc.type == &apos;game&apos;
             return
-        # Same as 'all', but only if game is waiting for more players.
+        # Same as &apos;all&apos;, but only if game is waiting for more players.
         open:
           map: (doc) -&gt;
-            emit(null, doc) if doc.type == 'game' &amp;&amp; doc.status == 'open'
+            emit(null, doc) if doc.type == &apos;game&apos; &amp;&amp; doc.status == &apos;open&apos;
             return
-        # Same as 'all', but emit documents indexed by the players.
+        # Same as &apos;all&apos;, but emit documents indexed by the players.
         # Figure out how to deal with duplicates later using `reduce`.
         by_player:
           map: (doc) -&gt;
-            emit(doc.player1, doc) if doc.type == 'game' &amp;&amp; doc.player1
-            emit(doc.player2, doc) if doc.type == 'game' &amp;&amp; doc.player2
+            emit(doc.player1, doc) if doc.type == &apos;game&apos; &amp;&amp; doc.player1
+            emit(doc.player2, doc) if doc.type == &apos;game&apos; &amp;&amp; doc.player2
             return
     return</code></pre>
     </div>
@@ -106,10 +106,10 @@ compiled into JavaScript.</a></blockquote>
 <p>However, this doesn’t really work, and it took me a while to realize my mistake: <strong>the map and reduce functions shouldn’t be
 function definitions, but function definition <em>strings</em>.</strong> *facepalm*</p>
 
-<p>Not a huge problem: I can just substitute the <code class="highlighter-rouge">(doc) -&gt; ...</code> blocks with actual JavaScript code and wrap them in quotation marks (and carefully escape inner strings). Kinda
+<p>Not a huge problem: I can just substitute the <code>(doc) -&gt; ...</code> blocks with actual JavaScript code and wrap them in quotation marks (and carefully escape inner strings). Kinda
 sucks since I am operating with CoffeeScript to minimize actual coding and to avoid syntax gotchas.</p>
 
-<p>Then I remembered that JavaScript functions <em>are</em> objects, and has a <code class="highlighter-rouge">toString</code> method.
+<p>Then I remembered that JavaScript functions <em>are</em> objects, and has a <code>toString</code> method.
 So simply changing the map functions like these solves the problem:</p>
 <div class="code-section">
   <div class="filename">
@@ -120,7 +120,7 @@ So simply changing the map functions like these solves the problem:</p>
   <div class="row">
     <div class="large-12 columns">
       <pre><code class="language-ruby">((doc) -&gt;
-    emit(null, doc) if doc.type == 'game'
+    emit(null, doc) if doc.type == &apos;game&apos;
     return
 ).toString()</code></pre>
     </div>
@@ -137,7 +137,7 @@ So simply changing the map functions like these solves the problem:</p>
   <div class="row">
     <div class="large-12 columns">
       <pre><code class="language-javascript">function (doc) {
-    if(doc.type === 'game') {
+    if(doc.type === &apos;game&apos;) {
        emit(null, doc);
     }
     return;
@@ -146,7 +146,7 @@ So simply changing the map functions like these solves the problem:</p>
   </div>
 </div>
 
-<p>Calling the <code class="highlighter-rouge">toString</code> method on the function returns the whole function block <em>as a string</em> which is exactly what
+<p>Calling the <code>toString</code> method on the function returns the whole function block <em>as a string</em> which is exactly what
  we need to create CouchDB views. Yay!</p>
 
 <p>This approach still allows me to write zero actual JavaScript at all – I still get to have the function strings while

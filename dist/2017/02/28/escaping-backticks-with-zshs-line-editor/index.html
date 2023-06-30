@@ -19,9 +19,9 @@
     
     <meta property="og:title" content="Escaping backticks with the zsh line editor" />
         
-        <meta property="og:description" content="I just wrote my very first zsh plugin this week, and it has proven to be quite useful – I like to wrap identifiers/symbols in commit messages with backticks and often-times neglect to escape them. This would result in the identifier/symbol being evaluated, which is not what I want to happen." />
+        <meta property="og:description" content="I just wrote my very first zsh plugin this week, and it has proven to be quite useful – I like to wrap identifiers/symbols in commit messages with backticks and often-times neglect to escape them. This would result in the identifier/symbol being evaluated, which is not what I want to happen.Here is my solution:                &amp;nbsp;      # Expands `` to \`function expand-double-backtick-to-escaped-backtick {  if [[ $LBUFFER = *[^\\]\` ]]; then    zle backward-delete-char    LBUFFER+=&amp;apos;\`&amp;apos;    # Bind backspace to something that undos the escape.    bindkey &amp;apos;^?&amp;apos; undo-escaped-backtick-or-backward-delete-char  else    LBUFFER+=&amp;apos;`&amp;apos;  fi}function undo-escaped-backtick-or-backward-delete-char {  if [[ $LBUFFER = *\` ]]; then    # If chars to the left is an escaped backtick, unescape it.    zle backward-delete-char    zle backward-delete-char    LBUFFER+=&amp;apos;`&amp;apos;  fi  # Rebind backspace to default behavior  bindkey &amp;apos;^?&amp;apos; backward-delete-char}zle -N expand-double-backtick-to-escaped-backtickzle -N undo-escaped-backtick-or-backward-delete-charbindkey &amp;quot;\`&amp;quot; expand-double-backtick-to-escaped-backtick      " />
         
-        <meta name="description" content="I just wrote my very first zsh plugin this week, and it has proven to be quite useful – I like to wrap identifiers/symbols in commit messages with backticks and often-times neglect to escape them. This would result in the identifier/symbol being evaluated, which is not what I want to happen." />
+        <meta name="description" content="I just wrote my very first zsh plugin this week, and it has proven to be quite useful – I like to wrap identifiers/symbols in commit messages with backticks and often-times neglect to escape them. This would result in the identifier/symbol being evaluated, which is not what I want to happen.Here is my solution:                &amp;nbsp;      # Expands `` to \`function expand-double-backtick-to-escaped-backtick {  if [[ $LBUFFER = *[^\\]\` ]]; then    zle backward-delete-char    LBUFFER+=&amp;apos;\`&amp;apos;    # Bind backspace to something that undos the escape.    bindkey &amp;apos;^?&amp;apos; undo-escaped-backtick-or-backward-delete-char  else    LBUFFER+=&amp;apos;`&amp;apos;  fi}function undo-escaped-backtick-or-backward-delete-char {  if [[ $LBUFFER = *\` ]]; then    # If chars to the left is an escaped backtick, unescape it.    zle backward-delete-char    zle backward-delete-char    LBUFFER+=&amp;apos;`&amp;apos;  fi  # Rebind backspace to default behavior  bindkey &amp;apos;^?&amp;apos; backward-delete-char}zle -N expand-double-backtick-to-escaped-backtickzle -N undo-escaped-backtick-or-backward-delete-charbindkey &amp;quot;\`&amp;quot; expand-double-backtick-to-escaped-backtick      " />
     
     <script src="/bundle.js"></script>
   </head>
@@ -47,12 +47,12 @@
         <time datetime="2017-02-28T00:00:00-08:00">28 Feb 2017</time>
       </div>
     </div>
-    <div class="blog-body large-12 columns">
-      <p>I just wrote my very first <code class="highlighter-rouge">zsh</code> plugin this week, and it has proven to be quite useful – I like to wrap identifiers/symbols in commit messages with backticks and often-times neglect to escape them. This would result in the identifier/symbol being evaluated, which is not what I want to happen.</p>
+    <div class="blog-body large-12 cell">
+      <p>I just wrote my very first <code>zsh</code> plugin this week, and it has proven to be quite useful – I like to wrap identifiers/symbols in commit messages with backticks and often-times neglect to escape them. This would result in the identifier/symbol being evaluated, which is not what I want to happen.</p>
 
 <p>Here is my solution:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -60,11 +60,11 @@
 function expand-double-backtick-to-escaped-backtick {
   if [[ $LBUFFER = *[^\\]\` ]]; then
     zle backward-delete-char
-    LBUFFER+='\`'
+    LBUFFER+=&apos;\`&apos;
     # Bind backspace to something that undos the escape.
-    bindkey '^?' undo-escaped-backtick-or-backward-delete-char
+    bindkey &apos;^?&apos; undo-escaped-backtick-or-backward-delete-char
   else
-    LBUFFER+='`'
+    LBUFFER+=&apos;`&apos;
   fi
 }
 
@@ -73,10 +73,10 @@ function undo-escaped-backtick-or-backward-delete-char {
     # If chars to the left is an escaped backtick, unescape it.
     zle backward-delete-char
     zle backward-delete-char
-    LBUFFER+='`'
+    LBUFFER+=&apos;`&apos;
   fi
   # Rebind backspace to default behavior
-  bindkey '^?' backward-delete-char
+  bindkey &apos;^?&apos; backward-delete-char
 }
 
 zle -N expand-double-backtick-to-escaped-backtick
@@ -88,11 +88,11 @@ bindkey &quot;\`&quot; expand-double-backtick-to-escaped-backtick</code></pre>
 
 <!--stop-->
 
-<p>Now when I need an escaped backtick, I only have to type the backtick character twice. Also, hitting <code class="highlighter-rouge">Backspace</code> will undo the escaping instead of leaving me with just a backslash.</p>
+<p>Now when I need an escaped backtick, I only have to type the backtick character twice. Also, hitting <code>Backspace</code> will undo the escaping instead of leaving me with just a backslash.</p>
 
 <hr />
 
-<p>I have put this script in a Git repo which you can find here: <a href="https://github.com/bezhermoso/zsh-escape-backtick">https://github.com/bezhermoso/zsh-escape-backtick</a>. If you want to try it, just clone it and source <code class="highlighter-rouge">escape-backtick.zsh</code> and you should be good to go.</p>
+<p>I have put this script in a Git repo which you can find here: <a href="https://github.com/bezhermoso/zsh-escape-backtick">https://github.com/bezhermoso/zsh-escape-backtick</a>. If you want to try it, just clone it and source <code>escape-backtick.zsh</code> and you should be good to go.</p>
 
 
     </div>

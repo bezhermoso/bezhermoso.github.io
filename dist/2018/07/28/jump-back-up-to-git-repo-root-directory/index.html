@@ -19,9 +19,9 @@
     
     <meta property="og:title" content="Jump back up to your Git repo&#39;s root directory" />
         
-        <meta property="og:description" content="You want to jump back up to your project’s root directory from who knows many levels down. What would you do? Figure out the right amount of levels to cd ../../.. up? Run cd .. repeatedly until you get there? or run cd to an absolute path directly?" />
+        <meta property="og:description" content="You want to jump back up to your project’s root directory from who knows many levels down. What would you do? Figure out the right amount of levels to cd ../../.. up? Run cd .. repeatedly until you get there? or run cd to an absolute path directly?If your project is managed with Git, here is a smarter way:                &amp;nbsp;      $ cd $(git rev-parse --show-toplevel)      The command git rev-parse --show-toplevel is a Git plumbing command that outputs the absolute path of the Git repository root of the project you are in. Therefore the most straight-forward form is to use its result as the argument for cd. No more repeating commands, figuring out exactly how far up the root is, or having to type out paths!The next obvious step is to make an alias of that command in your .bashrc or equivalent file:                &amp;nbsp;      # Mnemonic: `gr` == `git root`# Also note the single-quotes; you don&amp;apos;t want the sub-command to run on alias definition!alias gr=&amp;apos;cd $(git rev-parse --show-toplevel)&amp;apos;      From here on out, just run gr anytime you need to jump all the way up to your project root.We can take it a little further…What used to be this gr alias on my rc file evolved into a full-on shell function that handles some edge-cases:  Do nothing when I’m not in the project root instead of spitting an error and jumping to /  Be smart with Git submodules: if already in a repo’s root, jump up to the nearest parent repo in the tree, if any.Here it is in it’s current form in my rc file (I hosted this on Github if you’d like to clone it instead):                &amp;nbsp;      function jump-to-git-root {  local _root_dir=&amp;quot;$(git rev-parse --show-toplevel 2&amp;gt;/dev/null)&amp;quot;  if [[ $? -gt 0 ]]; then    &amp;gt;&amp;amp;2 echo &amp;apos;Not a Git repo!&amp;apos;    exit 1  fi  local _pwd=$(pwd)  if [[ $_pwd = $_root_dir ]]; then    # Handle submodules:    # If parent dir is also managed under Git then we are in a submodule.    # If so, cd to nearest Git parent project.    _root_dir=&amp;quot;$(git -C $(dirname $_pwd) rev-parse --show-toplevel 2&amp;gt;/dev/null)&amp;quot;    if [[ $? -gt 0 ]]; then      echo &amp;quot;Already at Git repo root.&amp;quot;      return 0    fi  fi  # Make `cd -` work.  OLDPWD=$_pwd  echo &amp;quot;Git repo root: $_root_dir&amp;quot;  cd $_root_dir}# Make short aliasalias gr=jump-to-git-root      " />
         
-        <meta name="description" content="You want to jump back up to your project’s root directory from who knows many levels down. What would you do? Figure out the right amount of levels to cd ../../.. up? Run cd .. repeatedly until you get there? or run cd to an absolute path directly?" />
+        <meta name="description" content="You want to jump back up to your project’s root directory from who knows many levels down. What would you do? Figure out the right amount of levels to cd ../../.. up? Run cd .. repeatedly until you get there? or run cd to an absolute path directly?If your project is managed with Git, here is a smarter way:                &amp;nbsp;      $ cd $(git rev-parse --show-toplevel)      The command git rev-parse --show-toplevel is a Git plumbing command that outputs the absolute path of the Git repository root of the project you are in. Therefore the most straight-forward form is to use its result as the argument for cd. No more repeating commands, figuring out exactly how far up the root is, or having to type out paths!The next obvious step is to make an alias of that command in your .bashrc or equivalent file:                &amp;nbsp;      # Mnemonic: `gr` == `git root`# Also note the single-quotes; you don&amp;apos;t want the sub-command to run on alias definition!alias gr=&amp;apos;cd $(git rev-parse --show-toplevel)&amp;apos;      From here on out, just run gr anytime you need to jump all the way up to your project root.We can take it a little further…What used to be this gr alias on my rc file evolved into a full-on shell function that handles some edge-cases:  Do nothing when I’m not in the project root instead of spitting an error and jumping to /  Be smart with Git submodules: if already in a repo’s root, jump up to the nearest parent repo in the tree, if any.Here it is in it’s current form in my rc file (I hosted this on Github if you’d like to clone it instead):                &amp;nbsp;      function jump-to-git-root {  local _root_dir=&amp;quot;$(git rev-parse --show-toplevel 2&amp;gt;/dev/null)&amp;quot;  if [[ $? -gt 0 ]]; then    &amp;gt;&amp;amp;2 echo &amp;apos;Not a Git repo!&amp;apos;    exit 1  fi  local _pwd=$(pwd)  if [[ $_pwd = $_root_dir ]]; then    # Handle submodules:    # If parent dir is also managed under Git then we are in a submodule.    # If so, cd to nearest Git parent project.    _root_dir=&amp;quot;$(git -C $(dirname $_pwd) rev-parse --show-toplevel 2&amp;gt;/dev/null)&amp;quot;    if [[ $? -gt 0 ]]; then      echo &amp;quot;Already at Git repo root.&amp;quot;      return 0    fi  fi  # Make `cd -` work.  OLDPWD=$_pwd  echo &amp;quot;Git repo root: $_root_dir&amp;quot;  cd $_root_dir}# Make short aliasalias gr=jump-to-git-root      " />
     
     <script src="/bundle.js"></script>
   </head>
@@ -47,12 +47,12 @@
         <time datetime="2018-07-28T00:00:00-07:00">28 Jul 2018</time>
       </div>
     </div>
-    <div class="blog-body large-12 columns">
-      <p>You want to jump back up to your project’s root directory from who knows many levels down. What would you do? Figure out the right amount of levels to <code class="highlighter-rouge">cd ../../..</code> up? Run <code class="highlighter-rouge">cd ..</code> repeatedly until you get there? or run <code class="highlighter-rouge">cd</code> to an absolute path directly?</p>
+    <div class="blog-body large-12 cell">
+      <p>You want to jump back up to your project’s root directory from who knows many levels down. What would you do? Figure out the right amount of levels to <code>cd ../../..</code> up? Run <code>cd ..</code> repeatedly until you get there? or run <code>cd</code> to an absolute path directly?</p>
 
 <p>If your project is managed with Git, here is a smarter way:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
@@ -60,43 +60,43 @@
     </div>
   </div>
 
-<p>The command <code class="highlighter-rouge">git rev-parse --show-toplevel</code> is a Git plumbing command that outputs the absolute path of the Git repository root of the project you are in. Therefore the most straight-forward form is to use its result as the argument for <code class="highlighter-rouge">cd</code>. <strong>No more repeating commands, figuring out exactly how far up the root is, or having to type out paths!</strong></p>
+<p>The command <code>git rev-parse --show-toplevel</code> is a Git plumbing command that outputs the absolute path of the Git repository root of the project you are in. Therefore the most straight-forward form is to use its result as the argument for <code>cd</code>. <strong>No more repeating commands, figuring out exactly how far up the root is, or having to type out paths!</strong></p>
 
-<p>The next obvious step is to make an alias of that command in your <code class="highlighter-rouge">.bashrc</code> or equivalent file:</p>
+<p>The next obvious step is to make an alias of that command in your <code>.bashrc</code> or equivalent file:</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
       <pre><code class="language-bash"># Mnemonic: `gr` == `git root`
-# Also note the single-quotes; you don't want the sub-command to run on alias definition!
-alias gr='cd $(git rev-parse --show-toplevel)'</code></pre>
+# Also note the single-quotes; you don&apos;t want the sub-command to run on alias definition!
+alias gr=&apos;cd $(git rev-parse --show-toplevel)&apos;</code></pre>
     </div>
   </div>
 
-<p>From here on out, just run <code class="highlighter-rouge">gr</code> anytime you need to jump all the way up to your project root.</p>
+<p>From here on out, just run <code>gr</code> anytime you need to jump all the way up to your project root.</p>
 
 <p>We can take it a little further…</p>
 
 <hr />
 
-<p>What used to be this <code class="highlighter-rouge">gr</code> alias on my rc file evolved into a full-on shell function that handles some edge-cases:</p>
+<p>What used to be this <code>gr</code> alias on my rc file evolved into a full-on shell function that handles some edge-cases:</p>
 
 <ul>
-  <li>Do nothing when I’m not in the project root instead of spitting an error and jumping to <code class="highlighter-rouge">/</code></li>
+  <li>Do nothing when I’m not in the project root instead of spitting an error and jumping to <code>/</code></li>
   <li>Be smart with Git submodules: if already in a repo’s root, jump up to the nearest parent repo in the tree, if any.</li>
 </ul>
 
 <p>Here it is in it’s current form in my rc file (<a href="https://github.com/bezhermoso/jump-to-git-root">I hosted this on Github</a> if you’d like to clone it instead):</p>
 
-<div class="padded">
+<div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">&nbsp;</div>
       <pre><code class="language-bash">function jump-to-git-root {
   local _root_dir=&quot;$(git rev-parse --show-toplevel 2&gt;/dev/null)&quot;
   if [[ $? -gt 0 ]]; then
-    &gt;&amp;2 echo 'Not a Git repo!'
+    &gt;&amp;2 echo &apos;Not a Git repo!&apos;
     exit 1
   fi
   local _pwd=$(pwd)

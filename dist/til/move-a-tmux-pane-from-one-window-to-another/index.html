@@ -51,18 +51,18 @@
       </div>
     </div>
     <div class="blog-body large-12 cell">
-      <p>As the day gets busier, a <code class="highlighter-rouge">tmux</code> session could really need some little re-organization. To tidy things a bit, you can move a pane from one crowded window to another using <code class="highlighter-rouge">join-pane</code>.</p>
+      <p>As the day gets busier, a <code>tmux</code> session could really need some little re-organization. To tidy things a bit, you can move a pane from one crowded window to another using <code>join-pane</code>.</p>
 
 <p>It requires two steps:</p>
 
 <ol>
-  <li>break the pane out via <code class="highlighter-rouge">break-pane</code>. This is bound to <code class="highlighter-rouge">&lt;prefix&gt; !</code> by default.</li>
-  <li>Execute this in the <code class="highlighter-rouge">tmux</code> command-line: <code class="highlighter-rouge">:join-pane -t &lt;int&gt;</code>, where <code class="highlighter-rouge">&lt;int&gt;</code> is the index of the window you want to move it into. You can optionally specify <code class="highlighter-rouge">-h</code> or <code class="highlighter-rouge">-v</code> to explicitly tell
-<code class="highlighter-rouge">tmux</code> to attach the current pane as a horizontal-split or a vertical-split on the target window, respectively.</li>
+  <li>break the pane out via <code>break-pane</code>. This is bound to <code>&lt;prefix&gt; !</code> by default.</li>
+  <li>Execute this in the <code>tmux</code> command-line: <code>:join-pane -t &lt;int&gt;</code>, where <code>&lt;int&gt;</code> is the index of the window you want to move it into. You can optionally specify <code>-h</code> or <code>-v</code> to explicitly tell
+<code>tmux</code> to attach the current pane as a horizontal-split or a vertical-split on the target window, respectively.</li>
 </ol>
 
 <blockquote>
-  <p>For more info, consult <code class="highlighter-rouge">man tmux</code>.</p>
+  <p>For more info, consult <code>man tmux</code>.</p>
 </blockquote>
 
     </div>

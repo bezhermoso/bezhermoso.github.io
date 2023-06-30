@@ -1,5 +1,6 @@
-const path = require("path")
-const CopyPlugin = require("copy-webpack-plugin");
+const path = require('path')
+const CopyPlugin = require('copy-webpack-plugin');
+const HookShellScriptPlugin = require('hook-shell-script-webpack-plugin');
 
 module.exports = {
     entry: './src/bundle.js',
@@ -31,19 +32,20 @@ module.exports = {
                                 "prismjs",
                                 {
                                     languages: [
-                                    "applescript",
-                                    "bash",
-                                    "javascript",
-                                    "lua",
-                                    "markup",
-                                    "php",
-                                    "ruby",
-                                    "vim",
-                                    "yaml"
-                                ],
-                                plugins: [],
-                                css: true,
-                            }],
+                                        "applescript",
+                                        "bash",
+                                        "javascript",
+                                        "lua",
+                                        "markup",
+                                        "php",
+                                        "ruby",
+                                        "vim",
+                                        "yaml"
+                                    ],
+                                    plugins: [],
+                                    css: true,
+                                },
+                            ],
                         ],
                     },
                 },
@@ -59,6 +61,11 @@ module.exports = {
         ],
     },
     plugins: [
+        new HookShellScriptPlugin({
+            beforeRun: [
+                'ls -al',
+            ]
+        }),
         new CopyPlugin({
             patterns: [
                 {

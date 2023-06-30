@@ -21,7 +21,7 @@ header {
   }
 
   .site-headline {
-    border-bottom: 1px solid $vapor;
+    // border-bottom: 1px solid scale-color($primary-color, $lightness: 65%);
     padding-bottom: 30px;
     h1 {
       font-family: $font-family-monospace;

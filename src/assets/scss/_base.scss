@@ -1,6 +1,10 @@
 
 body {
   font-family: $body-font-family;
+  background: linear-gradient(127deg, scale-color($code-red, $lightness: 90%), rgba(0,255,0,0) 30%),
+              linear-gradient(217deg, rgba(0, 0, 0, 0), scale-color($primary-color, $lightness: 85%) 95%),
+              linear-gradient(336deg, scale-color($code-red, $lightness: 90%), rgba(0, 0, 0, 0) 50%);
+  background-attachment: fixed;
 }
 
 a code {
@@ -21,4 +25,8 @@ h1, h2, h3, h4, h5, h6 {
   a {
     border-bottom: 1px dotted $primary-color;
   }
+}
+
+.code-inline, code {
+  border-radius: rem-calc(5);
 }

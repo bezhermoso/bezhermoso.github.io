@@ -23,7 +23,7 @@ module Bez
         HIGHLIGHT
       elsif is_terminal?
         <<-TERMINAL
-  <div class="padded">
+  <div class="grid-container">
     <div class="terminal">
       <div class="icons"><span></span></div>
       <div class="title">#{@filename ? @filename : '&nbsp;'}</div>

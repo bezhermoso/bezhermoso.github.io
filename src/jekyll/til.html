@@ -6,7 +6,7 @@ title: Pro-tips
 <section>
   <div class="grid-container">
     <div class="grid-x">
-      <ul class="til-list">
+      <ul class="til-list cell">
         {% assign tils = site.til | sort: 'date' | reverse %}
         {% for post in tils %}
           {% if forloop.index == 1 %}

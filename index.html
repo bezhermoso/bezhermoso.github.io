@@ -19,9 +19,9 @@
     
     <meta property="og:title" content="Home" />
         
-        <meta property="og:description" content="/dev/blog: My development blog - Bez Hermoso; Software Engineer @ Square" />
+        <meta property="og:description" content="/dev/blog: Bez Hermoso -- Software Engineer @ Block" />
         
-        <meta name="description" content="/dev/blog: My development blog - Bez Hermoso; Software Engineer @ Square" />
+        <meta name="description" content="/dev/blog: Bez Hermoso –  Software Engineer @ Block" />
     
     <script src="/bundle.js"></script>
   </head>
@@ -37,7 +37,7 @@
                 <div>/dev/blog</div>
               </a>
             </a></h1>
-            <h2>Bez Hermoso, Software Engineer @ Square</h2>
+            <h2>Bez Hermoso, Software Engineer @ Block</h2>
           </div>
         </div>
       </header>
@@ -59,6 +59,85 @@
   <div class="grid-container">
     <div class="grid-x">
       <ul class="post-list cell">
+        
+        <li class="medium-12">
+          <div class="post-list--meta">
+            <h2 class="post-list--title">
+              <a href="/2024/03/03/conditional-git-config-using-env-vars/">
+                Conditional Git configuration based on environment variables
+              </a>
+            </h2>
+            <time datetime="2024-03-03T00:00:00-08:00">03 Mar 2024</time>
+          </div>
+          <article class="excerpt">
+            <p>A thought that seem to recur in my head every quarter or so is <em>“Can I set a Git config based on some environment variables?”</em>. Then I’d go reading the <code>git-config</code> man page and find out for the <i>n</i>th time that its just not possible: it only supports conditionals by matching branch names or the directory they’re in. Nothing about setting configurations based on environment variables.</p>
+
+<p>If you also wondered the same, I have good news for you: it is actually possible.
+You just gotta look at the right man page!</p>
+
+<p>Straight from <code>man git</code> is this gem:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>--config-env=&lt;name&gt;=&lt;envvar&gt;
+    Like -c &lt;name&gt;=&lt;value&gt;, give configuration variable &lt;name&gt; a value,
+    where &lt;envvar&gt; is the name of an environment variable
+    from which to retrieve the value. 
+</code></pre></div></div>
+<p>Equipped with this new knowledge, I am finally able to apply some Git configurations based on context that <code>.gitconfig</code>
+isn’t equipped to handle.</p>
+
+<h2 id="use-case-disable-1password-gpg-signing-when-accessing-remotely">Use-case: Disable 1Password GPG signing when accessing remotely</h2>
+
+<p>I have 1Password setup as an SSH agent on my Mac Studio, and have it configured to sign commits via its SSH keys.
+However sometimes signing commits this way is just not possible: 1Password rightfully requires me to be physically present at
+my desk to approve a Touch ID prompt, but I am SSHing to it with my iPad while doing laundry in my garage. The prompt is blocking: unless I go
+authenticate it through the prompt on the Mac, the commit operation just hangs, waiting for something that isn’t happening.</p>
+
+<p>Here’s how I solve it today: in my <code>.zshrc</code>:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># .zshrc</span>
+
+<span class="c"># Checks if we are accessing the machine remotely via SSH:</span>
+<span class="k">if</span> <span class="o">[[</span> <span class="nt">-n</span> <span class="s2">"</span><span class="nv">$SSH_CONNECTION</span><span class="s2">"</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+    <span class="c"># Desired configuration is:</span>
+    <span class="c"># gpg.format set to "openpgp" instead of "ssh" (1Password SSH agent)</span>
+    <span class="c"># user.signingkey  set to GPG pubkey instead of SSH pubkey in 1Password</span>
+    <span class="nb">export </span><span class="nv">GIT_CONFIG_GPG_FORMAT</span><span class="o">=</span><span class="s2">"openpgp"</span>
+    <span class="nb">export </span><span class="nv">GIT_CONFIG_USER_SIGNINGKEY</span><span class="o">=</span><span class="s2">"&lt;MY_SIGINING_GPG_PUBKEY&gt;"</span>
+    
+    <span class="c"># Always give --config-env=... to all Git operations:</span>
+    <span class="nb">alias </span><span class="nv">git</span><span class="o">=</span><span class="s1">'git --config-env=gpg.format=GIT_CONFIG_GPG_FORMAT --config-env=user.signingkey=GIT_CONFIG_USER_SIGNINGKEY'</span>
+<span class="k">fi</span>
+</code></pre></div></div>
+
+<p>…et voila! I am finally able to sign commits of work I’ve done on my iPad, straight from my iPad.</p>
+
+<h3 id="bonus-conditional-ssh-configuration-via-shell-checks">Bonus: Conditional SSH configuration via shell checks</h3>
+
+<p>Not long after putting the iPad-friendly Git configurations in place did I run into another problem: since 1Password is the SSH agent, pushing my changes up to Github.com doesn’t really work, for fundamentally the same reasons.</p>
+
+<p>After a quick visit to <code>man ssh_config</code>, I’ve formulated this SSH configuration:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Host <span class="k">*</span>
+    <span class="c"># Use 1Password the default SSH identity agent:</span>
+    IdentityAgent <span class="s2">"&lt;PATH_TO_1PASSWORD_SSH_AUTH_SOCK&gt;"</span>
+
+Match <span class="nb">exec</span> <span class="s2">"[[ -n </span><span class="nv">$SSH_CONNECTION</span><span class="s2"> ]]"</span> Host github.com
+    <span class="c"># Reset IdenittyAgent to default:</span>
+    IdentityAgent SSH_AUTH_SOCK
+    <span class="c"># Only offer identity &amp; certificate files.</span>
+    <span class="c"># Without this, SSH will still ask the 1Password agent for identities,</span>
+    <span class="c"># which blocks the push indefinitely:</span>
+    IdentitiesOnly <span class="nb">yes</span>
+    <span class="c"># Finally, tell it where to find the private key on disk:</span>
+   IdentityFile ~/.ssh/id_fallback
+</code></pre></div></div>
+
+<p>That’s the final piece of the puzzle to smoothen out my remote iPad workflow.</p>
+          </article>
+          <div class="read-more-block">
+            <a href="/2024/03/03/conditional-git-config-using-env-vars/">Read more...</a>
+          </div>
+        </li>
         
         <li class="medium-12">
           <div class="post-list--meta">

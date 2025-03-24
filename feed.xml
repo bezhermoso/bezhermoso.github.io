@@ -6,9 +6,82 @@
 </description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 30 Jun 2023 09:26:24 -0700</pubDate>
-    <lastBuildDate>Fri, 30 Jun 2023 09:26:24 -0700</lastBuildDate>
+    <pubDate>Sun, 23 Mar 2025 23:49:29 -0700</pubDate>
+    <lastBuildDate>Sun, 23 Mar 2025 23:49:29 -0700</lastBuildDate>
     <generator>Jekyll v4.3.2</generator>
+    
+      <item>
+        <title>Conditional Git configuration based on environment variables</title>
+        <description>&lt;p&gt;A thought that seem to recur in my head every quarter or so is &lt;em&gt;“Can I set a Git config based on some environment variables?”&lt;/em&gt;. Then I’d go reading the &lt;code&gt;git-config&lt;/code&gt; man page and find out for the &lt;i&gt;n&lt;/i&gt;th time that its just not possible: it only supports conditionals by matching branch names or the directory they’re in. Nothing about setting configurations based on environment variables.&lt;/p&gt;
+
+&lt;p&gt;If you also wondered the same, I have good news for you: it is actually possible.
+You just gotta look at the right man page!&lt;/p&gt;
+
+&lt;p&gt;Straight from &lt;code&gt;man git&lt;/code&gt; is this gem:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;--config-env=&amp;lt;name&amp;gt;=&amp;lt;envvar&amp;gt;
+    Like -c &amp;lt;name&amp;gt;=&amp;lt;value&amp;gt;, give configuration variable &amp;lt;name&amp;gt; a value,
+    where &amp;lt;envvar&amp;gt; is the name of an environment variable
+    from which to retrieve the value. 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Equipped with this new knowledge, I am finally able to apply some Git configurations based on context that &lt;code&gt;.gitconfig&lt;/code&gt;
+isn’t equipped to handle.&lt;/p&gt;
+
+&lt;h2 id=&quot;use-case-disable-1password-gpg-signing-when-accessing-remotely&quot;&gt;Use-case: Disable 1Password GPG signing when accessing remotely&lt;/h2&gt;
+
+&lt;p&gt;I have 1Password setup as an SSH agent on my Mac Studio, and have it configured to sign commits via its SSH keys.
+However sometimes signing commits this way is just not possible: 1Password rightfully requires me to be physically present at
+my desk to approve a Touch ID prompt, but I am SSHing to it with my iPad while doing laundry in my garage. The prompt is blocking: unless I go
+authenticate it through the prompt on the Mac, the commit operation just hangs, waiting for something that isn’t happening.&lt;/p&gt;
+
+&lt;p&gt;Here’s how I solve it today: in my &lt;code&gt;.zshrc&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# .zshrc&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Checks if we are accessing the machine remotely via SSH:&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[[&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$SSH_CONNECTION&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# Desired configuration is:&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# gpg.format set to &quot;openpgp&quot; instead of &quot;ssh&quot; (1Password SSH agent)&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# user.signingkey  set to GPG pubkey instead of SSH pubkey in 1Password&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;GIT_CONFIG_GPG_FORMAT&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;openpgp&quot;&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;GIT_CONFIG_USER_SIGNINGKEY&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;MY_SIGINING_GPG_PUBKEY&amp;gt;&quot;&lt;/span&gt;
+    
+    &lt;span class=&quot;c&quot;&gt;# Always give --config-env=... to all Git operations:&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;alias &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;git&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&apos;git --config-env=gpg.format=GIT_CONFIG_GPG_FORMAT --config-env=user.signingkey=GIT_CONFIG_USER_SIGNINGKEY&apos;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;fi&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;…et voila! I am finally able to sign commits of work I’ve done on my iPad, straight from my iPad.&lt;/p&gt;
+
+&lt;h3 id=&quot;bonus-conditional-ssh-configuration-via-shell-checks&quot;&gt;Bonus: Conditional SSH configuration via shell checks&lt;/h3&gt;
+
+&lt;p&gt;Not long after putting the iPad-friendly Git configurations in place did I run into another problem: since 1Password is the SSH agent, pushing my changes up to Github.com doesn’t really work, for fundamentally the same reasons.&lt;/p&gt;
+
+&lt;p&gt;After a quick visit to &lt;code&gt;man ssh_config&lt;/code&gt;, I’ve formulated this SSH configuration:&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Host &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# Use 1Password the default SSH identity agent:&lt;/span&gt;
+    IdentityAgent &lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;PATH_TO_1PASSWORD_SSH_AUTH_SOCK&amp;gt;&quot;&lt;/span&gt;
+
+Match &lt;span class=&quot;nb&quot;&gt;exec&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;[[ -n &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$SSH_CONNECTION&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; ]]&quot;&lt;/span&gt; Host github.com
+    &lt;span class=&quot;c&quot;&gt;# Reset IdenittyAgent to default:&lt;/span&gt;
+    IdentityAgent SSH_AUTH_SOCK
+    &lt;span class=&quot;c&quot;&gt;# Only offer identity &amp;amp; certificate files.&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# Without this, SSH will still ask the 1Password agent for identities,&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# which blocks the push indefinitely:&lt;/span&gt;
+    IdentitiesOnly &lt;span class=&quot;nb&quot;&gt;yes&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# Finally, tell it where to find the private key on disk:&lt;/span&gt;
+   IdentityFile ~/.ssh/id_fallback
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;That’s the final piece of the puzzle to smoothen out my remote iPad workflow.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 03 Mar 2024 00:00:00 -0800</pubDate>
+        <link>/2024/03/03/conditional-git-config-using-env-vars/</link>
+        <guid isPermaLink="true">/2024/03/03/conditional-git-config-using-env-vars/</guid>
+        
+        
+      </item>
     
       <item>
         <title>Jump back up to your Git repo&apos;s root directory</title>
@@ -1114,56 +1187,6 @@ Mission Control &amp;gt; Turn Do Not Disturb On/Off&lt;/em&gt;
         <pubDate>Sun, 17 Jan 2016 00:00:00 -0800</pubDate>
         <link>/2016/01/17/breeze-through-osx-notifications-with-effiency-through-keyboard-shortcuts/</link>
         <guid isPermaLink="true">/2016/01/17/breeze-through-osx-notifications-with-effiency-through-keyboard-shortcuts/</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>Simple solution for tmux causing system freezes on Mac OS X</title>
-        <description>&lt;blockquote&gt;
-  &lt;p&gt;&lt;strong&gt;2015-10-21 Update:&lt;/strong&gt; Version 2.1 of &lt;code&gt;tmux&lt;/code&gt; has just been release a couple
-of days ago and from what I can tell it has addressed this fatal issue! So the
-simpler solution would be doing &lt;code&gt;brew upgrade tmux&lt;/code&gt; to get the recent release.
-If you are stuck using 2.0 however, I hope this post is helpful.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;What fixed it for me was adding a single line to my &lt;code&gt;~/.zshrc&lt;/code&gt; and a single line to my &lt;code&gt;~/.tmux.conf&lt;/code&gt; file:&lt;/p&gt;
-
-&lt;div class=&quot;grid-container&quot;&gt;
-    &lt;div class=&quot;terminal&quot;&gt;
-      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
-      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
-      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# ~/.zshrc
-tmux start-server&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-
-&lt;div class=&quot;grid-container&quot;&gt;
-    &lt;div class=&quot;terminal&quot;&gt;
-      &lt;div class=&quot;icons&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
-      &lt;div class=&quot;title&quot;&gt;&amp;nbsp;&lt;/div&gt;
-      &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# ~/.tmux.conf
-new-session&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-
-&lt;p&gt;It turns out, after trial and error, that the OS freezes (or in worst cases, kernel panics on older OS X versions) usually happen
-when you close the very last of all &lt;code&gt;tmux&lt;/code&gt; pane of the very last &lt;code&gt;tmux&lt;/code&gt; session.&lt;/p&gt;
-
-&lt;p&gt;With these additions to my config files, a &lt;code&gt;tmux&lt;/code&gt; server is started with an empty &lt;code&gt;tmux&lt;/code&gt; session whenever I fire up a terminal
-window for the first time. This means that I always have an empty &lt;code&gt;tmux&lt;/code&gt; session – still active although never used – even after
-I exit out all the sessions I create on a daily basis.&lt;/p&gt;
-
-&lt;p&gt;I never had my MacBook Pro grind to a stop as soon as I close out all &lt;code&gt;tmux&lt;/code&gt;
-sessions and having to forcibly turn it off.&lt;/p&gt;
-
-&lt;p&gt;This does not fix &lt;code&gt;tmux&lt;/code&gt;, but is a simple work-around for a problem that has
-a potential to incur data loss in the future.&lt;/p&gt;
-
-</description>
-        <pubDate>Sat, 17 Oct 2015 00:00:00 -0700</pubDate>
-        <link>/2015/10/17/simple-solution-for-tmux-causing-system-freezes-on-mac-os-x/</link>
-        <guid isPermaLink="true">/2015/10/17/simple-solution-for-tmux-causing-system-freezes-on-mac-os-x/</guid>
         
         
       </item>
